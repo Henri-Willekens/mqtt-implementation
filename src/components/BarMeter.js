@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useEffect} from 'react';
 
 export default function BarMeter(props) {
+  let [minValue, setMinValue] = useState(0);
+  let [maxValue, setMaxValue] = useState(900);
+  let [value, setValue] = useState(300);
 
-  function fillProgressBar(percentage) {
+  function fillProgressBar(value) {
+    let percentage = (value / maxValue) * 100;
+
     const progressBar = document.querySelector(".progress-bar");
 
     const containerHeight = 302; // Total height of the container
@@ -15,9 +20,7 @@ export default function BarMeter(props) {
   }
 
   useEffect(() => {
-    setInterval(() => {
-    fillProgressBar(Math.round(Math.random() * (100 - 0) + 0))
-    }, 2000)
+    fillProgressBar(value)
   }, [])
 
   return (
@@ -34,15 +37,15 @@ export default function BarMeter(props) {
 
         <g>
           <line x1="54" x2="64" y1="2" y2="2" stroke="#EFEFEF" strokeWidth="2"/>
-          <text x="69" y="15" fill="#EFEFEF">900</text>
+          <text x="69" y="15" fill="#EFEFEF">{maxValue}</text>
         </g>
         <g>
           <line x1="54" x2="64" y1="152" y2="152" stroke="#EFEFEF" strokeWidth="2"/>
-          <text x="69" y="165" fill="#EFEFEF">450</text>
+          <text x="69" y="165" fill="#EFEFEF">{maxValue / 2}</text>
         </g>
         <g>
           <line x1="54" x2="64" y1="302" y2="302" stroke="#EFEFEF" strokeWidth="2"/>
-          <text x="69" y="315" fill="#EFEFEF">0</text>
+          <text x="69" y="315" fill="#EFEFEF">{minValue}</text>
         </g>
 
         <text x="25" y="325" fill="#EFEFEF" textAnchor="middle">°C</text>

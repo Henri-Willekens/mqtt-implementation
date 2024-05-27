@@ -4,12 +4,12 @@ import {useEffect} from 'react';
 export default function BarMeter(props) {
   let [minValue, setMinValue] = useState(0);
   let [maxValue, setMaxValue] = useState(900);
-  let [value, setValue] = useState(300);
+  // let [value, setValue] = useState(0);
 
   function fillProgressBar(value) {
     let percentage = (value / maxValue) * 100;
 
-    const progressBar = document.querySelector(".progress-bar");
+    const progressBar = document.querySelector(`.${props.className}-progress-bar`);
 
     const containerHeight = 302; // Total height of the container
     const fillHeight = (percentage / 100) * containerHeight;
@@ -20,15 +20,15 @@ export default function BarMeter(props) {
   }
 
   useEffect(() => {
-    fillProgressBar(value)
+    fillProgressBar(props.value)
   }, [])
 
   return (
-    <div className='Pro'>
+    <div className={props.className}>
         <svg width="150" height="350" className="progress-container">
         <rect className="progress-bar-bg" width="50" height="300" fill="#121212" x="2" y="2" stroke="#2B2B39" strokeWidth="1" />
         
-        <rect className="progress-bar" width="50" y="302" height="0" fill="#353548" x="2" />
+        <rect className={`${props.className}-progress-bar`} width="50" y="302" height="0" fill="#353548" x="2" />
         
         <g>
           <line x1="0" x2="54" y1="50" y2="50" stroke="#E41B1B" strokeWidth="2"/>

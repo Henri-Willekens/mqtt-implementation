@@ -1,6 +1,7 @@
 import './App.css';
 import Compass from './components/Compass';
 import BarMeter from './components/BarMeter';
+import Rudder from './components/Rudder';
 
 import { useState, useEffect } from 'react';
 
@@ -28,6 +29,7 @@ function App() {
     <div className="App">
       <p>Received Message: {message}</p>
       <Compass />
+      <Rudder degrees={90} radius={90}/>
       <BarMeter value={340} className="pro-2"/>
       <BarMeter value={560} className="pro-1" />
     </div>

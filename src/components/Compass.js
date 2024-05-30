@@ -31,7 +31,7 @@ export default function Compass(props) {
   return (
     <div className='Comp'>
         <svg width="400" height="400">
-            <circle className="windrose" cx="200" cy="200" r="150" fill="none" stroke="#353548" strokeWidth="20" />
+            <circle className="windrose-light" cx="200" cy="200" r="150" fill="none" stroke="#353548" strokeWidth="20" />
 
             <g id="ticks">
 

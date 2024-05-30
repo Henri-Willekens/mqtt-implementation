@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import config from '../config.json';
 
 export default function Rudder({ degrees, radius }) {
   const width = 2 * radius;
@@ -27,8 +28,9 @@ export default function Rudder({ degrees, radius }) {
     rudderArrow.setAttribute("transform", `rotate(${rudderAngle}, 90, 90)`)
   }
 
+  const angle = config.values.angle;
   useEffect(() => {
-    updateRudderAngle(-30);
+    updateRudderAngle(angle);
   }, [])
 
   return (

@@ -14,13 +14,26 @@ export default function Compass(props) {
     let COGArrow= document.getElementById("cog");
     COGArrow.setAttribute("transform", `rotate(${targetHeading + 20}, 200, 200)`)
   }
+  
+  function updateWindSpeed(angle) {
+    let windSpeed = document.getElementById('wind-speed');
+    windSpeed.setAttribute("transform", `rotate(${angle}, 200, 200)`)
+  }
+  
+  function updateCurrent(angle) {
+    let current = document.getElementById('current');
+    current.setAttribute("transform", `rotate(${angle}, 200, 200)`)
+  }
 
   useEffect(() => {
+    updateWindSpeed(20);
+    updateCurrent(230);
+
     const interval = setInterval(() => {
       setCurrentHeading(prevHeading => (prevHeading + 5));
     }, 2000)
 
-    return () => clearInterval(interval)
+    return () => clearInterval(interval);
   }, [])
 
   useEffect(() => {
@@ -32,10 +45,6 @@ export default function Compass(props) {
     <div className='Comp'>
         <svg width="400" height="400">
             <circle className="windrose-light" cx="200" cy="200" r="150" fill="none" stroke="#353548" strokeWidth="20" />
-
-            <g id="ticks">
-
-            </g>
 
             <g className="windrose-lines" fontSize="12">
                 <g>
@@ -64,11 +73,20 @@ export default function Compass(props) {
             <g id="hdg">
                 <path className="compass-ship" stroke="#EFEFEF" strokeWidth="2" fill="#353548" d="M 180 120 L 180 335 L 220 335 L 220 120 C 220 93 206 65 200 65 C 194 65 180 93 180 120 Z" />    
             </g>
-       
+
             <g id="cog" fill="#EFEFEF" stroke="#EFEFEF">    
                 <line strokeDasharray="15" x1="200" y1="70" x2="200" y2="200" strokeWidth="3" />
                 <polygon points="200,60 210,80 190,80" />
                 <circle cx="200" cy="200" r="5" />
+            </g>
+
+            <g id='wind-speed'>
+              <polygon points="200,30 190,10 210,10" fill='red' />
+            </g>
+
+            <g id='current'>
+              <polygon points="200,70 190,90 210,90" fill='blue' />
+              {/* outside <polygon points="200,20 195,10 205,10" fill='blue' /> */}
             </g>        
         </svg>
     </div>

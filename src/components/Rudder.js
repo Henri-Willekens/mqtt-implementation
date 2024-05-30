@@ -28,7 +28,7 @@ export default function Rudder({ degrees, radius }) {
   }
 
   useEffect(() => {
-    updateRudderAngle(30);
+    updateRudderAngle(-30);
   }, [])
 
   return (

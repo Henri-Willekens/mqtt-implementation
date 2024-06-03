@@ -1,14 +1,26 @@
 {
-    "colors": {
-        "primary": "#3498db",
-        "secondary": "#2ecc71",
-        "accent": "#e74c3c",
-        "background": "#ecf0f1",
-        "text": "#2c3e50",
-        "muted": "#95a5a6"
-    },
-    "values": {
-        "radius": 90,
-        "angle": -30
+    "pages": {
+        "conning": {
+            "title": "page 1",
+            "objects": {
+                "compass-gyro": {
+                    "source": "gyro"
+                },
+                "compass-magn": {
+                    "source": "magn"
+                }
+            }
+        },
+        "propulsion": {
+            "title": "page 2",
+            "objects": {
+                "barmeter-1": {
+                    "title": "1"
+                },
+                "barmeter-2": {
+                    "title": "2"
+                }
+            }
+        }
     }
 }

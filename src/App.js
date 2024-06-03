@@ -10,10 +10,15 @@ import mqttService from './services/mqqtService';
 
 function App() {
 
-  const radius = config.values.radius;
+  // const radius = config.values.radius;
+  // const angle = config.values.angle;
 
   // console.log(`Primary Color: ${primaryColor}`);
   // console.log(`Secondary Color: ${secondaryColor}`);
+
+  // loop through all pages, for every page create Page
+  // Page has function to add objects to page
+  // then add in the object required
 
   const [message, setMessage] = useState('');
 
@@ -35,7 +40,7 @@ function App() {
     <div className="App">
       <p>Received Message: {message}</p>
       <Compass />
-      <Rudder degrees={radius} radius={90}/>
+      <Rudder degrees={90} radius={90} angle={-30} />
       <BarMeter value={340} className="pro-2"/>
       <BarMeter value={560} className="pro-1" />
     </div>

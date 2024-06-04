@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Compass from './components/Compass';
 import BarMeter from './components/BarMeter';
 import Rudder from './components/Rudder';

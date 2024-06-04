@@ -1,5 +1,3 @@
-// src/services/mqttService.js
-
 import mqtt from 'mqtt';
 
 class MqttService {

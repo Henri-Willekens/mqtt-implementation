@@ -5,20 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #EFEFEF;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-
-.windrose-light {
-  stroke: #353548;
-  stroke-width: 20;
-}
-
-.windrose-dark {
-  stroke: red;
 }

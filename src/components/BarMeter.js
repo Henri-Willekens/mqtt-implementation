@@ -40,8 +40,16 @@ export default function BarMeter(props) {
           <text x="69" y="15" fill="#EFEFEF">{maxValue}</text>
         </g>
         <g>
+          <line x1="54" x2="64" y1="77" y2="77" stroke="#EFEFEF" strokeWidth="2"/>
+          <text x="69" y="90" fill="#EFEFEF">675</text>
+        </g>
+        <g>
           <line x1="54" x2="64" y1="152" y2="152" stroke="#EFEFEF" strokeWidth="2"/>
-          <text x="69" y="165" fill="#EFEFEF">{maxValue / 2}</text>
+          <text x="69" y="165" fill="#EFEFEF">450</text>
+        </g>
+        <g>
+          <line x1="54" x2="64" y1="229" y2="229" stroke="#EFEFEF" strokeWidth="2"/>
+          <text x="69" y="242" fill="#EFEFEF">225</text>
         </g>
         <g>
           <line x1="54" x2="64" y1="302" y2="302" stroke="#EFEFEF" strokeWidth="2"/>

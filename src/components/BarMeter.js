@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 export default function BarMeter(props) {
   let [minValue, setMinValue] = useState(0);
   let [maxValue, setMaxValue] = useState(900);
-  // let [value, setValue] = useState(0);
+  let [value, setValue] = useState(0);
 
   function fillProgressBar(value) {
     let percentage = (value / maxValue) * 100;
@@ -20,9 +20,18 @@ export default function BarMeter(props) {
   }
 
   useEffect(() => {
-    fillProgressBar(props.value)
-  }, [])
+    const interval = setInterval(() => {
+      setValue(prevValue => (prevValue + props.value));
+    }, 2000);
 
+    return () => clearInterval(interval);
+  }, [])
+  
+  useEffect(() => {
+    if (value < 600) {
+      fillProgressBar(value)
+    }
+  }, [value])
   return (
     <div className={props.className}>
         <svg width="150" height="350" className="progress-container">

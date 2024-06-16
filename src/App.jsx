@@ -23,26 +23,15 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const brokerUrl = 'wss://test.mosquitto.org:8081'; // Using WebSocket for browser compatibility
-    mqttService.connect(brokerUrl);
 
-    mqttService.subscribe('test/topic', {}, (topic, message) => {
-      console.log(`Received message: ${message} from topic: ${topic}`);
-      setMessage(message);
-    });
-
-    return () => {
-      mqttService.disconnect();
-    };
   }, []);
 
   return (
     <div className="App">
-      <p>Received Message: {message}</p>
       <Compass />
       <Rudder degrees={90} radius={90} angle={-30} />
-      <BarMeter value={340} className="pro-2"/>
-      <BarMeter value={560} className="pro-1" />
+      <BarMeter value={50} className="pro-2"/>
+      <BarMeter value={20} className="pro-1" />
     </div>
   );
 }

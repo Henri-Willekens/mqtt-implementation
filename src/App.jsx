@@ -1,7 +1,7 @@
 import './App.scss';
-import Compass from './components/Compass';
-import BarMeter from './components/BarMeter';
-import Rudder from './components/Rudder';
+import Compass from './components/atoms/Compass/Compass';
+import BarMeter from './components/atoms/BarMeter/BarMeter';
+import Rudder from './components/atoms/Rudder/Rudder';
 import config from './config.json';
 
 import { useState, useEffect } from 'react';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import config from '../config.json';
+import config from '../../../config.json';
 
 export default function Rudder({ degrees, radius, angle }) {
   const width = 2 * radius;

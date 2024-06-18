@@ -2,6 +2,7 @@ import './App.scss';
 import Compass from './components/atoms/Compass/Compass';
 import BarMeter from './components/atoms/BarMeter/BarMeter';
 import Rudder from './components/atoms/Rudder/Rudder';
+import Header from './components/molecules/Header/Header';
 import config from './config.json';
 
 import { useState, useEffect } from 'react';
@@ -27,11 +28,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Compass />
-      <Rudder degrees={90} radius={90} angle={-30} />
-      <BarMeter value={50} className="pro-2"/>
-      <BarMeter value={20} className="pro-1" />
+    <div className="app">
+      <div className="main">
+        <Header />
+        <div className="components">
+          <Compass />
+          {/* <Rudder degrees={90} radius={90} angle={-30} /> */}
+          <BarMeter value={50} className="pro-2"/>
+          <BarMeter value={20} className="pro-1" />
+        </div>
+      </div>
     </div>
   );
 }

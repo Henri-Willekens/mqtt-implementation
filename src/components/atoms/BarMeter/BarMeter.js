@@ -34,7 +34,7 @@ export default function BarMeter(props) {
   }, [value])
   return (
     <div className={props.className}>
-        <svg width="150" height="350" className="progress-container">
+      <svg width="150" height="350" className="progress-container">
         <rect className="progress-bar-bg" width="50" height="300" fill="#121212" x="2" y="2" stroke="#2B2B39" strokeWidth="1" />
         
         <rect className={`${props.className}-progress-bar`} width="50" y="302" height="0" fill="#353548" x="2" />

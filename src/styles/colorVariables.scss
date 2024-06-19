@@ -1,0 +1,51 @@
+/* 
+    $variableName: hexcode
+*/
+
+//Signal colors
+$signal-alarm: #E41B1B;
+$signal-warning: #FF910F;
+$signal-caution: #FAD900;
+$signal-running: #37E73C;
+
+//neutral colors
+$neutral-soft-black: #0A0A0A; 
+$neutral-soft-white: #EFEFEF;
+
+//background colors
+$background-body: #181822;
+$background-navbar: #353548;
+$background-border: #EFEFEF;
+
+//navigation colors
+$port-nav: #851111;
+$starboard-nav: #138517;
+$setpoint-nav: #50A1F1;
+
+//engine colors
+$engine-seawater: #008308;
+$engine-cleanwater: #3D72C2;
+$engine-air: #BFBFBF;
+$engine-fuel: #AF5810;
+$engine-oil: #D4912B;
+
+//output colors
+$output-problem: #992324;
+$output-editable: #50A1F1;
+$output-background: #121212;
+$output-border: #2B2B39;
+
+//button colors
+$button-active: #5A5A5A;
+$button-hover: #6E6E6E;
+$button-clicked: #8C8C8C;
+$button-border: #838383;
+
+//night mode colors
+$nightfilter: #9F4100;
+$night-mode-numbers: #848400;
+$night-mode-lines: #666600;
+$night-mode-background-src: #827800;
+$night-mode-headingline: #680000;
+$night-mode-labels: #8F4300;
+$night-mode-setpoint: #505050;

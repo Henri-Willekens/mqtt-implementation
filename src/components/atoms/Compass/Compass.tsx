@@ -12,6 +12,47 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
     element?.setAttribute("transform", `rotate(${updatedValue}, 200, 200)`)
   };
 
+  const generateWindRoseLines = (windRoseLines: number, radius: number, centerX: number, centerY: number) => {
+    const lines = [];
+    const angleStep = 360 / windRoseLines;
+
+    for (let i = 0; i < windRoseLines; i++) {
+      const angle = angleStep * i;
+      const radian = (angle * Math.PI) / 180;
+
+      const x1 = centerX + (radius - 5) * Math.sin(radian);
+      const y1 = centerY - (radius - 5) * Math.cos(radian);
+      const x2 = centerX + (radius + 5) * Math.sin(radian);
+      const y2 = centerY - (radius + 5) * Math.cos(radian);
+
+      const textX = centerX + (radius + 25) * Math.sin(radian);
+      const textY = centerY - (radius + 25) * Math.cos(radian);
+
+      lines.push(
+        <g key={i}>
+          <line
+            className={`compass-windrose-line compass-windrose-line__${theme}`}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+          />
+          <text
+            className={`compass-windrose-text compass-windrose-text__${theme}`}
+            x={textX}
+            y={textY}
+            textAnchor="middle"
+            dominantBaseline="middle"
+          >
+            {angle}
+          </text>
+        </g>
+      );
+    }
+
+    return lines;
+  };
+
   useEffect(() => {
     update('wind-speed', 300);
     update('current', 243);
@@ -32,25 +73,6 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
     <div className="compass">
       <svg width="400" height="400">
         <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
-
-        <g className="compass-windrose-lines" fontSize="12">
-          <g>
-            <line className={`compass-windrose-line compass-windrose-line__${theme}`} x1="200" y1="45" x2="200" y2="55" />
-            <text className={`compass-windrose-text compass-windrose-text__${theme}`} x="200" y="35">0</text>
-          </g>
-          <g>
-            <line className={`compass-windrose-line compass-windrose-line__${theme}`} x1="200" y1="345" x2="200" y2="355" />
-            <text className={`compass-windrose-text compass-windrose-text__${theme}`} x="200" y="375">180</text>
-          </g>
-          <g>
-            <line className={`compass-windrose-line compass-windrose-line__${theme}`} x1="355" y1="200" x2="345" y2="200" />
-            <text className={`compass-windrose-text compass-windrose-text__${theme}`} x="370" y="205">90</text>
-          </g>
-          <g>
-            <line className={`compass-windrose-line compass-windrose-line__${theme}`} x1="55" y1="200" x2="45" y2="200" />
-            <text className={`compass-windrose-text compass-windrose-text__${theme}`} x="25" y="205">270</text>
-          </g>
-        </g>
 
         <g className={`compass-inner-windrose-lines__${theme}`}>
           <line x1="70" y1="200" x2="330" y2="200" />
@@ -76,6 +98,10 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
             ? <polygon points="200,30 190,10 210,10" fill='blue' />
             : <polygon points="200,70 190,90 210,90" fill='blue' />
           }
+        </g>
+
+        <g className="compass-windrose-lines" fontSize="12">
+          {generateWindRoseLines(12, 150, 200, 200)}
         </g>
       </svg>
       <div className={`compass-source compass-source__${theme}`}>

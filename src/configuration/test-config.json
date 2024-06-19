@@ -10,6 +10,7 @@
     {
       "type": "BarMeter",
       "props": {
+        "label": "Motor 1 temperature",
         "title": "motor-1-temperature",
         "maxValue": 900,
         "unit": "°C"
@@ -18,6 +19,7 @@
     {
       "type": "BarMeter",
       "props": {
+        "label": "Water tank 1",
         "title": "water-tank-1-contents",
         "maxValue": 20000,
         "unit": "L"

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => {
   const [currentValue, setCurrentValue] = useState(0);
 
   const updateBarMeter = (value: number) => {
@@ -35,6 +35,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title }) => {
 
   return (
     <div className="barmeter">
+      <p>{label}</p>
       <svg width="150" height="350">
         <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
 

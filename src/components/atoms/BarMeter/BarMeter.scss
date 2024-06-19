@@ -1,0 +1,47 @@
+@import "../../../styles/colorVariables";
+
+.barmeter {
+  width: 150px;
+  height: fit-content;
+
+  margin: 5px;
+
+  &-background {
+    fill: $output-background;
+    stroke: $output-border;
+    stroke-width: 1;
+  }
+
+  &-filling {
+    fill: $background-navbar;
+    transition: height 0.5s ease, y 0.5s ease;
+  }
+
+  &-alertlines {
+    stroke-width: 2;
+
+    &__alarm {
+      stroke: $signal-alarm;
+    }
+
+    &__warning {
+      stroke: $signal-warning;
+    }
+  }
+
+  &-tackline {
+    & > line {
+      stroke: $neutral-soft-white;
+      stroke-width: 2;
+    }
+
+    & > text {
+      fill: $neutral-soft-white;
+    }
+  }
+
+  &-unit {
+    fill: $neutral-soft-white;
+    text-anchor: middle;
+  }
+}

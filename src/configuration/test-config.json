@@ -1,0 +1,22 @@
+{
+  "components": [
+    {
+      "type": "Compass",
+      "props": {
+        "source": "magn"
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "maxValue": 900
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "maxValue": 500
+      }
+    }
+  ]
+}

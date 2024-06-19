@@ -3,7 +3,8 @@
     {
       "type": "Compass",
       "props": {
-        "source": "magn"
+        "source": "gyro",
+        "currentLocationOutside": false
       }
     },
     {

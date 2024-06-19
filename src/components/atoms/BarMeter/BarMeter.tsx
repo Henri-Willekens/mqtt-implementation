@@ -21,6 +21,25 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => 
     }
   };
 
+  const generateTackLines = (maxValue: number, numTicks: number) => {
+    const tickLines = [];
+    const tickSpacing = 300 / (numTicks - 1);
+
+    for (let i = 0; i < numTicks; i++) {
+      const y = 2 + i * tickSpacing;
+      const value = maxValue - (i * (maxValue / (numTicks - 1)));
+      
+      tickLines.push(
+        <g className="barmeter-tickline" key={i}>
+          <line x1="54" x2="64" y1={y} y2={y} />
+          <text x="69" y={y + 13}>{Math.round(value)}</text>
+        </g>
+      )
+    }
+
+    return tickLines;
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
@@ -46,27 +65,8 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => 
           <line className="barmeter-alertlines__warning" x1="0" x2="54" y1="95" y2="95" />
         </g>
 
-        <g className="barmeter-tacklines">
-          <g className="barmeter-tackline">
-            <line x1="54" x2="64" y1="2" y2="2" />
-            <text x="69" y="15">{maxValue}</text>
-          </g>
-          <g className="barmeter-tackline">
-            <line x1="54" x2="64" y1="77" y2="77" />
-            <text x="69" y="90">675</text>
-          </g>
-          <g className="barmeter-tackline">
-            <line x1="54" x2="64" y1="152" y2="152" />
-            <text x="69" y="165">450</text>
-          </g>
-          <g className="barmeter-tackline">
-            <line x1="54" x2="64" y1="229" y2="229" />
-            <text x="69" y="242">225</text>
-          </g>
-          <g className="barmeter-tackline">
-            <line x1="54" x2="64" y1="302" y2="302" />
-            <text x="69" y="315">0</text>
-          </g>
+        <g className="barmeter-ticklines">
+          {generateTackLines(maxValue, 5)}
         </g>
 
         <text className="barmeter-unit" x="25" y="325">{unit}</text>

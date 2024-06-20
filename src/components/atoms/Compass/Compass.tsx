@@ -6,7 +6,7 @@ import './Compass.scss';
 const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => {
   const [theme, setTheme] = useState('day');
   const [currentHeading, setCurrentHeading] = useState(0);
-  const [windspeed, setWindspeed] = useState(13);
+  const [windspeed, setWindspeed] = useState('13');
 
   const update = (elementToSelect: string, updatedValue: number) => {
     let element = document.getElementById(elementToSelect);
@@ -91,7 +91,7 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
         </g>
 
         <g id='wind-speed'>
-          <image href={`./icons/wind/windspeed-${windspeed.toString()}.svg`} x="188" y="0" />
+          <image href={`./icons/wind/windspeed-${windspeed}.svg`} x="188" y="0" />
         </g>
 
         <g id='current'>

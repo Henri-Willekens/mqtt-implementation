@@ -6,6 +6,7 @@ import './Compass.scss';
 const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => {
   const [theme, setTheme] = useState('day');
   const [currentHeading, setCurrentHeading] = useState(0);
+  const [windspeed, setWindspeed] = useState(13);
 
   const update = (elementToSelect: string, updatedValue: number) => {
     let element = document.getElementById(elementToSelect);
@@ -54,7 +55,7 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
   };
 
   useEffect(() => {
-    update('wind-speed', 300);
+    update('wind-speed', 320);
     update('current', 243);
 
     const interval = setInterval(() => {
@@ -90,13 +91,13 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
         </g>
 
         <g id='wind-speed'>
-          <polygon points="200,30 190,10 210,10" fill='red' />
+          <image href={`./icons/wind/windspeed-${windspeed.toString()}.svg`} x="188" y="0" />
         </g>
 
         <g id='current'>
           {currentLocationOutside 
-            ? <polygon points="200,30 190,10 210,10" fill='blue' />
-            : <polygon points="200,70 190,90 210,90" fill='blue' />
+            ? <image href="./icons/current/outside/current-1.svg" x="188" y="0" fill="red" />
+            : <image href="./icons/current/inside/current-1.svg" x="188" y="70" />
           }
         </g>
 

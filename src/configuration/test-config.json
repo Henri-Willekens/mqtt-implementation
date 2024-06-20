@@ -13,7 +13,17 @@
         "label": "Motor 1 temperature",
         "title": "motor-1-temperature",
         "maxValue": 900,
-        "unit": "°C"
+        "unit": "°C",
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 800
+          },
+          {
+            "alertType": "warning",
+            "value": 700
+          }
+        ]
       }
     },
     {
@@ -22,7 +32,17 @@
         "label": "Water tank 1",
         "title": "water-tank-1-contents",
         "maxValue": 20000,
-        "unit": "L"
+        "unit": "L",
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 1000
+          },
+          {
+            "alertType": "warning",
+            "value": 2000
+          }
+        ]
       }
     },
     {

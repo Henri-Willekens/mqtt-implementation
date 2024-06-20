@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alertLines }) => {
   const [currentValue, setCurrentValue] = useState(0);
 
   const updateBarMeter = (value: number) => {
@@ -40,6 +40,21 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => 
     return tickLines;
   };
 
+  const determineAlertLinesLocation = (alertValues: [{alertType: string, value: number}], maxValue: number) => {
+    const alertLines = [];
+
+    const barmeterHeight = 304;
+
+    for (let alertValue of alertValues) {
+      const yPos = barmeterHeight - (alertValue.value / maxValue) * barmeterHeight;
+      alertLines.push(
+        <line className={`barmeter-alertlines__${alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
+      )
+    }
+
+    return alertLines;
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
@@ -61,8 +76,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label }) => 
         <rect className={`barmeter-filling ${title}`} width="50" y="302" height="0" x="2" />
 
         <g className="barmeter-alertlines">
-          <line className="barmeter-alertlines__alarm" x1="0" x2="54" y1="50" y2="50" />
-          <line className="barmeter-alertlines__warning" x1="0" x2="54" y1="95" y2="95" />
+          {determineAlertLinesLocation(alertLines, maxValue)}
         </g>
 
         <g className="barmeter-ticklines">

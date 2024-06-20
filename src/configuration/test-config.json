@@ -28,7 +28,8 @@
     {
       "type": "Rudder",
       "props": {
-        "angle": 60
+        "totalRudderAngle": 120,
+        "elementRadius": 120
       }
     }
   ]

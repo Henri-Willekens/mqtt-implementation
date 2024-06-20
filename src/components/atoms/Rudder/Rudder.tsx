@@ -2,29 +2,34 @@ import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
 import { useEffect } from "react";
 
-const Rudder: React.FC<RudderProps> = ({ angle }) => {
-    const determineRudderAngle = (radius: number, degrees: number) => {
+const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
+    const determineRudderAngle = (totalAngle: number, radius: number) => {
+        const width = radius * 2;
+        const height = radius * 2;
         const centerX = radius;
         const centerY = radius;
 
+        // 
+        const angle = totalAngle / 2;
+        
         // Calculate the endpoint of the arc for port side
-        const portAngle = degrees * Math.PI / 180;
+        const portAngle = angle * Math.PI / 180;
         const portX = centerX + radius * Math.sin(portAngle);
         const portY = centerY - radius * Math.cos(portAngle);
 
         // Calculate the endpoint of the arc for starboard side
-        const starboardAngle = -degrees * Math.PI / 180;
+        const starboardAngle = -angle * Math.PI / 180;
         const starboardX = centerX + radius * Math.sin(starboardAngle);
         const starboardY = centerY - radius * Math.cos(starboardAngle);
 
         return(
-            <svg width="180" height="180" viewBox="0 0 180 180">
+            <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
                 <g>
                     <path className="rudder-port" d={`M${centerX},${centerY} L${centerX},${centerY - radius} A${radius},${radius} 0 0,1 ${portX},${portY} Z`} />
                     <path className="rudder-starboard" d={`M${centerX},${centerY} L${centerX},${centerY - radius} A${radius},${radius} 0 0,0 ${starboardX},${starboardY} Z`} />
                 </g>
                 <g id="rudder-pointer" className="rudder-pointer">
-                    <polygon points="90,0 85,10 95,10" />
+                    <polygon points={`${radius},0 ${radius - 5},10 ${radius + 5},10`} />
                     <line x1={centerX} y1={centerY} x2={centerX} y2={centerY - radius + 2} />
                 </g>
             </svg>
@@ -33,7 +38,7 @@ const Rudder: React.FC<RudderProps> = ({ angle }) => {
 
     const updateRudderPosition = (updatedAngle: number) => {
         const rudderPointer = document.getElementById("rudder-pointer");
-        rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, 90, 90)`)
+        rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
     };
 
     useEffect(() => {
@@ -42,7 +47,7 @@ const Rudder: React.FC<RudderProps> = ({ angle }) => {
 
     return(
         <div className="rudder">
-            {determineRudderAngle(90, 90)}
+            {determineRudderAngle(totalRudderAngle, elementRadius)}
         </div>
     );
 };

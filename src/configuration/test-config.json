@@ -24,6 +24,12 @@
         "maxValue": 20000,
         "unit": "L"
       }
+    },
+    {
+      "type": "Rudder",
+      "props": {
+        "angle": 60
+      }
     }
   ]
 }

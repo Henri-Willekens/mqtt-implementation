@@ -1,0 +1,24 @@
+@import "../../../styles/colorVariables";
+
+.rudder {
+    margin: 5px;
+
+    &-pointer {
+        & > line {
+            stroke: $neutral-soft-white;
+            stroke-width: 2;
+        }
+
+        & > polygon {
+            fill: $neutral-soft-white;
+        }
+    }
+
+    &-port {
+        fill: $port-nav
+    }
+
+    &-starboard {
+        fill: $starboard-nav
+    }
+}

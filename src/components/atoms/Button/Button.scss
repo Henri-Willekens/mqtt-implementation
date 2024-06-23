@@ -1,0 +1,15 @@
+@import "../../../styles/colorVariables";
+
+.button{
+    background-color: $button-background;
+    color: $neutral-soft-white;
+    border: 1px solid $button-border;
+    width: fit-content;
+    min-width: 50px;
+    max-width: 200px;
+    height: fit-content;
+    line-height: 0px;
+    text-align: center;
+    font-size: 20px;
+    padding: 0 5px;
+}

@@ -1,76 +1,73 @@
 
-# Project Title
+# EVAP/SDI GUI
 
-A brief description of what this project does and who it's for
-
+Dit project is de grafische gebruikersinterface voor het EVAP/SDI-platform. Het is een webinterface, gebouwd in React, die elementen zoals een kompas weergeeft. De use-case is voor de maritieme sector om aan boord te gebruiken om scheepsgegevens in te zien en monitoren.
 
 ## Demo
 
 Insert gif or link to demo
 
 
-## Run Locally
+## Locaal draaiend krijgen
 
-Clone the project
+Clone het project
 
 ```bash
   git clone https://link-to-project
 ```
 
-Go to the project directory
+Ga naar de projectmap
 
 ```bash
   cd my-project
 ```
 
-Install dependencies
+Installeer de dependecies
 
 ```bash
   npm install
 ```
 
-Start the server
+Start de server
 
 ```bash
   npm run start
 ```
 
 
-## Running Tests
+## Runnen van tests
 
-To run tests, run the following command
+Voer het volgende commando uit om tests uit te voeren
 
 ```bash
   npm run test
 ```
 
 
-## Possible elements
+## Beschikbare elementen
 
-This are all the elements that have so far been built in:
+Dit zijn alle elementen die tot nu toe zijn ingebouwd:
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
+- Kompas
+- Roerstandmeter
+- Barmeter
 
+## Confugiratie
 
-## Documentation
-
-To configure what elements are currently visible and what specifications (props) they have, documentation has been written for the configurator.
+Om te configureren welke elementen op dat moment zichtbaar zijn en welke specificaties (props) ze hebben, is documentatie geschreven voor de configurator.
 
 [Documentation](https://linktodocumentation)
 
 
-## Authors
+## Auteurs
 
-Previous students that have worked on the project are listed here in case contact is needed.
+Eerdere studenten die aan het project hebben gewerkt staan hier vermeld voor het geval er contact nodig is.
 
 - [@TzunderWulf](https://www.github.com/tzunderwulf)
 - [@Dancingkoalaa](https://www.github.com/Dancingkoalaa)
 
 
-## License
+## Licentie
 
 [MIT](https://choosealicense.com/licenses/mit/)
 

@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import CompassProps from './Compass.types';
 import './Compass.scss';
 
-const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, numOfWindRoseLines }) => {
-  const [theme, setTheme] = useState('day');
+const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, theme, numOfWindRoseLines }) => {
   const [currentHeading, setCurrentHeading] = useState(0);
   const [windspeed, setWindspeed] = useState('13');
 

@@ -57,7 +57,7 @@ This are all the elements that have so far been built in:
 
 ## Documentation
 
-To configure what elements are currently visible, documentation has been written for the configurator.
+To configure what elements are currently visible and what specifications (props) they have, documentation has been written for the configurator.
 
 [Documentation](https://linktodocumentation)
 

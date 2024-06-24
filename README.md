@@ -45,7 +45,9 @@ To run tests, run the following command
 ```
 
 
-## Features
+## Possible elements
+
+This are all the elements that have so far been built in:
 
 - Light/dark mode toggle
 - Live previews
@@ -55,7 +57,7 @@ To run tests, run the following command
 
 ## Documentation
 
-
+To configure what elements are currently visible, documentation has been written for the configurator.
 
 [Documentation](https://linktodocumentation)
 

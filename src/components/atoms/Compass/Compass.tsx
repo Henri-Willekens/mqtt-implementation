@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import CompassProps from './Compass.types';
 import './Compass.scss';
 
-const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => {
+const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, numOfWindRoseLines }) => {
   const [theme, setTheme] = useState('day');
   const [currentHeading, setCurrentHeading] = useState(0);
   const [windspeed, setWindspeed] = useState('13');
@@ -102,7 +102,7 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside }) => 
         </g>
 
         <g className="compass-windrose-lines" fontSize="12">
-          {generateWindRoseLines(12, 150, 200, 200)}
+          {generateWindRoseLines(numOfWindRoseLines, 150, 200, 200)}
         </g>
       </svg>
       <div className={`compass-source compass-source__${theme}`}>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alertLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alertLines, amountOfTickLines }) => {
   const [currentValue, setCurrentValue] = useState(0);
 
   const updateBarMeter = (value: number) => {
@@ -55,16 +55,27 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
     return alertLines;
   };
 
+  const checkToTriggerAlert = (currentValue: number) => {
+    for (let alertLine of alertLines) {
+      // when currentValue is higher than the limit
+      if (currentValue > alertLine.value) {
+        console.log(alertLine)
+        console.log(alertLine.alertType)
+      }
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
-    }, 1000)
+    }, 2000)
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     updateBarMeter(currentValue);
+    checkToTriggerAlert(currentValue);
   }, [currentValue]);
 
   return (
@@ -80,7 +91,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
         </g>
 
         <g className="barmeter-ticklines">
-          {generateTackLines(maxValue, 5)}
+          {generateTackLines(maxValue, amountOfTickLines)}
         </g>
 
         <text className="barmeter-unit" x="25" y="325">{unit}</text>

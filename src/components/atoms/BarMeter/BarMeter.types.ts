@@ -3,5 +3,6 @@ export default interface BarMeterProps {
   unit: string,
   title: string,
   label: string,
-  alertLines: [{ alertType: string, value: number }]
+  alertLines: [{ alertType: string, value: number }],
+  amountOfTickLines: number,
 }

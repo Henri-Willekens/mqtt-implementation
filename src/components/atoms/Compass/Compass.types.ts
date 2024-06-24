@@ -1,4 +1,5 @@
 export default interface CompassProps {
   source: string,
-  currentLocationOutside: boolean
+  currentLocationOutside: boolean,
+  numOfWindRoseLines: number,
 }

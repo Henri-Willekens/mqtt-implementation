@@ -4,7 +4,8 @@
       "type": "Compass",
       "props": {
         "source": "gyro",
-        "currentLocationOutside": false
+        "currentLocationOutside": false,
+        "numOfWindRoseLines": 12
       }
     },
     {
@@ -14,6 +15,7 @@
         "title": "motor-1-temperature",
         "maxValue": 900,
         "unit": "°C",
+        "amountOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",
@@ -22,25 +24,6 @@
           {
             "alertType": "warning",
             "value": 700
-          }
-        ]
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Water tank 1",
-        "title": "water-tank-1-contents",
-        "maxValue": 20000,
-        "unit": "L",
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 1000
-          },
-          {
-            "alertType": "warning",
-            "value": 2000
           }
         ]
       }

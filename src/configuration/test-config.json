@@ -19,11 +19,35 @@
         "alertLines": [
           {
             "alertType": "alarm",
-            "value": 800
+            "value": 800,
+            "higherOrLowerThan": "higher"
           },
           {
             "alertType": "warning",
-            "value": 700
+            "value": 700,
+            "higherOrLowerThan": "higher"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "label": "Water tank 1",
+        "title": "water-tank-1-filling",
+        "maxValue": 20000,
+        "unit": "°C",
+        "amountOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 2000,
+            "higherOrLowerThan": "lower"
+          },
+          {
+            "alertType": "warning",
+            "value": 5000,
+            "higherOrLowerThan": "lower"
           }
         ]
       }

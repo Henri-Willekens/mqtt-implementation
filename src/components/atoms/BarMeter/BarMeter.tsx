@@ -40,7 +40,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
     return tickLines;
   };
 
-  const determineAlertLinesLocation = (alertValues: [{alertType: string, value: number}], maxValue: number) => {
+  const determineAlertLinesLocation = (alertValues: [{alertType: string, value: number, higherOrLowerThan: string}], maxValue: number) => {
     const alertLines = [];
 
     const barmeterHeight = 304;
@@ -57,10 +57,10 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
 
   const checkToTriggerAlert = (currentValue: number) => {
     for (let alertLine of alertLines) {
-      // when currentValue is higher than the limit
-      if (currentValue > alertLine.value) {
-        console.log(alertLine)
-        console.log(alertLine.alertType)
+      if (currentValue > alertLine.value && alertLine.higherOrLowerThan == "higher") {
+        console.log(`The element ${title} triggered an ${alertLine.alertType}. The ${currentValue} is higher than ${alertLine.value}`)
+      } else if (currentValue < alertLine.value && alertLine.higherOrLowerThan == "lower") {
+        console.log(`The element ${title} triggered an ${alertLine.alertType}. The ${currentValue} is lower than ${alertLine.value}`)
       }
     }
   };
@@ -68,7 +68,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
-    }, 2000)
+    }, 1000)
 
     return () => clearInterval(interval);
   }, []);

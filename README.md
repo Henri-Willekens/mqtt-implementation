@@ -13,13 +13,13 @@ Insert gif or link to demo
 Clone het project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/TzunderWulf/evap-sdi-gui.git
 ```
 
 Ga naar de projectmap
 
 ```bash
-  cd my-project
+  cd evap-sdi-gui
 ```
 
 Installeer de dependecies

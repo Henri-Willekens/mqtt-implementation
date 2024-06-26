@@ -5,7 +5,7 @@ import Header from "./components/molecules/Header/Header";
 import DynamicRenderComponents from "./components/organisms/DynamicRenderComponents/DynamicRenderComponents";
 import Button from "./components/atoms/Button/Button";
 
-import config from "./configuration/test-config.json";
+import config from "./configuration/config.json";
 import { Config } from './configuration/types';
 
 
@@ -14,11 +14,11 @@ const App = () => {
   const [currentTheme, setCurrentTheme] = useState<string>('day');
 
   const switchTheme = () => {
-   if (currentTheme == "day") {
-    setCurrentTheme("night");
-   } else {
-    setCurrentTheme("day")
-   }
+    if (currentTheme == "day") {
+      setCurrentTheme("night");
+    } else {
+      setCurrentTheme("day")
+    }
   }
 
   useEffect(() => {

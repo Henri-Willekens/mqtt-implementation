@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "type": "Compass",
+      "props": {
+        "source": "gyro",
+        "currentLocationOutside": false,
+        "numOfWindRoseLines": 12
+      }
+    },
+    {
+      "type": "Rudder",
+      "props": {
+        "totalRudderAngle": 120,
+        "elementRadius": 120
+      }
+    }
+  ]
+}

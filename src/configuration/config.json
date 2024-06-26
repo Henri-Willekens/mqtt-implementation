@@ -1,18 +1,32 @@
 {
   "components": [
     {
-      "type": "Compass",
+      "type": "BarMeter",
       "props": {
-        "source": "gyro",
-        "currentLocationOutside": false,
-        "numOfWindRoseLines": 12
+        "label": "Motor 1 temperature",
+        "title": "motor-1-temperature",
+        "maxValue": 900,
+        "unit": "°C",
+        "amountOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 800,
+            "higherOrLowerThan": "higher"
+          },
+          {
+            "alertType": "warning",
+            "value": 700,
+            "higherOrLowerThan": "higher"
+          }
+        ]
       }
     },
     {
       "type": "BarMeter",
       "props": {
-        "label": "Motor 1 temperature",
-        "title": "motor-1-temperature",
+        "label": "Motor 2 temperature",
+        "title": "motor-2-temperature",
         "maxValue": 900,
         "unit": "°C",
         "amountOfTickLines": 5,
@@ -50,13 +64,6 @@
             "higherOrLowerThan": "lower"
           }
         ]
-      }
-    },
-    {
-      "type": "Rudder",
-      "props": {
-        "totalRudderAngle": 120,
-        "elementRadius": 120
       }
     }
   ]

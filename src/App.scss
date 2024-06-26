@@ -24,4 +24,10 @@
   grid-row: 2 / span 1;
 
   position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+html {
+  background-color: $background-body;
 }

@@ -5,7 +5,7 @@ import Header from "./components/molecules/Header/Header";
 import DynamicRenderComponents from "./components/organisms/DynamicRenderComponents/DynamicRenderComponents";
 import Button from "./components/atoms/Button/Button";
 
-import config from "./configuration/test-config.json";
+import config from "./configuration/config.json";
 import { Config } from './configuration/types';
 
 
@@ -34,7 +34,7 @@ const App = () => {
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">
-          <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} />
+          {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
           <DynamicRenderComponents theme={currentTheme} config={configData} />
         </div>
       </div>

@@ -59,7 +59,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
     const interval = setInterval(() => {
       setCurrentHeading(prevHeading => (prevHeading + 5));
-    }, 1000)
+    }, 500)
 
     return () => clearInterval(interval);
   }, []);

@@ -30,7 +30,7 @@ const App = () => {
   }
 
   return(
-    <div className="app">
+    <div className={`compass__${currentTheme}`}>
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">

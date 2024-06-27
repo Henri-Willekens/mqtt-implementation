@@ -1,6 +1,6 @@
 export default interface CompassProps {
   source: string,
-  currentLocationOutside: boolean,
-  numOfWindRoseLines: number,
+  waveArrowOutside: boolean,
+  stepsOfDegrees: number,
   theme: string
 }

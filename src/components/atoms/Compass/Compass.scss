@@ -13,6 +13,8 @@
   &-windrose {
     fill: none;
     stroke-width: 20;
+    fill: radial-gradient(circle, #f0f8ff, #a9a9a9);
+    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.6));
 
     &__day {
       stroke: $background-navbar;
@@ -58,6 +60,8 @@
   &-ship {
     stroke-width: 2;
     fill: $background-navbar;
+    fill: radial-gradient(circle, #f0f8ff, #a9a9a9);
+    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.6));
 
     &__day {
       stroke: $neutral-soft-white;

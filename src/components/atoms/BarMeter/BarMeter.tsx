@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alertLines, amountOfTickLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, label, alertLines, amountOfTickLines }) => {
   const [currentValue, setCurrentValue] = useState(0);
 
   const updateBarMeter = (value: number) => {
@@ -55,17 +55,11 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
     return alertLines;
   };
 
-  const checkToTriggerAlert = (currentValue: number) => {
-    for (let alertLine of alertLines) {
-      if (currentValue > alertLine.value && alertLine.higherOrLowerThan == "higher") {
-        console.log(`The element ${title} triggered an ${alertLine.alertType}. The ${currentValue} is higher than ${alertLine.value}`)
-      } else if (currentValue < alertLine.value && alertLine.higherOrLowerThan == "lower") {
-        console.log(`The element ${title} triggered an ${alertLine.alertType}. The ${currentValue} is lower than ${alertLine.value}`)
-      }
-    }
-  };
-
   useEffect(() => {
+      let element = document.querySelector(`.barmeter.${title}`) as HTMLElement;
+      element.style.left = xPos;
+      element.style.top = yPos;
+
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
     }, 1000)
@@ -75,11 +69,10 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, title, label, alert
 
   useEffect(() => {
     updateBarMeter(currentValue);
-    checkToTriggerAlert(currentValue);
   }, [currentValue]);
 
   return (
-    <div className="barmeter">
+    <div className={`barmeter ${title}`}>
       <p>{label}</p>
       <svg width="150" height="350">
         <rect className="barmeter-background" width="50" height="300" x="2" y="2" />

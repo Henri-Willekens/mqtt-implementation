@@ -22,6 +22,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    // check if config data is locally set up or not
     setConfigData(config as Config);
   }, []);
 

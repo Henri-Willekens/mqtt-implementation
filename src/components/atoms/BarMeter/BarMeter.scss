@@ -1,6 +1,8 @@
 @import "../../../styles/colorVariables";
 
 .barmeter {
+  position: absolute;
+
   width: 150px;
   height: fit-content;
 

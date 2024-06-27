@@ -3,6 +3,8 @@
     {
       "type": "BarMeter",
       "props": {
+        "xPos": "50px",
+        "yPos": "40px",
         "label": "Motor 1 temperature",
         "title": "motor-1-temperature",
         "maxValue": 900,
@@ -25,6 +27,8 @@
     {
       "type": "BarMeter",
       "props": {
+        "xPos": "250px",
+        "yPos": "40px",
         "label": "Motor 2 temperature",
         "title": "motor-2-temperature",
         "maxValue": 900,
@@ -47,6 +51,8 @@
     {
       "type": "BarMeter",
       "props": {
+        "xPos": "50px",
+        "yPos": "500px",
         "label": "Water tank 1",
         "title": "water-tank-1-filling",
         "maxValue": 20000,

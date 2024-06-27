@@ -31,3 +31,12 @@
 html {
   background-color: $background-body;
 }
+
+.loading {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: $neutral-soft-white;
+}

@@ -22,13 +22,21 @@ const App = () => {
   }
 
   useEffect(() => {
-    // check if config data is locally set up or not
-    setConfigData(config as Config);
+    console.log(config.components.length)
+    if (config.components.length !== 0) {
+      setConfigData(config as Config);
+    } else {
+      // fetch the config from mqtt or somewhere else
+    }
   }, []);
 
   if (!configData) {
-    return <div>Loading...</div>
-  }
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  };
 
   return(
     <div className="app">

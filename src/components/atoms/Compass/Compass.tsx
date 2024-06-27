@@ -70,7 +70,7 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, theme
   }, [currentHeading]);
 
   return (
-    <div className="compass">
+    <div className={`compass__${theme}`}>
       <svg width="400" height="400">
         <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
 

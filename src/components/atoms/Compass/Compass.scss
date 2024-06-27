@@ -6,6 +6,10 @@
 
   margin: 10px;
 
+  &__night {
+    background-color: $nightfilter;
+    opacity: 30%;
+  }
   &-windrose {
     fill: none;
     stroke-width: 20;

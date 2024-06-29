@@ -6,6 +6,7 @@ import './BarMeter.scss';
 const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, label, alertLines, numberOfTickLines }) => {
   const [_currentValue, setCurrentValue] = useState(0);
 
+
   const updateBarMeter = (_value: number) => {
     let _percentage = (_value / maxValue) * 100;
 
@@ -20,6 +21,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
       _barMeterFilling.setAttribute('y', _newY.toString());
     }
   };
+
 
   const generateTackLines = () => {
     const _tickLines = [];
@@ -40,6 +42,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
     return _tickLines;
   };
 
+
   const determineAlertLinesLocation = () => {
     const _alertLines = [];
 
@@ -55,6 +58,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
     return _alertLines;
   };
 
+
   useEffect(() => {
       let _element = document.querySelector(`.barmeter.${title}`) as HTMLElement;
       _element.style.left = xPos;
@@ -67,10 +71,12 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
     return () => clearInterval(interval);
   }, []);
 
+
   useEffect(() => {
     updateBarMeter(_currentValue);
   }, [_currentValue]);
 
+  
   return (
     <div className={`barmeter ${title}`}>
       <p>{label}</p>

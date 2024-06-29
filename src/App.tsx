@@ -13,6 +13,7 @@ const App = () => {
   const [configData, setConfigData] = useState<Config | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string>('day');
 
+
   const switchTheme = () => {
    if (currentTheme == "day") {
     setCurrentTheme("night");
@@ -20,6 +21,7 @@ const App = () => {
     setCurrentTheme("day")
    }
   }
+
 
   useEffect(() => {
     console.log(config.components.length)
@@ -30,6 +32,7 @@ const App = () => {
     }
   }, []);
 
+
   if (!configData) {
     return (
       <div className="loading">
@@ -38,6 +41,7 @@ const App = () => {
     );
   };
 
+  
   return(
     <div className="app">
       <div className="main">

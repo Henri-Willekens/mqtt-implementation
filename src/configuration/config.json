@@ -9,7 +9,7 @@
         "title": "motor-1-temperature",
         "maxValue": 900,
         "unit": "°C",
-        "amountOfTickLines": 5,
+        "numberOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",
@@ -33,7 +33,7 @@
         "title": "motor-2-temperature",
         "maxValue": 900,
         "unit": "°C",
-        "amountOfTickLines": 5,
+        "numberOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",
@@ -57,7 +57,7 @@
         "title": "water-tank-1-filling",
         "maxValue": 20000,
         "unit": "°C",
-        "amountOfTickLines": 5,
+        "numberOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",

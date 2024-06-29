@@ -3,62 +3,62 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, label, alertLines, amountOfTickLines }) => {
-  const [currentValue, setCurrentValue] = useState(0);
+const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, label, alertLines, numberOfTickLines }) => {
+  const [_currentValue, setCurrentValue] = useState(0);
 
-  const updateBarMeter = (value: number) => {
-    let percentage = (value / maxValue) * 100;
+  const updateBarMeter = (_value: number) => {
+    let _percentage = (_value / maxValue) * 100;
 
-    let barMeterFilling = document.querySelector(`.barmeter-filling.${title}`) as HTMLElement;
+    let _barMeterFilling = document.querySelector(`.barmeter-filling.${title}`) as HTMLElement;
 
-    const containerHeight = 302;
-    const fillHeight = (percentage / 100) * containerHeight;
-    const newY = containerHeight - fillHeight;
+    const _containerHeight = 302;
+    const _fillHeight = (_percentage / 100) * _containerHeight;
+    const _newY = _containerHeight - _fillHeight;
 
-    if (barMeterFilling != null) {
-      barMeterFilling.style.height = `${fillHeight}px`;
-      barMeterFilling.setAttribute('y', newY.toString());
+    if (_barMeterFilling != null) {
+      _barMeterFilling.style.height = `${_fillHeight}px`;
+      _barMeterFilling.setAttribute('y', _newY.toString());
     }
   };
 
-  const generateTackLines = (maxValue: number, numTicks: number) => {
-    const tickLines = [];
-    const tickSpacing = 300 / (numTicks - 1);
+  const generateTackLines = () => {
+    const _tickLines = [];
+    const _tickSpacing = 300 / (numberOfTickLines - 1);
 
-    for (let i = 0; i < numTicks; i++) {
-      const y = 2 + i * tickSpacing;
-      const value = maxValue - (i * (maxValue / (numTicks - 1)));
+    for (let i = 0; i < numberOfTickLines; i++) {
+      const _y = 2 + i * _tickSpacing;
+      const _value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
       
-      tickLines.push(
+      _tickLines.push(
         <g className="barmeter-tickline" key={i}>
-          <line x1="54" x2="64" y1={y} y2={y} />
-          <text x="69" y={y + 13}>{Math.round(value)}</text>
+          <line x1="54" x2="64" y1={_y} y2={_y} />
+          <text x="69" y={_y + 13}>{Math.round(_value)}</text>
         </g>
       )
     }
 
-    return tickLines;
+    return _tickLines;
   };
 
-  const determineAlertLinesLocation = (alertValues: [{alertType: string, value: number, higherOrLowerThan: string}], maxValue: number) => {
-    const alertLines = [];
+  const determineAlertLinesLocation = () => {
+    const _alertLines = [];
 
-    const barmeterHeight = 304;
+    const _barmeterHeight = 304;
 
-    for (let alertValue of alertValues) {
-      const yPos = barmeterHeight - (alertValue.value / maxValue) * barmeterHeight;
-      alertLines.push(
-        <line className={`barmeter-alertlines__${alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
+    for (let _alertValue of alertLines) {
+      const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
+      _alertLines.push(
+        <line className={`barmeter-alertlines__${_alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
       )
     }
 
-    return alertLines;
+    return _alertLines;
   };
 
   useEffect(() => {
-      let element = document.querySelector(`.barmeter.${title}`) as HTMLElement;
-      element.style.left = xPos;
-      element.style.top = yPos;
+      let _element = document.querySelector(`.barmeter.${title}`) as HTMLElement;
+      _element.style.left = xPos;
+      _element.style.top = yPos;
 
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
@@ -68,8 +68,8 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
   }, []);
 
   useEffect(() => {
-    updateBarMeter(currentValue);
-  }, [currentValue]);
+    updateBarMeter(_currentValue);
+  }, [_currentValue]);
 
   return (
     <div className={`barmeter ${title}`}>
@@ -80,11 +80,11 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
         <rect className={`barmeter-filling ${title}`} width="50" y="302" height="0" x="2" />
 
         <g className="barmeter-alertlines">
-          {determineAlertLinesLocation(alertLines, maxValue)}
+          {determineAlertLinesLocation()}
         </g>
 
         <g className="barmeter-ticklines">
-          {generateTackLines(maxValue, amountOfTickLines)}
+          {generateTackLines()}
         </g>
 
         <text className="barmeter-unit" x="25" y="325">{unit}</text>

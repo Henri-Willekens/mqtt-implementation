@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, label, alertLines, numberOfTickLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
   const [_currentValue, setCurrentValue] = useState(0);
 
 
   const updateBarMeter = (_value: number) => {
     let _percentage = (_value / maxValue) * 100;
 
-    let _barMeterFilling = document.querySelector(`.barmeter-filling.${title}`) as HTMLElement;
+    let _barMeterFilling = document.querySelector(`.barmeter-filling.${id}`) as HTMLElement;
 
     const _containerHeight = 302;
     const _fillHeight = (_percentage / 100) * _containerHeight;
@@ -60,7 +60,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
 
 
   useEffect(() => {
-      let _element = document.querySelector(`.barmeter.${title}`) as HTMLElement;
+      let _element = document.querySelector(`.barmeter.${id}`) as HTMLElement;
       _element.style.left = xPos;
       _element.style.top = yPos;
 
@@ -78,12 +78,12 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, title, 
 
   
   return (
-    <div className={`barmeter ${title}`}>
+    <div className={`barmeter ${id}`}>
       <p>{label}</p>
       <svg width="150" height="350">
         <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
 
-        <rect className={`barmeter-filling ${title}`} width="50" y="302" height="0" x="2" />
+        <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
 
         <g className="barmeter-alertlines">
           {determineAlertLinesLocation()}

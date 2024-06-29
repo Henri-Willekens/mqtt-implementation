@@ -3,7 +3,7 @@ export default interface BarMeterProps {
   yPos: string,
   maxValue: number,
   unit: string,
-  title: string,
+  id: string,
   label: string,
   alertLines: [{ alertType: string, value: number, higherOrLowerThan: string }],
   numberOfTickLines: number,

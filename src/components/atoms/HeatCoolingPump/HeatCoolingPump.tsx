@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from "react";
 
-import HeatCoolingProps from './HeatCooling.types';
-import "./HeatCooling.scss";
+import HeatCoolingProps from './HeatCoolingPump.types';
+import "./HeatCoolingPump.scss";
 
 const HeatCooling: React.FC<HeatCoolingProps> = ({ id, xPos, yPos }) => {
     const [_internalInterval, setInternalInterval] = useState<any>();

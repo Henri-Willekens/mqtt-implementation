@@ -63,10 +63,10 @@ Om te configureren welke elementen op dat moment zichtbaar zijn en welke specifi
 
 Voor nieuwe elementen wordt de volgende mappenstructuur aangehouden (ter voorbeeld is er ook het dummy component in _src/components/molecules/Dummy_)
 
-|-- ElementName  
-    |-- ElementName.tsx (react code voor het element)  
-    |-- ElementName.types.ts (het interface van het element)  
-    |-- ElementName.scss (de styling van het element)  
+- `ElementName`
+  - `ElementName.tsx` (react code voor het element)
+  - `ElementName.types.ts` (het interface van het element)
+  - `ElementName.scss` (de styling van het element)  
 
 Als het element vanuit het configuratiebestand moet worden opgezet is het volgende nog van belang. Voeg het element toe aan _src/components/index.ts_ op de volgende manier:
 

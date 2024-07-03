@@ -8,7 +8,7 @@ Dit project is de grafische gebruikersinterface voor het EVAP/SDI-platform. Het 
 Insert gif or link to demo
 
 
-## Locaal draaiend krijgen
+## Lokaal draaiend krijgen
 
 Clone het project
 
@@ -48,9 +48,10 @@ Voer het volgende commando uit om tests uit te voeren
 
 Dit zijn alle elementen die tot nu toe zijn ingebouwd:
 
-- Kompas
-- Roerstandmeter
+- Compass
+- Rudder
 - Barmeter
+- HeatCoolingPump
 
 ## Confugiratie
 
@@ -58,6 +59,27 @@ Om te configureren welke elementen op dat moment zichtbaar zijn en welke specifi
 
 [Documentation](https://linktodocumentation)
 
+## Opzet van nieuwe elementen
+
+Voor nieuwe elementen wordt de volgende mappenstructuur aangehouden (ter voorbeeld is er ook het dummy component in _src/components/molecules/Dummy_)
+
+|-- ElementName
+|  |-- ElementName.tsx (react code voor het element)
+|  |-- ElementName.types.ts (het interface van het element)
+|  |-- ElementName.scss (de styling van het element)
+
+Als het element vanuit het configuratiebestand moet worden opgezet is het volgende nog van belang. Voeg het element toe aan _src/components/index.ts_ op de volgende manier:
+
+```
+const componentMap: { [key: string]: React.FC<any> } = {
+  Compass,
+  BarMeter,
+  Rudder,
+  ElementName
+};
+```
+
+Voeg het element ook toe aan het configuratie document met de props die het element kan doorkrijgen. 
 
 ## Auteurs
 

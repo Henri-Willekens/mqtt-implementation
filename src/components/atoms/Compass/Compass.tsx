@@ -67,9 +67,9 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
   useEffect(() => {
     if(correctData == 'incomplete'){
       setTimeout(() => {
-        console.log('There is data missing, please check the data source.');
         setData("correct");
       }, 5000);
+      console.log('There is data missing, please check the data source.');
     } else {
     
     update('hdg', currentHeading);

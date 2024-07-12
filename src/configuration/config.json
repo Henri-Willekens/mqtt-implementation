@@ -7,13 +7,6 @@
         "waveArrowOutside": false,
         "stepsOfDegrees": 30
       }
-    },
-    {
-      "type": "Rudder",
-      "props": {
-        "totalRudderAngle": 120,
-        "elementRadius": 120
-      }
     }
   ]
 }

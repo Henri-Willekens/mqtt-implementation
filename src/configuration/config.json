@@ -6,6 +6,84 @@
         "source": "gyro",
         "waveArrowOutside": false,
         "stepsOfDegrees": 30
+     }, 
+     {
+      "type": "BarMeter",
+      "props": {
+        "xPos": "50px",
+        "yPos": "40px",
+        "label": "Motor 1 temperature",
+        "id": "motor-1-temperature",
+        "maxValue": 900,
+        "unit": "°C",
+        "numberOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 800,
+            "higherOrLowerThan": "higher"
+          },
+          {
+            "alertType": "warning",
+            "value": 700,
+            "higherOrLowerThan": "higher"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "xPos": "250px",
+        "yPos": "40px",
+        "label": "Motor 2 temperature",
+        "id": "motor-2-temperature",
+        "maxValue": 900,
+        "unit": "°C",
+        "numberOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 800,
+            "higherOrLowerThan": "higher"
+          },
+          {
+            "alertType": "warning",
+            "value": 700,
+            "higherOrLowerThan": "higher"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "xPos": "50px",
+        "yPos": "500px",
+        "label": "Water tank 1",
+        "id": "water-tank-1-filling",
+        "maxValue": 20000,
+        "unit": "°C",
+        "numberOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 2000,
+            "higherOrLowerThan": "lower"
+          },
+          {
+            "alertType": "warning",
+            "value": 5000,
+            "higherOrLowerThan": "lower"
+          }
+        ]
+      }
+    },
+    {
+      "type": "HeatCoolingPump",
+      "props": {
+        "xPos": "250px",
+        "yPos": "500px"
       }
     }
   ]

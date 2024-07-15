@@ -3,21 +3,21 @@ import React, { useState, useEffect } from "react";
 import CompassProps from './Compass.types';
 import './Compass.scss';
 
-const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, theme, numOfWindRoseLines }) => {
+const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees}) => {
   const [currentHeading, setCurrentHeading] = useState(0);
   const [windspeed, setWindspeed] = useState('13');
+  const [correctData, setData] = useState('incomplete');
 
   const update = (elementToSelect: string, updatedValue: number) => {
     let element = document.getElementById(elementToSelect);
     element?.setAttribute("transform", `rotate(${updatedValue}, 200, 200)`)
   };
 
-  const generateWindRoseLines = (windRoseLines: number, radius: number, centerX: number, centerY: number) => {
+  const generateWindRoseLines = (stepsOfDegrees: number, radius: number, centerX: number, centerY: number) => {
     const lines = [];
-    const angleStep = 360 / windRoseLines;
 
-    for (let i = 0; i < windRoseLines; i++) {
-      const angle = angleStep * i;
+    for (let i = 0; i*stepsOfDegrees < 360; i++) {
+      const angle = stepsOfDegrees * i;
       const radian = (angle * Math.PI) / 180;
 
       const x1 = centerX + (radius - 5) * Math.sin(radian);
@@ -59,18 +59,26 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, theme
 
     const interval = setInterval(() => {
       setCurrentHeading(prevHeading => (prevHeading + 5));
-    }, 1000)
+    }, 500)
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
+    if(correctData == 'incomplete'){
+      setTimeout(() => {
+        setData("correct");
+      }, 5000);
+      console.log('There is data missing, please check the data source.');
+    } else {
+    
     update('hdg', currentHeading);
     update('cog', currentHeading + 20);
+    }
   }, [currentHeading]);
 
   return (
-    <div className="compass">
+    <div className="">
       <svg width="400" height="400">
         <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
 
@@ -94,14 +102,14 @@ const Compass: React.FC<CompassProps> = ({ source, currentLocationOutside, theme
         </g>
 
         <g id='current'>
-          {currentLocationOutside 
+          {waveArrowOutside 
             ? <image href="./icons/current/outside/current-1.svg" x="188" y="0" fill="red" />
             : <image href="./icons/current/inside/current-1.svg" x="188" y="70" />
           }
         </g>
 
         <g className="compass-windrose-lines" fontSize="12">
-          {generateWindRoseLines(numOfWindRoseLines, 150, 200, 200)}
+          {generateWindRoseLines(stepsOfDegrees, 150, 200, 200)}
         </g>
       </svg>
       <div className={`compass-source compass-source__${theme}`}>

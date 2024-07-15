@@ -32,6 +32,13 @@ html {
   background-color: $background-body;
 }
 
+
+.compass {
+  &__night {
+    background-color: $nightfilter;
+    opacity: 30%;
+}
+
 .loading {
   display: flex;
 

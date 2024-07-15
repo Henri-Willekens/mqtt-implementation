@@ -4,7 +4,7 @@
       "type": "Compass",
       "props": {
         "source": "gyro",
-        "currentLocationOutside": false,
+        "waveArrowOutside": false,
         "numOfWindRoseLines": 12
       }
     },

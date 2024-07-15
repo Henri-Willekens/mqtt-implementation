@@ -15,11 +15,11 @@ const App = () => {
 
 
   const switchTheme = () => {
-   if (currentTheme == "day") {
-    setCurrentTheme("night");
-   } else {
-    setCurrentTheme("day")
-   }
+    if (currentTheme == "day") {
+      setCurrentTheme("night");
+    } else {
+      setCurrentTheme("day")
+    }
   }
 
 
@@ -43,7 +43,7 @@ const App = () => {
 
   
   return(
-    <div className="app">
+    <div className={`compass__${currentTheme}`}>
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">

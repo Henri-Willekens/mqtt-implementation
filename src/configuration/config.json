@@ -6,11 +6,12 @@
         "source": "gyro",
         "waveArrowOutside": false,
         "stepsOfDegrees": 30
-     }, 
-     {
+      }
+    },
+    {
       "type": "BarMeter",
       "props": {
-        "xPos": "50px",
+        "xPos": "500px",
         "yPos": "40px",
         "label": "Motor 1 temperature",
         "id": "motor-1-temperature",
@@ -34,7 +35,7 @@
     {
       "type": "BarMeter",
       "props": {
-        "xPos": "250px",
+        "xPos": "700px",
         "yPos": "40px",
         "label": "Motor 2 temperature",
         "id": "motor-2-temperature",

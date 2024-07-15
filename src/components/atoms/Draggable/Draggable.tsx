@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { gridPositions } from './Grid';
-import './Draggable.css';
+import { gridPositions } from '../Grid/Grid';
+import DraggProps from './Draggable.types';
+import './Draggable.scss';
 
-const Draggable = () => {
+const Draggable: React.FC<DraggProps> = ({ gridEnabled, configMode }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-  const startDrag = (event) => {
+  const startDrag = (event: any) => {
+    if (configMode) {
     const rect = event.target.getBoundingClientRect();
     setOffset({ x: event.clientX - rect.left, y: event.clientY - rect.top });
     setDragging(true);
+    }
   };
 
-  const onDrag = (event) => {
+  const onDrag = (event: any) => {
     if (dragging) {
       setPosition({ x: event.clientX - offset.x, y: event.clientY - offset.y });
     }
@@ -21,7 +24,9 @@ const Draggable = () => {
 
   const stopDrag = () => {
     setDragging(false);
-    snapToGrid();
+    if (gridEnabled) {
+      snapToGrid();
+    }
   };
 
   const snapToGrid = () => {
@@ -41,7 +46,7 @@ const Draggable = () => {
 
   return (
     <div
-      className="draggable"
+      className={configMode ? "draggable" : "non-draggable"}
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}

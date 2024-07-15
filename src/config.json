@@ -1,26 +1,63 @@
 {
-    "pages": {
-        "conning": {
-            "title": "page 1",
-            "objects": {
-                "compass-gyro": {
-                    "source": "gyro"
-                },
-                "compass-magn": {
-                    "source": "magn"
-                }
-            }
-        },
-        "propulsion": {
-            "title": "page 2",
-            "objects": {
-                "barmeter-1": {
-                    "title": "1"
-                },
-                "barmeter-2": {
-                    "title": "2"
-                }
-            }
+    "components": [
+      {
+        "type": "Compass",
+        "props": {
+          "source": "gyro",
+          "waveArrowOutside": false,
+          "numOfWindRoseLines": 12
         }
-    }
-}
+      },
+      {
+        "type": "BarMeter",
+        "props": {
+          "label": "Motor 1 temperature",
+          "title": "motor-1-temperature",
+          "maxValue": 900,
+          "unit": "°C",
+          "amountOfTickLines": 5,
+          "alertLines": [
+            {
+              "alertType": "alarm",
+              "value": 800,
+              "higherOrLowerThan": "higher"
+            },
+            {
+              "alertType": "warning",
+              "value": 700,
+              "higherOrLowerThan": "higher"
+            }
+          ]
+        }
+      },
+      {
+        "type": "BarMeter",
+        "props": {
+          "label": "Water tank 1",
+          "title": "water-tank-1-filling",
+          "maxValue": 20000,
+          "unit": "°C",
+          "amountOfTickLines": 5,
+          "alertLines": [
+            {
+              "alertType": "alarm",
+              "value": 2000,
+              "higherOrLowerThan": "lower"
+            },
+            {
+              "alertType": "warning",
+              "value": 5000,
+              "higherOrLowerThan": "lower"
+            }
+          ]
+        }
+      },
+      {
+        "type": "Rudder",
+        "props": {
+          "totalRudderAngle": 120,
+          "elementRadius": 120
+        }
+      }
+    ]
+  }

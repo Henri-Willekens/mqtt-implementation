@@ -1,5 +1,5 @@
 import React from 'react';
-import './Grid.css';
+import './Grid.scss';
 
 const gridPositions = [
   { x: 1.5, y:1.5 },

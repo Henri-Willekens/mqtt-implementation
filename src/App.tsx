@@ -7,6 +7,7 @@ import Button from "./components/atoms/Button/Button";
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
+import ModalDialog from "./components/molecules/ModalDialog/ModalDialog";
 
 
 const App = () => {
@@ -48,7 +49,8 @@ const App = () => {
         <Header pages={['page1', 'page2']} />
         <div className="components">
           {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
-          <DynamicRenderComponents theme={currentTheme} config={configData} />
+          {/* <DynamicRenderComponents theme={currentTheme} config={configData} /> */}
+          <ModalDialog isOpen={true}><p>Hello there.</p></ModalDialog>
         </div>
       </div>
     </div>

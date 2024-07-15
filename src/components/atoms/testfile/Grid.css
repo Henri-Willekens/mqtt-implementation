@@ -1,0 +1,17 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    /* gap: 5px; */
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;
+    position: relative;
+  }
+  
+  .grid-square {
+    border: 1px solid #ddd;
+    width: 100px;
+    height: 100px;
+  }
+  

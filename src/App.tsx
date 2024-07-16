@@ -7,11 +7,15 @@ import Button from "./components/atoms/Button/Button";
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
+import ConfirmationModal from "./components/molecules/ConfirmationModal/ConfirmationModal";
+import FormModal from "./components/molecules/FormModal/FormModal";
 
 
 const App = () => {
   const [configData, setConfigData] = useState<Config | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string>('day');
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
 
   const switchTheme = () => {
@@ -41,6 +45,26 @@ const App = () => {
     );
   };
 
+
+  const openConfirmationModal = () => {
+    setIsConfirmationModalOpen(true);
+  };
+
+
+  const openFormModal = () => {
+    setIsFormModalOpen(true);
+  };
+
+
+  const closeConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
+  }
+
+
+  const closeForModal = () => {
+    setIsFormModalOpen(false);
+  }
+
   
   return(
     <div className={`compass__${currentTheme}`}>
@@ -48,7 +72,11 @@ const App = () => {
         <Header pages={['page1', 'page2']} />
         <div className="components">
           <Button onClick={switchTheme} text={`Wisselen van theme`} />
+          <Button onClick={openConfirmationModal} text={`Open confirmationModal`} />
+          <Button onClick={openFormModal} text={`Open formModal`} />
           <DynamicRenderComponents theme={currentTheme} config={configData} />
+          <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save the changes" cancelText="Drop the changes"/>
+          <FormModal isOpen={isFormModalOpen} onClose={closeForModal} />
         </div>
       </div>
     </div>

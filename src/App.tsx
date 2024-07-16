@@ -13,16 +13,6 @@ import ModalDialog from "./components/molecules/ModalDialog/ModalDialog";
 const App = () => {
   const [configData, setConfigData] = useState<Config | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string>('day');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
 
   const switchTheme = () => {
@@ -58,12 +48,8 @@ const App = () => {
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">
-          {/* <Button onClick={switchTheme} text={`Wisselen van theme`} />
-          <DynamicRenderComponents theme={currentTheme} config={configData} /> */}
-          <button onClick={openModal}>Open modal</button>
-          <ModalDialog isOpen={isModalOpen} onClose={closeModal}>
-            <h1>Hi I am a modal.</h1>
-          </ModalDialog>
+          <Button onClick={switchTheme} text={`Wisselen van theme`} />
+          <DynamicRenderComponents theme={currentTheme} config={configData} />
         </div>
       </div>
     </div>

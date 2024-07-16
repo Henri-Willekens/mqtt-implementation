@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import "./ModalDialog.scss";
 import ModalDialogProps from "./ModalDialog.types";
 
-const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) => {
+const ModalDialog: React.FC<ModalDialogProps> = ({ modalTitle, isOpen, onClose, children }) => {
   const _dialogRef = useRef<HTMLDialogElement>(null);
 
   
@@ -25,10 +25,12 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) 
 
 
   return(
-    <dialog ref={_dialogRef} onClose={handleClose}>
-      <div>
+    <dialog ref={_dialogRef} onClose={handleClose} className="modal">
+      <div className="modal__header">
+        <p>{modalTitle}</p>
+      </div>
+      <div className="modal__content">
         {children}
-        <button onClick={handleClose}>Close</button>
       </div>
     </dialog>
   );

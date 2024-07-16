@@ -1,8 +1,34 @@
-dialog {
+@import "../../../styles/colorVariables";
+
+.modal {
+  width: 900px;
+
   border: none;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+
+  background-color: $background-body;
+  color: $neutral-soft-white;
+
+  padding: 0;
+
+  &__header {
+    background-color: #353548;
+        
+    border-radius: 8px 8px 0 0;
+    
+    display: flex;
+    justify-content: center;
+    
+    padding: 10px;
+
+    & > p {
+      margin: 0;
+    }
+  }
+
+  &__content {
+    padding: 10px 20px;
+  }
 }
 
 dialog::backdrop {

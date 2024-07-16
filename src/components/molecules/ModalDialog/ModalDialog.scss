@@ -1,7 +1,8 @@
 @import "../../../styles/colorVariables";
 
 .modal {
-  width: 900px;
+  max-width: 900px;
+  width: fit-content;
 
   border: none;
   border-radius: 10px;
@@ -27,7 +28,7 @@
   }
 
   &__content {
-    padding: 10px 20px;
+    padding: 20px;
   }
 }
 

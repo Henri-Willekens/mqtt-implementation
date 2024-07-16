@@ -35,6 +35,12 @@
     align-items: center;
 
     height: 50px;
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: $new-button-on-hover;
+    }
   }
 
   &__mode-active {

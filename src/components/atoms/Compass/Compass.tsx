@@ -4,78 +4,82 @@ import CompassProps from './Compass.types';
 import './Compass.scss';
 
 const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees}) => {
-  const [currentHeading, setCurrentHeading] = useState(0);
-  const [windspeed, setWindspeed] = useState('13');
-  const [correctData, setData] = useState('incomplete');
+  const [_currentHeading, setCurrentHeading] = useState(0);
+  const [_windspeed, setWindspeed] = useState('13');
+  const [_correctData, setData] = useState('incomplete');
 
-  const update = (elementToSelect: string, updatedValue: number) => {
-    let element = document.getElementById(elementToSelect);
-    element?.setAttribute("transform", `rotate(${updatedValue}, 200, 200)`)
+
+  const update = (_elementToSelect: string, _updatedValue: number) => {
+    let _element = document.getElementById(_elementToSelect);
+    _element?.setAttribute("transform", `rotate(${_updatedValue}, 200, 200)`)
   };
 
-  const generateWindRoseLines = (stepsOfDegrees: number, radius: number, centerX: number, centerY: number) => {
-    const lines = [];
 
-    for (let i = 0; i*stepsOfDegrees < 360; i++) {
-      const angle = stepsOfDegrees * i;
-      const radian = (angle * Math.PI) / 180;
+  const generateWindRoseLines = (_radius: number, _centerX: number, _centerY: number) => {
+    const _lines = [];
 
-      const x1 = centerX + (radius - 5) * Math.sin(radian);
-      const y1 = centerY - (radius - 5) * Math.cos(radian);
-      const x2 = centerX + (radius + 5) * Math.sin(radian);
-      const y2 = centerY - (radius + 5) * Math.cos(radian);
+    for (let i = 0; i * stepsOfDegrees < 360; i++) {
+      const _angle = stepsOfDegrees * i;
+      const _radian = (_angle * Math.PI) / 180;
 
-      const textX = centerX + (radius + 25) * Math.sin(radian);
-      const textY = centerY - (radius + 25) * Math.cos(radian);
+      const _x1 = _centerX + (_radius - 5) * Math.sin(_radian);
+      const _y1 = _centerY - (_radius - 5) * Math.cos(_radian);
+      const _x2 = _centerX + (_radius + 5) * Math.sin(_radian);
+      const _y2 = _centerY - (_radius + 5) * Math.cos(_radian);
 
-      lines.push(
+      const _textX = _centerX + (_radius + 25) * Math.sin(_radian);
+      const _textY = _centerY - (_radius + 25) * Math.cos(_radian);
+
+      _lines.push(
         <g key={i}>
           <line
             className={`compass-windrose-line compass-windrose-line__${theme}`}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
+            x1={_x1}
+            y1={_y1}
+            x2={_x2}
+            y2={_y2}
           />
           <text
             className={`compass-windrose-text compass-windrose-text__${theme}`}
-            x={textX}
-            y={textY}
+            x={_textX}
+            y={_textY}
             textAnchor="middle"
             dominantBaseline="middle"
           >
-            {angle}
+            {_angle}
           </text>
         </g>
       );
     }
 
-    return lines;
+    return _lines;
   };
+
 
   useEffect(() => {
     update('wind-speed', 320);
     update('current', 243);
 
-    const interval = setInterval(() => {
-      setCurrentHeading(prevHeading => (prevHeading + 5));
+    const _interval = setInterval(() => {
+      setCurrentHeading(_prevHeading => (_prevHeading + 5));
     }, 500)
 
-    return () => clearInterval(interval);
+    return () => clearInterval(_interval);
   }, []);
 
+
   useEffect(() => {
-    if(correctData == 'incomplete'){
+    if(_correctData == 'incomplete'){
       setTimeout(() => {
         setData("correct");
       }, 5000);
       console.log('There is data missing, please check the data source.');
     } else {
-    
-    update('hdg', currentHeading);
-    update('cog', currentHeading + 20);
-    }
-  }, [currentHeading]);
+      update('hdg', _currentHeading);
+      update('cog', _currentHeading + 20);
+    };
+  }, [_currentHeading]);
+
 
   return (
     <div className="">
@@ -98,7 +102,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
         </g>
 
         <g id='wind-speed'>
-          <image href={`./icons/wind/windspeed-${windspeed}.svg`} x="188" y="0" />
+          <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x="188" y="0" />
         </g>
 
         <g id='current'>
@@ -109,11 +113,11 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
         </g>
 
         <g className="compass-windrose-lines" fontSize="12">
-          {generateWindRoseLines(stepsOfDegrees, 150, 200, 200)}
+          {generateWindRoseLines(150, 200, 200)}
         </g>
       </svg>
       <div className={`compass-source compass-source__${theme}`}>
-        <p>{source}</p>
+        <p>{ source }</p>
       </div>
     </div>
   );

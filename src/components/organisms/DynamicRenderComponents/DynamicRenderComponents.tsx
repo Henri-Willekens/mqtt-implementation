@@ -4,7 +4,7 @@ import componentMap from "../../index";
 import { ComponentConfig } from "../../../configuration/types";
 
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme }) => {
-  return(
+  return (
     <>
       {config.components.map((componentConfig: ComponentConfig, index: number) => {
         const { type, props } = componentConfig;

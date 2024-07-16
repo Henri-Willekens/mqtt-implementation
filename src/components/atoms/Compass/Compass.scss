@@ -10,6 +10,7 @@
     background-color: $nightfilter;
     opacity: 30%;
   }
+
   &-windrose {
     fill: none;
     stroke-width: 20;
@@ -71,8 +72,9 @@
       stroke: $night-mode-headingline;
     }
   }
+
   &-cog {
-    & > line {
+    &>line {
       stroke-dasharray: 15;
       stroke-width: 3;
     }
@@ -82,7 +84,7 @@
       stroke: $neutral-soft-white;
     }
 
-    &__night { 
+    &__night {
       fill: $night-mode-headingline;
       stroke: $night-mode-headingline;
     }
@@ -98,7 +100,7 @@
     &__day {
       background-color: $button-background;
 
-      & > p {
+      &>p {
         color: $neutral-soft-white;
       }
     }
@@ -106,7 +108,7 @@
     &__night {
       background-color: $night-mode-background-src;
 
-      & > p {
+      &>p {
         color: $night-mode-labels;
       }
     }

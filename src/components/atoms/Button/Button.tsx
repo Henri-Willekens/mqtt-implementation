@@ -2,10 +2,10 @@ import "./Button.scss";
 import ButtonProps from './Button.types';
 
 
-const Button: React.FC<ButtonProps> = ({onclick, text}) => {
+const Button: React.FC<ButtonProps> = ({onClick, text}) => {
     return(
-        <div onClick={onclick} className="button">
-            <p>{text}</p>
+        <div onClick={onClick} className="button">
+            <p className="button__label">{text}</p>
         </div>
     );
 }

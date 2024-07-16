@@ -12,7 +12,7 @@
       "type": "BarMeter",
       "props": {
         "xPos": "500px",
-        "yPos": "40px",
+        "yPos": "500px",
         "label": "Motor 1 temperature",
         "id": "motor-1-temperature",
         "maxValue": 900,
@@ -36,7 +36,7 @@
       "type": "BarMeter",
       "props": {
         "xPos": "700px",
-        "yPos": "40px",
+        "yPos": "500px",
         "label": "Motor 2 temperature",
         "id": "motor-2-temperature",
         "maxValue": 900,

@@ -51,18 +51,8 @@ const App = () => {
   };
 
 
-  const openFormModal = () => {
-    setIsFormModalOpen(true);
-  };
-
-
   const closeConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
-  }
-
-
-  const closeForModal = () => {
-    setIsFormModalOpen(false);
   }
 
   
@@ -73,10 +63,8 @@ const App = () => {
         <div className="components">
           <Button onClick={switchTheme} text={`Wisselen van theme`} />
           <Button onClick={openConfirmationModal} text={`Open confirmationModal`} />
-          <Button onClick={openFormModal} text={`Open formModal`} />
           <DynamicRenderComponents theme={currentTheme} config={configData} />
           <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save all changes" cancelText="Drop all changes"/>
-          <FormModal isOpen={isFormModalOpen} onClose={closeForModal} cancelText="Cancel changes" submitText="Save changes"/>
         </div>
       </div>
     </div>

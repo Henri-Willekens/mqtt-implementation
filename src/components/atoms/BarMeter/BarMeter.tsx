@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
+import FormModal from "../../molecules/FormModal/FormModal";
+import Input from "../Input/Input";
 
 const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
   const [_currentValue, setCurrentValue] = useState(0);
+  const [_isModalOpen, setIsModalOpen] = useState(false);
 
 
   const updateBarMeter = (_value: number) => {
@@ -59,6 +62,16 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, lab
   };
 
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   useEffect(() => {
       let _element = document.querySelector(`.barmeter.${id}`) as HTMLElement;
       _element.style.left = xPos;
@@ -78,24 +91,33 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, lab
 
   
   return (
-    <div className={`barmeter ${id}`}>
-      <p>{label}</p>
-      <svg width="150" height="350">
-        <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
+    <>
+      <div onClick={openModal} className={`barmeter ${id}`}>
+        <p>{label}</p>
+        <svg width="150" height="350">
+          <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
 
-        <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
+          <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
 
-        <g className="barmeter-alertlines">
-          {determineAlertLinesLocation()}
-        </g>
+          <g className="barmeter-alertlines">
+            {determineAlertLinesLocation()}
+          </g>
 
-        <g className="barmeter-ticklines">
-          {generateTackLines()}
-        </g>
+          <g className="barmeter-ticklines">
+            {generateTackLines()}
+          </g>
 
-        <text className="barmeter-unit" x="25" y="325">{unit}</text>
-      </svg>
-    </div>
+          <text className="barmeter-unit" x="25" y="325">{unit}</text>
+        </svg>
+      </div>
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
+        <Input type="text" label="ID" value={id} />
+        <Input type="text" label="label" value={label} />
+        <Input type="text" label="unit" value={unit} />
+        <Input type="number" label="Max value" value={maxValue} />
+        <Input type="number" label="Number of tick lines" value={numberOfTickLines} />
+      </FormModal>
+    </>
   );
 };
 

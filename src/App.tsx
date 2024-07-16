@@ -7,7 +7,6 @@ import Button from "./components/atoms/Button/Button";
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
-import ModalDialog from "./components/molecules/ModalDialog/ModalDialog";
 
 
 const App = () => {

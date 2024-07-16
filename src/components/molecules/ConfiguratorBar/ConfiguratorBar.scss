@@ -1,0 +1,39 @@
+@import "../../../styles/colorVariables";
+
+.configurator-bar {
+  grid-row: 3 / span 1;
+  
+  &__background {
+    height: 50%;
+    
+    background-color: $neutral-soft-white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__action-buttons {
+    display: flex;
+    align-self: flex-end;
+  }
+
+  &__action {
+    background-color: $new-button-background;
+    color: $neutral-soft-white;
+
+    border-radius: 4px 4px 0 0;
+
+    margin: 0 10px;
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+
+    height: 50px;
+  }
+
+  &__mode-active {
+    margin: 0 10px;
+  }
+}

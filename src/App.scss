@@ -21,6 +21,10 @@ html {
   grid-template-rows: 50px 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+
+  &-config-mode {
+    grid-template-rows: 50px 1fr 50px;
+  }
 }
 
 .components {

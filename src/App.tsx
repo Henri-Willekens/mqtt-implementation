@@ -7,24 +7,34 @@ import Button from "./components/atoms/Button/Button";
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
+import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 
 
 const App = () => {
-  const [configData, setConfigData] = useState<Config | null>(null);
-  const [currentTheme, setCurrentTheme] = useState<string>('day');
+  const [_configData, setConfigData] = useState<Config | null>(null);
+  const [_currentTheme, setCurrentTheme] = useState<string>('day');
+  const [_configModeEnabled, setConfigModeEnabled] = useState(false);
 
 
   const switchTheme = () => {
-    if (currentTheme == "day") {
+    if (_currentTheme == "day") {
       setCurrentTheme("night");
     } else {
       setCurrentTheme("day")
     }
-  }
+  };
+
+
+  const switchConfigMode = () => {
+    if (_configModeEnabled) {
+      setConfigModeEnabled(false);
+    } else {
+      setConfigModeEnabled(true);
+    }
+  };
 
 
   useEffect(() => {
-    console.log(config.components.length)
     if (config.components.length !== 0) {
       setConfigData(config as Config);
     } else {
@@ -33,7 +43,7 @@ const App = () => {
   }, []);
 
 
-  if (!configData) {
+  if (!_configData) {
     return (
       <div className="loading">
         <p>Loading...</p>
@@ -43,13 +53,15 @@ const App = () => {
 
   
   return(
-    <div className={`compass__${currentTheme}`}>
-      <div className="main">
+    <div className={`compass__${_currentTheme}`}>
+      <div className="main main-config-mode">
         <Header pages={['page1', 'page2']} />
         <div className="components">
           <Button onClick={switchTheme} text={`Wisselen van theme`} />
-          <DynamicRenderComponents theme={currentTheme} config={configData} />
+          <Button onClick={switchConfigMode} text={`Config mode`} />
+          <DynamicRenderComponents theme={_currentTheme} config={_configData} />
         </div>
+        {_configModeEnabled && <ConfiguratorBar />}
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const App = () => {
 
 
   const switchTheme = () => {
-    if (currentTheme == "day") {
+    if (currentTheme === "day") {
       setCurrentTheme("night");
     } else {
       setCurrentTheme("day")
@@ -75,8 +75,8 @@ const App = () => {
           <Button onClick={openConfirmationModal} text={`Open confirmationModal`} />
           <Button onClick={openFormModal} text={`Open formModal`} />
           <DynamicRenderComponents theme={currentTheme} config={configData} />
-          <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save the changes" cancelText="Drop the changes"/>
-          <FormModal isOpen={isFormModalOpen} onClose={closeForModal} />
+          <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save all changes" cancelText="Drop all changes"/>
+          <FormModal isOpen={isFormModalOpen} onClose={closeForModal} cancelText="Cancel changes" submitText="Save changes"/>
         </div>
       </div>
     </div>

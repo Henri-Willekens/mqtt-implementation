@@ -4,45 +4,31 @@ import "./ModalDialog.scss";
 import ModalDialogProps from "./ModalDialog.types";
 
 const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) => {
-  const [_isModalOpen, setModalOpen] = useState(isOpen);
-  const _modalRef = useRef<HTMLDialogElement | null>(null);
+  const _dialogRef = useRef<HTMLDialogElement>(null);
 
-
-  const handleCloseModal = () => {
-    if (onClose) {
-      onClose();
-    }
-    setModalOpen(false);
-  };
-
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDialogElement>) => {
-    if (event.key == "Escape") {
-      handleCloseModal();
-    };
-  };
+  
+  const handleClose = () => {
+    onClose();
+  }
 
 
   useEffect(() => {
-    const _modalElement = _modalRef.current;
-    console.log(_modalElement)
-
-    if (_modalElement) {
-      if (_isModalOpen) {
-        _modalElement.showModal();
+    const dialog = _dialogRef.current;
+    if (dialog) {
+      if (isOpen) {
+        dialog.showModal();
       } else {
-        _modalElement.close();
+        dialog.close();
       };
     };
-
-    setModalOpen(isOpen);
   }, [isOpen]);
 
-
-  return (
-    <dialog open={isOpen} className="modal-dialog" onKeyDown={handleKeyDown}>
-      <div onClick={handleCloseModal}>X</div>
-      {children}
+  return(
+    <dialog ref={_dialogRef} onClose={handleClose}>
+      <div>
+        {children}
+        <button onClick={handleClose}>Close</button>
+      </div>
     </dialog>
   );
 };

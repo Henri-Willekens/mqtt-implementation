@@ -9,6 +9,13 @@
       }
     },
     {
+      "type": "Rudder",
+      "props": {
+        "totalRudderAngle": 270,
+        "elementRadius": 100
+      }
+    },
+    {
       "type": "BarMeter",
       "props": {
         "xPos": "500px",

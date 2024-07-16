@@ -1,8 +1,15 @@
+import { useEffect, useState } from "react";
+
+import FormModal from "../../molecules/FormModal/FormModal";
+import Input from "../Input/Input";
+
 import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
-import { useEffect } from "react";
 
 const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
+  const [_isModalOpen, setIsModalOpen] = useState(false);
+
+
   const determineRudderAngle = () => {
     const _width = elementRadius * 2;
     const _height = elementRadius * 2;
@@ -41,14 +48,31 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
     rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
   };
 
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   useEffect(() => {
     updateRudderPosition(-35)
   }, [])
 
   return (
-    <div className="rudder">
-      {determineRudderAngle()}
-    </div>
+    <>
+      <div onClick={openModal} className="rudder">
+        {determineRudderAngle()}
+      </div>
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
+        <Input type="number" label="Total rudder angle" value={totalRudderAngle} />
+        <Input type="number" label="Element radius" value={elementRadius} />
+      </FormModal>
+    </>
   );
 };
 

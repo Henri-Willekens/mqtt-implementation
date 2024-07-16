@@ -5,9 +5,12 @@
   align-items: flex-end;
 
   grid-row: 3 / span 1;
+
+  position: relative;
+  z-index: 100000;
   
   &__background {
-    height: 50%;
+    height: 100%;
     width: 100%;
     
     background-color: $neutral-soft-white;

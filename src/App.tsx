@@ -53,7 +53,7 @@ const App = () => {
 
   
   return(
-    <div className={`compass__${_currentTheme}`}>
+    <div className={`filter filter__${_currentTheme}`}>
       <div className="main main-config-mode">
         <Header pages={['page1', 'page2']} />
         <div className="components">

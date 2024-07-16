@@ -25,6 +25,7 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) 
 
   useEffect(() => {
     const _modalElement = _modalRef.current;
+    console.log(_modalElement)
 
     if (_modalElement) {
       if (_isModalOpen) {
@@ -39,7 +40,7 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) 
 
 
   return (
-    <dialog ref={_modalRef} className="modal-dialog" onKeyDown={handleKeyDown}>
+    <dialog open={isOpen} className="modal-dialog" onKeyDown={handleKeyDown}>
       <div onClick={handleCloseModal}>X</div>
       {children}
     </dialog>

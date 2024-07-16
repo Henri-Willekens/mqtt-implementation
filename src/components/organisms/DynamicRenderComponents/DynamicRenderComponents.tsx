@@ -2,8 +2,9 @@ import DynamicRenderComponentsProps from "./DynamicRenderComponents.types";
 
 import componentMap from "../../index";
 import { ComponentConfig } from "../../../configuration/types";
+import Draggable from "../../atoms/Draggable/Draggable";
 
-const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme }) => {
+const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme, configMode, gridEnabled }) => {
   return(
     <>
       {config.components.map((componentConfig: ComponentConfig, index: number) => {
@@ -11,7 +12,12 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ confi
         const Component = componentMap[type];
         const componentProps = { theme, ...props }
 
-        return <Component key={index} {...componentProps} />
+        return (
+        <Draggable configMode={configMode} gridEnabled={gridEnabled}>
+          <Component key={index} {...componentProps} />
+        </Draggable>
+      
+        )
       })}
     </>
   );

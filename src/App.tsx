@@ -42,7 +42,7 @@ const App = () => {
          <button onClick={() => setGridExists(!GridExists)}>Toggle grid</button>
          <button onClick={() => setConfigMode(!configMode)}>Toggle config mode</button>
           {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
-          <DynamicRenderComponents theme={currentTheme} config={configData} />
+          <DynamicRenderComponents theme={currentTheme} config={configData} configMode={configMode} gridEnabled={GridExists} />
         </div>
       </div>
     </div>

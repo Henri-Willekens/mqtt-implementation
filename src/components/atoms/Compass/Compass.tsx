@@ -79,7 +79,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
   }, [currentHeading]);
 
   return (
-    <Draggable gridEnabled={true} configMode={true}>
+    <div>
       <svg width="400" height="400">
         <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
 
@@ -116,7 +116,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
       <div className={`compass-source compass-source__${theme}`}>
         <p>{source}</p>
       </div>
-    </Draggable>
+    </div>
   );
 };
 

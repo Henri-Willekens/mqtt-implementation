@@ -3,14 +3,14 @@
 .draggable {
     width: 100px;
     height: 100px;
-    position: absolute;
+    position: fixed;
     cursor: move;
   }
 
   .non-draggable {
     width: 100px;
     height: 100px;
-    position: absolute;
+    position: fixed;
     cursor: default;
   }
   

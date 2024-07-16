@@ -13,15 +13,16 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ isOpen, onClose, children }) 
 
 
   useEffect(() => {
-    const dialog = _dialogRef.current;
-    if (dialog) {
+    const _dialog = _dialogRef.current;
+    if (_dialog) {
       if (isOpen) {
-        dialog.showModal();
+        _dialog.showModal();
       } else {
-        dialog.close();
+        _dialog.close();
       };
     };
   }, [isOpen]);
+
 
   return(
     <dialog ref={_dialogRef} onClose={handleClose}>

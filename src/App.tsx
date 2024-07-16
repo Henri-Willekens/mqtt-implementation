@@ -47,7 +47,7 @@ const App = () => {
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">
-          <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} />
+          <Button onClick={switchTheme} text={`Wisselen van theme`} />
           <DynamicRenderComponents theme={currentTheme} config={configData} />
         </div>
       </div>

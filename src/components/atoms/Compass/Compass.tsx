@@ -7,7 +7,8 @@ import Input from "../Input/Input";
 
 const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees, configEnabled}) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
-  const [_windspeed, setWindspeed] = useState('13');
+  const [_windspeed, setWindspeed] = useState('5');
+  const [_current, setCurrent] = useState('2');
   const [_correctData, setData] = useState('incomplete');
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
@@ -139,8 +140,8 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
           <g id='current'>
             {waveArrowOutside 
-              ? <image href="./icons/current/outside/current-1.svg" x="188" y="0" fill="red" />
-              : <image href="./icons/current/inside/current-1.svg" x="188" y="70" />
+              ? <image href={`./icons/current/outside/current-${_current}.svg`} x="188" y="0" fill="red" />
+              : <image href={`./icons/current/inside/current-${_current}.svg`} x="188" y="70" />
             }
           </g>
 

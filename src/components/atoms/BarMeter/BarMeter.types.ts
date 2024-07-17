@@ -1,6 +1,4 @@
 export default interface BarMeterProps {
-  xPos: string,
-  yPos: string,
   maxValue: number,
   unit: string,
   id: string,

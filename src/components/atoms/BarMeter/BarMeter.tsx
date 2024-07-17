@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 
-const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
   const [_currentValue, setCurrentValue] = useState(0);
 
 
@@ -60,10 +60,6 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, lab
 
 
   useEffect(() => {
-      let _element = document.querySelector(`.barmeter.${id}`) as HTMLElement;
-      _element.style.left = xPos;
-      _element.style.top = yPos;
-
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
     }, 1000)

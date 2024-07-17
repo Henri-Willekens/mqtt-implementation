@@ -5,7 +5,7 @@ import './BarMeter.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
@@ -70,7 +70,9 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const openModal = () => {
-    setIsModalOpen(true);
+    if (configEnabled) {
+      setIsModalOpen(true);
+    };
   };
 
 
@@ -106,7 +108,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   
   return (
     <>
-      <div onClick={openModal} className={`barmeter ${id}`}>
+      <div onDoubleClick={openModal} className={`barmeter ${id}`}>
         <p>{label}</p>
         <svg width="150" height="350">
           <rect className="barmeter-background" width="50" height="300" x="2" y="2" />

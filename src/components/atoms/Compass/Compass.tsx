@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import CompassProps from './Compass.types';
 import './Compass.scss';
+import Draggable from "../Draggable/Draggable";
 
 const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees}) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
@@ -82,7 +83,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
 
   return (
-    <div className="">
+    <div>
       <svg width="400" height="400">
         <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
 

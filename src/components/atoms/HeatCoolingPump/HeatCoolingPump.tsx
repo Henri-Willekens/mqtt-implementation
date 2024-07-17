@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import HeatCoolingProps from './HeatCoolingPump.types';
 import "./HeatCoolingPump.scss";
 
-const HeatCooling: React.FC<HeatCoolingProps> = ({ id, xPos, yPos }) => {
+const HeatCooling: React.FC<HeatCoolingProps> = ({ id }) => {
   const [_internalInterval, setInternalInterval] = useState<any>();
   const [_currentRotation, setCurrentRotation] = useState(0);
   const [_isEnabled, setIsEnabled] = useState(false);
@@ -29,14 +29,6 @@ const HeatCooling: React.FC<HeatCoolingProps> = ({ id, xPos, yPos }) => {
       setIsEnabled(true);
     }
   };
-
-
-  useEffect(() => {
-    // Determine location of element
-    const _element = document.querySelector(`.${id}`) as HTMLElement;
-    _element.style.top = yPos;
-    _element.style.left = xPos;
-  }, [xPos, yPos]);
 
 
   useEffect(() => {

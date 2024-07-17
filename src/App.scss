@@ -1,13 +1,19 @@
 @import "./styles/colorVariables";
 
+html {
+  background-color: $background-body;
+}
+
 html, body {
   margin: 0;
   height: 100%;
   background-color: $background-body;
 }
+
 .screen {
   height: 100%;
 }
+
 .app {
   width: 100%;
   height: 100%;
@@ -32,14 +38,23 @@ html, body {
   grid-row: 2 / span 1;
 
   position: relative;
-
   display: flex;
   flex-direction: row;
 }
 
-.compass{
+
+.compass {
   &__night {
     background-color: $nightfilter;
     opacity: 30%;
   }
+}
+
+.loading {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: $neutral-soft-white;
 }

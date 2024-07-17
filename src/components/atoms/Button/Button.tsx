@@ -1,14 +1,12 @@
-import "./Button.scss";
 import ButtonProps from './Button.types';
+import "./Button.scss";
 
-
-const Button: React.FC<ButtonProps> = ({onclick, text}) => {
-    
-    return(
-        <div onClick={onclick} className="button">
-            <p>{text}</p>
-        </div>
-    );
+const Button: React.FC<ButtonProps> = ({ onClick, text }) => {
+  return (
+    <div onClick={onClick} className="button">
+      <p className="button__label">{text}</p>
+    </div>
+  );
 }
 
 export default Button;

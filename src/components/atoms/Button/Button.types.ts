@@ -1,4 +1,4 @@
 export default interface ButtonProps {
-    onclick: any,
-    text: string
+  onClick: any,
+  text: string
 }

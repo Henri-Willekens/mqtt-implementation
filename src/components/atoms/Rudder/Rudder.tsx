@@ -3,53 +3,53 @@ import "./Rudder.scss";
 import { useEffect } from "react";
 
 const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
-    const determineRudderAngle = (totalAngle: number, radius: number) => {
-        const width = radius * 2;
-        const height = radius * 2;
-        const centerX = radius;
-        const centerY = radius;
+  const determineRudderAngle = () => {
+    const _width = elementRadius * 2;
+    const _height = elementRadius * 2;
+    const _centerX = elementRadius;
+    const _centerY = elementRadius;
 
-        // 
-        const angle = totalAngle / 2;
-        
-        // Calculate the endpoint of the arc for port side
-        const portAngle = angle * Math.PI / 180;
-        const portX = centerX + radius * Math.sin(portAngle);
-        const portY = centerY - radius * Math.cos(portAngle);
+    // Determine half of the angle, so one half can be colored green, and the other red
+    const angle = totalRudderAngle / 2;
 
-        // Calculate the endpoint of the arc for starboard side
-        const starboardAngle = -angle * Math.PI / 180;
-        const starboardX = centerX + radius * Math.sin(starboardAngle);
-        const starboardY = centerY - radius * Math.cos(starboardAngle);
+    // Calculate the endpoint of the arc for port side
+    const _portAngle = angle * Math.PI / 180;
+    const _portX = _centerX + elementRadius * Math.sin(_portAngle);
+    const _portY = _centerY - elementRadius * Math.cos(_portAngle);
 
-        return(
-            <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-                <g>
-                    <path className="rudder-port" d={`M${centerX},${centerY} L${centerX},${centerY - radius} A${radius},${radius} 0 0,1 ${portX},${portY} Z`} />
-                    <path className="rudder-starboard" d={`M${centerX},${centerY} L${centerX},${centerY - radius} A${radius},${radius} 0 0,0 ${starboardX},${starboardY} Z`} />
-                </g>
-                <g id="rudder-pointer" className="rudder-pointer">
-                    <polygon points={`${radius},0 ${radius - 5},10 ${radius + 5},10`} />
-                    <line x1={centerX} y1={centerY} x2={centerX} y2={centerY - radius + 2} />
-                </g>
-            </svg>
-        )
-    };
+    // Calculate the endpoint of the arc for starboard side
+    const _starboardAngle = -angle * Math.PI / 180;
+    const _starboardX = _centerX + elementRadius * Math.sin(_starboardAngle);
+    const _starboardY = _centerY - elementRadius * Math.cos(_starboardAngle);
 
-    const updateRudderPosition = (updatedAngle: number) => {
-        const rudderPointer = document.getElementById("rudder-pointer");
-        rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
-    };
+    return (
+      <svg width={_width} height={_height} viewBox={`0 0 ${_width} ${_height}`}>
+        <g>
+          <path className="rudder-port" d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,1 ${_portX},${_portY} Z`} />
+          <path className="rudder-starboard" d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,0 ${_starboardX},${_starboardY} Z`} />
+        </g>
+        <g id="rudder-pointer" className="rudder-pointer">
+          <polygon points={`${elementRadius},0 ${elementRadius - 5},10 ${elementRadius + 5},10`} />
+          <line x1={_centerX} y1={_centerY} x2={_centerX} y2={_centerY - elementRadius + 2} />
+        </g>
+      </svg>
+    )
+  };
 
-    useEffect(() => {
-        updateRudderPosition(-35)
-    }, [])
+  const updateRudderPosition = (updatedAngle: number) => {
+    const rudderPointer = document.getElementById("rudder-pointer");
+    rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
+  };
 
-    return(
-        <div className="rudder">
-            {determineRudderAngle(totalRudderAngle, elementRadius)}
-        </div>
-    );
+  useEffect(() => {
+    updateRudderPosition(-35)
+  }, [])
+
+  return (
+    <div className="rudder">
+      {determineRudderAngle()}
+    </div>
+  );
 };
 
 export default Rudder;

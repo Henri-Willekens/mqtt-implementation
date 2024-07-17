@@ -1,12 +1,16 @@
 @import "../../../styles/colorVariables";
 
 .barmeter {
+  position: absolute;
+
   width: 150px;
   height: fit-content;
 
   word-break: break-word;
 
-  margin: 5px;
+  margin: 10px;
+
+  color: $neutral-soft-white;
 
   &-background {
     fill: $output-background;

@@ -8,6 +8,10 @@ import "./Rudder.scss";
 
 const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_formValues, setFormValues] = useState({
+    totalRudderAngle: totalRudderAngle,
+    elementRadius: elementRadius
+  });
 
 
   const determineRudderAngle = () => {
@@ -59,6 +63,17 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
   };
 
 
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
+  };
+
+
   useEffect(() => {
     updateRudderPosition(-35)
   }, [])
@@ -69,8 +84,8 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
         {determineRudderAngle()}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
-        <Input type="number" label="Total rudder angle" value={totalRudderAngle} />
-        <Input type="number" label="Element radius" value={elementRadius} />
+        <Input type="number" label="Total rudder angle" value={_formValues.totalRudderAngle} id="totalRudderAngle" name="totalRudderAngle" onChange={handleFormChange} />
+        <Input type="number" label="Element radius" value={_formValues.elementRadius} id="elementRadius" name="elementRadius" onChange={handleFormChange} />
       </FormModal>
     </>
   );

@@ -8,6 +8,13 @@ import Input from "../Input/Input";
 const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_formValues, setFormValues] = useState({
+    maxValue: maxValue,
+    unit: unit,
+    id: id,
+    label: label,
+    numberOfTickLines: numberOfTickLines
+  });
 
 
   const updateBarMeter = (_value: number) => {
@@ -72,6 +79,17 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, lab
   };
 
 
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
+  };
+
+
   useEffect(() => {
       let _element = document.querySelector(`.barmeter.${id}`) as HTMLElement;
       _element.style.left = xPos;
@@ -111,11 +129,11 @@ const BarMeter: React.FC<BarMeterProps> = ({ xPos, yPos, maxValue, unit, id, lab
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
-        <Input type="text" label="ID" value={id} />
-        <Input type="text" label="label" value={label} />
-        <Input type="text" label="unit" value={unit} />
-        <Input type="number" label="Max value" value={maxValue} />
-        <Input type="number" label="Number of tick lines" value={numberOfTickLines} />
+        <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />
+        <Input type="text" label="label" value={_formValues.label} id="label" name="label" onChange={handleFormChange} />
+        <Input type="text" label="unit" value={_formValues.unit}  id="unit" name="unit" onChange={handleFormChange} />
+        <Input type="number" label="Max value" value={_formValues.maxValue} id="maxValue" name="maxValue" onChange={handleFormChange} />
+        <Input type="number" label="Number of tick lines" value={_formValues.numberOfTickLines} id="numberOfTickLines" name="numberOfTickLines" onChange={handleFormChange} />
       </FormModal>
     </>
   );

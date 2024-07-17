@@ -10,6 +10,11 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
   const [_windspeed, setWindspeed] = useState('13');
   const [_correctData, setData] = useState('incomplete');
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_formValues, setFormValues] = useState({
+    source: source,
+    waveArrowOutside: waveArrowOutside,
+    stepsOfDegrees: stepsOfDegrees
+  });
 
 
   const update = (_elementToSelect: string, _updatedValue: number) => {
@@ -66,6 +71,17 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
   };
 
 
@@ -135,9 +151,9 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
         </div>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
-        <Input type="text" label="Source" value={source} />
-        <Input type="number" label="Steps of degrees" value={stepsOfDegrees} />
-        <Input type="text" label="Wave arrow outside?" value={waveArrowOutside} />
+        <Input type="text" label="Source" value={_formValues.source} id="source" name="source" onChange={handleFormChange} />
+        <Input type="number" label="Steps of degrees" value={_formValues.stepsOfDegrees} id="stepsOfDegrees" name="stepsOfDegrees" onChange={handleFormChange} />
+        <Input type="text" label="Wave arrow outside?" value={_formValues.waveArrowOutside} id="waveArrowOutside" name="waveArrowOutside" onChange={handleFormChange} />
       </FormModal>
     </>
   );

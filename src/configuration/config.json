@@ -18,8 +18,6 @@
     {
       "type": "BarMeter",
       "props": {
-        "xPos": "500px",
-        "yPos": "500px",
         "label": "Motor 1 temperature",
         "id": "motor-1-temperature",
         "maxValue": 900,
@@ -42,8 +40,6 @@
     {
       "type": "BarMeter",
       "props": {
-        "xPos": "700px",
-        "yPos": "500px",
         "label": "Motor 2 temperature",
         "id": "motor-2-temperature",
         "maxValue": 900,
@@ -66,8 +62,6 @@
     {
       "type": "BarMeter",
       "props": {
-        "xPos": "50px",
-        "yPos": "500px",
         "label": "Water tank 1",
         "id": "water-tank-1-filling",
         "maxValue": 20000,
@@ -90,8 +84,7 @@
     {
       "type": "HeatCoolingPump",
       "props": {
-        "xPos": "250px",
-        "yPos": "500px"
+
       }
     }
   ]

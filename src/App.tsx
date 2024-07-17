@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 
-import "./App.scss";
 import Header from "./components/molecules/Header/Header";
 import DynamicRenderComponents from "./components/organisms/DynamicRenderComponents/DynamicRenderComponents";
 import Button from "./components/atoms/Button/Button";
+import { Grid } from './components/atoms/Grid/Grid';
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
+import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 import ConfirmationModal from "./components/molecules/ConfirmationModal/ConfirmationModal";
-import FormModal from "./components/molecules/FormModal/FormModal";
 
+import "./App.scss";
 
 const App = () => {
   const [configData, setConfigData] = useState<Config | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string>('day');
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
 
   const switchTheme = () => {
@@ -24,11 +23,20 @@ const App = () => {
     } else {
       setCurrentTheme("day")
     }
-  }
+  };
+
+
+  const toggleGrid = () => {
+    setGridEnabled(!_gridEnabled);
+  };
+
+
+  const toggleConfigMode = () => {
+    setConfigEnabled(!_configEnabled);
+  };
 
 
   useEffect(() => {
-    console.log(config.components.length)
     if (config.components.length !== 0) {
       setConfigData(config as Config);
     } else {
@@ -37,7 +45,7 @@ const App = () => {
   }, []);
 
 
-  if (!configData) {
+  if (!_configData) {
     return (
       <div className="loading">
         <p>Loading...</p>
@@ -57,18 +65,27 @@ const App = () => {
 
   
   return(
-    <div className={`compass__${currentTheme}`}>
-      <div className="main">
+    <div className={`filter filter__${_currentTheme}`}>
+      <div className={_configEnabled ? "main main-config-mode" : "main"}>
         <Header pages={['page1', 'page2']} />
         <div className="components">
-          <Button onClick={switchTheme} text={`Wisselen van theme`} />
+          <Grid />
+          <div className="ButtonArea">
+            <Button onClick={toggleConfigMode} text={`Config mode is: ${_configEnabled}`} />
+            {_configEnabled && (
+              <Button onClick={toggleGrid} text={`Grid is ${_gridEnabled}`} />
+            )}
+          </div>
+          {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
           <Button onClick={openConfirmationModal} text={`Open confirmationModal`} />
-          <DynamicRenderComponents theme={currentTheme} config={configData} />
+          <DynamicRenderComponents theme={_currentTheme} config={_configData} configMode={_configEnabled} gridEnabled={_gridEnabled} />
           <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save all changes" cancelText="Drop all changes"/>
         </div>
+        {_configEnabled && <ConfiguratorBar />}
       </div>
     </div>
   );
 };
 
 export default App;
+

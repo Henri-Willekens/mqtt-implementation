@@ -37,6 +37,7 @@
 
     &-text {
       text-anchor: middle;
+      user-select: none;
 
       &__day {
         fill: $neutral-soft-white;

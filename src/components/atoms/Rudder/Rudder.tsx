@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
+
+import FormModal from "../../molecules/FormModal/FormModal";
+import Input from "../Input/Input";
+
 import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
-import { useEffect } from "react";
 
-const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
+const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, configEnabled }) => {
+  const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_formValues, setFormValues] = useState({
+    totalRudderAngle: totalRudderAngle,
+    elementRadius: elementRadius
+  });
+
+
   const determineRudderAngle = () => {
     const _width = elementRadius * 2;
     const _height = elementRadius * 2;
@@ -41,14 +52,44 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius }) => {
     rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
   };
 
+
+  const openModal = () => {
+    if (configEnabled) {
+      setIsModalOpen(true);
+    };
+  };
+
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
+  };
+
+
   useEffect(() => {
     updateRudderPosition(-35)
   }, [])
 
   return (
-    <div className="rudder">
-      {determineRudderAngle()}
-    </div>
+    <>
+      <div onDoubleClick={openModal} className="rudder">
+        {determineRudderAngle()}
+      </div>
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
+        <Input type="number" label="Total rudder angle" value={_formValues.totalRudderAngle} id="totalRudderAngle" name="totalRudderAngle" onChange={handleFormChange} />
+        <Input type="number" label="Element radius" value={_formValues.elementRadius} id="elementRadius" name="elementRadius" onChange={handleFormChange} />
+      </FormModal>
+    </>
   );
 };
 

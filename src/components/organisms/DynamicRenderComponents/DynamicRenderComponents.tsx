@@ -14,7 +14,7 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ confi
 
         return (
           <Draggable configMode={configMode} gridEnabled={gridEnabled}>
-            <Component key={index} {...componentProps} />
+            <Component key={index} configEnabled={configMode} {...componentProps} />
           </Draggable>
 
         )

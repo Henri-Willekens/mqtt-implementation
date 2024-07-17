@@ -46,9 +46,8 @@ html, body {
 .components {
   grid-column: 1 / 1;
   grid-row: 2 / span 1;
-
+  
   position: relative;
-  display: flex;
   flex-direction: row;
 }
 

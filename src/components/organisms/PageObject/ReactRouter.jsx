@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Page from './Page';
+import Page from './Page/Page';
 
 const App = () => {
   const [pages, setPages] = React.useState([{ id: 1 }]);

@@ -1,0 +1,37 @@
+@import "../../../styles/colorVariables";
+
+.modal {
+  max-width: 900px;
+  width: fit-content;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: $background-body;
+  color: $neutral-soft-white;
+
+  padding: 0;
+
+  &__header {
+    background-color: #353548;
+        
+    border-radius: 8px 8px 0 0;
+    
+    display: flex;
+    justify-content: center;
+    
+    padding: 10px;
+
+    & > p {
+      margin: 0;
+    }
+  }
+
+  &__content {
+    padding: 20px;
+  }
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}

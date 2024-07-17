@@ -9,6 +9,13 @@
       }
     },
     {
+      "type": "Rudder",
+      "props": {
+        "totalRudderAngle": 270,
+        "elementRadius": 100
+      }
+    },
+    {
       "type": "BarMeter",
       "props": {
         "label": "Motor 1 temperature",

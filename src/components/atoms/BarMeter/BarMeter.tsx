@@ -2,9 +2,19 @@ import React, { useEffect, useState } from "react";
 
 import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
+import FormModal from "../../molecules/FormModal/FormModal";
+import Input from "../Input/Input";
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled }) => {
   const [_currentValue, setCurrentValue] = useState(0);
+  const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_formValues, setFormValues] = useState({
+    maxValue: maxValue,
+    unit: unit,
+    id: id,
+    label: label,
+    numberOfTickLines: numberOfTickLines
+  });
 
 
   const updateBarMeter = (_value: number) => {
@@ -59,6 +69,29 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   };
 
 
+  const openModal = () => {
+    if (configEnabled) {
+      setIsModalOpen(true);
+    };
+  };
+
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
+  };
+
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
@@ -74,24 +107,33 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
   
   return (
-    <div className={`barmeter ${id}`}>
-      <p>{label}</p>
-      <svg width="150" height="350">
-        <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
+    <>
+      <div onDoubleClick={openModal} className={`barmeter ${id}`}>
+        <p>{label}</p>
+        <svg width="150" height="350">
+          <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
 
-        <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
+          <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
 
-        <g className="barmeter-alertlines">
-          {determineAlertLinesLocation()}
-        </g>
+          <g className="barmeter-alertlines">
+            {determineAlertLinesLocation()}
+          </g>
 
-        <g className="barmeter-ticklines">
-          {generateTackLines()}
-        </g>
+          <g className="barmeter-ticklines">
+            {generateTackLines()}
+          </g>
 
-        <text className="barmeter-unit" x="25" y="325">{unit}</text>
-      </svg>
-    </div>
+          <text className="barmeter-unit" x="25" y="325">{unit}</text>
+        </svg>
+      </div>
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
+        <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />
+        <Input type="text" label="label" value={_formValues.label} id="label" name="label" onChange={handleFormChange} />
+        <Input type="text" label="unit" value={_formValues.unit}  id="unit" name="unit" onChange={handleFormChange} />
+        <Input type="number" label="Max value" value={_formValues.maxValue} id="maxValue" name="maxValue" onChange={handleFormChange} />
+        <Input type="number" label="Number of tick lines" value={_formValues.numberOfTickLines} id="numberOfTickLines" name="numberOfTickLines" onChange={handleFormChange} />
+      </FormModal>
+    </>
   );
 };
 

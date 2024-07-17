@@ -1,4 +1,5 @@
 export default interface RudderProps {
   totalRudderAngle: number,
-  elementRadius: number
+  elementRadius: number,
+  configEnabled: boolean
 }

@@ -2,6 +2,9 @@
 
 html {
   background-color: $background-body;
+
+  width: 100%;
+  height: 100%;
 }
 
 html, body {
@@ -31,6 +34,13 @@ html, body {
   grid-template-rows: 50px 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+
+  width: 100%;
+  height: 100%;
+
+  &-config-mode {
+    grid-template-rows: 50px 1fr 25px;
+  }
 }
 
 .components {
@@ -43,7 +53,9 @@ html, body {
 }
 
 
-.compass {
+.filter {
+  height: 100%;
+
   &__night {
     background-color: $nightfilter;
     opacity: 30%;

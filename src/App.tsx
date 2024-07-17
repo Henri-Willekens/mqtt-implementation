@@ -7,31 +7,37 @@ import { Grid } from './components/atoms/Grid/Grid';
 
 import config from "./configuration/config.json";
 import { Config } from './configuration/types';
+import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 
 import "./App.scss";
 
 const App = () => {
-  const [configData, setConfigData] = useState<Config | null>(null);
-  const [currentTheme, setCurrentTheme] = useState<string>('day');
+  const [_configData, setConfigData] = useState<Config | null>(null);
+  const [_currentTheme, setCurrentTheme] = useState<string>('day');
   const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
 
+
   const switchTheme = () => {
-    if (currentTheme == "day") {
+    if (_currentTheme == "day") {
       setCurrentTheme("night");
     } else {
       setCurrentTheme("day")
     }
-  }
+  };
+
+
   const toggleGrid = () => {
-    setConfigEnabled(!_gridEnabled);
-  }
+    setGridEnabled(!_gridEnabled);
+  };
+
+
   const toggleConfigMode = () => {
-    setGridEnabled(!_configEnabled);
-  }
+    setConfigEnabled(!_configEnabled);
+  };
+
 
   useEffect(() => {
-    console.log(config.components.length)
     if (config.components.length !== 0) {
       setConfigData(config as Config);
     } else {
@@ -40,7 +46,7 @@ const App = () => {
   }, []);
 
 
-  if (!configData) {
+  if (!_configData) {
     return (
       <div className="loading">
         <p>Loading...</p>
@@ -50,8 +56,8 @@ const App = () => {
 
   
   return(
-    <div className={`compass__${currentTheme}`}>
-      <div className="main">
+    <div className={`filter filter__${_currentTheme}`}>
+      <div className={_configEnabled ? "main main-config-mode" : "main"}>
         <Header pages={['page1', 'page2']} />
         <div className="components">
           <Grid />
@@ -62,8 +68,9 @@ const App = () => {
             )}
           </div>
           {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
-          <DynamicRenderComponents theme={currentTheme} config={configData} configMode={_configEnabled} gridEnabled={_gridEnabled} />
+          <DynamicRenderComponents theme={_currentTheme} config={_configData} configMode={_configEnabled} gridEnabled={_gridEnabled} />
         </div>
+        {_configEnabled && <ConfiguratorBar />}
       </div>
     </div>
   );

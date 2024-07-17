@@ -24,6 +24,12 @@ const App = () => {
       setCurrentTheme("day")
     }
   }
+  const GridExisting = () => {
+    setGridExists(!GridExists);
+  }
+  const ConfigModeActive = () => {
+    setConfigMode(!configMode);
+  }
 
   useEffect(() => {
     setConfigData(config as Config);
@@ -39,8 +45,12 @@ const App = () => {
         <Header pages={['page1', 'page2']} />
         <div className="components">
           <Grid />
-          <button onClick={() => setGridExists(!GridExists)}>Toggle grid</button>
-          <button onClick={() => setConfigMode(!configMode)}>Toggle config mode</button>
+          <div className="ButtonArea">
+            <Button onclick={ConfigModeActive} text={`Config mode is: ${configMode}`} />
+            {configMode && (
+              <Button onclick={GridExisting} text={`Grid is ${GridExists}`} />
+            )}
+          </div>
           {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
           <DynamicRenderComponents theme={currentTheme} config={configData} configMode={configMode} gridEnabled={GridExists} />
         </div>

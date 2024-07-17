@@ -1,5 +1,5 @@
 export default interface DraggProps {
-    gridEnabled: boolean,
-    configMode: boolean,
-    children: React.ReactNode
-  }
+  gridEnabled: boolean,
+  configMode: boolean,
+  children: React.ReactNode
+}

@@ -1,16 +1,15 @@
 @import "../../../styles/colorVariables";
 
 .draggable {
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    cursor: move;
-  }
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  cursor: move;
+}
 
-  .non-draggable {
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    cursor: default;
-  }
-  
+.non-draggable {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  cursor: default;
+}

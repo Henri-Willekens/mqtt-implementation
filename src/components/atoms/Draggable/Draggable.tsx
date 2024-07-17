@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gridPositions } from '../Grid/Grid';
+import { _gridPositions } from '../Grid/Grid';
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
 
@@ -10,9 +10,9 @@ const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) 
 
   const startDrag = (event: any) => {
     if (configMode) {
-    const rect = event.target.getBoundingClientRect();
-    setOffset({ x: event.clientX - rect.left, y: event.clientY - rect.top });
-    setDragging(true);
+      const rect = event.target.getBoundingClientRect();
+      setOffset({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+      setDragging(true);
     }
   };
 
@@ -30,13 +30,13 @@ const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) 
   };
 
   const snapToGrid = () => {
-    let closestPosition = gridPositions[0];
+    let closestPosition = _gridPositions[0];
     let minDistance = Number.MAX_VALUE;
 
-    gridPositions.forEach((gridPosition) => {
-      const distance = Math.hypot(position.x - gridPosition.x, position.y - gridPosition.y);
+    _gridPositions.forEach((_gridPosition) => {
+      const distance = Math.hypot(position.x - _gridPosition.x, position.y - _gridPosition.y);
       if (distance < minDistance) {
-        closestPosition = gridPosition;
+        closestPosition = _gridPosition;
         minDistance = distance;
       }
     });

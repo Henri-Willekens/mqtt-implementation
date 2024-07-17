@@ -33,14 +33,14 @@ const App = () => {
     return <div>Loading...</div>
   }
 
-  return(
+  return (
     <div className={`compass__${currentTheme}`}>
       <div className="main">
         <Header pages={['page1', 'page2']} />
         <div className="components">
-         <Grid />
-         <button onClick={() => setGridExists(!GridExists)}>Toggle grid</button>
-         <button onClick={() => setConfigMode(!configMode)}>Toggle config mode</button>
+          <Grid />
+          <button onClick={() => setGridExists(!GridExists)}>Toggle grid</button>
+          <button onClick={() => setConfigMode(!configMode)}>Toggle config mode</button>
           {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
           <DynamicRenderComponents theme={currentTheme} config={configData} configMode={configMode} gridEnabled={GridExists} />
         </div>

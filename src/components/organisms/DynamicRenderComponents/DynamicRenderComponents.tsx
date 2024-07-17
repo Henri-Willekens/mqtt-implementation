@@ -5,7 +5,7 @@ import { ComponentConfig } from "../../../configuration/types";
 import Draggable from "../../atoms/Draggable/Draggable";
 
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme, configMode, gridEnabled }) => {
-  return(
+  return (
     <>
       {config.components.map((componentConfig: ComponentConfig, index: number) => {
         const { type, props } = componentConfig;
@@ -13,10 +13,10 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ confi
         const componentProps = { theme, ...props }
 
         return (
-        <Draggable configMode={configMode} gridEnabled={gridEnabled}>
-          <Component key={index} {...componentProps} />
-        </Draggable>
-      
+          <Draggable configMode={configMode} gridEnabled={gridEnabled}>
+            <Component key={index} {...componentProps} />
+          </Draggable>
+
         )
       })}
     </>

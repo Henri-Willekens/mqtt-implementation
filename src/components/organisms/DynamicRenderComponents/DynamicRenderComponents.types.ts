@@ -1,7 +1,7 @@
-import { Config } from "../../../configuration/types";
+import { ComponentConfig } from "../../../configuration/types";
 
 export default interface DynamicRenderComponentsProps {
-  config: Config,
+  config: ComponentConfig[],
   theme: string,
   configMode: boolean,
   gridEnabled: boolean

@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 
 import Header from "./components/molecules/Header/Header";
-import DynamicRenderComponents from "./components/organisms/DynamicRenderComponents/DynamicRenderComponents";
-import Button from "./components/atoms/Button/Button";
-import { Grid } from './components/atoms/Grid/Grid';
-import ConfirmationModal from "./components/molecules/ConfirmationModal/ConfirmationModal";
+import PageManager from "./components/organisms/PageManager/PageManager";
 import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
-import PageManager from "./components/organisms/PageObject/PageManager/PageManager";
 
-import config from "./configuration/config.json";
+
+import config from "./configuration/new-config.json";
 import { Config } from './configuration/types';
 
 import "./App.scss";
@@ -17,8 +14,7 @@ const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
   const [_currentTheme, setCurrentTheme] = useState<string>('day');
   const [_gridEnabled, setGridEnabled] = useState(true);
-  const [_configEnabled, setConfigEnabled] = useState(true);
-  const [_isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [_configEnabled, setConfigEnabled] = useState(false);
 
 
   const switchTheme = () => {
@@ -41,7 +37,7 @@ const App = () => {
 
 
   useEffect(() => {
-    if (config.components.length !== 0) {
+    if (config.pages.length !== 0) {
       setConfigData(config as Config);
     } else {
       // fetch the config from mqtt or somewhere else
@@ -56,16 +52,6 @@ const App = () => {
       </div>
     );
   };
-
-
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(true);
-  };
-
-
-  const closeConfirmationModal = () => {
-    setIsConfirmationModalOpen(false);
-  }
 
   
   return(

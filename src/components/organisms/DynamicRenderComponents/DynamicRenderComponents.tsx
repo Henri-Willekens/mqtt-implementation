@@ -7,7 +7,7 @@ import Draggable from "../../atoms/Draggable/Draggable";
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme, configMode, gridEnabled }) => {
   return (
     <>
-      {config.components.map((componentConfig: ComponentConfig, index: number) => {
+      {config.map((componentConfig: ComponentConfig, index: number) => {
         const { type, props } = componentConfig;
         const Component = componentMap[type];
         const componentProps = { theme, ...props }

@@ -1,28 +1,28 @@
 {
-    "pages": [
+  "pages": [
+    {
+      "title": "Navigation",
+      "id": 1,
+      "components": [
         {
-            "title": "Navigation",
-            "id": 1,
-            "components": [
-                {
-                    "type": "Compass",
-                    "props": {
-                        "source": "magn",
-                        "waveArrowOutside": false,
-                        "stepsOfDegrees": 30
-                    }
-                }
-            ]
-        },
-        {
-            "title": "Engine",
-            "id": 2,
-            "components": [
-                {
-                    "type": "HeatCoolingPump",
-                    "props": {}
-                }
-            ]
+          "type": "Compass",
+          "props": {
+            "source": "magn",
+            "waveArrowOutside": false,
+            "stepsOfDegrees": 30
+          }
         }
-    ]
+      ]
+    },
+    {
+      "title": "Engine",
+      "id": 2,
+      "components": [
+        {
+          "type": "HeatCoolingPump",
+          "props": {}
+        }
+      ]
+    }
+  ]
 }

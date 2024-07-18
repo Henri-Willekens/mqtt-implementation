@@ -15,6 +15,7 @@ const App = () => {
   const [_currentTheme, setCurrentTheme] = useState<string>('day');
   const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
+  const [_activePageId, setActivePageId] = useState(1);
 
 
   const switchTheme = () => {
@@ -33,6 +34,11 @@ const App = () => {
 
   const toggleConfigMode = () => {
     setConfigEnabled(!_configEnabled);
+  };
+
+
+  const navigateToPage = (pageId: number) => {
+    setActivePageId(pageId);
   };
 
 
@@ -57,9 +63,9 @@ const App = () => {
   return(
     <div className={`filter filter__${_currentTheme}`}>
       <div className={_configEnabled ? "main main-config-mode" : "main"}>
-        <Header pages={['page1', 'page2']} />
+        <Header pages={['page1', 'page2']} navigateToPage={navigateToPage} />
         <div className="components">
-          <PageManager config={_configData} />
+          <PageManager config={_configData} activePageId={_activePageId} />
         </div>
         {_configEnabled && <ConfiguratorBar />}
       </div>

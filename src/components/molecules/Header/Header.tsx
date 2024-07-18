@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import HeaderProps from './Header.types';
 import './Header.scss';
 
-const Header: React.FC<HeaderProps> = ({ pages }) => {
+const Header: React.FC<HeaderProps> = ({ pages, navigateToPage }) => {
+  const switchToPage = (id: number) => {
+    navigateToPage(id);
+  };
+
+
   return (
     <div className='navigation'>
       <div className="navigation__block navigation__block-tabs">

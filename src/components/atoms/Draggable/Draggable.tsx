@@ -4,7 +4,7 @@ import DraggProps from './Draggable.types';
 import './Draggable.scss';
 
 const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 50, y: 50 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 

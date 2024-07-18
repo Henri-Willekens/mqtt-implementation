@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction } from "react";
+
 export default interface HeaderProps {
-  pages: string[];
+  pages: string[],
+  navigateToPage: any,
 }

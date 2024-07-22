@@ -147,6 +147,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, 
           <g className="compass-windrose-lines" fontSize="12">
             {generateWindRoseLines(150, 200, 200)}
           </g>
+          {_correctData == "incomplete" && <text x="200" y="250" className="alert" textAnchor="middle" fontSize={35}>!</text>}
         </svg>
         <div className={`compass-source compass-source__${theme}`}>
           <p>{ source }</p>

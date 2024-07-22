@@ -8,7 +8,6 @@
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 
   &__block {
@@ -22,5 +21,8 @@
   &__block-pages {
     width: fit-content;
     display: flex;
+  }
+  &__block-other {
+    margin-left: auto;
   }
 }

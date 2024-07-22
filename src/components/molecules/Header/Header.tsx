@@ -3,22 +3,24 @@ import Button from "../../atoms/Button/Button";
 import HeaderProps from './Header.types';
 import './Header.scss';
 
-const Header: React.FC<HeaderProps> = ({ pages, navigateToPage }) => {
+const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) => {
   const switchToPage = (id: number) => {
     navigateToPage(id);
+    
   };
 
   const pageButtons = pages.map((page) => {
     for (let i = 0; i < pages.length; i++) {
-        return <Button key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
+      if (page.id === activePageId) {
+        return <Button ExtraclassName="active headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
+      } else {
+        return <Button ExtraclassName="headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />        
+      }
     }
   });
 
   return (
     <div className='navigation'>
-      <div className="navigation__block navigation__block-tabs">
-        <img className="navigation__block-icon" src="./icons/general/navigation.svg" alt="Tab navigation" />
-      </div>
       <div className="navigation__block navigation__block-pages">
         {pageButtons}
       </div>

@@ -4,4 +4,5 @@ export default interface HeaderProps {
   pages: PagesConfig[],
   navigateToPage: any,
   pageName: string,
+  activePageId: number
 }

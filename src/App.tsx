@@ -62,7 +62,7 @@ const App = () => {
   return(
     <div className={`filter filter__${_currentTheme}`}>
       <div className={_configEnabled ? "main main-config-mode" : "main"}>
-        <Header pages={config.pages} navigateToPage={navigateToPage} pageName={`Page: ${_activePageId}`} />
+        <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
         <div className="components">
           <PageManager config={_configData} activePageId={_activePageId} />
         </div>

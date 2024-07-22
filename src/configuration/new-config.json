@@ -7,6 +7,7 @@
         {
           "type": "Compass",
           "props": {
+            "id": "magn-compass-1",
             "source": "magn",
             "waveArrowOutside": false,
             "stepsOfDegrees": 30
@@ -20,7 +21,9 @@
       "components": [
         {
           "type": "HeatCoolingPump",
-          "props": {}
+          "props": {
+            "id": "heat-cooling-pump-1"
+          }
         }
       ]
     }

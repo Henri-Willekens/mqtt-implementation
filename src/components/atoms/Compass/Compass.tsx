@@ -104,7 +104,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, 
       setTimeout(() => {
         setData("correct");
       }, 5000);
-      console.log('There is data missing, please check the data source.');
+      // console.log('There is data missing, please check the data source.');
     } else {
       update('hdg', _currentHeading);
       update('cog', _currentHeading + 20);

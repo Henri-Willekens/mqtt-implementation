@@ -1,4 +1,5 @@
 export default interface BarMeterProps {
+  key: string,
   maxValue: number,
   unit: string,
   id: string,

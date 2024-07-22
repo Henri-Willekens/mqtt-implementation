@@ -3,9 +3,9 @@ import DynamicRenderComponents from '../DynamicRenderComponents/DynamicRenderCom
 import './Page.scss'
 import PageProps from './Page.types';
 
-const Page: React.FC<PageProps> = ({key, pageId, title, components}) => {
+const Page: React.FC<PageProps> = ({ pageId, title, components }) => {
   return (
-    <div key={key}>
+    <div key={pageId}>
       <p>Page: {title}</p>
       <DynamicRenderComponents theme={"day"} configMode={false} gridEnabled={false} config={components} />
     </div>

@@ -4,7 +4,6 @@ import Header from "./components/molecules/Header/Header";
 import PageManager from "./components/organisms/PageManager/PageManager";
 import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 
-
 import config from "./configuration/new-config.json";
 import { Config } from './configuration/types';
 
@@ -63,7 +62,7 @@ const App = () => {
   return(
     <div className={`filter filter__${_currentTheme}`}>
       <div className={_configEnabled ? "main main-config-mode" : "main"}>
-        <Header pages={['page1', 'page2']} navigateToPage={navigateToPage} />
+        <Header pages={config.pages} navigateToPage={navigateToPage} pageName={`Page: ${_activePageId}`} />
         <div className="components">
           <PageManager config={_configData} activePageId={_activePageId} />
         </div>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Page from "../Page/Page";
 
 import "./PageManager.scss";

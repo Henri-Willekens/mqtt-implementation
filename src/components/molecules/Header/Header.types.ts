@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
+import { PagesConfig } from "../../../configuration/types";
 
 export default interface HeaderProps {
-  pages: string[],
+  pages: PagesConfig[],
   navigateToPage: any,
+  pageName: string,
 }

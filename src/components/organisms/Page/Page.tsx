@@ -3,7 +3,7 @@ import DynamicRenderComponents from '../DynamicRenderComponents/DynamicRenderCom
 import './Page.scss'
 import PageProps from './Page.types';
 
-const Page: React.FC<PageProps> = ({key, pageId, title, components}) => {
+const Page: React.FC<PageProps> = ({key, title, components}) => {
   return (
     <div key={key}>
       <p>Page: {title}</p>

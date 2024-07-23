@@ -5,7 +5,7 @@ import './Compass.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
 
-const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, stepsOfDegrees, configEnabled}) => {
+const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, stepsOfDegrees, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState('13');
   const [_correctData, setData] = useState('incomplete');
@@ -100,7 +100,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, 
 
 
   useEffect(() => {
-    if(_correctData == 'incomplete'){
+    if (_correctData == 'incomplete') {
       setTimeout(() => {
         setData("correct");
       }, 5000);
@@ -138,7 +138,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, 
           </g>
 
           <g id='current'>
-            {waveArrowOutside 
+            {waveArrowOutside
               ? <image href="./icons/current/outside/current-1.svg" x="188" y="0" fill="red" />
               : <image href="./icons/current/inside/current-1.svg" x="188" y="70" />
             }
@@ -150,7 +150,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, 
           {_correctData == "incomplete" && <text x="200" y="250" className="alert" textAnchor="middle" fontSize={35}>!</text>}
         </svg>
         <div className={`compass-source compass-source__${theme}`}>
-          <p>{ source }</p>
+          <p>{source}</p>
         </div>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">

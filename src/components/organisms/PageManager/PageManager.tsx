@@ -4,17 +4,17 @@ import "./PageManager.scss";
 import PageManagerProps from "./PageManager.types";
 
 const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
-  return(
+  return (
     <>
-      {config.pages.map((_page) => 
+      {config.pages.map((_page) =>
         _page.id === activePageId ? (
-        <Page 
-          key={_page.id} 
-          pageId={_page.id} 
-          title={_page.title} 
-          components={_page.components}
-        />
-      ) : null
+          <Page
+            key={_page.id}
+            pageId={_page.id}
+            title={_page.title}
+            components={_page.components}
+          />
+        ) : null
       )}
     </>
   );

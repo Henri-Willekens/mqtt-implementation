@@ -6,7 +6,7 @@ import './Header.scss';
 const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) => {
   const switchToPage = (id: number) => {
     navigateToPage(id);
-    
+
   };
 
   const pageButtons = pages.map((page) => {
@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) 
       if (page.id === activePageId) {
         return <Button ExtraclassName="active headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
       } else {
-        return <Button ExtraclassName="headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />        
+        return <Button ExtraclassName="headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
       }
     }
   });

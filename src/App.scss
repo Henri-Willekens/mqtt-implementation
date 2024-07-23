@@ -7,7 +7,8 @@ html {
   height: 100%;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
   background-color: $background-body;
@@ -46,7 +47,7 @@ html, body {
 .components {
   grid-column: 1 / 1;
   grid-row: 2 / span 1;
-  
+
   position: relative;
   flex-direction: row;
 }

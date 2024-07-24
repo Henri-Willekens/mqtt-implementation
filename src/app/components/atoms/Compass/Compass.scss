@@ -92,26 +92,21 @@
   }
 
   &-source {
-    width: 55px;
-    height: 25px;
 
-    text-align: center;
-    font-weight: bold;
+    &-text__day {
+      fill: $neutral-soft-white;
+    }
+
+    &-text__night {
+      fill: $night-mode-labels;
+    }
 
     &__day {
-      background-color: $button-background;
-
-      &>p {
-        color: $neutral-soft-white;
-      }
+      fill: $button-background;
     }
 
     &__night {
-      background-color: $night-mode-background-src;
-
-      &>p {
-        color: $night-mode-labels;
-      }
+      fill: $night-mode-background-src;
     }
   }
 }

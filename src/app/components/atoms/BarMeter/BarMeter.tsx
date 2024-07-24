@@ -34,7 +34,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const generateTackLines = () => {
-    const _tickLines = [];
+    const _tickLines: any[] = [];
     const _tickSpacing = 300 / (numberOfTickLines - 1);
 
     for (let i = 0; i < numberOfTickLines; i++) {
@@ -54,7 +54,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const determineAlertLinesLocation = () => {
-    const _alertLines = [];
+    const _alertLines: any[] = [];
 
     const _barmeterHeight = 304;
 

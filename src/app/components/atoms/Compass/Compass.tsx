@@ -25,7 +25,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
 
   const generateWindRoseLines = (_radius: number, _centerX: number, _centerY: number) => {
-    const _lines = [];
+    const _lines: any[] = [];
 
     for (let i = 0; i * stepsOfDegrees < 360; i++) {
       const _angle = stepsOfDegrees * i;
@@ -148,10 +148,12 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
           <g className="compass-windrose-lines" fontSize="12">
             {generateWindRoseLines(150, 200, 200)}
           </g>
+
+          <g>
+            <rect className={`compass-source compass-source__${theme}`} width="70" height="20" x="0" y="370" />
+            <text className={`compass-source-text compass-source-text__${theme}`} x="35" y="385" textAnchor="middle">{ source }</text>
+          </g>
         </svg>
-        <div className={`compass-source compass-source__${theme}`}>
-          <p>{ source }</p>
-        </div>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
         <Input type="text" label="Source" value={_formValues.source} id="source" name="source" onChange={handleFormChange} />

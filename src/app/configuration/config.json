@@ -1,16 +1,12 @@
 {
   "components": [
     {
-      "type": "Compass",
-      "props": {
-        "source": "gyro",
-        "waveArrowOutside": false,
-        "stepsOfDegrees": 30
-      }
-    },
-    {
       "type": "HeatCoolingPump",
-      "props": {}
+      "props": {
+        "id": "heat-cooling-pump-1",
+        "xPos": 20,
+        "yPos": 20
+      }
     }
   ]
 }

@@ -10,18 +10,18 @@ const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) 
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
 
 
-  const startDrag = (event: any) => {
+  const startDrag = (_event: any) => {
     if (configMode) {
-      const _rect = event.target.getBoundingClientRect();
-      setOffset({ x: event.clientX - _rect.left, y: event.clientY - _rect.top });
+      const _rect = _event.target.getBoundingClientRect();
+      setOffset({ x: _event.clientX - _rect.left, y: _event.clientY - _rect.top });
       setDragging(true);
     }
   };
 
 
-  const onDrag = (event: any) => {
+  const onDrag = (_event: any) => {
     if (_dragging) {
-      setPosition({ x: event.clientX - _offset.x, y: event.clientY - _offset.y });
+      setPosition({ x: _event.clientX - _offset.x, y: _event.clientY - _offset.y });
     }
   };
 

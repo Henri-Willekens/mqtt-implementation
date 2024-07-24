@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const filePath = path.join(process.cwd(), "data", "data.json");
+const filePath = path.join(process.cwd(), "src/app/configuration", "config.json");
 
 export async function POST(request: NextRequest) {
   try {

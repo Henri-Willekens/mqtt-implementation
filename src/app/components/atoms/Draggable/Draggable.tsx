@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { _gridPositions } from '../Grid/Grid';
+
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
 
 const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [_position, setPosition] = useState({ x: 0, y: 0 });
+  const [_dragging, setDragging] = useState(false);
+  const [_offset, setOffset] = useState({ x: 0, y: 0 });
+
 
   const startDrag = (event: any) => {
     if (configMode) {
-      const rect = event.target.getBoundingClientRect();
-      setOffset({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+      const _rect = event.target.getBoundingClientRect();
+      setOffset({ x: event.clientX - _rect.left, y: event.clientY - _rect.top });
       setDragging(true);
     }
   };
 
+
   const onDrag = (event: any) => {
-    if (dragging) {
-      setPosition({ x: event.clientX - offset.x, y: event.clientY - offset.y });
+    if (_dragging) {
+      setPosition({ x: event.clientX - _offset.x, y: event.clientY - _offset.y });
     }
   };
+
 
   const stopDrag = () => {
     setDragging(false);
@@ -29,20 +33,22 @@ const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) 
     }
   };
 
+
   const snapToGrid = () => {
-    let closestPosition = _gridPositions[0];
-    let minDistance = Number.MAX_VALUE;
+    let _closestPosition = _gridPositions[0];
+    let _minDistance = Number.MAX_VALUE;
 
     _gridPositions.forEach((_gridPosition) => {
-      const distance = Math.hypot(position.x - _gridPosition.x, position.y - _gridPosition.y);
-      if (distance < minDistance) {
-        closestPosition = _gridPosition;
-        minDistance = distance;
+      const distance = Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
+      if (distance < _minDistance) {
+        _closestPosition = _gridPosition;
+        _minDistance = distance;
       }
     });
 
-    setPosition({ x: closestPosition.x, y: closestPosition.y });
+    setPosition({ x: _closestPosition.x, y: _closestPosition.y });
   };
+
 
   return (
     <div
@@ -50,7 +56,7 @@ const Draggable: React.FC<DraggProps> = ({ children, gridEnabled, configMode }) 
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
-      style={{ left: position.x, top: position.y }}
+      style={{ left: _position.x, top: _position.y }}
     >
       {children}
     </div>

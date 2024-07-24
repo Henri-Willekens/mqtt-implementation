@@ -15,7 +15,7 @@ import "./App.scss";
 const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
   const [_currentTheme, setCurrentTheme] = useState<string>('day');
-  const [_gridEnabled, setGridEnabled] = useState(true);
+  const [_gridEnabled, setGridEnabled] = useState(false);
   const [_configEnabled, setConfigEnabled] = useState(false);
   const [_isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 

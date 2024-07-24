@@ -1,11 +1,72 @@
 {
   "components": [
     {
-      "type": "HeatCoolingPump",
+      "type": "Compass",
       "props": {
-        "id": "heat-cooling-pump-1",
-        "xPos": 20,
-        "yPos": 20
+        "source": "gyro",
+        "waveArrowOutside": false,
+        "numOfWindRoseLines": 12,
+        "xPos": 1004.6585083007812,
+        "yPos": 240.47189331054688,
+        "id": "gryo-compass-1"
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "label": "Motor 1 temperature",
+        "id": "motor-1-temperature",
+        "maxValue": 900,
+        "unit": "°C",
+        "amountOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 800,
+            "higherOrLowerThan": "higher"
+          },
+          {
+            "alertType": "warning",
+            "value": 700,
+            "higherOrLowerThan": "higher"
+          }
+        ],
+        "xPos": 762.9971313476562,
+        "yPos": 359.460205078125
+      }
+    },
+    {
+      "type": "BarMeter",
+      "props": {
+        "label": "Water tank 1",
+        "id": "water-tank-1-filling",
+        "maxValue": 20000,
+        "unit": "L",
+        "amountOfTickLines": 5,
+        "alertLines": [
+          {
+            "alertType": "alarm",
+            "value": 2000,
+            "higherOrLowerThan": "lower"
+          },
+          {
+            "alertType": "warning",
+            "value": 5000,
+            "higherOrLowerThan": "lower"
+          }
+        ],
+        "xPos": 369.98291015625,
+        "yPos": 257.51910400390625
+      }
+    },
+    {
+      "type": "Rudder",
+      "props": {
+        "totalRudderAngle": 120,
+        "elementRadius": 120,
+        "id": "rudder-angle-1",
+        "xPos": 721.1394653320312,
+        "yPos": 58.98863220214844
       }
     }
   ]

@@ -3,13 +3,13 @@ import { _gridPositions } from '../Grid/Grid';
 
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
-import { ComponentConfig } from 'src/app/configuration/types';
+import { Config } from 'src/app/configuration/types';
 
 const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnabled, configMode }) => {
   const [_position, setPosition] = useState({ x: 0, y: 0 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
-  const [_data, setData] = useState<ComponentConfig[]>([]);
+  const [_data, setData] = useState<Config>();
 
 
   const startDrag = (_event: any) => {
@@ -17,6 +17,7 @@ const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnable
       const _rect = _event.target.getBoundingClientRect();
       setOffset({ x: _event.clientX - _rect.left, y: _event.clientY - _rect.top });
       setDragging(true);
+      fetchConfig();
     }
   };
 
@@ -38,27 +39,27 @@ const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnable
 
 
   const handleSave = () => {
-    const elementConfig = _data.find((_o) => _o.props.id === elementInsideId);
-
-    const newData = {
-      components: [
-        ..._data,
-        {
-          type: elementConfig?.type,
-          props: {
-            id: elementConfig?.props.id,
-            xPos: 50
-          }
-        }
-      ]
+    if (_data === undefined) {
+      return;
     }
+
+    let _index = _data.components.findIndex((_o) => _o.props.id === elementInsideId);
+
+    _data.components[_index] = {
+      type: _data?.components[_index].type,
+      props: {
+        ..._data.components[_index].props,
+        xPos: _position.x,
+        yPos: _position.y
+      }
+    };
 
     fetch("/api/write-json", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newData),
+      body: JSON.stringify(_data),
     })
       .then((response) => response.json())
       .then((result) => {
@@ -68,14 +69,21 @@ const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnable
   };
 
 
-  useEffect(() => {
+  const fetchConfig = () => {
     fetch("/api/read-json")
-      .then((res) => res.json())
-      .then((results) => { 
-        setData(results.components)
-        // console.log(results.components.find((_o) => _o.props.id == elementInsideId))
-      })
-      .catch((err) => console.error(err));
+    .then((res) => res.json())
+    .then((results) => { 
+      setData(results);
+      
+      let _index = results.components.findIndex((_o) => _o.props.id === elementInsideId)
+
+      setPosition({x: results.components[_index].props.xPos, y: results.components[_index].props.yPos})
+    })
+    .catch((err) => console.error(err));
+  }
+
+  useEffect(() => {
+    fetchConfig();
   }, [])
 
 

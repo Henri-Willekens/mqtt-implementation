@@ -4,10 +4,12 @@ import BarMeterProps from './BarMeter.types';
 import './BarMeter.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
+import { Config } from "src/app/configuration/types";
 
 const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_data, setData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     maxValue: maxValue,
     unit: unit,
@@ -34,6 +36,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const generateTackLines = () => {
+    console.log('da')
     const _tickLines: any[] = [];
     const _tickSpacing = 300 / (numberOfTickLines - 1);
 
@@ -72,12 +75,19 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
+      fetch("/api/read-json")
+      .then((res) => res.json())
+      .then((results) => { 
+        setData(results);
+      })
+      .catch((err) => console.error(err));
     };
   };
 
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleSave();
   };
 
 
@@ -89,6 +99,40 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       ..._prevFormValues,
       [_name]: _value
     }));
+  };
+
+
+  const handleSave = () => {
+    if (_data === undefined) {
+      return;
+    }
+
+    let _index = _data.components.findIndex((_o) => _o.props.id === id);
+
+    _data.components[_index] = {
+      type: _data?.components[_index].type,
+      props: {
+        ..._data.components[_index].props,
+        maxValue: parseInt(_formValues.maxValue),
+        id: _formValues.id,
+        numberOfTickLines: parseInt(_formValues.numberOfTickLines),
+        label: _formValues.label,
+        unit: _formValues.unit
+      }
+    };
+
+    fetch("/api/write-json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.message);
+      })
+      .catch((error) => console.error("Error saving data:", error));
   };
 
 

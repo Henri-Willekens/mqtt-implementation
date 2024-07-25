@@ -6,8 +6,8 @@
         "source": "gyro",
         "waveArrowOutside": false,
         "numOfWindRoseLines": 12,
-        "xPos": 1004.6585083007812,
-        "yPos": 240.47189331054688,
+        "xPos": 1032.9999389648438,
+        "yPos": 98.95452880859375,
         "id": "gryo-compass-1"
       }
     },
@@ -16,9 +16,9 @@
       "props": {
         "label": "Motor 1 temperature",
         "id": "motor-1-temperature",
-        "maxValue": 900,
+        "maxValue": 10000,
         "unit": "°C",
-        "amountOfTickLines": 5,
+        "numberOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",
@@ -31,8 +31,8 @@
             "higherOrLowerThan": "higher"
           }
         ],
-        "xPos": 762.9971313476562,
-        "yPos": 359.460205078125
+        "xPos": 772.9971313476562,
+        "yPos": 410.5255432128906
       }
     },
     {
@@ -42,7 +42,7 @@
         "id": "water-tank-1-filling",
         "maxValue": 20000,
         "unit": "L",
-        "amountOfTickLines": 5,
+        "numberOfTickLines": 5,
         "alertLines": [
           {
             "alertType": "alarm",

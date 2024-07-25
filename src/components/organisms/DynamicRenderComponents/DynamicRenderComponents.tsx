@@ -4,17 +4,17 @@ import componentMap from "../../index";
 import { ComponentConfig } from "../../../configuration/types";
 import Draggable from "../../atoms/Draggable/Draggable";
 
-const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, theme, configMode, gridEnabled }) => {
+const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, gridEnabled }) => {
   return (
     <>
       {config.map((componentConfig: ComponentConfig, index: number) => {
         const { type, props } = componentConfig;
         const Component = componentMap[type];
-        const componentProps = { theme, ...props }
+        const componentProps = { ...props }
 
         return (
-          <Draggable key={props.id} id={props.id} configMode={configMode} gridEnabled={gridEnabled}>
-            <Component key={index} configEnabled={configMode} {...componentProps} />
+          <Draggable key={props.id} id={props.id} gridEnabled={gridEnabled}>
+            <Component key={index} {...componentProps} />
           </Draggable>
 
         )

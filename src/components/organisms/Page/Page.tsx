@@ -7,7 +7,7 @@ const Page: React.FC<PageProps> = ({ pageId, title, components }) => {
   return (
     <div key={pageId}>
       <p>Page: {title}</p>
-      <DynamicRenderComponents theme={"day"} configMode={false} gridEnabled={false} config={components} />
+      <DynamicRenderComponents gridEnabled={false} config={components} />
     </div>
   )
 };

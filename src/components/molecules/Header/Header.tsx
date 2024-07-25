@@ -4,9 +4,8 @@ import HeaderProps from './Header.types';
 import './Header.scss';
 
 const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) => {
-  const switchToPage = (id: number) => {
+  const switchToPage = (id: string) => {
     navigateToPage(id);
-
   };
 
   const pageButtons = pages.map((page) => {

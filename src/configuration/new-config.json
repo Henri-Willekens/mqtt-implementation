@@ -2,7 +2,7 @@
   "pages": [
     {
       "title": "Navigation",
-      "id": 1,
+      "id": "Nav1",
       "components": [
         {
           "type": "Compass",
@@ -17,7 +17,7 @@
     },
     {
       "title": "Engine",
-      "id": 2,
+      "id": "Engine1",
       "components": [
         {
           "type": "HeatCoolingPump",
@@ -26,6 +26,11 @@
           }
         }
       ]
+    },
+    {
+      "title": "Settings",
+      "id": "Settings",
+      "components":[]
     }
   ]
 }

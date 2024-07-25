@@ -14,9 +14,8 @@ const App = () => {
   const [_currentTheme, setCurrentTheme] = useState<string>('day');
   const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
-  const [_activePageId, setActivePageId] = useState(1);
-
-
+  const [_activePageId, setActivePageId] = useState("Nav1");
+  
   const switchTheme = () => {
     if (_currentTheme == "day") {
       setCurrentTheme("night");
@@ -25,21 +24,17 @@ const App = () => {
     }
   };
 
-
   const toggleGrid = () => {
     setGridEnabled(!_gridEnabled);
   };
-
 
   const toggleConfigMode = () => {
     setConfigEnabled(!_configEnabled);
   };
 
-
-  const navigateToPage = (pageId: number) => {
+  const navigateToPage = (pageId: string) => {
     setActivePageId(pageId);
   };
-
 
   useEffect(() => {
     if (config.pages.length !== 0) {
@@ -64,7 +59,7 @@ const App = () => {
       <div className={_configEnabled ? "main main-config-mode" : "main"}>
         <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
         <div className="components">
-          <PageManager config={_configData} activePageId={_activePageId} />
+        <PageManager config={_configData} activePageId={_activePageId} />
         </div>
         {_configEnabled && <ConfiguratorBar />}
       </div>

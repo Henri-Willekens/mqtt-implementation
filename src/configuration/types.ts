@@ -1,6 +1,6 @@
 export interface PagesConfig {
   title: string,
-  id: number,
+  id: string,
   components: ComponentConfig[]
 }
 

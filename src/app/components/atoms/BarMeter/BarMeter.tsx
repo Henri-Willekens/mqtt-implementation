@@ -9,7 +9,7 @@ import { Config } from "src/app/configuration/types";
 const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_data, setData] = useState<Config>();
+  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     maxValue: maxValue,
     unit: unit,
@@ -77,7 +77,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       fetch("/api/read-json")
       .then((res) => res.json())
       .then((results) => { 
-        setData(results);
+        setConfigData(results);
       })
       .catch((err) => console.error(err));
     };
@@ -102,16 +102,16 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const handleSave = () => {
-    if (_data === undefined) {
+    if (_configData === undefined) {
       return;
     }
 
-    let _index = _data.components.findIndex((_o) => _o.props.id === id);
+    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
 
-    _data.components[_index] = {
-      type: _data?.components[_index].type,
+    _configData.components[_index] = {
+      type: _configData?.components[_index].type,
       props: {
-        ..._data.components[_index].props,
+        ..._configData.components[_index].props,
         maxValue: parseInt(_formValues.maxValue),
         id: _formValues.id,
         numberOfTickLines: parseInt(_formValues.numberOfTickLines),
@@ -125,7 +125,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(_data),
+      body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
       .then((result) => {

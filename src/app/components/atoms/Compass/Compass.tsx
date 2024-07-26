@@ -4,12 +4,14 @@ import CompassProps from './Compass.types';
 import './Compass.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
+import { Config } from "src/app/configuration/types";
 
-const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees, configEnabled}) => {
+const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, theme, stepsOfDegrees, configEnabled}) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState('5');
   const [_current, setCurrent] = useState('2');
   const [_correctData, setData] = useState('incomplete');
+  const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     source: source,
@@ -68,12 +70,19 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
+      fetch("/api/read-json")
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));
     };
   };
 
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleSave();
   };
 
 
@@ -85,6 +94,38 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
       ..._prevFormValues,
       [_name]: _value
     }));
+  };
+
+
+  const handleSave = () => {
+    if (_configData === undefined) {
+      return;
+    }
+
+    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
+
+    _configData.components[_index] = {
+      type: _configData?.components[_index].type,
+      props: {
+        ..._configData.components[_index].props,
+        source: _formValues.source,
+        stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
+        waveArrowOutside: _formValues.waveArrowOutside === 'true'
+      }
+    };
+
+    fetch("/api/write-json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_configData),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.message);
+      })
+      .catch((error) => console.error("Error saving data:", error));
   };
 
 

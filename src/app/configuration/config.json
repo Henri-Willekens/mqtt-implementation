@@ -4,10 +4,10 @@
       "type": "Compass",
       "props": {
         "source": "gyro",
-        "waveArrowOutside": false,
+        "waveArrowOutside": true,
         "stepsOfDegrees": 30,
-        "xPos": 1032.9999389648438,
-        "yPos": 98.95452880859375,
+        "xPos": 955.9970703125,
+        "yPos": 223.94886016845703,
         "id": "gryo-compass-1"
       }
     },
@@ -16,7 +16,7 @@
       "props": {
         "label": "Motor 1 temperature",
         "id": "motor-1-temperature",
-        "maxValue": 10000,
+        "maxValue": 900,
         "unit": "°C",
         "numberOfTickLines": 5,
         "alertLines": [
@@ -31,8 +31,8 @@
             "higherOrLowerThan": "higher"
           }
         ],
-        "xPos": 772.9971313476562,
-        "yPos": 410.5255432128906
+        "xPos": 605.9715881347656,
+        "yPos": 464.8835144042969
       }
     },
     {
@@ -40,7 +40,7 @@
       "props": {
         "label": "Water tank 1",
         "id": "water-tank-1-filling",
-        "maxValue": 20000,
+        "maxValue": 1000,
         "unit": "L",
         "numberOfTickLines": 5,
         "alertLines": [
@@ -55,18 +55,18 @@
             "higherOrLowerThan": "lower"
           }
         ],
-        "xPos": 369.98291015625,
-        "yPos": 257.51910400390625
+        "xPos": 28.965904235839844,
+        "yPos": 189.66192626953125
       }
     },
     {
       "type": "Rudder",
       "props": {
         "totalRudderAngle": 120,
-        "elementRadius": 120,
+        "elementRadius": 200,
         "id": "rudder-angle-1",
-        "xPos": 721.1394653320312,
-        "yPos": 58.98863220214844
+        "xPos": 428.13067626953125,
+        "yPos": 86.97442626953125
       }
     }
   ]

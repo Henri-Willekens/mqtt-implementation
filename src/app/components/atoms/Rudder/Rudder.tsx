@@ -5,9 +5,11 @@ import Input from "../Input/Input";
 
 import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
+import { Config } from "src/app/configuration/types";
 
-const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, configEnabled }) => {
+const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, configEnabled }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     totalRudderAngle: totalRudderAngle,
     elementRadius: elementRadius
@@ -56,12 +58,19 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, config
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
+      fetch("/api/read-json")
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigDatat(results);
+      })
+      .catch((err) => console.error(err));
     };
   };
 
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleSave();
   };
 
 
@@ -73,6 +82,37 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, config
       ..._prevFormValues,
       [_name]: _value
     }));
+  };
+
+  
+  const handleSave = () => {
+    if (_configData === undefined) {
+      return;
+    }
+
+    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
+
+    _configData.components[_index] = {
+      type: _configData?.components[_index].type,
+      props: {
+        ..._configData.components[_index].props,
+        totalRudderAngle: parseInt(_formValues.totalRudderAngle),
+        elementRadius: parseInt(_formValues.elementRadius)
+      }
+    };
+
+    fetch("/api/write-json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_configData),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.message);
+      })
+      .catch((error) => console.error("Error saving data:", error));
   };
 
 

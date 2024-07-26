@@ -14,7 +14,7 @@ import "./App.scss";
 
 const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
-  const [_currentTheme, setCurrentTheme] = useState<string>('day');
+  const [_currentTheme, setCurrentTheme] = useState("day");
   const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
   const [_activePageId, setActivePageId] = useState("Nav1");
@@ -44,19 +44,19 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="app">
       <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
-      <div className={`filter filter__${_currentTheme}`}>
-      <ConfigContext.Provider value={{ _configEnabled, setConfigEnabled }}>
-        <div className={_configEnabled ? "main main-config-mode" : "main"}>
-          <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
-          <div className="components">
-            <PageManager config={_configData} activePageId={_activePageId} />
-          </div>
-          {_configEnabled && <ConfiguratorBar />}
+        <div className={`filter filter__${_currentTheme}`}>
+          <ConfigContext.Provider value={{ _configEnabled, setConfigEnabled }}>
+            <div className={_configEnabled ? "main main-config-mode" : "main"}>
+              <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
+              <div className="components">
+                <PageManager config={_configData} activePageId={_activePageId} />
+              </div>
+              {_configEnabled && <ConfiguratorBar />}
+            </div>
+          </ConfigContext.Provider>
         </div>
-      </ConfigContext.Provider>
-      </div>
       </ThemeContext.Provider>
     </div>
   );

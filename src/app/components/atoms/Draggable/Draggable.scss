@@ -5,6 +5,7 @@
   height: auto;
   position: fixed;
   cursor: move;
+  user-select: none;
 }
 
 .non-draggable {
@@ -12,4 +13,5 @@
   height: auto;
   position: fixed;
   cursor: default;
+  user-select: none;
 }

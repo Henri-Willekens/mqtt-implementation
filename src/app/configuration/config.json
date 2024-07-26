@@ -5,7 +5,7 @@
       "props": {
         "source": "gyro",
         "waveArrowOutside": false,
-        "numOfWindRoseLines": 12,
+        "stepsOfDegrees": 30,
         "xPos": 1032.9999389648438,
         "yPos": 98.95452880859375,
         "id": "gryo-compass-1"

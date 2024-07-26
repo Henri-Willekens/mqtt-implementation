@@ -73,7 +73,7 @@ const App = () => {
         <Header pages={['page1', 'page2']} />
         <div className="components">
           <ConfirmationModal isOpen={_isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save all changes" cancelText="Drop all changes"/>
-          <Grid />
+          { _gridEnabled && <Grid /> }
           <div className="ButtonArea">
             <Button onClick={toggleConfigMode} text={`Config mode is: ${_configEnabled}`} />
             <Button onClick={switchTheme} text={`Wisselen van theme`} />

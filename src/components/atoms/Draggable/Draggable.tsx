@@ -8,7 +8,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, gridEnabled }) => {
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
+  const { _configEnabled } = useContext(ConfigContext);
 
   const startDrag = (event: any) => {
     if (_configEnabled) {

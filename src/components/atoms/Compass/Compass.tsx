@@ -11,7 +11,7 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOf
   const [_windspeed, setWindspeed] = useState('13');
   const [_correctData, setData] = useState('incomplete');
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
+  const { _currentTheme } = useContext(ThemeContext);
   const [_formValues, setFormValues] = useState({
     source: source,
     waveArrowOutside: waveArrowOutside,

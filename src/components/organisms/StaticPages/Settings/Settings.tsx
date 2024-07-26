@@ -7,10 +7,10 @@ import { ThemeContext } from "../../../../contexts/Theme";
 import './Settings.scss';
 
 const SettingsPage = () => {
-  
-  const {_currentTheme, setCurrentTheme} = useContext(ThemeContext);
+
+  const { setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
-  const {_configEnabled, setConfigEnabled} = useContext(ConfigContext);
+  const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
 
   const switchTheme = (theme: string) => {
     switch (theme) {

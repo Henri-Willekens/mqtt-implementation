@@ -36,7 +36,6 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
 
   const generateTackLines = () => {
-    console.log('da')
     const _tickLines: any[] = [];
     const _tickSpacing = 300 / (numberOfTickLines - 1);
 

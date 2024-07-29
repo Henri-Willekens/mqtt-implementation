@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { _gridPositions } from '../Grid/Grid';
 
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
 import { Config } from 'src/app/configuration/types';
+import { ConfigContext } from '../../../contexts/Config';
 
-const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnabled, configMode }) => {
+const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled }) => {
   const [_position, setPosition] = useState({ x: 0, y: 0 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
+  const { _configEnabled } = useContext(ConfigContext);
   const [_data, setData] = useState<Config>();
 
 
   const startDrag = (_event: any) => {
-    if (configMode) {
+    if (_configEnabled) {
       const _rect = _event.target.getBoundingClientRect();
       setOffset({ x: _event.clientX - _rect.left, y: _event.clientY - _rect.top });
       setDragging(true);
@@ -43,12 +45,12 @@ const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnable
       return;
     }
 
-    let _index = _data.components.findIndex((_o) => _o.props.id === elementInsideId);
+    let _index = _data[0].components.findIndex((_o) => _o.props.id === elementInsideId);
 
-    _data.components[_index] = {
-      type: _data?.components[_index].type,
+    _data[0].components[_index] = {
+      type: _data[0]?.components[_index].type,
       props: {
-        ..._data.components[_index].props,
+        ..._data[0].components[_index].props,
         xPos: _position.x,
         yPos: _position.y
       }
@@ -105,10 +107,11 @@ const Draggable: React.FC<DraggProps> = ({ children, elementInsideId, gridEnable
 
   return (
     <div
-      className={configMode ? "draggable" : "non-draggable"}
+      className={_configEnabled ? "draggable" : "non-draggable"}
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
+      key={id}
       style={{ left: _position.x, top: _position.y }}
     >
       {children}

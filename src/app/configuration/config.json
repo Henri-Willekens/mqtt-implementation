@@ -1,73 +1,36 @@
 {
-  "components": [
+  "pages": [
     {
-      "type": "Compass",
-      "props": {
-        "source": "gyro",
-        "waveArrowOutside": true,
-        "stepsOfDegrees": 30,
-        "xPos": 955.9970703125,
-        "yPos": 223.94886016845703,
-        "id": "gryo-compass-1"
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Motor 1 temperature",
-        "id": "motor-1-temperature",
-        "maxValue": 900,
-        "unit": "°C",
-        "numberOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 800,
-            "higherOrLowerThan": "higher"
-          },
-          {
-            "alertType": "warning",
-            "value": 700,
-            "higherOrLowerThan": "higher"
+      "title": "Navigation",
+      "id": "Nav1",
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "id": "magn-compass-1",
+            "source": "magn",
+            "waveArrowOutside": false,
+            "stepsOfDegrees": 30
           }
-        ],
-        "xPos": 605.9715881347656,
-        "yPos": 464.8835144042969
-      }
+        }
+      ]
     },
     {
-      "type": "BarMeter",
-      "props": {
-        "label": "Water tank 1",
-        "id": "water-tank-1-filling",
-        "maxValue": 1000,
-        "unit": "L",
-        "numberOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 2000,
-            "higherOrLowerThan": "lower"
-          },
-          {
-            "alertType": "warning",
-            "value": 5000,
-            "higherOrLowerThan": "lower"
+      "title": "Engine",
+      "id": "Engine1",
+      "components": [
+        {
+          "type": "HeatCoolingPump",
+          "props": {
+            "id": "heat-cooling-pump-1"
           }
-        ],
-        "xPos": 28.965904235839844,
-        "yPos": 189.66192626953125
-      }
+        }
+      ]
     },
     {
-      "type": "Rudder",
-      "props": {
-        "totalRudderAngle": 120,
-        "elementRadius": 200,
-        "id": "rudder-angle-1",
-        "xPos": 428.13067626953125,
-        "yPos": 86.97442626953125
-      }
+      "title": "Settings",
+      "id": "Settings",
+      "components":[]
     }
   ]
 }

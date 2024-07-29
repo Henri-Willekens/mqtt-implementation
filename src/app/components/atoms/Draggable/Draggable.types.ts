@@ -1,6 +1,6 @@
 export default interface DraggProps {
   elementInsideId: string,
+  id: string
   gridEnabled: boolean,
-  configMode: boolean,
   children: React.ReactNode
 }

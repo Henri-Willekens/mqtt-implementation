@@ -34,12 +34,12 @@
   }
 
   &-tickline {
-    & > line {
+    &>line {
       stroke: $neutral-soft-white;
       stroke-width: 2;
     }
 
-    & > text {
+    &>text {
       fill: $neutral-soft-white;
     }
   }

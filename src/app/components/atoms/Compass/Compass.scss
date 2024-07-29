@@ -1,5 +1,9 @@
 @import "../../../styles/colorVariables";
 
+.alert {
+  fill: $signal-alarm;
+}
+
 .compass {
   width: fit-content;
   height: fit-content;

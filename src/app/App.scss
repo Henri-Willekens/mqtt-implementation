@@ -1,21 +1,9 @@
 @import "./styles/colorVariables";
 
-html {
+html, body {
   background-color: $background-body;
 
   width: 100%;
-  height: 100%;
-
-  font-family: sans-serif;
-}
-
-html, body {
-  margin: 0;
-  height: 100%;
-  background-color: $background-body;
-}
-
-.screen {
   height: 100%;
 }
 
@@ -50,7 +38,6 @@ html, body {
   grid-row: 2 / span 1;
 
   position: relative;
-  display: flex;
   flex-direction: row;
 }
 

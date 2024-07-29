@@ -122,7 +122,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, co
 
   return (
     <>
-      <div onDoubleClick={openModal} className="rudder">
+      <div key={id} onDoubleClick={openModal} className="rudder">
         {determineRudderAngle()}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">

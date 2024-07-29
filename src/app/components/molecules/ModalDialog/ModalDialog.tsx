@@ -6,7 +6,7 @@ import ModalDialogProps from "./ModalDialog.types";
 const ModalDialog: React.FC<ModalDialogProps> = ({ modalTitle, isOpen, onClose, children }) => {
   const _dialogRef = useRef<HTMLDialogElement>(null);
 
-  
+
   const handleClose = () => {
     onClose();
   }
@@ -24,7 +24,7 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ modalTitle, isOpen, onClose, 
   }, [isOpen]);
 
 
-  return(
+  return (
     <dialog ref={_dialogRef} onClose={handleClose} className="modal">
       <div className="modal__header">
         <p>{modalTitle}</p>

@@ -2,7 +2,7 @@ import "./ConfiguratorBar.scss"
 import ConfiguratorBarProps from "./ConfiguratorBar.types";
 
 const ConfiguratorBar: React.FC<ConfiguratorBarProps> = () => {
-  return(
+  return (
     <div className="configurator-bar">
       <div className="configurator-bar__background">
         <div className="configurator-bar__action-buttons">

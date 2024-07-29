@@ -28,3 +28,12 @@
     filter: none;
   }
 }
+
+.active {
+  background-color: $button-clicked;
+  filter: none;
+}
+
+.headerBtn {
+  width: fit-content;
+}

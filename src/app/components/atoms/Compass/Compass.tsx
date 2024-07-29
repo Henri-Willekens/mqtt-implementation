@@ -105,12 +105,12 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOf
       return;
     }
 
-    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
+    let _index = _configData[0].components.findIndex((_o) => _o.props.id === id);
 
-    _configData.components[_index] = {
-      type: _configData?.components[_index].type,
+    _configData[0].components[_index] = {
+      type: _configData[0]?.components[_index].type,
       props: {
-        ..._configData.components[_index].props,
+        ..._configData[0].components[_index].props,
         source: _formValues.source,
         stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
         waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
@@ -195,8 +195,8 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOf
           {_correctData == "incomplete" && <text x="200" y="250" className="alert" textAnchor="middle" fontSize={35}>!</text>}
 
           <g>
-            <rect className={`compass-source compass-source__${theme}`} width="70" height="20" x="0" y="370" />
-            <text className={`compass-source-text compass-source-text__${theme}`} x="35" y="385" textAnchor="middle">{ source }</text>
+            <rect className={`compass-source compass-source__${_currentTheme}`} width="70" height="20" x="0" y="370" />
+            <text className={`compass-source-text compass-source-text__${_currentTheme}`} x="35" y="385" textAnchor="middle">{ source }</text>
           </g>
         </svg>
       </div>

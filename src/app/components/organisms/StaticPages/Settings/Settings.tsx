@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import Button from "../../../atoms/Button/Button";
 
-import { ConfigContext } from "../../../../app/contexts/Config";
-import { ThemeContext } from "../../../../app/contexts/Theme";
+import { ConfigContext } from "../../../../contexts/Config";
+import { ThemeContext } from "../../../../contexts/Theme";
 
 import './Settings.scss';
 

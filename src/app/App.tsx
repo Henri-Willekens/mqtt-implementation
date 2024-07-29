@@ -7,7 +7,7 @@ import Header from "./components/molecules/Header/Header";
 import PageManager from "./components/organisms/PageManager/PageManager";
 import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 
-import config from "./configuration/new-config.json";
+import config from "./configuration/config.json";
 import { Config } from './configuration/types';
 
 import "./App.scss";

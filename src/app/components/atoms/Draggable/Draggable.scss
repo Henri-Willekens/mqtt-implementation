@@ -1,0 +1,17 @@
+@import "../../../styles/colorVariables";
+
+.draggable {
+  width: auto;
+  height: auto;
+  position: fixed;
+  cursor: move;
+  user-select: none;
+}
+
+.non-draggable {
+  width: auto;
+  height: auto;
+  position: fixed;
+  cursor: default;
+  user-select: none;
+}

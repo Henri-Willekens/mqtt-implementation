@@ -1,0 +1,40 @@
+{
+  "pages": [
+    {
+      "title": "Navigation",
+      "id": "Nav1",
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "id": "magn-compass-1",
+            "source": "magn",
+            "waveArrowOutside": false,
+            "stepsOfDegrees": 30,
+            "xPos": 653,
+            "yPos": 171
+          }
+        }
+      ]
+    },
+    {
+      "title": "Engine",
+      "id": "Engine1",
+      "components": [
+        {
+          "type": "HeatCoolingPump",
+          "props": {
+            "id": "heat-cooling-pump-1",
+            "xPos": 190,
+            "yPos": 133
+          }
+        }
+      ]
+    },
+    {
+      "title": "Settings",
+      "id": "Settings",
+      "components": []
+    }
+  ]
+}

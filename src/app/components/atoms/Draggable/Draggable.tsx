@@ -78,9 +78,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     .then((results) => { 
       setData(results);
       
-      let _index = results.components.findIndex((_o) => _o.props.id === elementInsideId)
+      let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
+      let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
 
-      setPosition({x: results.components[_index].props.xPos, y: results.components[_index].props.yPos})
+      setPosition({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos})
     })
     .catch((err) => console.error(err));
   }

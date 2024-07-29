@@ -11,8 +11,8 @@
             "source": "magn",
             "waveArrowOutside": false,
             "stepsOfDegrees": 30,
-            "xPos": 286,
-            "yPos": 97
+            "xPos": 653,
+            "yPos": 171
           }
         }
       ]
@@ -25,8 +25,8 @@
           "type": "HeatCoolingPump",
           "props": {
             "id": "heat-cooling-pump-1",
-            "xPos": 657,
-            "yPos": 310
+            "xPos": 190,
+            "yPos": 133
           }
         }
       ]

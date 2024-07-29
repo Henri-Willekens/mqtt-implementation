@@ -8,7 +8,8 @@ import { ThemeContext } from "../../../contexts/Theme";
 
 const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
-  const [_windspeed, setWindspeed] = useState('13');
+  const [_windspeed, setWindspeed] = useState('5');
+  const [_current, setCurrent] = useState('2');
   const [_correctData, setData] = useState('incomplete');
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const { _currentTheme } = useContext(ThemeContext);
@@ -140,9 +141,9 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOf
           </g>
 
           <g id='current'>
-            {waveArrowOutside
-              ? <image href="./icons/current/outside/current-1.svg" x="188" y="0" fill="red" />
-              : <image href="./icons/current/inside/current-1.svg" x="188" y="70" />
+            {waveArrowOutside 
+              ? <image href={`./icons/current/outside/current-${_current}.svg`} x="188" y="0" />
+              : <image href={`./icons/current/inside/current-${_current}.svg`} x="188" y="70" />
             }
           </g>
 

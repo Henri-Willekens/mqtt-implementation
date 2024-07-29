@@ -4,7 +4,7 @@ import componentMap from "../../index";
 import { ComponentConfig } from "../../../configuration/types";
 import Draggable from "../../atoms/Draggable/Draggable";
 
-const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, gridEnabled }) => {
+const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, gridEnabled, activePageId }) => {
   return (
     <>
       {config.map((componentConfig: ComponentConfig, index: number) => {
@@ -13,8 +13,8 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ confi
         const componentProps = { ...props }
 
         return (
-          <Draggable elementInsideId={props.id} key={props.id} id={props.id} gridEnabled={gridEnabled}>
-            <Component key={index} {...componentProps} />
+          <Draggable elementInsideId={props.id} key={props.id} id={props.id} gridEnabled={gridEnabled} activePageId={activePageId}>
+            <Component key={index} activePageId={activePageId} {...componentProps} />
           </Draggable>
 
         )

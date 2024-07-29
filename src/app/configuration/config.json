@@ -10,7 +10,9 @@
             "id": "magn-compass-1",
             "source": "magn",
             "waveArrowOutside": false,
-            "stepsOfDegrees": 30
+            "stepsOfDegrees": 30,
+            "xPos": 286,
+            "yPos": 97
           }
         }
       ]
@@ -22,7 +24,9 @@
         {
           "type": "HeatCoolingPump",
           "props": {
-            "id": "heat-cooling-pump-1"
+            "id": "heat-cooling-pump-1",
+            "xPos": 657,
+            "yPos": 310
           }
         }
       ]
@@ -30,7 +34,7 @@
     {
       "title": "Settings",
       "id": "Settings",
-      "components":[]
+      "components": []
     }
   ]
 }

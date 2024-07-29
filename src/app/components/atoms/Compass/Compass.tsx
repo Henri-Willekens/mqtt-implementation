@@ -8,7 +8,7 @@ import { ThemeContext } from "../../../contexts/Theme";
 import { Config } from "src/app/configuration/types";
 import { stringToBool } from "src/app/services/stringToBool";
 
-const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState('5');
   const [_current, setCurrent] = useState('2');
@@ -105,12 +105,13 @@ const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOf
       return;
     }
 
-    let _index = _configData[0].components.findIndex((_o) => _o.props.id === id);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
-    _configData[0].components[_index] = {
-      type: _configData[0]?.components[_index].type,
+    _configData.pages[_pageIndex].components[_index] = {
+      type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
-        ..._configData[0].components[_index].props,
+        ..._configData.pages[_pageIndex].components[_index].props,
         source: _formValues.source,
         stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
         waveArrowOutside: stringToBool(_formValues.waveArrowOutside)

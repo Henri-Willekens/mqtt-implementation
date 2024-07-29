@@ -3,5 +3,6 @@ export default interface CompassProps {
   source: string,
   waveArrowOutside: boolean,
   stepsOfDegrees: number,
-  configEnabled: boolean
+  configEnabled: boolean,
+  activePageId: string
 }

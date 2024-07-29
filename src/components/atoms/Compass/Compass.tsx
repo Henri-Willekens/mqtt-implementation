@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import CompassProps from './Compass.types';
 import './Compass.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
+import { ThemeContext } from "../../../contexts/Theme";
 
-const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, stepsOfDegrees, configEnabled}) => {
+const Compass: React.FC<CompassProps> = ({ id, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState('5');
   const [_current, setCurrent] = useState('2');
   const [_correctData, setData] = useState('incomplete');
   const [_isModalOpen, setIsModalOpen] = useState(false);
+  const { _currentTheme } = useContext(ThemeContext);
   const [_formValues, setFormValues] = useState({
     source: source,
     waveArrowOutside: waveArrowOutside,
@@ -42,14 +44,14 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
       _lines.push(
         <g key={i}>
           <line
-            className={`compass-windrose-line compass-windrose-line__${theme}`}
+            className={`compass-windrose-line compass-windrose-line__${_currentTheme}`}
             x1={_x1}
             y1={_y1}
             x2={_x2}
             y2={_y2}
           />
           <text
-            className={`compass-windrose-text compass-windrose-text__${theme}`}
+            className={`compass-windrose-text compass-windrose-text__${_currentTheme}`}
             x={_textX}
             y={_textY}
             textAnchor="middle"
@@ -101,11 +103,11 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
 
   useEffect(() => {
-    if(_correctData == 'incomplete'){
+    if (_correctData == 'incomplete') {
       setTimeout(() => {
         setData("correct");
       }, 5000);
-      console.log('There is data missing, please check the data source.');
+      // console.log('There is data missing, please check the data source.');
     } else {
       update('hdg', _currentHeading);
       update('cog', _currentHeading + 20);
@@ -115,20 +117,20 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
   return (
     <>
-      <div onDoubleClick={openModal}>
+      <div key={id} onDoubleClick={openModal}>
         <svg width="400" height="400">
-          <circle className={`compass-windrose compass-windrose__${theme}`} cx="200" cy="200" r="150" />
+          <circle className={`compass-windrose compass-windrose__${_currentTheme}`} cx="200" cy="200" r="150" />
 
-          <g className={`compass-inner-windrose-lines__${theme}`}>
+          <g className={`compass-inner-windrose-lines__${_currentTheme}`}>
             <line x1="70" y1="200" x2="330" y2="200" />
             <line x1="200" y1="70" x2="200" y2="330" />
           </g>
 
           <g id="hdg">
-            <path className={`compass-ship compass-ship__${theme}`} d="M 180 120 L 180 335 L 220 335 L 220 120 C 220 93 206 65 200 65 C 194 65 180 93 180 120 Z" />
+            <path className={`compass-ship compass-ship__${_currentTheme}`} d="M 180 120 L 180 335 L 220 335 L 220 120 C 220 93 206 65 200 65 C 194 65 180 93 180 120 Z" />
           </g>
 
-          <g id="cog" className={`compass-cog compass-cog__${theme}`}>
+          <g id="cog" className={`compass-cog compass-cog__${_currentTheme}`}>
             <line x1="200" y1="70" x2="200" y2="200" />
             <polygon points="200,60 210,80 190,80" />
             <circle cx="200" cy="200" r="5" />
@@ -140,7 +142,7 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
 
           <g id='current'>
             {waveArrowOutside 
-              ? <image href={`./icons/current/outside/current-${_current}.svg`} x="188" y="0" fill="red" />
+              ? <image href={`./icons/current/outside/current-${_current}.svg`} x="188" y="0" />
               : <image href={`./icons/current/inside/current-${_current}.svg`} x="188" y="70" />
             }
           </g>
@@ -148,9 +150,10 @@ const Compass: React.FC<CompassProps> = ({ source, waveArrowOutside, theme, step
           <g className="compass-windrose-lines" fontSize="12">
             {generateWindRoseLines(150, 200, 200)}
           </g>
+          {_correctData == "incomplete" && <text x="200" y="250" className="alert" textAnchor="middle" fontSize={35}>!</text>}
         </svg>
-        <div className={`compass-source compass-source__${theme}`}>
-          <p>{ source }</p>
+        <div className={`compass-source compass-source__${_currentTheme}`}>
+          <p>{source}</p>
         </div>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">

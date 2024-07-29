@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import './Grid.scss';
 
 const _gridPositions: [{ x: number, y: number }] = [{ x: 0, y: 0 }];

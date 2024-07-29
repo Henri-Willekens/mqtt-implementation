@@ -6,7 +6,7 @@ import Input from "../Input/Input";
 import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
 
-const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, configEnabled }) => {
+const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, configEnabled }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     totalRudderAngle: totalRudderAngle,
@@ -82,7 +82,7 @@ const Rudder: React.FC<RudderProps> = ({ totalRudderAngle, elementRadius, config
 
   return (
     <>
-      <div onDoubleClick={openModal} className="rudder">
+      <div key={id} onDoubleClick={openModal} className="rudder">
         {determineRudderAngle()}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">

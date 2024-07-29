@@ -1,52 +1,39 @@
 import { useEffect, useState } from "react";
 
+import { ConfigContext } from "./contexts/Config";
+import { ThemeContext } from "./contexts/Theme";
+
 import Header from "./components/molecules/Header/Header";
-import DynamicRenderComponents from "./components/organisms/DynamicRenderComponents/DynamicRenderComponents";
-import Button from "./components/atoms/Button/Button";
-import { Grid } from './components/atoms/Grid/Grid';
-import ConfirmationModal from "./components/molecules/ConfirmationModal/ConfirmationModal";
+import PageManager from "./components/organisms/PageManager/PageManager";
 import ConfiguratorBar from "./components/molecules/ConfiguratorBar/ConfiguratorBar";
 
-import config from "./configuration/config.json";
+import config from "./configuration/new-config.json";
 import { Config } from './configuration/types';
 
 import "./App.scss";
 
 const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
-  const [_currentTheme, setCurrentTheme] = useState<string>('day');
+  const [_currentTheme, setCurrentTheme] = useState("day");
   const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
-  const [_isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
-
-  const switchTheme = () => {
-    if (_currentTheme == "day") {
-      setCurrentTheme("night");
-    } else {
-      setCurrentTheme("day")
-    }
-  };
-
+  const [_activePageId, setActivePageId] = useState("Nav1");
 
   const toggleGrid = () => {
     setGridEnabled(!_gridEnabled);
   };
 
-
-  const toggleConfigMode = () => {
-    setConfigEnabled(!_configEnabled);
+  const navigateToPage = (pageId: string) => {
+    setActivePageId(pageId);
   };
 
-
   useEffect(() => {
-    if (config.components.length !== 0) {
+    if (config.pages.length !== 0) {
       setConfigData(config as Config);
     } else {
       // fetch the config from mqtt or somewhere else
     }
   }, []);
-
 
   if (!_configData) {
     return (
@@ -56,37 +43,21 @@ const App = () => {
     );
   };
 
-
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(true);
-  };
-
-
-  const closeConfirmationModal = () => {
-    setIsConfirmationModalOpen(false);
-  }
-
-  
-  return(
-    <div className={`filter filter__${_currentTheme}`}>
-      <div className={_configEnabled ? "main main-config-mode" : "main"}>
-        <Header pages={['page1', 'page2']} />
-        <div className="components">
-          <ConfirmationModal isOpen={_isConfirmationModalOpen} onClose={closeConfirmationModal} confirmText="Save all changes" cancelText="Drop all changes"/>
-          <Grid />
-          <div className="ButtonArea">
-            <Button onClick={toggleConfigMode} text={`Config mode is: ${_configEnabled}`} />
-            <Button onClick={switchTheme} text={`Wisselen van theme`} />
-            <Button onClick={openConfirmationModal} text={`Open confirmationModal`} />
-            {_configEnabled && (
-              <Button onClick={toggleGrid} text={`Grid is ${_gridEnabled}`} />
-            )}
-          </div>
-          {/* <Button onclick={switchTheme} text={`Huidige theme: ${currentTheme}`} /> */}
-          <DynamicRenderComponents theme={_currentTheme} config={_configData} configMode={_configEnabled} gridEnabled={_gridEnabled} />
+  return (
+    <div className="app">
+      <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
+        <div className={`filter filter__${_currentTheme}`}>
+          <ConfigContext.Provider value={{ _configEnabled, setConfigEnabled }}>
+            <div className={_configEnabled ? "main main-config-mode" : "main"}>
+              <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
+              <div className="components">
+                <PageManager config={_configData} activePageId={_activePageId} />
+              </div>
+              {_configEnabled && <ConfiguratorBar />}
+            </div>
+          </ConfigContext.Provider>
         </div>
-        {_configEnabled && <ConfiguratorBar />}
-      </div>
+      </ThemeContext.Provider>
     </div>
   );
 };

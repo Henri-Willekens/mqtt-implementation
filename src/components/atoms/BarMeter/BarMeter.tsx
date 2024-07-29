@@ -40,7 +40,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let i = 0; i < numberOfTickLines; i++) {
       const _y = 2 + i * _tickSpacing;
       const _value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
-      
+
       _tickLines.push(
         <g className="barmeter-tickline" key={i}>
           <line x1="54" x2="64" y1={_y} y2={_y} />
@@ -105,7 +105,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     updateBarMeter(_currentValue);
   }, [_currentValue]);
 
-  
+
   return (
     <>
       <div onDoubleClick={openModal} className={`barmeter ${id}`}>
@@ -129,7 +129,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
         <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />
         <Input type="text" label="label" value={_formValues.label} id="label" name="label" onChange={handleFormChange} />
-        <Input type="text" label="unit" value={_formValues.unit}  id="unit" name="unit" onChange={handleFormChange} />
+        <Input type="text" label="unit" value={_formValues.unit} id="unit" name="unit" onChange={handleFormChange} />
         <Input type="number" label="Max value" value={_formValues.maxValue} id="maxValue" name="maxValue" onChange={handleFormChange} />
         <Input type="number" label="Number of tick lines" value={_formValues.numberOfTickLines} id="numberOfTickLines" name="numberOfTickLines" onChange={handleFormChange} />
       </FormModal>

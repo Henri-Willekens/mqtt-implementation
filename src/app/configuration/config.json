@@ -9,10 +9,10 @@
           "props": {
             "id": "magn-compass-1",
             "source": "magn",
-            "waveArrowOutside": false,
+            "waveArrowOutside": true,
             "stepsOfDegrees": 30,
-            "xPos": 653,
-            "yPos": 171
+            "xPos": 390,
+            "yPos": 113
           }
         }
       ]

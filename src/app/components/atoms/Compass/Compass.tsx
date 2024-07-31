@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, use } from "react";
 
 import CompassProps from './Compass.types';
 import './Compass.scss';
@@ -10,8 +10,10 @@ import { stringToBool } from "src/app/services/stringToBool";
 
 const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
-  const [_windspeed, setWindspeed] = useState('5');
-  const [_current, setCurrent] = useState('2');
+  const [_windspeed, setWindspeed] = useState(5);
+  const [_waveSpeed, setWaveSpeed] = useState(1);
+  const [_windArrow, setWindArrow] = useState(0);
+  const [_waveArrow, setWaveArrow] = useState(180);
   const [_correctData, setData] = useState('incomplete');
   const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
@@ -134,11 +136,12 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
 
 
   useEffect(() => {
-    update('wind-speed', 320);
-    update('current', 243);
-
     const _interval = setInterval(() => {
       setCurrentHeading(_prevHeading => (_prevHeading + 5));
+      setWindspeed(_prevWindSpeed => _prevWindSpeed + 1);
+      setWindArrow(_prevWindArrow => (_prevWindArrow + 5));
+      setWaveSpeed(_prevWaveSpeed => _prevWaveSpeed + 1);
+      setWaveArrow(_prevWaveArrow => (_prevWaveArrow + 5));
     }, 500)
 
     return () => clearInterval(_interval);
@@ -156,6 +159,33 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       update('cog', _currentHeading + 20);
     };
   }, [_currentHeading]);
+
+
+  useEffect(() => {
+    if (_waveSpeed > 4) {
+      setWaveSpeed(1);
+    }
+  }, [_waveSpeed]);
+
+  useEffect(() => {
+    if (_waveArrow > 360) {
+      setWaveArrow(0);
+    }
+    update('wave', _waveArrow);
+  }, [_waveArrow]);
+  
+  useEffect(() => {
+    if (_windArrow > 360) {
+      setWindArrow(0);
+    }
+    update('wind-speed', _windArrow);
+  }, [_windArrow]);
+
+  useEffect(() => {
+    if (_windspeed > 13) {
+      setWindspeed(1);
+    }
+  }, [_windspeed]);
 
 
   return (
@@ -183,10 +213,10 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
             <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x="188" y="0" />
           </g>
 
-          <g id='current'>
+          <g id='wave'>
             {waveArrowOutside 
-              ? <image href={`./icons/current/outside/current-${_current}.svg`} x="188" y="0" />
-              : <image href={`./icons/current/inside/current-${_current}.svg`} x="188" y="70" />
+              ? <image href={`./icons/wave/outside/wave-${_waveSpeed}.svg`} x="188" y="0" />
+              : <image href={`./icons/wave/inside/wave-${_waveSpeed}.svg`} x="188" y="70" />
             }
           </g>
 

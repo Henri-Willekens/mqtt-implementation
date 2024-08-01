@@ -5,5 +5,6 @@ export default interface PageProps {
   pageId: string,
   title: string,
   components: ComponentConfig[],
-  activePageId: string
+  activePageId: string,
+  gridEnabled: boolean
 };

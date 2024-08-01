@@ -15,13 +15,8 @@ import "./App.scss";
 const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
   const [_currentTheme, setCurrentTheme] = useState("day");
-  const [_gridEnabled, setGridEnabled] = useState(true);
   const [_configEnabled, setConfigEnabled] = useState(false);
   const [_activePageId, setActivePageId] = useState("Nav1");
-
-  const toggleGrid = () => {
-    setGridEnabled(!_gridEnabled);
-  };
 
   const navigateToPage = (pageId: string) => {
     setActivePageId(pageId);

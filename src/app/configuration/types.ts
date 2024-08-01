@@ -1,4 +1,5 @@
 export interface PagesConfig {
+  gridEnabled: boolean,
   title: string,
   id: string,
   components: ComponentConfig[]

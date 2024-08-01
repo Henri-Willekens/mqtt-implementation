@@ -3,6 +3,7 @@
     {
       "title": "Navigation",
       "id": "Nav1",
+      "gridEnabled": true,
       "components": [
         {
           "type": "Compass",
@@ -11,8 +12,8 @@
             "source": "magn",
             "waveArrowOutside": false,
             "stepsOfDegrees": 30,
-            "xPos": 653,
-            "yPos": 171
+            "xPos": 606.8181762695312,
+            "yPos": 278.95452880859375
           }
         }
       ]
@@ -20,13 +21,14 @@
     {
       "title": "Engine",
       "id": "Engine1",
+      "gridEnabled": false,
       "components": [
         {
           "type": "HeatCoolingPump",
           "props": {
             "id": "heat-cooling-pump-1",
-            "xPos": 190,
-            "yPos": 133
+            "xPos": 380,
+            "yPos": 360.9971618652344
           }
         }
       ]

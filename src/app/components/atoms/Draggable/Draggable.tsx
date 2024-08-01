@@ -32,11 +32,13 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
 
   const stopDrag = () => {
-    setDragging(false);
-    if (gridEnabled) {
-      snapToGrid();
+    if (_configEnabled) {
+      setDragging(false);
+      if (gridEnabled) {
+        snapToGrid();
+      }
+      handleSave();
     }
-    handleSave();
   };
 
 
@@ -44,6 +46,11 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     if (_data === undefined) {
       return;
     }
+
+    if (gridEnabled) {
+      snapToGrid();
+    }
+    console.log(_position)
 
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
@@ -82,21 +89,21 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
 
       setPosition({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos})
+
+      if (gridEnabled) {
+        snapToGrid({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos});
+      }
     })
     .catch((err) => console.error(err));
   }
 
-  useEffect(() => {
-    fetchConfig();
-  }, [])
 
-
-  const snapToGrid = () => {
+  const snapToGrid = (_fetchedPosition?: { x: number, y: number }) => {
     let _closestPosition = _gridPositions[0];
     let _minDistance = Number.MAX_VALUE;
 
     _gridPositions.forEach((_gridPosition) => {
-      const distance = Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
+      const distance = _fetchedPosition ? Math.hypot(_fetchedPosition.x - _gridPosition.x, _fetchedPosition.y - _gridPosition.y) : Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
       if (distance < _minDistance) {
         _closestPosition = _gridPosition;
         _minDistance = distance;
@@ -105,6 +112,11 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
     setPosition({ x: _closestPosition.x, y: _closestPosition.y });
   };
+
+
+  useEffect(() => {
+    fetchConfig();
+  }, []);
 
 
   return (

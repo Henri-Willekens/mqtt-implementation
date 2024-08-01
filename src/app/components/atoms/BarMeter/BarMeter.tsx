@@ -6,7 +6,7 @@ import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
 import { Config } from "src/app/configuration/types";
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled }) => {
+const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled, activePageId }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -106,12 +106,13 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       return;
     }
 
-    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
-    _configData.components[_index] = {
-      type: _configData?.components[_index].type,
+    _configData.pages[_pageIndex].components[_index] = {
+      type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
-        ..._configData.components[_index].props,
+        ..._configData.pages[_pageIndex].components[_index].props,
         maxValue: parseInt(_formValues.maxValue),
         id: _formValues.id,
         numberOfTickLines: parseInt(_formValues.numberOfTickLines),

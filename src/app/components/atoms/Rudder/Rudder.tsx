@@ -7,7 +7,7 @@ import RudderProps from "./Rudder.types";
 import "./Rudder.scss";
 import { Config } from "src/app/configuration/types";
 
-const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, configEnabled }) => {
+const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, activePageId, configEnabled }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
@@ -61,7 +61,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, co
       fetch("/api/read-json")
       .then((res) => res.json())
       .then((results) => { 
-        setConfigDatat(results);
+        setConfigData(results);
       })
       .catch((err) => console.error(err));
     };
@@ -90,12 +90,13 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, co
       return;
     }
 
-    let _index = _configData.components.findIndex((_o) => _o.props.id === id);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
-    _configData.components[_index] = {
-      type: _configData?.components[_index].type,
+    _configData.pages[_pageIndex].components[_index] = {
+      type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
-        ..._configData.components[_index].props,
+        ..._configData.pages[_pageIndex].components[_index].props,
         totalRudderAngle: parseInt(_formValues.totalRudderAngle),
         elementRadius: parseInt(_formValues.elementRadius)
       }

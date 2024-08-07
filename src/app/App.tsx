@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { ConfigContext } from "./contexts/Config";
 import { ThemeContext } from "./contexts/Theme";
+import { ActivePageContext } from "./contexts/ActivePage";
 
 import Header from "./components/molecules/Header/Header";
 import PageManager from "./components/organisms/PageManager/PageManager";
@@ -46,6 +47,7 @@ const App = () => {
             <div className={_configEnabled ? "main main-config-mode" : "main"}>
               <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
               <div className="components">
+                {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
                 <PageManager config={_configData} activePageId={_activePageId} />
               </div>
               {_configEnabled && <ConfiguratorBar />}

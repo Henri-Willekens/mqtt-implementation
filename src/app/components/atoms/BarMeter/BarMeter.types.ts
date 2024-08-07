@@ -6,5 +6,6 @@ export default interface BarMeterProps {
   label: string,
   alertLines: [{ alertType: string, value: number, higherOrLowerThan: string }],
   numberOfTickLines: number,
-  configEnabled: boolean
+  configEnabled: boolean,
+  activePageId: string
 }

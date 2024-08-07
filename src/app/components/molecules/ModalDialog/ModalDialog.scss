@@ -10,6 +10,8 @@
   background-color: $background-body;
   color: $neutral-soft-white;
 
+  // animation: fade-out 0.7s ease-out;
+
   padding: 0;
 
   &__header {
@@ -32,10 +34,6 @@
   }
 }
 
-dialog {
-  animation: fade-out 0.7s ease-out;
-}
-
 dialog[open] {
   animation: fade-in 0.7s ease-out;
 }
@@ -54,6 +52,7 @@ dialog::backdrop {
   100% {
     opacity: 1;
     transform: scaleY(1);
+    display: block;
   }
 }
 
@@ -61,6 +60,7 @@ dialog::backdrop {
   0% {
     opacity: 1;
     transform: scaleY(1);
+    display: block;
   }
 
   100% {

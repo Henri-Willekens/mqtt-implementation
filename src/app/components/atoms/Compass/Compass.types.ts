@@ -4,5 +4,7 @@ export default interface CompassProps {
   waveArrowOutside: boolean,
   stepsOfDegrees: number,
   configEnabled: boolean,
+  width: number,
+  height: number
   activePageId: string
 }

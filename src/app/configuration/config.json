@@ -12,6 +12,8 @@
             "source": "magn",
             "waveArrowOutside": true,
             "stepsOfDegrees": 15,
+            "width": 450,
+            "height": 450,
             "xPos": 626.328125,
             "yPos": 281.75
           }

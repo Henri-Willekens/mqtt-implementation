@@ -8,7 +8,7 @@ import { ThemeContext } from "../../../contexts/Theme";
 import { Config } from "src/app/configuration/types";
 import { stringToBool } from "src/app/services/stringToBool";
 
-const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, width, height, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
@@ -21,6 +21,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
   const [_formValues, setFormValues] = useState({
     source: source,
     waveArrowOutside: waveArrowOutside,
+    width: width,
+    height: height,
     stepsOfDegrees: stepsOfDegrees
   });
 
@@ -115,6 +117,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
         source: _formValues.source,
+        width: parseInt(_formValues.width),
+        height: parseInt(_formValues.height),
         stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
         waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
       }
@@ -191,7 +195,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
   return (
     <>
       <div key={id} onDoubleClick={openModal}>
-        <svg width="400" height="400">
+        <svg width={width} height={height} viewBox="0 0 400 400">
           <circle className={`compass-windrose compass-windrose__${_currentTheme}`} cx="200" cy="200" r="150" />
 
           <g className={`compass-inner-windrose-lines__${_currentTheme}`}>
@@ -234,6 +238,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
         <Input type="text" label="Source" value={_formValues.source} id="source" name="source" onChange={handleFormChange} />
         <Input type="number" label="Steps of degrees" value={_formValues.stepsOfDegrees} id="stepsOfDegrees" name="stepsOfDegrees" onChange={handleFormChange} />
+        <Input type="number" label="Width" value={_formValues.width} id="width" name="width" onChange={handleFormChange} />
+        <Input type="number" label="Height" value={_formValues.height} id="height" name="height" onChange={handleFormChange} />
         <Input type="text" label="Wave arrow outside?" value={_formValues.waveArrowOutside} id="waveArrowOutside" name="waveArrowOutside" onChange={handleFormChange} />
       </FormModal>
     </>

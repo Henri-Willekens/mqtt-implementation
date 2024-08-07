@@ -11,9 +11,9 @@
             "id": "magn-compass-1",
             "source": "magn",
             "waveArrowOutside": true,
-            "stepsOfDegrees": 30,
-            "xPos": 742.328125,
-            "yPos": 253
+            "stepsOfDegrees": 15,
+            "xPos": 626.328125,
+            "yPos": 281.75
           }
         }
       ]

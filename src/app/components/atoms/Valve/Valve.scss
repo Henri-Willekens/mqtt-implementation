@@ -1,0 +1,38 @@
+@import "../../../styles/colorVariables";
+
+.valve {
+  cursor: pointer;
+
+  &-top {
+    fill: $neutral-soft-white;
+  }
+
+  &-fill {
+    stroke: $neutral-soft-white;
+    stroke-width: 1;
+    fill: transparent;
+    
+    &__cleanwater {
+      fill: $engine-cleanwater;
+      animation: changeOpacity 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    &__fuel {
+      fill: $engine-fuel;
+      animation: changeOpacity 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+  }
+  
+  &-flow {
+    fill: $neutral-soft-white;
+    animation: changeOpacity 0.5s;
+  }
+}
+
+@keyframes changeOpacity {
+  from {
+    fill-opacity: 0;
+  }
+  to {
+    fill-opacity: 1;
+  }
+}

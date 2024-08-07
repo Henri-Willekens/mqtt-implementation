@@ -3,6 +3,7 @@
     {
       "title": "Navigation",
       "id": "Nav1",
+      "gridEnabled": true,
       "components": [
         {
           "type": "Compass",
@@ -20,13 +21,14 @@
     {
       "title": "Engine",
       "id": "Engine1",
+      "gridEnabled": false,
       "components": [
         {
           "type": "HeatCoolingPump",
           "props": {
             "id": "heat-cooling-pump-1",
-            "xPos": 190,
-            "yPos": 133
+            "xPos": 380,
+            "yPos": 360.9971618652344
           }
         }
       ]

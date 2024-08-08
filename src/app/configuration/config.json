@@ -12,10 +12,19 @@
             "source": "magn",
             "waveArrowOutside": true,
             "stepsOfDegrees": 15,
-            "width": 450,
-            "height": 450,
+            "width": 300,
+            "height": 300,
             "xPos": 567.272705078125,
             "yPos": 257.5
+          }
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "elementRadius": 100,
+            "totalRudderAngle": 270,
+            "xPos": 50,
+            "yPos": 50
           }
         }
       ]
@@ -29,8 +38,8 @@
           "type": "HeatCoolingPump",
           "props": {
             "id": "heat-cooling-pump-1",
-            "xPos": 239,
-            "yPos": 443.9772644042969
+            "xPos": 238.99147033691406,
+            "yPos": 562.9772644042969
           }
         },
         {
@@ -38,8 +47,32 @@
           "props": {
             "id": "valve-1",
             "fill": "cleanwater",
-            "xPos": 541.7698364257812,
-            "yPos": 271.35304260253906
+            "xPos": 680.4487915039062,
+            "yPos": 262.6001892089844
+          }
+        },
+        {
+          "type": "BarMeter",
+          "props": {
+            "id": "barmeter-1",
+            "maxValue": 20000,
+            "xPos": 50,
+            "ypos": 50,
+            "label": "Barmeter 1",
+            "numberOfTickLines": 5,
+            "unit": "L",
+            "alertLines": [
+              {
+                "type": "warning",
+                "value": 500,
+                "higherOrLowerThan": "lower"
+              },
+              {
+                "type": "alarm",
+                "value": 1000,
+                "higherOrLowerThan": "higher"
+              }
+            ]
           }
         }
       ]

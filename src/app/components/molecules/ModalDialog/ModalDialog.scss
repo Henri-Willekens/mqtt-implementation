@@ -34,6 +34,10 @@
   }
 }
 
+dialog {
+  // animation: fade-out 0.7s ease-in;
+}
+
 dialog[open] {
   animation: fade-in 0.7s ease-out;
 }

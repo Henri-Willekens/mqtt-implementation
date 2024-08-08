@@ -18,11 +18,13 @@
     
     &__cleanwater {
       fill: $engine-cleanwater;
-      animation: fillAnimation 5s forwards;
+      clip-path: inset(100% 0 0 0);
+      animation: fillAnimation 2.5s forwards;
     }
     &__fuel {
       fill: $engine-fuel;
-      animation: fillAnimation 5s forwards;
+      clip-path: inset(100% 0 0 0);
+      animation: fillAnimation 2.5s forwards;
     }
   }
   
@@ -35,5 +37,11 @@
 @keyframes fillAnimation {
   to {
     clip-path: inset(0 0 0 0); /* Reveal the fill */
+  }
+}
+
+@keyframes emptyAnimation {
+  to {
+    clip-path: inset(100% 0 0 0); /* Reveal the fill */
   }
 }

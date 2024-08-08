@@ -14,8 +14,8 @@
             "stepsOfDegrees": 15,
             "width": 450,
             "height": 450,
-            "xPos": 626.328125,
-            "yPos": 281.75
+            "xPos": 567.272705078125,
+            "yPos": 257.5
           }
         }
       ]
@@ -29,8 +29,8 @@
           "type": "HeatCoolingPump",
           "props": {
             "id": "heat-cooling-pump-1",
-            "xPos": 180,
-            "yPos": 498.984375
+            "xPos": 239,
+            "yPos": 443.9772644042969
           }
         },
         {
@@ -38,8 +38,8 @@
           "props": {
             "id": "valve-1",
             "fill": "cleanwater",
-            "xPos": 468.09515380859375,
-            "yPos": 212.11151123046875
+            "xPos": 541.7698364257812,
+            "yPos": 271.35304260253906
           }
         }
       ]

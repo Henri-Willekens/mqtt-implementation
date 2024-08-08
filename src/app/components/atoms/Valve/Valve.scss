@@ -8,31 +8,32 @@
   }
 
   &-fill {
-    stroke: $neutral-soft-white;
-    stroke-width: 1;
     fill: transparent;
+    clip-path: inset(100% 0 0 0);
+
+    &__stroke {
+      stroke: $neutral-soft-white;
+      stroke-width: 1;
+    }
     
     &__cleanwater {
       fill: $engine-cleanwater;
-      animation: changeOpacity 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+      animation: fillAnimation 5s forwards;
     }
     &__fuel {
       fill: $engine-fuel;
-      animation: changeOpacity 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+      animation: fillAnimation 5s forwards;
     }
   }
   
   &-flow {
     fill: $neutral-soft-white;
-    animation: changeOpacity 0.5s;
   }
 }
 
-@keyframes changeOpacity {
-  from {
-    fill-opacity: 0;
-  }
+
+@keyframes fillAnimation {
   to {
-    fill-opacity: 1;
+    clip-path: inset(0 0 0 0); /* Reveal the fill */
   }
 }

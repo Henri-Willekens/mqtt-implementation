@@ -126,7 +126,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
       key={id}
-      style={{ left: _position.x, top: _position.y }}
+      style={{ left: _position.x, top: _position.y, zIndex: _dragging ? 1000 : 'auto' }}
     >
       {children}
     </div>

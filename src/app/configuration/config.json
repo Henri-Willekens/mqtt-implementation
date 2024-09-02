@@ -14,8 +14,8 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 567.272705078125,
-            "yPos": 257.5
+            "xPos": 720.328125,
+            "yPos": 330
           }
         },
         {
@@ -23,8 +23,8 @@
           "props": {
             "elementRadius": 100,
             "totalRudderAngle": 270,
-            "xPos": 50,
-            "yPos": 50
+            "xPos": 1316,
+            "yPos": 314.25
           }
         }
       ]
@@ -47,8 +47,8 @@
           "props": {
             "id": "valve-1",
             "fill": "cleanwater",
-            "xPos": 680.4487915039062,
-            "yPos": 262.6001892089844
+            "xPos": 460.12640380859375,
+            "yPos": 312.84588623046875
           }
         },
         {
@@ -56,8 +56,8 @@
           "props": {
             "id": "barmeter-1",
             "maxValue": 20000,
-            "xPos": 50,
-            "yPos": 50,
+            "xPos": 36,
+            "yPos": 56,
             "label": "Barmeter 1",
             "numberOfTickLines": 5,
             "unit": "L",
@@ -75,7 +75,10 @@
         }
       ],
       "connections": [
-        { "from": "barmeter-1", "to": "valve-1" }
+        {
+          "from": "barmeter-1",
+          "to": "valve-1"
+        }
       ]
     },
     {

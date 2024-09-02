@@ -57,24 +57,25 @@
             "id": "barmeter-1",
             "maxValue": 20000,
             "xPos": 50,
-            "ypos": 50,
+            "yPos": 50,
             "label": "Barmeter 1",
             "numberOfTickLines": 5,
             "unit": "L",
             "alertLines": [
               {
-                "type": "warning",
-                "value": 500,
-                "higherOrLowerThan": "lower"
+                "alertType": "alarm",
+                "value": 2000
               },
               {
-                "type": "alarm",
-                "value": 1000,
-                "higherOrLowerThan": "higher"
+                "alertType": "warning",
+                "value": 5000
               }
             ]
           }
         }
+      ],
+      "connections": [
+        { "from": "barmeter-1", "to": "valve-1" }
       ]
     },
     {

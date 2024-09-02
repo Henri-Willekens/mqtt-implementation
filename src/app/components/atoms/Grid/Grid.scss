@@ -20,10 +20,12 @@
 
   &:nth-child(3n + 1) {
     border-left: none;
+    border-right: none;
   }
 
   &:nth-child(3n) {
     border-right: none;
+    border-left: none;
   }
 
   &:nth-child(-n+9) {

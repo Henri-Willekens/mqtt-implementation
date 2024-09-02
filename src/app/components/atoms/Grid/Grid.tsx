@@ -12,7 +12,7 @@ const Grid = () => {
         const _coordinates = _item.querySelector('.coordinates');
         if (_coordinates) {
           _gridPositions.push({ x: _rect.left, y: _rect.top });
-          _coordinates.textContent = `(${_rect.left.toFixed(2)}, ${_rect.top.toFixed(2)})`;
+          // _coordinates.textContent = `(${_rect.left.toFixed(2)}, ${_rect.top.toFixed(2)})`;
         }
       });
     }

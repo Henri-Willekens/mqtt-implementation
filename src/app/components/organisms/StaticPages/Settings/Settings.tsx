@@ -8,7 +8,7 @@ import './Settings.scss';
 
 const SettingsPage = () => {
 
-  const { setCurrentTheme } = useContext(ThemeContext);
+  const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
   const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
 
@@ -39,16 +39,16 @@ const SettingsPage = () => {
       <div className="Buttons">
         <div className="Themes">
           <label>Themes:</label>
-          <Button ExtraclassName="Btn" onClick={() => switchTheme("night")} text="Night" />
-          <Button ExtraclassName="Btn" onClick={() => switchTheme("day")} text="Day" />
+          <Button extraClassName={`Btn ${_currentTheme == "night" && "active"} `} onClick={() => switchTheme("night")} text="Night" />
+          <Button extraClassName={`Btn ${_currentTheme == "day" && "active"} `} onClick={() => switchTheme("day")} text="Day" />
         </div>
         <div className="Config">
           <label>Config:</label>
-          <Button ExtraclassName="Btn" onClick={toggleConfigMode} text="Config" />
+          <Button extraClassName={`Btn ${_configEnabled && "active"} `} onClick={toggleConfigMode} text="Config" />
         </div>
         <div className="Grid">
           <label>Grid:</label>
-          <Button ExtraclassName="Btn" onClick={toggleGrid} text="Grid" />
+          <Button extraClassName="Btn" onClick={toggleGrid} text="Grid" />
         </div>
       </div>
     </div>

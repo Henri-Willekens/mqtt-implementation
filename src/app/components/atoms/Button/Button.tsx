@@ -1,9 +1,9 @@
 import ButtonProps from './Button.types';
 import "./Button.scss";
 
-const Button: React.FC<ButtonProps> = ({ ExtraclassName, onClick, text }) => {
+const Button: React.FC<ButtonProps> = ({ extraClassName, onClick, text }) => {
   return (
-    <div onClick={onClick} className={`button ${ExtraclassName}`}>
+    <div onClick={onClick} className={`button ${extraClassName}`}>
       <p className="button__label">{text}</p>
     </div>
   );

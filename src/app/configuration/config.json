@@ -77,7 +77,8 @@
       "connections": [
         {
           "from": "barmeter-1",
-          "to": "valve-1"
+          "to": "valve-1",
+          "filled": true
         }
       ]
     },

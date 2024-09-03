@@ -63,7 +63,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`barmeter-alertlines__${_alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
+        <line key={`${id}-${_alertValue.alertType}-${_alertValue.value}`} className={`barmeter-alertlines__${_alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
       )
     }
 

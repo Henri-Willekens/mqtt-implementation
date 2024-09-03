@@ -25,7 +25,7 @@ const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
               pageId={_page.id}
               title={_page.title}
               gridEnabled={_page.gridEnabled}
-              components={_page.components}
+              config={_page}
               activePageId={activePageId}
             />
           ) : null

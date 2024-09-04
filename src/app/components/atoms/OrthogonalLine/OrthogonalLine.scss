@@ -9,6 +9,7 @@
   overflow: visible;
 
   & > path {
+    fill: none;
     stroke-width: 5px;
   }
 
@@ -25,7 +26,9 @@
       stroke: brown;
     }
 
-    &__
+    &__lub-oil {
+      stroke: orange;
+    }
   }
 
   &__type__connection {

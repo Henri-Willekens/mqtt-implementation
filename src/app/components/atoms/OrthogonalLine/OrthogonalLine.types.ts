@@ -1,5 +1,8 @@
 export default interface OrthogonalLineProps {
-  from: { x: number, y: number },
-  to: { x: number, y: number },
-  filled?: boolean
+  from: any,
+  to: any,
+  fromConnectionPosition: 'top' | 'right' | 'bottom' | 'left',
+  toConnectionPosition: 'top' | 'right' | 'bottom' | 'left',
+  type: 'pipe' | 'connection',
+  content?: 'clean-water' | 'fuel' | 'lub-oil' | 'sea-water'
 };

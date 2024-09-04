@@ -30,7 +30,7 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ compo
         const toConn = components[components.findIndex((_o) => _o.props.id === conn.to)];
 
         return(
-          activePageId == 'Engine1' && <OrthologalLine key={index} from={{ x: fromConn.props.xPos, y: fromConn.props.yPos }} to={{ x: toConn.props.xPos, y: toConn.props.yPos }} filled={conn.filled} />
+          activePageId == 'Engine1' && <OrthologalLine key={index} from={fromConn} to={toConn} fromConnectionPosition="bottom" toConnectionPosition="bottom" type={conn.type} content={conn.content} />
         );
       })}
     </>

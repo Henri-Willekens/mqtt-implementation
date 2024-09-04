@@ -1,30 +1,30 @@
 import OrthologalLineProps from './OrthogonalLine.types';
 
-const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, filled }) => {
-  const _color = filled ? 'blue' : 'gray';
+import './OrthogonalLine.scss';
 
-  const _midX = (from.x + to.x) / 2;
-  const _midY = (from.y + to.y) / 2;
-
+const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, fromConnectionPosition, toConnectionPosition, type, content }) => {
   let pathData = '';
+  const _midX =(from.props.xPos + to.props.xPos) / 2;
 
-  if (from.x !== to.x && from.y !== to.y) {
+
+  if (from.props.xPos !== to.props.xPos && from.props.yPos !== to.props.yPos) {
     pathData = `
-      M ${from.x},${from.y}
-      L ${_midX},${from.y}
-      L ${_midX},${to.y}
-      L ${to.x},${to.y}
+      M ${from.props.xPos}, ${from.props.yPos}
+      L ${_midX}, ${from.props.yPos}
+      L ${_midX}, ${to.props.yPos}
+      L ${to.props.xPos}, ${to.props.yPos}
     `;
   } else {
     pathData = `
-      M ${from.x},${from.y}
-      L ${to.x},${to.y}
+      M ${from.props.xPos}, ${from.props.yPos}
+      L ${to.props.xPos}, ${to.props.yPos}
     `;
-  };
+  }
+
 
   return (
-    <svg style={{ position: 'absolute', top: 0, left: 0, overflow: 'visible' }}>
-      <path d={pathData} fill='none' stroke={_color} strokeWidth={5} />
+    <svg className='orthogonal-line'>
+      <path className={type == 'connection' ? 'orthogonal-line__type__connection': `orthogonal-line__type__pipe__${content}`} d={pathData} />
     </svg>
   )
 };

@@ -78,7 +78,13 @@
         {
           "from": "barmeter-1",
           "to": "valve-1",
-          "filled": true
+          "type": "pipe",
+          "content": "clean-water"
+        },
+        {
+          "from": "valve-1",
+          "to": "heat-cooling-pump-1",
+          "type": "connection"
         }
       ]
     },

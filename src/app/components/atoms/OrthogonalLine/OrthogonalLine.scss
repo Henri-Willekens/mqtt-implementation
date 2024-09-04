@@ -1,0 +1,34 @@
+@import '../../../styles/colorVariables';
+
+.orthogonal-line {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+
+  overflow: visible;
+
+  & > path {
+    stroke-width: 5px;
+  }
+
+  &__type__pipe {
+    &__clean-water {
+      stroke: blue;
+    }
+
+    &__sea-water {
+      stroke: green;
+    }
+
+    &__fuel {
+      stroke: brown;
+    }
+
+    &__
+  }
+
+  &__type__connection {
+    stroke: $neutral-soft-white;
+  }
+}

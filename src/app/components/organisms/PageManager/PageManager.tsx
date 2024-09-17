@@ -1,4 +1,5 @@
 import Page from "../Page/Page";
+import AlertLog from "../StaticPages/AlertLog/AlertLog";
 import SettingsPage from "../StaticPages/Settings/Settings";
 
 import "./PageManager.scss";
@@ -8,7 +9,8 @@ import PageManagerProps from "./PageManager.types";
 const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
 
   const STATIC_PAGES: { [key: string]: React.FC } = {
-    Settings: SettingsPage
+    Settings: SettingsPage,
+    AlertLog: AlertLog
   };
 
   const StaticPageComponent = STATIC_PAGES[activePageId];

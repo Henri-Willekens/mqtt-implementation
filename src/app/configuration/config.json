@@ -80,11 +80,6 @@
           "to": "valve-1"
         }
       ]
-    },
-    {
-      "title": "Settings",
-      "id": "Settings",
-      "components": []
     }
   ]
 }

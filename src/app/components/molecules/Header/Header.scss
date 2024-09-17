@@ -15,6 +15,11 @@
     width: 70%;
   }
 
+  &__pages-overview {
+    width: 48px;
+    height: 48px;
+  }
+
   &__block {
     display: flex;
     flex-direction: row;
@@ -26,6 +31,8 @@
       align-items: center;
 
       margin: $sm-margin;
+
+      cursor: pointer;
 
       & > img {
         width: 48px;

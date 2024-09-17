@@ -1,32 +1,35 @@
-import React from "react";
-import Button from "../../atoms/Button/Button";
 import HeaderProps from './Header.types';
 import './Header.scss';
 
-const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) => {
+import Button from '../../atoms/Button/Button';
+
+const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) => {
+
   const switchToPage = (id: string) => {
     navigateToPage(id);
   };
 
-  const pageButtons = pages.map((page) => {
-    for (let i = 0; i < pages.length; i++) {
-      if (page.id === activePageId) {
-        return <Button extraClasses="active" key={page.id} onClick={() => switchToPage(page.id)} value={page.title} />
-      } else {
-        return <Button key={page.id} onClick={() => switchToPage(page.id)} value={page.title} />
-      }
+  const pageButtons = pages.map((_page) => {
+    if (_page.id == activePageId) {
+      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} extraClasses='active' />;
+    } else {
+      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} />;
     }
   });
 
-  return (
+  return(
     <div className='navigation'>
-      <div className="navigation__block navigation__block-pages">
+      <div className='navigation__block navigation__pages'>
         {pageButtons}
       </div>
-      <div className="navigation__block navigation__block-other">
-        <img className="navigation__block-icon" src="./icons/general/alerts.svg" alt="Alert tab" />
-        <img className="navigation__block-icon" src="./icons/general/account.svg" alt="Account" />
-        <img className="navigation__block-icon" src="./icons/general/settings.svg" alt="Settings" />
+      <div className='navigation__block navigation__alerts'>
+        <div className='navigation__block-alert'>
+          <p>GPS 1 failed</p>
+        </div>
+      </div>
+      <div className='navigation__block navigation__other'>
+      <img className="navigation__block-icon" src="./icons/general/alerts.svg" alt="Account" />
+      <img className="navigation__block-icon" src="./icons/general/account.svg" alt="Account" />
       </div>
     </div>
   );

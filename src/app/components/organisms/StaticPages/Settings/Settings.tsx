@@ -39,16 +39,16 @@ const SettingsPage = () => {
       <div className="Buttons">
         <div className="Themes">
           <label>Themes:</label>
-          <Button extraClassName={`Btn ${_currentTheme == "night" && "active"} `} onClick={() => switchTheme("night")} text="Night" />
-          <Button extraClassName={`Btn ${_currentTheme == "day" && "active"} `} onClick={() => switchTheme("day")} text="Day" />
+          <Button extraClasses={`Btn ${_currentTheme == "day" && "active"} `} onClick={() => switchTheme("day")} value="Day" />
+          <Button extraClasses={`Btn ${_currentTheme == "night" && "active"} `} onClick={() => switchTheme("night")} value="Night" />
         </div>
         <div className="Config">
           <label>Config:</label>
-          <Button extraClassName={`Btn ${_configEnabled && "active"} `} onClick={toggleConfigMode} text="Config" />
+          <Button extraClasses={`Btn ${_configEnabled && "active"} `} onClick={toggleConfigMode} value="Config" />
         </div>
         <div className="Grid">
           <label>Grid:</label>
-          <Button extraClassName="Btn" onClick={toggleGrid} text="Grid" />
+          <Button extraClasses="Btn" onClick={toggleGrid} value="Grid" />
         </div>
       </div>
     </div>

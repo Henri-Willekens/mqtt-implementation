@@ -19,8 +19,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
   return (
     <ModalDialog modalTitle="Save current changes" isOpen={isOpen} onClose={onClose}>
       <div className="confirmation-modal__action-buttons">
-        <Button onClick={handleConfirm} text={cancelText} />
-        <Button onClick={handleCancel} text={confirmText} />
+        <Button onClick={handleConfirm} value={cancelText} />
+        <Button onClick={handleCancel} value={confirmText} />
       </div>
     </ModalDialog>
   );

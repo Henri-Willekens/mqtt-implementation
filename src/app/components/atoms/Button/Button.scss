@@ -1,39 +1,45 @@
-@import "../../../styles/colorVariables";
+@import '../../../styles/effects.scss';
+@import '../../../styles/fonts.scss';
+@import '../../../styles/colors.scss';
 
 .button {
-  width: 200px;
-  height: fit-content;
+  background-color: $normal-bg;
+  border: 0.5px solid $stroke;
+  border-radius: $md-radius;
+  
+  padding: $sm-padding;
+  margin: $sm-margin;
 
-  padding: 5px 10px;
-  margin: 5px;
+  width: fit-content;
+  max-width: 200px;
+  height: auto;
 
-  background-color: $new-button-background;
+  box-shadow: $md-shadow;
 
-  border: 1px solid $new-button-border;
-  border-radius: 8px;
+  user-select: none;
 
-  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.25));
-
-  cursor: pointer;
-
-  &__label {
-    margin: 0;
-
-    color: $neutral-soft-white;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    background-color: $new-button-on-hover;
+    background-color: $onhover-bg;
+    
+    cursor: pointer;
+  }
 
-    filter: none;
+  &__label {
+    color: $white;
+    font-family: 'Work Sans', 'sans-serif';
+    font-size: $st-font-size;
+    font-weight: bold;
+
+    margin: 5px;
   }
 }
 
 .active {
-  background-color: $button-clicked;
-  filter: none;
-}
+  background-color: $active-bg;
 
-.headerBtn {
-  width: fit-content;
+  box-shadow: $md-inner-shadow;
 }

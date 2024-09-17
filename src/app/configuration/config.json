@@ -14,8 +14,8 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 720.328125,
-            "yPos": 330
+            "xPos": 873.328125,
+            "yPos": 259.5
           }
         },
         {
@@ -47,8 +47,8 @@
           "props": {
             "id": "valve-1",
             "fill": "cleanwater",
-            "xPos": 460.12640380859375,
-            "yPos": 312.84588623046875
+            "xPos": 476.81390380859375,
+            "yPos": 283.09588623046875
           }
         },
         {
@@ -56,9 +56,9 @@
           "props": {
             "id": "barmeter-1",
             "maxValue": 20000,
-            "xPos": 36,
-            "yPos": 56,
-            "label": "Barmeter 1",
+            "xPos": 1096,
+            "yPos": 576.654296875,
+            "label": "Tank 1",
             "numberOfTickLines": 5,
             "unit": "L",
             "alertLines": [

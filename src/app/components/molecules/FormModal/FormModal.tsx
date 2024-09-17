@@ -22,8 +22,8 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, cancelText, subm
         {children}
       </div>
       <div className="form-modal__action-buttons">
-        <Button onClick={handleCancel} text={cancelText} />
-        <Button onClick={handleSubmit} text={submitText} />
+        <Button onClick={handleCancel} value={cancelText} />
+        <Button onClick={handleSubmit} value={submitText} />
       </div>
     </ModalDialog>
   );

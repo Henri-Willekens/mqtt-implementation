@@ -11,9 +11,9 @@ const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) 
   const pageButtons = pages.map((page) => {
     for (let i = 0; i < pages.length; i++) {
       if (page.id === activePageId) {
-        return <Button extraClassName="active headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
+        return <Button extraClasses="active" key={page.id} onClick={() => switchToPage(page.id)} value={page.title} />
       } else {
-        return <Button extraClassName="headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
+        return <Button key={page.id} onClick={() => switchToPage(page.id)} value={page.title} />
       }
     }
   });

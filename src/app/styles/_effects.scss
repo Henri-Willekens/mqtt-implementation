@@ -1,0 +1,21 @@
+@import './colors';
+
+// Radiuses for buttons
+$md-radius: 4px;
+
+// Shadows
+$sm-shadow: 2px 2px $shadow;
+$sm-inner-shadow: 2px 2px $shadow;
+
+$md-inner-shadow: 4px 4px $shadow inset;
+$md-shadow: 2px 2px $shadow;
+
+// Paddings
+$sm-padding: 2.5px 5px;
+$md-padding: 5px 10px;
+$lg-padding: 10px 15px;
+
+// Margins
+$sm-margin: 5px 10px;
+$md-margin: 10px 15px;
+$lg-margin: 15px 20px;

@@ -31,26 +31,27 @@ const App = () => {
     }
   }, []);
 
-  if (!_configData) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  };
-
   return (
     <div className="app">
       <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
         <div className={`filter filter__${_currentTheme}`}>
           <ConfigContext.Provider value={{ _configEnabled, setConfigEnabled }}>
             <div className={_configEnabled ? "main main-config-mode" : "main"}>
-              <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} pageName={`Page: ${_activePageId}`} />
-              <div className="components">
-                {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
-                <PageManager config={_configData} activePageId={_activePageId} />
-              </div>
-              {_configEnabled && <ConfiguratorBar />}
+              {_configData === null ? (
+                <div className="loading">
+                  <div className="loader"></div>
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <>
+                  <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
+                  <div className="components">
+                    {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
+                    <PageManager config={_configData} activePageId={_activePageId} />
+                  </div>
+                  {_configEnabled && <ConfiguratorBar />}
+                </>
+              )}
             </div>
           </ConfigContext.Provider>
         </div>

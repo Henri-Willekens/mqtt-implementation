@@ -25,6 +25,8 @@
   &:hover {
     background-color: $onhover-bg;
     
+    box-shadow: $md-shadow;
+    
     cursor: pointer;
   }
 

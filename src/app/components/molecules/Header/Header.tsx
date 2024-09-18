@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) 
   return(
     <div className='navigation'>
       <div className='navigation__block navigation__pages'>
-        {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' />}
+        {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
       </div>
       <div className='navigation__block navigation__alerts'>
         <div className='navigation__block-alert'>

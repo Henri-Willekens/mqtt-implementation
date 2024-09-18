@@ -67,8 +67,8 @@ const SettingsPage = () => {
         </div>
         <div className="ActiveConfig">
           <label>Active user:</label>
-          <Button extraClassName={`Btn ${_activeConfig == "ConfigA" && "active"} `} onClick={() => ChangeConfig("ConfigA")} text="Change to config A" />
-          <Button extraClassName={`Btn ${_activeConfig == "ConfigB" && "active"} `} onClick={() => ChangeConfig("ConfigB")} text="Change to config B" />
+          <Button extraClassName={`Btn ${_activeConfig == "ConfigA" && "active"} `} onClick={() => ChangeConfig("ConfigA")} text="Config A" />
+          <Button extraClassName={`Btn ${_activeConfig == "ConfigB" && "active"} `} onClick={() => ChangeConfig("ConfigB")} text="Config B" />
         </div>
       </div>
     </div>

@@ -114,3 +114,22 @@
     }
   }
 }
+
+
+.outer-circle {
+  filter: drop-shadow(4px 4px 0 rgba(10, 10, 10, 0.5));
+}
+
+.inner-circle {
+  filter: drop-shadow(-4px -4px 0 rgba(10, 10, 10, 0.5));
+}
+
+.boat {
+  /* Drop shadow for the boat */
+  filter: drop-shadow(2px 2px 0 rgba(10, 10, 10, 0.5));
+}
+
+.cog {
+  /* Drop shadow for the cog */
+  filter: drop-shadow(2px 2px 0 rgba(10, 10, 10, 0.5));
+}

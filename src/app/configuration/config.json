@@ -52,7 +52,7 @@
           }
         },
         {
-          "type": "BarMeter",
+          "type": "BarGauge",
           "props": {
             "id": "barmeter-1",
             "maxValue": 20000,

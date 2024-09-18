@@ -9,7 +9,7 @@
       }
     },
     {
-      "type": "BarMeter",
+      "type": "BarGauge",
       "props": {
         "label": "Motor 1 temperature",
         "title": "motor-1-temperature",
@@ -31,7 +31,7 @@
       }
     },
     {
-      "type": "BarMeter",
+      "type": "BarGauge",
       "props": {
         "label": "Water tank 1",
         "title": "water-tank-1-filling",

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import BarMeterProps from './BarMeter.types';
-import './BarMeter.scss';
+import BarMeterProps from './BarGauge.types';
+import './BarGauge.scss';
 import FormModal from "../../molecules/FormModal/FormModal";
 import Input from "../Input/Input";
 import { Config } from "src/app/configuration/types";
 
-const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled, activePageId }) => {
+const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled, activePageId }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -22,9 +22,9 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const updateBarMeter = (_value: number) => {
     let _percentage = (_value / maxValue) * 100;
 
-    let _barMeterFilling = document.querySelector(`.barmeter-filling.${id}`) as HTMLElement;
+    let _barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 
-    const _containerHeight = 302;
+    const _containerHeight = 250;
     const _fillHeight = (_percentage / 100) * _containerHeight;
     const _newY = _containerHeight - _fillHeight;
 
@@ -35,18 +35,18 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   };
 
 
-  const generateTackLines = () => {
+  const generateTickLines = () => {
     const _tickLines: any[] = [];
-    const _tickSpacing = 300 / (numberOfTickLines - 1);
+    const _tickSpacing = 250 / (numberOfTickLines - 1);
 
     for (let i = 0; i < numberOfTickLines; i++) {
-      const _y = 2 + i * _tickSpacing;
+      const _y = 1 + i * _tickSpacing;
       const _value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
 
       _tickLines.push(
-        <g className="barmeter-tickline" key={i}>
-          <line x1="54" x2="64" y1={_y} y2={_y} />
-          <text x="69" y={_y + 13}>{Math.round(_value)}</text>
+        <g className="bar-gauge__tick-line" key={i}>
+          <line x1="62" x2="72" y1={_y} y2={_y} />
+          <text x="75" y={_y + 13}>{Math.round(_value)}</text>
         </g>
       )
     }
@@ -58,12 +58,12 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const determineAlertLinesLocation = () => {
     const _alertLines: any[] = [];
 
-    const _barmeterHeight = 304;
+    const _barmeterHeight = 250;
 
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`barmeter-alertlines__${_alertValue.alertType}`} x1="0" x2="54" y1={yPos} y2={yPos} />
+        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1="8" x2="62" y1={yPos} y2={yPos} />
       )
     }
 
@@ -153,7 +153,36 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   return (
     <>
       <div onDoubleClick={openModal} className={`barmeter ${id}`}>
-        <p>{label}</p>
+        <p className='bar-gauge__label'>{label}</p>
+        <svg width='130' height='300' viewBox='0 0 130 320'>
+          <g className='bar-gauge__base'>
+            <rect x='11' y='0' width='50' height='250' className='bar-gauge__background' />
+
+            <g>
+              <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id}`} />
+            </g>
+
+            <rect x='10.5'y='0.5' width='50' height='250' className='bar-gauge__stroke' />
+          </g>
+
+          <g className='bar-gauge__alert-lines'>
+            { determineAlertLinesLocation() }
+          </g>
+
+          <g className='bar-gauge__tick-lines'>
+            { generateTickLines() }
+          </g>
+
+          <text className='bar-gauge__unit' x='31' y='275'>{unit}</text>
+
+          <defs>
+            <linearGradient id="paint1_linear_988_2110" x1="200" y1="70" x2="200" y2="330" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#343453"/>
+              <stop offset="1" stopColor="#7474B9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        {/* <p>{label}</p>
         <svg width="150" height="350">
           <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
 
@@ -168,7 +197,7 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
           </g>
 
           <text className="barmeter-unit" x="25" y="325">{unit}</text>
-        </svg>
+        </svg> */}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
         <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />
@@ -181,4 +210,4 @@ const BarMeter: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   );
 };
 
-export default BarMeter;
+export default BarGauge;

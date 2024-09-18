@@ -5,7 +5,6 @@ import Button from '../../atoms/Button/Button';
 import AlertBoxHeader from '../../atoms/AlertBoxHeader/AlertBoxHeader';
 
 const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) => {
-
   const switchToPage = (id: string) => {
     navigateToPage(id);
   };
@@ -24,9 +23,7 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) 
         {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
       </div>
       <div className='navigation__block navigation__alerts'>
-        <div className='navigation__block-alert'>
-          <AlertBoxHeader type='alarm' status='unack' />
-        </div>
+        <AlertBoxHeader type='alarm' status='unack' />
       </div>
       <div className='navigation__block navigation__other'>
         <div className='navigation__block__icons'>

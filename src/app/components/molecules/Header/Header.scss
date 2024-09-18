@@ -12,7 +12,7 @@
   padding: 0 10px;
 
   &__pages {
-    width: 70%;
+    width: 60%;
   }
 
   &__pages-overview {
@@ -21,6 +21,8 @@
   }
 
   &__block {
+    height: 100%;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -39,14 +41,15 @@
         height: 48px;
       }
     }
+  }
 
-    &-alert {
-      width: 300px;
-      height: auto;
-    }
+  &__alerts {
+    width: 20%;
 
-    &-number-alerts {
-      font-size: 1.2em;
-    }
+    align-items: center;
+  }
+
+  &__other {
+    width: 15%;
   }
 }

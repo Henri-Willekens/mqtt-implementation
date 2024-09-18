@@ -7,7 +7,7 @@
   border: 0.5px solid $stroke;
   border-radius: $md-radius;
   
-  padding: $sm-padding;
+  // padding: $sm-padding;
   margin: $sm-margin;
 
   box-shadow: $md-shadow;
@@ -17,7 +17,11 @@
   display: flex;
   flex-direction: column;
 
-  &:hover{
+  width: 100%;
+
+  z-index: 2; // To stop the alert glitching through the grid lines
+
+  &__header:hover{
     background-color: $onhover-bg;
     
     cursor: pointer;
@@ -27,6 +31,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
+    padding: $sm-padding;
+
+    border-top-left-radius: $md-radius;
+    border-top-right-radius: $md-radius;
 
     & > div {
       display: flex;
@@ -78,6 +87,16 @@
 .not-expanded {
   transform: rotate(0deg);
   transition: 500ms;
+}
+
+.not-center {
+  align-self: self-start;
+
+  transform: translateY(4px);
+}
+
+.btn-full-width {
+  width: 100%;
 }
 
 @keyframes pulse-alarm-animation {

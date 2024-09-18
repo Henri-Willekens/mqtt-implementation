@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import Button from "../../../atoms/Button/Button";
 
-import { ConfigContext } from "../../../../contexts/Config";
+import { ConfigEnabledContext } from "../../../../contexts/ConfigEnabled";
+import { ConfigFileContext } from "../../../../contexts/ConfigFile";
 import { ThemeContext } from "../../../../contexts/Theme";
 
 import './Settings.scss';
@@ -10,7 +11,8 @@ const SettingsPage = () => {
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
-  const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
+  const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
+  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
 
   const switchTheme = (theme: string) => {
     switch (theme) {
@@ -33,6 +35,19 @@ const SettingsPage = () => {
     setConfigEnabled(!_configEnabled);
   };
 
+  const ChangeConfig = (ActiveConfig: string) => {
+    switch (ActiveConfig) {
+      case "ConfigA":
+        setActiveConfig("ConfigA");
+        break;
+      case "ConfigB":
+        setActiveConfig("ConfigB");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="Settings">
       <h2>Settings</h2>
@@ -49,6 +64,11 @@ const SettingsPage = () => {
         <div className="Grid">
           <label>Grid:</label>
           <Button extraClassName="Btn" onClick={toggleGrid} text="Grid" />
+        </div>
+        <div className="ActiveConfig">
+          <label>Active user:</label>
+          <Button extraClassName={`Btn ${_activeConfig == "ConfigA" && "active"} `} onClick={() => ChangeConfig("ConfigA")} text="Change to config A" />
+          <Button extraClassName={`Btn ${_activeConfig == "ConfigB" && "active"} `} onClick={() => ChangeConfig("ConfigB")} text="Change to config B" />
         </div>
       </div>
     </div>

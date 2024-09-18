@@ -1,63 +1,90 @@
 {
-  "components": [
+  "pages": [
     {
-      "type": "Compass",
-      "props": {
-        "source": "gyro",
-        "waveArrowOutside": false,
-        "numOfWindRoseLines": 12
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Motor 1 temperature",
-        "title": "motor-1-temperature",
-        "maxValue": 900,
-        "unit": "°C",
-        "amountOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 800,
-            "higherOrLowerThan": "higher"
-          },
-          {
-            "alertType": "warning",
-            "value": 700,
-            "higherOrLowerThan": "higher"
+      "title": "Navigation",
+      "id": "Nav1",
+      "gridEnabled": true,
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "id": "magn-compass-1",
+            "source": "magn",
+            "waveArrowOutside": true,
+            "stepsOfDegrees": 30,
+            "width": 300,
+            "height": 300,
+            "xPos": 720.328125,
+            "yPos": 330
           }
-        ]
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Water tank 1",
-        "title": "water-tank-1-filling",
-        "maxValue": 20000,
-        "unit": "°C",
-        "amountOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 2000,
-            "higherOrLowerThan": "lower"
-          },
-          {
-            "alertType": "warning",
-            "value": 5000,
-            "higherOrLowerThan": "lower"
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "elementRadius": 100,
+            "totalRudderAngle": 270,
+            "xPos": 123.65625,
+            "yPos": 82
           }
-        ]
-      }
+        }
+      ]
     },
     {
-      "type": "Rudder",
-      "props": {
-        "totalRudderAngle": 120,
-        "elementRadius": 120
-      }
+      "title": "Engine",
+      "id": "Engine1",
+      "gridEnabled": false,
+      "components": [
+        {
+          "type": "HeatCoolingPump",
+          "props": {
+            "id": "heat-cooling-pump-1",
+            "xPos": 238.99147033691406,
+            "yPos": 562.9772644042969
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-1",
+            "fill": "cleanwater",
+            "xPos": 460.12640380859375,
+            "yPos": 312.84588623046875
+          }
+        },
+        {
+          "type": "BarMeter",
+          "props": {
+            "id": "barmeter-1",
+            "maxValue": 20000,
+            "xPos": 36,
+            "yPos": 56,
+            "label": "Barmeter 1",
+            "numberOfTickLines": 5,
+            "unit": "L",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 2000
+              },
+              {
+                "alertType": "warning",
+                "value": 5000
+              }
+            ]
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "barmeter-1",
+          "to": "valve-1"
+        }
+      ]
+    },
+    {
+      "title": "Settings",
+      "id": "Settings",
+      "components": []
     }
   ]
 }

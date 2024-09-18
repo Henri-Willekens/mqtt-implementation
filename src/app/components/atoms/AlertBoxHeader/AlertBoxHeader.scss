@@ -71,6 +71,8 @@
   }
 
   &__body {
+    padding: $sm-padding;
+
     &__buttons {
       display: flex;
       flex-direction: row;

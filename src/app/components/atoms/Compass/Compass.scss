@@ -1,135 +1,53 @@
-@import "../../../styles/colorVariables";
-
-.alert {
-  fill: $signal-alarm;
-}
+@import '../../../styles/colors';
+@import '../../../styles/effects';
+@import '../../../styles/fonts';
 
 .compass {
-  width: fit-content;
-  height: fit-content;
+  &__outer-circle {
+    fill: url(#paint0_linear_1210_582);
 
-  margin: 10px;
-
-  &__night {
-    background-color: $nightfilter;
-    opacity: 30%;
+    filter: drop-shadow($md-shadow);
   }
 
-  &-windrose {
-    fill: none;
-    stroke-width: 20;
-    fill: radial-gradient(circle, #f0f8ff, #a9a9a9);
-    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.6));
-
+  &__degree-number {
+    font-size: $sm-font-size;
+    
     &__day {
-      stroke: $background-navbar;
+      fill: $white;
     }
 
     &__night {
-      stroke: $background-navbar;
-    }
-
-    &-line {
-      &__day {
-        stroke: $neutral-soft-white;
-      }
-
-      &__night {
-        stroke: $night-mode-lines;
-      }
-    }
-
-    &-text {
-      text-anchor: middle;
-      user-select: none;
-
-      &__day {
-        fill: $neutral-soft-white;
-      }
-
-      &__night {
-        fill: $night-mode-lines;
-      }
+      fill: orange;
     }
   }
 
-  &-inner-windrose-lines {
+  &__inner-circle {
+    filter: drop-shadow(-4px -4px 0 rgba(10, 10, 10, 0.5));
+  }
+
+  &__hdg, &__cog, &__center {
+    filter: drop-shadow($sm-shadow);
+  }
+
+  &__hdg {
     &__day {
-      stroke: $neutral-soft-white;
+      fill: $navigation-menu-bg;
+      stroke: $white;
+    }
+    
+    &__night {
+      fill: $navigation-menu-bg;
+      stroke: orange;
+    }
+  }
+
+  &__cog, &__center {
+    &__day {
+      fill: $white;
     }
 
     &__night {
-      stroke: $night-mode-lines;
+      fill: orange;
     }
   }
-
-  &-ship {
-    stroke-width: 2;
-    fill: $background-navbar;
-    fill: radial-gradient(circle, #f0f8ff, #a9a9a9);
-    filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.6));
-
-    &__day {
-      stroke: $neutral-soft-white;
-    }
-
-    &__night {
-      stroke: $night-mode-headingline;
-    }
-  }
-
-  &-cog {
-    &>line {
-      stroke-dasharray: 15;
-      stroke-width: 3;
-    }
-
-    &__day {
-      fill: $neutral-soft-white;
-      stroke: $neutral-soft-white;
-    }
-
-    &__night {
-      fill: $night-mode-headingline;
-      stroke: $night-mode-headingline;
-    }
-  }
-
-  &-source {
-
-    &-text__day {
-      fill: $neutral-soft-white;
-    }
-
-    &-text__night {
-      fill: $night-mode-labels;
-    }
-
-    &__day {
-      fill: $button-background;
-    }
-
-    &__night {
-      fill: $night-mode-background-src;
-    }
-  }
-}
-
-
-.outer-circle {
-  filter: drop-shadow(4px 4px 0 rgba(10, 10, 10, 0.5));
-}
-
-.inner-circle {
-  filter: drop-shadow(-4px -4px 0 rgba(10, 10, 10, 0.5));
-}
-
-.boat {
-  /* Drop shadow for the boat */
-  filter: drop-shadow(2px 2px 0 rgba(10, 10, 10, 0.5));
-}
-
-.cog {
-  /* Drop shadow for the cog */
-  filter: drop-shadow(2px 2px 0 rgba(10, 10, 10, 0.5));
 }

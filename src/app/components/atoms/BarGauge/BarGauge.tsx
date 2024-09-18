@@ -173,8 +173,6 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
             { generateTickLines() }
           </g>
 
-          <text className='bar-gauge__unit' x='31' y='275'>{unit}</text>
-
           <defs>
             <linearGradient id="paint1_linear_988_2110" x1="200" y1="70" x2="200" y2="330" gradientUnits="userSpaceOnUse">
               <stop stopColor="#343453"/>
@@ -182,22 +180,6 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
             </linearGradient>
           </defs>
         </svg>
-        {/* <p>{label}</p>
-        <svg width="150" height="350">
-          <rect className="barmeter-background" width="50" height="300" x="2" y="2" />
-
-          <rect className={`barmeter-filling ${id}`} width="50" y="302" height="0" x="2" />
-
-          <g className="barmeter-alertlines">
-            {determineAlertLinesLocation()}
-          </g>
-
-          <g className="barmeter-ticklines">
-            {generateTackLines()}
-          </g>
-
-          <text className="barmeter-unit" x="25" y="325">{unit}</text>
-        </svg> */}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
         <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />

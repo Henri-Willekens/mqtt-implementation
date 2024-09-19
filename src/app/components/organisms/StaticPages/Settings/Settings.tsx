@@ -66,7 +66,7 @@ const SettingsPage = () => {
           <Button extraClasses="Btn" onClick={toggleGrid} value="Grid" />
         </div>
         <div className="ActiveConfig">
-          <label>Active user:</label>
+          <label>Active config file:</label>
           <Button extraClasses={`Btn ${_activeConfig == "ConfigA" && "active"} `} onClick={() => ChangeConfig("ConfigA")} value="Config" />
           <Button extraClasses={`Btn ${_activeConfig == "ConfigB" && "active"} `} onClick={() => ChangeConfig("ConfigB")} value="Example Config" />
         </div>

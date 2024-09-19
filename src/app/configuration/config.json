@@ -22,8 +22,9 @@
           "type": "ValueField",
           "props": {
             "label": "Heading",
-            "unit": "O",
-            "requiresValueTimes": false,
+            "unit": "°",
+            "requiresValueTimes": true,
+            "valueTimes": 1000,
             "xPos": 660.65625,
             "yPos": 88.25
           }

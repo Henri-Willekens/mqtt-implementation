@@ -13,6 +13,7 @@
 
   &__pages {
     width: 60%;
+    max-width: 60%;
   }
 
   &__pages-overview {
@@ -46,12 +47,8 @@
   }
 
   &__alerts {
-    width: 20%;
+    width: 300px;
 
     align-items: center;
-  }
-
-  &__other {
-    // width: 15%;
   }
 }

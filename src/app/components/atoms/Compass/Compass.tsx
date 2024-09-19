@@ -237,6 +237,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
+        <TextField />
         <Input type="text" label="Source" value={_formValues.source} id="source" name="source" onChange={handleFormChange} />
         <Input type="number" label="Steps of degrees" value={_formValues.stepsOfDegrees} id="stepsOfDegrees" name="stepsOfDegrees" onChange={handleFormChange} />
         <Input type="number" label="Width" value={_formValues.width} id="width" name="width" onChange={handleFormChange} />

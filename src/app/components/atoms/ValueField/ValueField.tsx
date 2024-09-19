@@ -23,9 +23,9 @@ const ValueField: React.FC<ValueFieldProps> = ({ label, id, unit, requiresValueT
             name={id}
             value={value} 
             onChange={onChange}
-            className={`value-field__input 
-            ${isEditable ? 'value-field__editable' : ''}`} 
-            size={value.length} disabled={!isEditable} 
+            className={`value-field__input ${isEditable ? 'value-field__editable' : ''}`} 
+            size={value.length} 
+            disabled={!isEditable} 
           />
           { requiresValueTimes && <div className='value-field__times'><p className='value-field__times-amount'>x {valueTimes}</p></div> }
         </span>

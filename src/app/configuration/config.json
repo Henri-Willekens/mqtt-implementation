@@ -14,8 +14,8 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 640.65625,
-            "yPos": 285.25
+            "xPos": 629.65625,
+            "yPos": 293.5
           }
         },
         {
@@ -36,8 +36,8 @@
             "id": "rudder-angle-1",
             "elementRadius": 100,
             "totalRudderAngle": 270,
-            "xPos": 124,
-            "yPos": 301
+            "xPos": 10,
+            "yPos": 293.5
           }
         }
       ]

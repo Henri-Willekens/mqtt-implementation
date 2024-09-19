@@ -2,11 +2,13 @@
 @import '../../../styles/effects';
 @import '../../../styles/fonts';
 
+.shadow {
+  filter: drop-shadow($md-shadow);
+}
+
 .compass {
   &__outer-circle {
     fill: url(#paint0_linear_1210_582);
-
-    filter: drop-shadow($md-shadow);
   }
 
   &__degree-number {

@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import Button from "../../../atoms/Button/Button";
 
-import { ConfigContext } from "../../../../contexts/Config";
+
+import { ConfigEnabledContext } from "../../../../contexts/ConfigEnabled";
 import { ThemeContext } from "../../../../contexts/Theme";
 
 import './PagesOverview.scss';
@@ -10,7 +11,7 @@ const PagesOverview = () => {
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
-  const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
+  const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
 
   const switchTheme = (theme: string) => {
     switch (theme) {

@@ -4,13 +4,13 @@ import { _gridPositions } from '../Grid/Grid';
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
 import { Config } from 'src/app/configuration/types';
-import { ConfigContext } from '../../../contexts/Config';
+import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 
 const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId}) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
-  const { _configEnabled } = useContext(ConfigContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
   const [_data, setData] = useState<Config>();
 
 

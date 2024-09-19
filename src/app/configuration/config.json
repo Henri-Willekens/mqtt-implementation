@@ -19,6 +19,16 @@
           }
         },
         {
+          "type": "ValueField",
+          "props": {
+            "label": "Heading",
+            "unit": "O",
+            "requiresValueTimes": false,
+            "xPos": 660.65625,
+            "yPos": 88.25
+          }
+        },
+        {
           "type": "Rudder",
           "props": {
             "id": "rudder-angle-1",

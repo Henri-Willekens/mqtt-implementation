@@ -1,0 +1,39 @@
+@import '../../../styles/colors';
+@import '../../../styles/fonts';
+@import '../../../styles/effects';
+
+.value-field {
+
+  &__input {
+    background-color: $input-bg;
+    color: $white;
+
+    border: 1px solid $stroke;
+
+    border-radius: $md-radius;
+
+    box-shadow: none;
+
+    font-family: 'Work Sans', sans-serif;
+    font-size: $st-font-size;
+
+    padding: $md-padding;
+  }
+
+  &__block {
+    display: flex;
+    align-items: baseline;
+
+    width: 100%;
+  }
+
+  &__unit {
+    margin: $sm-margin;
+  }
+
+  &__label {
+    font-size: $st-font-size;
+
+    margin: 0 0 5px 0;
+  }
+}

@@ -14,70 +14,19 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 830.328125,
-            "yPos": 264.5
+            "xPos": 681.2039947509766,
+            "yPos": 274.43121337890625
           }
         },
         {
           "type": "Rudder",
           "props": {
+            "id": "rudder-angle-1",
             "elementRadius": 100,
             "totalRudderAngle": 270,
-            "xPos": 123.65625,
-            "yPos": 82
+            "xPos": 124,
+            "yPos": 301
           }
-        }
-      ]
-    },
-    {
-      "title": "Engine",
-      "id": "Engine1",
-      "gridEnabled": false,
-      "components": [
-        {
-          "type": "HeatCoolingPump",
-          "props": {
-            "id": "heat-cooling-pump-1",
-            "xPos": 238.99147033691406,
-            "yPos": 562.9772644042969
-          }
-        },
-        {
-          "type": "Valve",
-          "props": {
-            "id": "valve-1",
-            "fill": "cleanwater",
-            "xPos": 780.5014038085938,
-            "yPos": 163.34588623046875
-          }
-        },
-        {
-          "type": "BarGauge",
-          "props": {
-            "id": "barmeter-1",
-            "maxValue": 20000,
-            "xPos": 662.375,
-            "yPos": 343.640625,
-            "label": "Tank 1",
-            "numberOfTickLines": 5,
-            "unit": "L",
-            "alertLines": [
-              {
-                "alertType": "alarm",
-                "value": 2000
-              },
-              {
-                "alertType": "warning",
-                "value": 5000
-              }
-            ]
-          }
-        }
-      ],
-      "connections": [
-        {
-          "from": "barmeter-1",
-          "to": "valve-1"
         }
       ]
     }

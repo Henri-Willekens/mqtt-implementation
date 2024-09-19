@@ -7,6 +7,10 @@
     margin: $sm-margin;
   }
   
+  &__editable {
+    color: $editable-value !important;
+  }
+
   &__input {
     background-color: $input-bg;
     color: $white;
@@ -19,6 +23,7 @@
 
     font-family: 'Work Sans', sans-serif;
     font-size: $st-font-size;
+    text-align: center;
 
     padding: $md-padding;
   }

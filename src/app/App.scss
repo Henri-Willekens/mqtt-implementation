@@ -1,4 +1,5 @@
 @import "./styles/colorVariables";
+@import './styles//colors';
 
 html, body {
   background-color: $background-body;
@@ -16,7 +17,10 @@ html, body {
   width: 100%;
   height: 100%;
 
-  background-color: $background-body;
+  background-image: url('/images/waves-bg.svg'), $gradient-bg;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  // background-color: $background-body;
   color: $neutral-soft-white;
 
   margin: 0;

@@ -19,7 +19,7 @@ const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
   const [_currentTheme, setCurrentTheme] = useState("day");
   const [_configEnabled, setConfigEnabled] = useState(false);
-  const [_activePageId, setActivePageId] = useState("PagesOverview");
+  const [_activePageId, setActivePageId] = useState("Settings");
   const [_activeConfig, setActiveConfig] = useState("ConfigA");
 
   const navigateToPage = (pageId: string) => {

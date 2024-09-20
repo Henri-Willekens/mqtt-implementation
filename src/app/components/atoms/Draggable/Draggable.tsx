@@ -52,7 +52,6 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     if (gridEnabled) {
       snapToGrid();
     }
-    console.log(_position)
 
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
@@ -74,9 +73,6 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       body: JSON.stringify(_data),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error("Error saving data:", error));
   };
 
@@ -120,10 +116,6 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   useEffect(() => {
     fetchConfig();
   }, []);
-  
-  useEffect(() => {
-    console.log(`Element: ${elementInsideId}: ${_position.x} ${_position.y}`);
-  }, [_position])
 
   return (
     <div

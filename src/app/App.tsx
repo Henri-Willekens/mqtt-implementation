@@ -24,7 +24,6 @@ const App = () => {
 
   const navigateToPage = (pageId: string) => {
     setActivePageId(pageId);
-    console.log(_activeConfig);
   };
 
   useEffect(() => {
@@ -48,7 +47,7 @@ const App = () => {
                 </div>
               ) : (
                 <>
-                  <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
+                  <Header configData={config} pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
                   <div className="components">
                     {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
                     <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>

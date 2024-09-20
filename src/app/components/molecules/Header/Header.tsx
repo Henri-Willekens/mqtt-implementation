@@ -1,18 +1,24 @@
 import HeaderProps from './Header.types';
 import './Header.scss';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+
 import Button from '../../atoms/Button/Button';
 import AlertBoxHeader from '../../atoms/AlertBoxHeader/AlertBoxHeader';
 import FormModal from '../FormModal/FormModal';
 import InputField from '../../atoms/FormInputs/InputField/InputField';
-import { Config } from 'src/app/configuration/types';
 
-const Header: React.FC<HeaderProps> = ({ pages, activePageId, configEnabled, navigateToPage }) => {
-  
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import { Config } from 'src/app/configuration/types';
+import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
+
+const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, navigateToPage }) => {  
+  const { _configEnabled } = useContext(ConfigEnabledContext);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
+    title: '',
+    id: '',
+    gridEnabled: false
   });
   
   const switchToPage = (id: string) => {
@@ -20,25 +26,25 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, configEnabled, nav
   };
 
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-      })
-      .catch((err) => console.error(err));
     };
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setFormValues({
+      title: '',
+      id: '',
+      gridEnabled: false
+    })
     handleSave();
   };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
-    const _value = event.target.value;
+    // Value is dependant on whether it's a checkbox or not
+    const _value = event.target.type == 'checkbox' ? event.target.checked : event.target.value;
 
     setFormValues((_prevFormValues) => ({
       ..._prevFormValues,
@@ -47,9 +53,26 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, configEnabled, nav
   };
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (configData === undefined) {
       return;
     }
+
+    configData.pages.push({
+      title: _formValues.title,
+      id: _formValues.id,
+      gridEnabled: _formValues.gridEnabled,
+      components: []
+    });
+
+    fetch('/api/write-json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(configData),
+    })
+      .then((response) => response.json())
+      .catch((error) => console.error('Error saving data:', error));
   };
 
   const pageButtons = pages.map((_page) => {
@@ -61,23 +84,31 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, configEnabled, nav
   });
 
   return(
-    <div className='navigation'>
-      <div className='navigation__block navigation__pages'>
-        {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
-        <Button value='+' onClick={openModal} />
-      </div>
-      <div className='navigation__block navigation__alerts'>
-        <AlertBoxHeader type='alarm' status='unack' />
-      </div>
-      <div className='navigation__block navigation__other'>
-        <div className='navigation__block__icons'>
-          <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={ activePageId == 'AlertLog' ? 'active' : ''} />
+    <>
+      <div className='navigation'>
+        <div className='navigation__block navigation__pages'>
+          {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
+          {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}
         </div>
-        <div>
-          <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={ activePageId == 'Settings' ? 'active' : ''} />
+        <div className='navigation__block navigation__alerts'>
+          <AlertBoxHeader type='alarm' status='unack' />
+        </div>
+        <div className='navigation__block navigation__other'>
+          <div className='navigation__block__icons'>
+            <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={ activePageId == 'AlertLog' ? 'active' : ''} />
+          </div>
+          <div>
+            <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={ activePageId == 'Settings' ? 'active' : ''} />
+          </div>
         </div>
       </div>
-    </div>
+
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} submitText='Create new page' cancelText='Discard changes'>
+        <InputField label='Page title' type='text' id='title' value={_formValues.title} onChange={handleFormChange} />
+        <InputField label='Page ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} placeholder='example-id-for-page' />
+        <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={_formValues.gridEnabled} onChange={handleFormChange} />
+      </FormModal>
+    </>
   );
 };
 

@@ -109,9 +109,6 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 

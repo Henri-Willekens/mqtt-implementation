@@ -70,6 +70,12 @@
           }
         }
       ]
+    },
+    {
+      "title": "New page",
+      "id": "0000",
+      "gridEnabled": false,
+      "components": []
     }
   ]
 }

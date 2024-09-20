@@ -63,7 +63,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
+        <line key={_alertValue.value} className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
       )
     }
 
@@ -129,9 +129,6 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 

@@ -120,9 +120,6 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 
@@ -145,7 +142,6 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       setTimeout(() => {
         setData('correct');
       }, 5000);
-      // console.log('There is data missing, please check the data source.');
     } else {
       update('hdg', _currentHeading);
       update('outer-circle', _currentHeading);

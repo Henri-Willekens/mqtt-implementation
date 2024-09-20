@@ -1,32 +1,37 @@
-import React from "react";
-import Button from "../../atoms/Button/Button";
 import HeaderProps from './Header.types';
 import './Header.scss';
 
-const Header: React.FC<HeaderProps> = ({ pages, navigateToPage, activePageId }) => {
+import Button from '../../atoms/Button/Button';
+import AlertBoxHeader from '../../atoms/AlertBoxHeader/AlertBoxHeader';
+
+const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) => {
   const switchToPage = (id: string) => {
     navigateToPage(id);
   };
 
-  const pageButtons = pages.map((page) => {
-    for (let i = 0; i < pages.length; i++) {
-      if (page.id === activePageId) {
-        return <Button extraClassName="active headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
-      } else {
-        return <Button extraClassName="headerBtn" key={page.id} onClick={() => switchToPage(page.id)} text={page.title} />
-      }
+  const pageButtons = pages.map((_page) => {
+    if (_page.id == activePageId) {
+      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} extraClasses='active' />;
+    } else {
+      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} />;
     }
   });
 
-  return (
+  return(
     <div className='navigation'>
-      <div className="navigation__block navigation__block-pages">
-        {pageButtons}
+      <div className='navigation__block navigation__pages'>
+        {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
       </div>
-      <div className="navigation__block navigation__block-other">
-        <img className="navigation__block-icon" src="./icons/general/alerts.svg" alt="Alert tab" />
-        <img className="navigation__block-icon" src="./icons/general/account.svg" alt="Account" />
-        <img className="navigation__block-icon" src="./icons/general/settings.svg" alt="Settings" />
+      <div className='navigation__block navigation__alerts'>
+        <AlertBoxHeader type='alarm' status='unack' />
+      </div>
+      <div className='navigation__block navigation__other'>
+        <div className='navigation__block__icons'>
+          <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={ activePageId == 'AlertLog' ? 'active' : ''} />
+        </div>
+        <div>
+          <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={ activePageId == 'Settings' ? 'active' : ''} />
+        </div>
       </div>
     </div>
   );

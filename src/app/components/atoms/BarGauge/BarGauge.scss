@@ -1,0 +1,79 @@
+@import "../../../styles/colorVariables";
+@import '../../../styles/colors';
+@import '../../../styles/effects';
+@import '../../../styles/fonts';
+
+.bar-gauge {
+
+  &__base {
+    filter: drop-shadow(4px 4px 0 rgba(10, 10, 10, 0.5));
+  }
+
+  &__background {
+    fill: $input-bg;
+    rx: $md-radius;
+  }
+
+  &__stroke {
+    stroke: $white;
+    rx: $md-radius;
+    fill: none;
+  }
+
+  &__fill {
+    fill: url(#paint1_linear_988_2110);
+    rx: $md-radius;
+
+    transition: height 0.5s ease, y 0.5s ease;
+
+    &__clean-water {
+      fill: $pipe-clean-water;
+    }
+    
+    &__fuel {
+      fill: $pipe-fuel;
+    }
+    
+    &__sea-water {
+      fill: $pipe-sea-water;
+    }
+
+    &__oil {
+      fill: $pipe-oil;
+    }
+  }
+
+  &__alert-lines {
+    stroke-width: 3;
+
+    &__alarm {
+      stroke: $alert-alarm;
+    }
+
+    &__warning {
+      stroke: $alert-warning;
+    }
+  }
+
+  &__unit {
+    font-size: $st-font-size;
+    fill: $white;
+  }
+
+  &__label {
+    width: 130px;
+
+    margin: 5px;
+
+    font-size: $st-font-size;
+  }
+
+  &__tick-line {
+    & > line { 
+      stroke: $white;
+    } 
+    & > text {
+      fill: $white;
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import Button from "../../../atoms/Button/Button";
 
-import { ConfigContext } from "../../../../contexts/Config";
+import { ConfigEnabledContext } from "../../../../contexts/ConfigEnabled";
+import { ConfigFileContext } from "../../../../contexts/ConfigFile";
 import { ThemeContext } from "../../../../contexts/Theme";
 
 import './Settings.scss';
@@ -10,7 +11,8 @@ const SettingsPage = () => {
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
-  const { _configEnabled, setConfigEnabled } = useContext(ConfigContext);
+  const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
+  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
 
   const switchTheme = (theme: string) => {
     switch (theme) {
@@ -33,22 +35,40 @@ const SettingsPage = () => {
     setConfigEnabled(!_configEnabled);
   };
 
+  const ChangeConfig = (ActiveConfig: string) => {
+    switch (ActiveConfig) {
+      case "ConfigA":
+        setActiveConfig("ConfigA");
+        break;
+      case "ConfigB":
+        setActiveConfig("ConfigB");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="Settings">
       <h2>Settings</h2>
       <div className="Buttons">
         <div className="Themes">
           <label>Themes:</label>
-          <Button extraClassName={`Btn ${_currentTheme == "night" && "active"} `} onClick={() => switchTheme("night")} text="Night" />
-          <Button extraClassName={`Btn ${_currentTheme == "day" && "active"} `} onClick={() => switchTheme("day")} text="Day" />
+          <Button extraClasses={`Btn ${_currentTheme == "day" && "active"} `} onClick={() => switchTheme("day")} value="Day" />
+          <Button extraClasses={`Btn ${_currentTheme == "night" && "active"} `} onClick={() => switchTheme("night")} value="Night" />
         </div>
         <div className="Config">
           <label>Config:</label>
-          <Button extraClassName={`Btn ${_configEnabled && "active"} `} onClick={toggleConfigMode} text="Config" />
+          <Button extraClasses={`Btn ${_configEnabled && "active"} `} onClick={toggleConfigMode} value="Config" />
         </div>
         <div className="Grid">
           <label>Grid:</label>
-          <Button extraClassName="Btn" onClick={toggleGrid} text="Grid" />
+          <Button extraClasses="Btn" onClick={toggleGrid} value="Grid" />
+        </div>
+        <div className="ActiveConfig">
+          <label>Active config file:</label>
+          <Button extraClasses={`Btn ${_activeConfig == "ConfigA" && "active"} `} onClick={() => ChangeConfig("ConfigA")} value="Config" />
+          <Button extraClasses={`Btn ${_activeConfig == "ConfigB" && "active"} `} onClick={() => ChangeConfig("ConfigB")} value="Example Config" />
         </div>
       </div>
     </div>

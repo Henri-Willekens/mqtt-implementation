@@ -14,8 +14,8 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 124,
-            "yPos": 301
+            "xPos": 10,
+            "yPos": 291.5
           }
         },
         {
@@ -29,6 +29,12 @@
           }
         }
       ]
+    },
+    {
+      "title": "d",
+      "id": "d",
+      "gridEnabled": false,
+      "components": []
     }
   ]
 }

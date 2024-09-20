@@ -65,10 +65,11 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch(`/api/read-json?file=config.json`)
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);
+        console.log(results)
       })
       .catch((err) => console.error(err));
     };
@@ -99,6 +100,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
     if (_configData === undefined) {
       return;
     }
+
+    console.log(_configData)
 
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);

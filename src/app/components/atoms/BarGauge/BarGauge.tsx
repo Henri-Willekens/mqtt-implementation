@@ -74,7 +74,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch('/api/read-json?file=config.json')
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);

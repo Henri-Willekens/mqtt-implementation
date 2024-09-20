@@ -57,7 +57,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch('/api/read-json?file=config.json')
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);

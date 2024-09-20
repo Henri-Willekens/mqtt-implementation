@@ -77,9 +77,12 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -232,7 +235,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
         <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />

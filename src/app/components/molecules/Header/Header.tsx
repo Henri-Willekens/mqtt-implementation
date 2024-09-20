@@ -9,7 +9,6 @@ import FormModal from '../FormModal/FormModal';
 import InputField from '../../atoms/FormInputs/InputField/InputField';
 
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
-import { Config } from 'src/app/configuration/types';
 import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
 
 const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, navigateToPage }) => {  
@@ -37,8 +36,12 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
       title: '',
       id: '',
       gridEnabled: false
-    })
+    });
+  };
+
+  const submitForm = () => {
     handleSave();
+    closeModal();
   };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
         </div>
       </div>
 
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} submitText='Create new page' cancelText='Discard changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal} >
         <InputField label='Page title' type='text' id='title' value={_formValues.title} onChange={handleFormChange} />
         <InputField label='Page ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} placeholder='example-id-for-page' />
         <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={_formValues.gridEnabled} onChange={handleFormChange} />

@@ -86,9 +86,12 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -178,7 +181,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Element ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} />
         <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleFormChange} />
         <InputField label='Unit' type='text' id='unit' value={_formValues.unit} onChange={handleFormChange} />

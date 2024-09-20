@@ -69,7 +69,11 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const submitForm = () => {
     handleSave();
+    closeModal();
   };
 
 
@@ -122,7 +126,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
       <div key={id} onDoubleClick={openModal} className='rudder'>
         {determineRudderAngle()}
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Total angle' type='number' id='totalRudderAngle' value={_formValues.totalRudderAngle} onChange={handleFormChange} />
         <InputField label='Element radius' type='number' id='elementRadius' value={_formValues.elementRadius} onChange={handleFormChange} />  
       </FormModal>

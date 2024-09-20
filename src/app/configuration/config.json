@@ -14,77 +14,33 @@
             "stepsOfDegrees": 15,
             "width": 300,
             "height": 300,
-            "xPos": 720.328125,
-            "yPos": 330
+            "xPos": 640.65625,
+            "yPos": 291.5
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "label": "Heading",
+            "id": "heading-value-field-1",
+            "unit": "°",
+            "requiresValueTimes": false,
+            "xPos": 660.65625,
+            "yPos": 88.25,
+            "isEditable": false
           }
         },
         {
           "type": "Rudder",
           "props": {
+            "id": "rudder-angle-1",
             "elementRadius": 100,
             "totalRudderAngle": 270,
-            "xPos": 123.65625,
-            "yPos": 82
+            "xPos": 10,
+            "yPos": 293.5
           }
         }
       ]
-    },
-    {
-      "title": "Engine",
-      "id": "Engine1",
-      "gridEnabled": false,
-      "components": [
-        {
-          "type": "HeatCoolingPump",
-          "props": {
-            "id": "heat-cooling-pump-1",
-            "xPos": 238.99147033691406,
-            "yPos": 562.9772644042969
-          }
-        },
-        {
-          "type": "Valve",
-          "props": {
-            "id": "valve-1",
-            "fill": "cleanwater",
-            "xPos": 460.12640380859375,
-            "yPos": 312.84588623046875
-          }
-        },
-        {
-          "type": "BarMeter",
-          "props": {
-            "id": "barmeter-1",
-            "maxValue": 20000,
-            "xPos": 36,
-            "yPos": 56,
-            "label": "Barmeter 1",
-            "numberOfTickLines": 5,
-            "unit": "L",
-            "alertLines": [
-              {
-                "alertType": "alarm",
-                "value": 2000
-              },
-              {
-                "alertType": "warning",
-                "value": 5000
-              }
-            ]
-          }
-        }
-      ],
-      "connections": [
-        {
-          "from": "barmeter-1",
-          "to": "valve-1"
-        }
-      ]
-    },
-    {
-      "title": "Settings",
-      "id": "Settings",
-      "components": []
     }
   ]
 }

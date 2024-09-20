@@ -4,14 +4,16 @@ import { _gridPositions } from '../Grid/Grid';
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
 import { Config } from 'src/app/configuration/types';
-import { ConfigContext } from '../../../contexts/Config';
+import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
+import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
 const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId}) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
-  const { _configEnabled } = useContext(ConfigContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
   const [_data, setData] = useState<Config>();
+  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
 
 
   const startDrag = (_event: any) => {
@@ -80,7 +82,8 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
 
   const fetchConfig = () => {
-    fetch("/api/read-json")
+    const fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    fetch(`/api/read-json?file=${fileToFetch}`)
     .then((res) => res.json())
     .then((results) => { 
       setData(results);
@@ -117,7 +120,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   useEffect(() => {
     fetchConfig();
   }, []);
-
+  
+  useEffect(() => {
+    console.log(`Element: ${elementInsideId}: ${_position.x} ${_position.y}`);
+  }, [_position])
 
   return (
     <div

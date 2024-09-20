@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const ConfigContext = createContext({
+export const ConfigEnabledContext = createContext({
     _configEnabled: false,
     setConfigEnabled: (configEnabled: boolean) => { }
 });

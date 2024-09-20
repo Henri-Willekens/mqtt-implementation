@@ -1,30 +1,54 @@
-@import "../../../styles/colorVariables";
+@import '../../../styles/colors';
+@import '../../../styles/effects';
 
 .navigation {
-  background-color: $background-navbar;
-
-  grid-column: 1 / 1;
-  grid-row: 1 / span 1;
+  background-color: $navigation-menu-bg;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+
+  box-shadow: $md-shadow;
+
+  &__pages {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  &__pages-overview {
+    width: 48px;
+    height: 48px;
+  }
 
   &__block {
-    &-icon {
-      width: 32px;
-      height: 32px;
+    height: 100%;
 
-      margin: 0 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 0 10px;
+
+    &__icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin: $sm-margin;
+
+      cursor: pointer;
+
+      & > img {
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 
-  &__block-pages {
-    width: fit-content;
-    display: flex;
-  }
+  &__alerts {
+    width: 300px;
 
-  &__block-other {
-    margin-left: auto;
+    align-items: center;
   }
 }

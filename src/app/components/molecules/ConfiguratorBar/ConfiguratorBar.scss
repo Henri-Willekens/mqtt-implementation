@@ -1,3 +1,4 @@
+@import '../../../styles/colors';
 @import "../../../styles/colorVariables";
 
 .configurator-bar {
@@ -20,14 +21,20 @@
     align-items: center;
   }
 
+  &__mode-active {
+    color: $black;
+
+    margin: 0 10px;
+  }
+
   &__action-buttons {
     display: flex;
     align-self: flex-end;
   }
 
   &__action {
-    background-color: $new-button-background;
-    color: $neutral-soft-white;
+    background-color: $normal-bg;
+    color: $white;
 
     border-radius: 4px 4px 0 0;
 
@@ -42,11 +49,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $new-button-on-hover;
+      background-color: $onhover-bg;
     }
-  }
-
-  &__mode-active {
-    margin: 0 10px;
   }
 }

@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
           {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}
         </div>
         <div className='navigation__block navigation__alerts'>
-          <AlertBoxHeader type='alarm' status='unack' />
+          {_configEnabled ? <div><p>Currently in configuration mode</p></div> : <AlertBoxHeader type='alarm' status='unack' />}
         </div>
         <div className='navigation__block navigation__other'>
           <div className='navigation__block__icons'>

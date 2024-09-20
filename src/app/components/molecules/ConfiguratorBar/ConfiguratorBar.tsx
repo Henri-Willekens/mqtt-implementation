@@ -6,12 +6,6 @@ const ConfiguratorBar: React.FC<ConfiguratorBarProps> = () => {
     <div className="configurator-bar">
       <div className="configurator-bar__background">
         <div className="configurator-bar__action-buttons">
-          <div className="configurator-bar__action configurator-bar__action__new-page">
-            <img src="./icons/config/add.svg" />
-          </div>
-          <div className="configurator-bar__action configurator-bar__action__save">
-            <img src="./icons/config/save.svg" />
-          </div>
           <div className="configurator-bar__action configurator-bar__action__library">
             <img src="./icons/config/local_library.svg" />
           </div>

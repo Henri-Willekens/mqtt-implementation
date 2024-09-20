@@ -1,9 +1,8 @@
-import Button from '../../atoms/Button/Button';
-import ModalDialog from '../ModalDialog/ModalDialog';
-import Input from '../../atoms/Input/Input';
-
 import './FormModal.scss';
 import FormModalProps from './FormModal.types';
+
+import Button from '../../atoms/Button/Button';
+import ModalDialog from '../ModalDialog/ModalDialog';
 
 const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, cancelText, submitText, children }) => {
   const handleSubmit = () => {

@@ -10,7 +10,7 @@ import ConfiguratorBar from "./components/molecules/ConfiguratorBar/Configurator
 
 import config from "./configuration/config.json";
 import exampleconfig from "./configuration/example.config.json";
-import { Config } from './configuration/types';
+import { Config } from "./configuration/types";
 
 import "./App.scss";
 import { ConfigFileContext } from "./contexts/ConfigFile";
@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     if (config.pages.length !== 0) {
-      _activeConfig == 'ConfigA' ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
+      _activeConfig == "ConfigA" ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
     } else {
       // fetch the config from mqtt or somewhere else
     }

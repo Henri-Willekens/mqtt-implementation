@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import FormModal from "../../molecules/FormModal/FormModal";
-import Input from "../Input/Input";
+import FormModal from '../../molecules/FormModal/FormModal';
+import Input from '../Input/Input';
 
-import RudderProps from "./Rudder.types";
-import "./Rudder.scss";
-import { Config } from "src/app/configuration/types";
+import RudderProps from './Rudder.types';
+import './Rudder.scss';
+import { Config } from 'src/app/configuration/types';
 
 const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, activePageId, configEnabled }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
@@ -38,10 +38,10 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
     return (
       <svg width={_width} height={_height} viewBox={`0 0 ${_width} ${_height}`}>
         <g>
-          <path className="rudder-port" d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,1 ${_portX},${_portY} Z`} />
-          <path className="rudder-starboard" d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,0 ${_starboardX},${_starboardY} Z`} />
+          <path className='rudder-port' d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,1 ${_portX},${_portY} Z`} />
+          <path className='rudder-starboard' d={`M${_centerX},${_centerY} L${_centerX},${_centerY - elementRadius} A${elementRadius},${elementRadius} 0 0,0 ${_starboardX},${_starboardY} Z`} />
         </g>
-        <g id="rudder-pointer" className="rudder-pointer">
+        <g id='rudder-pointer' className='rudder-pointer'>
           <polygon points={`${elementRadius},0 ${elementRadius - 5},10 ${elementRadius + 5},10`} />
           <line x1={_centerX} y1={_centerY} x2={_centerX} y2={_centerY - elementRadius + 2} />
         </g>
@@ -50,20 +50,20 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
   };
 
   const updateRudderPosition = (updatedAngle: number) => {
-    const rudderPointer = document.getElementById("rudder-pointer");
-    rudderPointer?.setAttribute("transform", `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
+    const rudderPointer = document.getElementById('rudder-pointer');
+    rudderPointer?.setAttribute('transform', `rotate(${updatedAngle}, ${elementRadius}, ${elementRadius})`)
   };
 
 
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch("/api/read-json")
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-      })
-      .catch((err) => console.error(err));
+      fetch('/api/read-json')
+        .then((res) => res.json())
+        .then((results) => {
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));
     };
   };
 
@@ -84,7 +84,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
     }));
   };
 
-  
+
   const handleSave = () => {
     if (_configData === undefined) {
       return;
@@ -102,10 +102,10 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
       }
     };
 
-    fetch("/api/write-json", {
-      method: "POST",
+    fetch('/api/write-json', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(_configData),
     })
@@ -113,7 +113,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
       .then((result) => {
         console.log(result.message);
       })
-      .catch((error) => console.error("Error saving data:", error));
+      .catch((error) => console.error('Error saving data:', error));
   };
 
 
@@ -123,12 +123,12 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
 
   return (
     <>
-      <div key={id} onDoubleClick={openModal} className="rudder">
+      <div key={id} onDoubleClick={openModal} className='rudder'>
         {determineRudderAngle()}
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
-        <Input type="number" label="Total rudder angle" value={_formValues.totalRudderAngle} id="totalRudderAngle" name="totalRudderAngle" onChange={handleFormChange} />
-        <Input type="number" label="Element radius" value={_formValues.elementRadius} id="elementRadius" name="elementRadius" onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+        <Input type='number' label='Total rudder angle' value={_formValues.totalRudderAngle} id='totalRudderAngle' name='totalRudderAngle' onChange={handleFormChange} />
+        <Input type='number' label='Element radius' value={_formValues.elementRadius} id='elementRadius' name='elementRadius' onChange={handleFormChange} />
       </FormModal>
     </>
   );

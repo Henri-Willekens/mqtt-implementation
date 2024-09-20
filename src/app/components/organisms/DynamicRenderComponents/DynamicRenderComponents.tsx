@@ -1,10 +1,10 @@
-import DynamicRenderComponentsProps from "./DynamicRenderComponents.types";
+import DynamicRenderComponentsProps from './DynamicRenderComponents.types';
 
-import { useContext } from "react";
-import componentMap from "../../index";
-import { ComponentConfig } from "../../../configuration/types";
-import Draggable from "../../atoms/Draggable/Draggable";
-import { ConfigEnabledContext } from "src/app/contexts/ConfigEnabled";
+import { useContext } from 'react';
+import componentMap from '../../index';
+import { ComponentConfig } from '../../../configuration/types';
+import Draggable from '../../atoms/Draggable/Draggable';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, gridEnabled, activePageId }) => {
 
@@ -16,6 +16,7 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ confi
         const { type, props } = componentConfig;
         const Component = componentMap[type];
         const componentProps = { ...props }
+
 
         return (
           <Draggable elementInsideId={props.id} key={props.id} id={props.id} gridEnabled={gridEnabled} activePageId={activePageId}>

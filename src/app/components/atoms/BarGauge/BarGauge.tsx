@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 import BarMeterProps from './BarGauge.types';
 import './BarGauge.scss';
-import FormModal from "../../molecules/FormModal/FormModal";
-import Input from "../Input/Input";
-import { Config } from "src/app/configuration/types";
+import FormModal from '../../molecules/FormModal/FormModal';
+import Input from '../Input/Input';
+import { Config } from 'src/app/configuration/types';
 
 const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled, activePageId }) => {
   const [_currentValue, setCurrentValue] = useState(0);
@@ -44,9 +44,9 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       const _value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
 
       _tickLines.push(
-        <g className="bar-gauge__tick-line" key={i}>
-          <line x1="62" x2="72" y1={_y} y2={_y} />
-          <text x="75" y={_y + 13}>{Math.round(_value)}</text>
+        <g className='bar-gauge__tick-line' key={i}>
+          <line x1='62' x2='72' y1={_y} y2={_y} />
+          <text x='75' y={_y + 13}>{Math.round(_value)}</text>
         </g>
       )
     }
@@ -63,7 +63,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1="8" x2="62" y1={yPos} y2={yPos} />
+        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='8' x2='62' y1={yPos} y2={yPos} />
       )
     }
 
@@ -74,12 +74,12 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch("/api/read-json")
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-      })
-      .catch((err) => console.error(err));
+      fetch('/api/read-json')
+        .then((res) => res.json())
+        .then((results) => {
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));
     };
   };
 
@@ -121,10 +121,10 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       }
     };
 
-    fetch("/api/write-json", {
-      method: "POST",
+    fetch('/api/write-json', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(_configData),
     })
@@ -132,7 +132,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       .then((result) => {
         console.log(result.message);
       })
-      .catch((error) => console.error("Error saving data:", error));
+      .catch((error) => console.error('Error saving data:', error));
   };
 
 
@@ -162,31 +162,31 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
               <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id}`} />
             </g>
 
-            <rect x='10.5'y='0.5' width='50' height='250' className='bar-gauge__stroke' />
+            <rect x='10.5' y='0.5' width='50' height='250' className='bar-gauge__stroke' />
           </g>
 
           <g className='bar-gauge__alert-lines'>
-            { determineAlertLinesLocation() }
+            {determineAlertLinesLocation()}
           </g>
 
           <g className='bar-gauge__tick-lines'>
-            { generateTickLines() }
+            {generateTickLines()}
           </g>
 
           <defs>
-            <linearGradient id="paint1_linear_988_2110" x1="200" y1="70" x2="200" y2="330" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#343453"/>
-              <stop offset="1" stopColor="#7474B9"/>
+            <linearGradient id='paint1_linear_988_2110' x1='200' y1='70' x2='200' y2='330' gradientUnits='userSpaceOnUse'>
+              <stop stopColor='#343453' />
+              <stop offset='1' stopColor='#7474B9' />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText="Discard changes" submitText="Save changes">
-        <Input type="text" label="ID" value={_formValues.id} id="id" name="id" onChange={handleFormChange} />
-        <Input type="text" label="label" value={_formValues.label} id="label" name="label" onChange={handleFormChange} />
-        <Input type="text" label="unit" value={_formValues.unit} id="unit" name="unit" onChange={handleFormChange} />
-        <Input type="number" label="Max value" value={_formValues.maxValue} id="maxValue" name="maxValue" onChange={handleFormChange} />
-        <Input type="number" label="Number of tick lines" value={_formValues.numberOfTickLines} id="numberOfTickLines" name="numberOfTickLines" onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+        <Input type='text' label='ID' value={_formValues.id} id='id' name='id' onChange={handleFormChange} />
+        <Input type='text' label='label' value={_formValues.label} id='label' name='label' onChange={handleFormChange} />
+        <Input type='text' label='unit' value={_formValues.unit} id='unit' name='unit' onChange={handleFormChange} />
+        <Input type='number' label='Max value' value={_formValues.maxValue} id='maxValue' name='maxValue' onChange={handleFormChange} />
+        <Input type='number' label='Number of tick lines' value={_formValues.numberOfTickLines} id='numberOfTickLines' name='numberOfTickLines' onChange={handleFormChange} />
       </FormModal>
     </>
   );

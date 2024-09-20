@@ -1,4 +1,4 @@
-@import "../../../styles/colorVariables";
+@import '../../../styles/colorVariables';
 @import '../../../styles/colors';
 @import '../../../styles/effects';
 @import '../../../styles/fonts';
@@ -53,10 +53,11 @@
   }
 
   &__tick-line {
-    & > line { 
+    &>line {
       stroke: $white;
-    } 
-    & > text {
+    }
+
+    &>text {
       fill: $white;
     }
   }

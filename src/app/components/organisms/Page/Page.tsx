@@ -6,8 +6,8 @@ import PageProps from './Page.types';
 
 const Page: React.FC<PageProps> = ({ pageId, title, components, activePageId, gridEnabled }) => {
   return (
-    <div key={pageId} className="page">
-      {gridEnabled && <Grid /> }
+    <div key={pageId} className='page'>
+      {gridEnabled && <Grid />}
       <DynamicRenderComponents gridEnabled={gridEnabled} config={components} activePageId={activePageId} />
     </div>
   )

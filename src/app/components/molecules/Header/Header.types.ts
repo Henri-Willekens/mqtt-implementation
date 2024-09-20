@@ -1,4 +1,4 @@
-import { PagesConfig } from "../../../configuration/types";
+import { PagesConfig } from '../../../configuration/types';
 
 export default interface HeaderProps {
   pages: PagesConfig[],

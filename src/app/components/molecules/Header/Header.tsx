@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) 
     }
   });
 
-  return(
+  return (
     <div className='navigation'>
       <div className='navigation__block navigation__pages'>
         {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
@@ -27,10 +27,10 @@ const Header: React.FC<HeaderProps> = ({ pages, activePageId, navigateToPage }) 
       </div>
       <div className='navigation__block navigation__other'>
         <div className='navigation__block__icons'>
-          <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={ activePageId == 'AlertLog' ? 'active' : ''} />
+          <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={activePageId == 'AlertLog' ? 'active' : ''} />
         </div>
         <div>
-          <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={ activePageId == 'Settings' ? 'active' : ''} />
+          <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={activePageId == 'Settings' ? 'active' : ''} />
         </div>
       </div>
     </div>

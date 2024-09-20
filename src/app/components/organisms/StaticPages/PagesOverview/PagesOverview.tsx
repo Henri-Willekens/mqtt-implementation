@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
-import Button from "../../../atoms/Button/Button";
+import { useState, useContext } from 'react';
+import Button from '../../../atoms/Button/Button';
 
 
-import { ConfigEnabledContext } from "../../../../contexts/ConfigEnabled";
-import { ThemeContext } from "../../../../contexts/Theme";
+import { ConfigEnabledContext } from '../../../../contexts/ConfigEnabled';
+import { ThemeContext } from '../../../../contexts/Theme';
 
 import './PagesOverview.scss';
 
@@ -15,11 +15,11 @@ const PagesOverview = () => {
 
   const switchTheme = (theme: string) => {
     switch (theme) {
-      case "night":
-        setCurrentTheme("night");
+      case 'night':
+        setCurrentTheme('night');
         break;
-      case "day":
-        setCurrentTheme("day");
+      case 'day':
+        setCurrentTheme('day');
         break;
       default:
         break;
@@ -35,7 +35,7 @@ const PagesOverview = () => {
   };
 
   return (
-    <div className="Settings">
+    <div className='Settings'>
       <h2>All pages</h2>
     </div>
   );

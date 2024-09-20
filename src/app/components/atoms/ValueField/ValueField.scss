@@ -1,0 +1,58 @@
+@import '../../../styles/colors';
+@import '../../../styles/fonts';
+@import '../../../styles/effects';
+
+.value-field {
+  &__field {
+    margin: $sm-margin;
+  }
+  
+  &__editable {
+    color: $editable-value !important;
+  }
+
+  &__input {
+    background-color: $input-bg;
+    color: $white;
+    
+    border: 1px solid $stroke;
+    
+    border-radius: $md-radius;
+    
+    box-shadow: none;
+
+    font-family: 'Work Sans', sans-serif;
+    font-size: $st-font-size;
+    text-align: center;
+
+    padding: $md-padding;
+  }
+
+  &__block {
+    display: flex;
+    align-items: start;
+
+    width: 100%;
+  }
+
+  &__unit {
+    margin: $sm-margin;
+
+    height: 100%;
+  }
+
+  &__label, &__times-amount {
+    font-size: $st-font-size;
+
+    margin: 0 0 5px 0;
+  }
+
+  &__times-amount {
+    font-size: 16px;
+  }
+
+  &__times {
+    display: flex;
+    justify-content: end;
+  }
+}

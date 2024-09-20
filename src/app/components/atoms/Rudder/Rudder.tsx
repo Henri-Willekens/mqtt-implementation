@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-
-import FormModal from '../../molecules/FormModal/FormModal';
-import Input from '../Input/Input';
-
 import RudderProps from './Rudder.types';
 import './Rudder.scss';
+
+import { useEffect, useState } from 'react';
+import FormModal from '../../molecules/FormModal/FormModal';
+import InputField from '../FormInputs/InputField/InputField';
 import { Config } from 'src/app/configuration/types';
 
 const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, activePageId, configEnabled }) => {
@@ -59,11 +58,11 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
     if (configEnabled) {
       setIsModalOpen(true);
       fetch('/api/read-json')
-        .then((res) => res.json())
-        .then((results) => {
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));
     };
   };
 
@@ -127,8 +126,8 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle, elementRadius, ac
         {determineRudderAngle()}
       </div>
       <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
-        <Input type='number' label='Total rudder angle' value={_formValues.totalRudderAngle} id='totalRudderAngle' name='totalRudderAngle' onChange={handleFormChange} />
-        <Input type='number' label='Element radius' value={_formValues.elementRadius} id='elementRadius' name='elementRadius' onChange={handleFormChange} />
+        <InputField label='Total angle' type='number' id='totalRudderAngle' value={_formValues.totalRudderAngle} onChange={handleFormChange} />
+        <InputField label='Element radius' type='number' id='elementRadius' value={_formValues.elementRadius} onChange={handleFormChange} />  
       </FormModal>
     </>
   );

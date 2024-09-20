@@ -1,11 +1,12 @@
+import './Settings.scss';
+
 import { useState, useContext } from 'react';
+
 import Button from '../../../atoms/Button/Button';
 
 import { ConfigEnabledContext } from '../../../../contexts/ConfigEnabled';
 import { ConfigFileContext } from '../../../../contexts/ConfigFile';
 import { ThemeContext } from '../../../../contexts/Theme';
-
-import './Settings.scss';
 
 const SettingsPage = () => {
 

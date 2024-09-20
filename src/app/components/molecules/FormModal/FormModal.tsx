@@ -1,19 +1,17 @@
-import Button from '../../atoms/Button/Button';
-import ModalDialog from '../ModalDialog/ModalDialog';
-
 import './FormModal.scss';
 import FormModalProps from './FormModal.types';
+
+import Button from '../../atoms/Button/Button';
+import ModalDialog from '../ModalDialog/ModalDialog';
 
 const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, cancelText, submitText, children }) => {
   const handleSubmit = () => {
     onClose();
   };
 
-
   const handleCancel = () => {
     onClose();
-  }
-
+  };
 
   return (
     <ModalDialog modalTitle='Change properties of element' isOpen={isOpen} onClose={onClose}>

@@ -9,11 +9,9 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, cancelText, subm
     onClose();
   };
 
-
   const handleCancel = () => {
     onClose();
-  }
-
+  };
 
   return (
     <ModalDialog modalTitle='Change properties of element' isOpen={isOpen} onClose={onClose}>

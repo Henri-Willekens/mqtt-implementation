@@ -1,11 +1,10 @@
-import Page from "../Page/Page";
-import AlertLog from "../StaticPages/AlertLog/AlertLog";
-import SettingsPage from "../StaticPages/Settings/Settings";
-import PagesOverview from "../StaticPages/PagesOverview/PagesOverview";
+import './PageManager.scss';
+import PageManagerProps from './PageManager.types';
 
-import "./PageManager.scss";
-import PageManagerProps from "./PageManager.types";
-
+import Page from '../Page/Page';
+import AlertLog from '../StaticPages/AlertLog/AlertLog';
+import SettingsPage from '../StaticPages/Settings/Settings';
+import PagesOverview from '../StaticPages/PagesOverview/PagesOverview';
 
 const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
 
@@ -13,7 +12,6 @@ const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
     Settings: SettingsPage,
     PagesOverview: PagesOverview,
     AlertLog: AlertLog
-
   };
 
   const StaticPageComponent = STATIC_PAGES[activePageId];

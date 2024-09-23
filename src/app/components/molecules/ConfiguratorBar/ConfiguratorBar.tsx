@@ -7,7 +7,7 @@ import Button from "../../atoms/Button/Button";
 import componentMap from "../..";
 
 const ConfiguratorBar: React.FC<ConfiguratorBarProps> = () => {
-  const [isLibraryOpen, setIsLibraryOpen] = useState(true);
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
 
   const showLibrary = () => {
     setIsLibraryOpen(!isLibraryOpen);

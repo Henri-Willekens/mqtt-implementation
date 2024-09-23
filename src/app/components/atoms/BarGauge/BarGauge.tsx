@@ -63,7 +63,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
+        <line key={_alertValue.value} className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
       )
     }
 
@@ -74,7 +74,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch('/api/read-json?file=config.json')
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);
@@ -86,9 +86,12 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -129,9 +132,6 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 
@@ -181,7 +181,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Element ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} />
         <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleFormChange} />
         <InputField label='Unit' type='text' id='unit' value={_formValues.unit} onChange={handleFormChange} />

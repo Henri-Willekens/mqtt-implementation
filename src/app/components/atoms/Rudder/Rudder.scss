@@ -1,4 +1,40 @@
 @import '../../../styles/colorVariables';
+@import '../../../styles/colors';
+@import '../../../styles/effects';
+
+#path-2-inside-1_1037_1650 {
+  fill: $white;
+}
+
+.outer-circle {
+  fill: $navigation-menu-bg;
+  filter: drop-shadow($md-shadow);
+}
+
+.inner-circle {
+  fill: url(#paint0_linear_1037_1650);
+  filter: drop-shadow(-4px -4px 0 rgba(10, 10, 10, 0.5));
+}
+
+.port-starboard {
+  fill: url(#paint1_linear_1037_1650);
+}
+
+.pointer {
+  filter: drop-shadow($sm-shadow);
+}
+
+.boat {
+  filter: drop-shadow($sm-shadow);
+
+  &-stroke {
+    fill: $white;
+  }
+
+  &-fill {
+    fill: $navigation-menu-bg;
+  }
+}
 
 .rudder {
   margin: 10px;

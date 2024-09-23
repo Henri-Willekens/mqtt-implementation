@@ -47,7 +47,7 @@ const App = () => {
                 </div>
               ) : (
                 <>
-                  <Header pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
+                  <Header configData={config} pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
                   <div className='components'>
                     {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
                     <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>

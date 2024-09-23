@@ -1,10 +1,10 @@
-import ConfiguratorBarProps from "./ConfiguratorBar.types";
-import "./ConfiguratorBar.scss"
+import ConfiguratorBarProps from './ConfiguratorBar.types';
+import './ConfiguratorBar.scss'
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import Button from "../../atoms/Button/Button";
-import componentMap from "../..";
+import Button from '../../atoms/Button/Button';
+import componentMap from '../..';
 
 const ConfiguratorBar: React.FC<ConfiguratorBarProps> = () => {
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);

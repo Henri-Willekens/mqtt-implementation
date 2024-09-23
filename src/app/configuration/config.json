@@ -1,43 +1,39 @@
 {
   "pages": [
     {
-      "title": "Navigation",
-      "id": "Nav1",
-      "gridEnabled": true,
+      "title": "Engine",
+      "id": "Engine1",
+      "gridEnabled": false,
       "components": [
         {
-          "type": "Compass",
+          "type": "BarGauge",
           "props": {
-            "id": "magn-compass-1",
-            "source": "magn",
-            "waveArrowOutside": true,
-            "stepsOfDegrees": 15,
-            "width": 300,
-            "height": 300,
-            "xPos": 640.65625,
-            "yPos": 291.5
+            "id": "barmeter-1",
+            "maxValue": 100,
+            "xPos": 59.28125,
+            "yPos": 77.84375,
+            "label": "Engine SB",
+            "numberOfTickLines": 5,
+            "unit": "%",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 95
+              },
+              {
+                "alertType": "warning",
+                "value": 75
+              }
+            ]
           }
         },
         {
-          "type": "ValueField",
+          "type": "Valve",
           "props": {
-            "label": "Heading",
-            "id": "heading-value-field-1",
-            "unit": "°",
-            "requiresValueTimes": false,
-            "xPos": 660.65625,
-            "yPos": 88.25,
-            "isEditable": false
-          }
-        },
-        {
-          "type": "Rudder",
-          "props": {
-            "id": "rudder-angle-1",
-            "elementRadius": 100,
-            "totalRudderAngle": 270,
-            "xPos": 10,
-            "yPos": 293.5
+            "id": "valve-1",
+            "fill": "cleanwater",
+            "xPos": 404.6888885498047,
+            "yPos": 176.50213623046875
           }
         }
       ],
@@ -47,11 +43,6 @@
           "to": "valve-1",
           "type": "pipe",
           "content": "clean-water"
-        },
-        {
-          "from": "valve-1",
-          "to": "heat-cooling-pump-1",
-          "type": "connection"
         }
       ]
     }

@@ -4,12 +4,12 @@ import { useContext, useState } from "react";
 import componentMap from "../../index";
 import { ComponentConfig } from "../../../configuration/types";
 import Draggable from "../../atoms/Draggable/Draggable";
-import { ConfigContext } from "src/app/contexts/Config";
 import OrthologalLine from "../../atoms/OrthogonalLine/OrthogonalLine";
+import { ConfigEnabledContext } from "src/app/contexts/ConfigEnabled";
 
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ components, connections, gridEnabled, activePageId }) => {
 
-  const { _configEnabled } = useContext(ConfigContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
 
   return (
     <>

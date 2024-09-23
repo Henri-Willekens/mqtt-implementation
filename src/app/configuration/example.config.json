@@ -1,63 +1,34 @@
 {
-  "components": [
+  "pages": [
     {
-      "type": "Compass",
-      "props": {
-        "source": "gyro",
-        "waveArrowOutside": false,
-        "numOfWindRoseLines": 12
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Motor 1 temperature",
-        "title": "motor-1-temperature",
-        "maxValue": 900,
-        "unit": "°C",
-        "amountOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 800,
-            "higherOrLowerThan": "higher"
-          },
-          {
-            "alertType": "warning",
-            "value": 700,
-            "higherOrLowerThan": "higher"
+      "title": "Navigation",
+      "id": "Nav1",
+      "gridEnabled": true,
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "id": "magn-compass-1",
+            "source": "magn",
+            "waveArrowOutside": true,
+            "stepsOfDegrees": 30,
+            "width": 300,
+            "height": 300,
+            "xPos": 124,
+            "yPos": 301
           }
-        ]
-      }
-    },
-    {
-      "type": "BarMeter",
-      "props": {
-        "label": "Water tank 1",
-        "title": "water-tank-1-filling",
-        "maxValue": 20000,
-        "unit": "°C",
-        "amountOfTickLines": 5,
-        "alertLines": [
-          {
-            "alertType": "alarm",
-            "value": 2000,
-            "higherOrLowerThan": "lower"
-          },
-          {
-            "alertType": "warning",
-            "value": 5000,
-            "higherOrLowerThan": "lower"
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "id": "rudder-angle-1",
+            "elementRadius": 100,
+            "totalRudderAngle": 180,
+            "xPos": 681.2039947509766,
+            "yPos": 274.43121337890625
           }
-        ]
-      }
-    },
-    {
-      "type": "Rudder",
-      "props": {
-        "totalRudderAngle": 120,
-        "elementRadius": 120
-      }
+        }
+      ]
     }
   ]
 }

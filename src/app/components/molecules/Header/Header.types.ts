@@ -2,7 +2,6 @@ import { PageConfig } from "../../../configuration/types";
 
 export default interface HeaderProps {
   pages: PageConfig[],
-  navigateToPage: any,
-  pageName: string,
+  navigateToPage: (id: string) => any,
   activePageId: string
 }

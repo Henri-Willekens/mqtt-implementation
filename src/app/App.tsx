@@ -28,7 +28,7 @@ const App = () => {
 
   useEffect(() => {
     if (config.pages.length !== 0) {
-      _activeConfig == "ConfigA" ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
+      _activeConfig == 'ConfigA' ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
     } else {
       // fetch the config from mqtt or somewhere else
     }

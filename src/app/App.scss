@@ -1,4 +1,4 @@
-@import "./styles/colorVariables";
+@import './styles/colorVariables';
 @import './styles//colors';
 
 html, body {
@@ -73,7 +73,7 @@ html, body {
 }
 .loader:before,
 .loader:after {
-  content: "";
+  content: '';
   grid-area: 1/1;
   height: 30px;
   aspect-ratio: 6;

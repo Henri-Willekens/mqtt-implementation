@@ -73,7 +73,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       body: JSON.stringify(_data),
     })
       .then((response) => response.json())
-      .catch((error) => console.error("Error saving data:", error));
+      .catch((error) => console.error('Error saving data:', error));
   };
 
 

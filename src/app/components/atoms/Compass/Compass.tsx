@@ -65,10 +65,11 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch(`/api/read-json?file=config.json`)
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);
+        console.log(results)
       })
       .catch((err) => console.error(err));
     };
@@ -77,9 +78,12 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -96,6 +100,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
     if (_configData === undefined) {
       return;
     }
+
+    console.log(_configData)
 
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
@@ -120,9 +126,6 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 
@@ -145,7 +148,6 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       setTimeout(() => {
         setData('correct');
       }, 5000);
-      // console.log('There is data missing, please check the data source.');
     } else {
       update('hdg', _currentHeading);
       update('outer-circle', _currentHeading);
@@ -236,7 +238,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
         <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />

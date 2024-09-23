@@ -6,7 +6,7 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 import { Config } from 'src/app/configuration/types';
 
-const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, configEnabled, activePageId }) => {
+const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLines, numberOfTickLines, content, configEnabled, activePageId }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -45,8 +45,8 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
       _tickLines.push(
         <g className='bar-gauge__tick-line' key={i}>
-          <line x1='62' x2='72' y1={_y} y2={_y} />
-          <text x='75' y={_y + 13}>{Math.round(_value)}</text>
+          {/* <line x1='62' x2='72' y1={_y} y2={_y} /> */}
+          <text x='70' y={_y + 10}>{Math.round(_value)}</text>
         </g>
       )
     }
@@ -63,7 +63,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
     for (let _alertValue of alertLines) {
       const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
       _alertLines.push(
-        <line className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='8' x2='62' y1={yPos} y2={yPos} />
+        <line key={_alertValue.value} className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
       )
     }
 
@@ -74,7 +74,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch('/api/read-json?file=config.json')
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);
@@ -86,9 +86,12 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -129,9 +132,6 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 
@@ -159,7 +159,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
             <rect x='11' y='0' width='50' height='250' className='bar-gauge__background' />
 
             <g>
-              <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id}`} />
+              <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id} ${content !== null && 'bar-gauge__fill__' + content}`} />
             </g>
 
             <rect x='10.5'y='0.5' width='50' height='250' className='bar-gauge__stroke' />
@@ -181,7 +181,7 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Element ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} />
         <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleFormChange} />
         <InputField label='Unit' type='text' id='unit' value={_formValues.unit} onChange={handleFormChange} />

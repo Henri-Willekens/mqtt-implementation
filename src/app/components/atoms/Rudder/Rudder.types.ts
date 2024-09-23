@@ -1,7 +1,8 @@
 export default interface RudderProps {
   id: string,
   totalRudderAngle: number,
-  elementRadius: number,
+  width: number,
+  height: number,
   activePageId: string,
   configEnabled: boolean
 }

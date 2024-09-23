@@ -1,14 +1,19 @@
-@import "../../../../styles/colorVariables";
+@import '../../../../styles/colorVariables';
 
-h2{
+h2 {
   color: $neutral-soft-white;
 }
-label{
+
+label {
   color: $neutral-soft-white;
 }
-.Themes, .Config, .Grid {
+
+.Themes,
+.Config,
+.Grid {
   display: flex;
 }
+
 label {
   margin-right: 10px;
   margin-top: 10px;

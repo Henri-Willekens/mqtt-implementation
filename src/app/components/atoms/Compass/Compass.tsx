@@ -168,7 +168,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
     }
     update('wave', _waveArrow);
   }, [_waveArrow]);
-  
+
   useEffect(() => {
     if (_windArrow > 360) {
       setWindArrow(0);
@@ -193,15 +193,15 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
           </g>
 
           <g className='compass__degree-numbers'>
-            { generateDegreeNumbers(150, 200, 200) }
+            {generateDegreeNumbers(150, 200, 200)}
           </g>
 
           <g className='compass__inner-circle'>
-            <circle cx='200' cy='200' r='130' fill='url(#paint1_linear_988_2110)'/>
+            <circle cx='200' cy='200' r='130' fill='url(#paint1_linear_988_2110)' />
           </g>
 
           <g id='hdg'>
-            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M181.204 160.591C181.943 123.981 194.471 84.9312 203.316 84.9312C212.602 84.9312 226.191 122.761 225.427 160.591L225.427 313.486C225.427 320.211 225.427 320.211 220.12 320.211L186.511 320.211C181.204 320.211 181.204 320.211 181.204 313.487L181.204 160.591Z' fill='#353548' stroke='#EFEFEF'/>
+            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M181.204 160.591C181.943 123.981 194.471 84.9312 203.316 84.9312C212.602 84.9312 226.191 122.761 225.427 160.591L225.427 313.486C225.427 320.211 225.427 320.211 220.12 320.211L186.511 320.211C181.204 320.211 181.204 320.211 181.204 313.487L181.204 160.591Z' fill='#353548' stroke='#EFEFEF' />
           </g>
 
           <g id='cog' className={`compass__cog compass__cog__${_currentTheme}`}>

@@ -162,15 +162,15 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue, unit, id, label, alertLin
               <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id} ${content !== null && 'bar-gauge__fill__' + content}`} />
             </g>
 
-            <rect x='10.5'y='0.5' width='50' height='250' className='bar-gauge__stroke' />
+            <rect x='10.5' y='0.5' width='50' height='250' className='bar-gauge__stroke' />
           </g>
 
           <g className='bar-gauge__alert-lines'>
-            { determineAlertLinesLocation() }
+            {determineAlertLinesLocation()}
           </g>
 
           <g className='bar-gauge__tick-lines'>
-            { generateTickLines() }
+            {generateTickLines()}
           </g>
 
           <defs>

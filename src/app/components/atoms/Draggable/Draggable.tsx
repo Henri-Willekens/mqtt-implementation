@@ -7,7 +7,7 @@ import { Config } from 'src/app/configuration/types';
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
-const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId}) => {
+const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId }) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
@@ -65,10 +65,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       }
     };
 
-    fetch("/api/write-json", {
-      method: "POST",
+    fetch('/api/write-json', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(_data),
     })
@@ -80,20 +80,20 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const fetchConfig = () => {
     const fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
     fetch(`/api/read-json?file=${fileToFetch}`)
-    .then((res) => res.json())
-    .then((results) => { 
-      setData(results);
-      
-      let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
-      let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
+      .then((res) => res.json())
+      .then((results) => {
+        setData(results);
 
-      setPosition({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos})
+        let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
+        let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
 
-      if (gridEnabled) {
-        snapToGrid({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos});
-      }
-    })
-    .catch((err) => console.error(err));
+        setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
+
+        if (gridEnabled) {
+          snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
+        }
+      })
+      .catch((err) => console.error(err));
   }
 
 
@@ -119,7 +119,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
   return (
     <div
-      className={_configEnabled ? "draggable" : "non-draggable"}
+      className={_configEnabled ? 'draggable' : 'non-draggable'}
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}

@@ -22,7 +22,8 @@
           "type": "Rudder",
           "props": {
             "id": "rudder-angle-1",
-            "elementRadius": 100,
+            "width": 255,
+            "height": 255,
             "totalRudderAngle": 180,
             "xPos": 681.2039947509766,
             "yPos": 274.43121337890625

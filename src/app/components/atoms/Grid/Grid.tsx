@@ -30,9 +30,9 @@ const Grid = () => {
   }, []);
 
   return (
-    <div className="grid-container">
+    <div className='grid-container'>
       {Array.from({ length: 9 }).map((_, _index) => (
-        <div key={_index} className="grid-square"><span className="coordinates"></span></div>
+        <div key={_index} className='grid-square'><span className='coordinates'></span></div>
       ))}
     </div>
   );

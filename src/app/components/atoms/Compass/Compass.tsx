@@ -167,14 +167,14 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
     if (_waveArrow > 360) {
       setWaveArrow(0);
     }
-    update('wave', _waveArrow);
+    update(`wave-${id}`, _waveArrow);
   }, [_waveArrow]);
 
   useEffect(() => {
     if (_windArrow > 360) {
       setWindArrow(0);
     }
-    update('wind-speed', _windArrow);
+    update(`wind-speed-${id}`, _windArrow);
   }, [_windArrow]);
 
   useEffect(() => {
@@ -212,11 +212,11 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
             <circle cx='200' cy='200' r='10' />
           </g>
 
-          <g id='wind-speed'>
+          <g id={`wind-speed-${id}`}>
             <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x='188' y='10' />
           </g>
 
-          <g id='wave'>
+          <g id={`wave-${id}`}>
             {waveArrowOutside 
               ? <image href={`./icons/wave/outside/wave-${_waveSpeed}.svg`} x='188' y='10' />
               : <image href={`./icons/wave/inside/wave-${_waveSpeed}.svg`} x='188' y='60' />

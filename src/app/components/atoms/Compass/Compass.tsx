@@ -202,14 +202,14 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
           </g>
 
           <g id={`hdg-${id}`}>
-            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M181.204 160.591C181.943 123.981 194.471 84.9312 203.316 84.9312C212.602 84.9312 226.191 122.761 225.427 160.591L225.427 313.486C225.427 320.211 225.427 320.211 220.12 320.211L186.511 320.211C181.204 320.211 181.204 320.211 181.204 313.487L181.204 160.591Z' fill='#353548' stroke='#EFEFEF' />
+            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M 178 160 C 178 125 192 84 201 84 C 210 84 223 125 223 160 L 223 315 C 223 320 223 320 218 320 L 184 320 C 178 320 178 320 178 315 L 178 160 Z' />
           </g>
 
           <g id={`cog-${id}`} className={`compass__cog compass__cog__${_currentTheme}`}>
-            <path d='M203 70L194.34 85H211.66L203 70ZM204.5 203V198.25H201.5V203H204.5ZM204.5 188.75V179.25H201.5V188.75H204.5ZM204.5 169.75V160.25H201.5V169.75H204.5ZM204.5 150.75V141.25H201.5V150.75H204.5ZM204.5 131.75V122.25H201.5V131.75H204.5ZM204.5 112.75V103.25H201.5V112.75H204.5ZM204.5 93.75V84.25H201.5V93.75H204.5Z' />
+            <path d='m 200 70 L 190 85 H 210 L 200 70 Z M 202 200 V 198 H 198 V 200 H 202 Z M 202 189 V 179 H 198 V 189 H 202 Z M 202 170 V 160 H 198 V 170 H 202 Z M 202 151 V 141 H 198 V 151 H 202 Z M 202 132 V 122 H 198 V 132 H 202 Z M 202 113 V 104 H 198 V 113 H 202 Z M 202 94 V 85 H 198 V 94 Z' />
           </g>
           <g className={`compass__center compass__center__${_currentTheme}`}>
-            <circle cx='203' cy='203' r='10' />
+            <circle cx='200' cy='200' r='10' />
           </g>
 
           <g id='wind-speed'>

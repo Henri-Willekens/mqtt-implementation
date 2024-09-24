@@ -3,6 +3,7 @@ export default interface RudderProps {
   totalRudderAngle: number,
   width: number,
   height: number,
+  stepsOfDegrees: number,
   activePageId: string,
   configEnabled: boolean
 }

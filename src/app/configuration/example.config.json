@@ -14,8 +14,8 @@
             "stepsOfDegrees": 30,
             "width": 300,
             "height": 300,
-            "xPos": 124,
-            "yPos": 301
+            "xPos": 29.997947692871094,
+            "yPos": 311.4979553222656
           }
         },
         {
@@ -24,9 +24,80 @@
             "id": "rudder-angle-1",
             "width": 255,
             "height": 255,
-            "totalRudderAngle": 180,
+            "totalRuddeAngle": 180,
             "xPos": 681.2039947509766,
             "yPos": 274.43121337890625
+          }
+        },
+        {
+          "type": "Compass",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "Compass-33"
+          }
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "Rudder-6"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Extra",
+      "id": "wow",
+      "gridEnabled": false,
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "Compass-46"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 579.90625,
+            "yPos": 479.7199401855469,
+            "id": "BarGauge-42"
+          }
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "Rudder-9"
+          }
+        },
+        {
+          "type": "HeatCoolingPump",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "HeatCoolingPump-12"
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "Valve-81"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 50,
+            "yPos": 50,
+            "id": "ValueField-21"
           }
         }
       ]

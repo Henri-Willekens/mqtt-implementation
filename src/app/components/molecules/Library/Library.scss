@@ -1,6 +1,6 @@
 @import '../../../styles/colors';
 
-.configurator-bar {
+.library {
   display: flex;
   align-items: flex-end;
 
@@ -13,12 +13,20 @@
     width: 100%;
     height: 200px;
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     background-color: $navigation-menu-bg;
 
     position: absolute;
     bottom: 50px;
 
     transition: height 1s linear;
+  }
+
+  &__create-button {
+    height: 50px;
   }
 }
 

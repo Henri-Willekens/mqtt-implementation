@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
-import ConfiguratorBar from './components/molecules/ConfiguratorBar/ConfiguratorBar';
+import Library from './components/molecules/Library/Library';
 
 import { ThemeContext } from './contexts/Theme';
 import { ConfigEnabledContext } from './contexts/ConfigEnabled';
@@ -54,7 +54,7 @@ const App = () => {
                       <PageManager config={_configData} activePageId={_activePageId} />
                     </ConfigFileContext.Provider>
                   </div>
-                  {_configEnabled && <ConfiguratorBar />}
+                  {_configEnabled && <Library activePageId={_activePageId} config={config} />}
                 </>
               )}
             </div>

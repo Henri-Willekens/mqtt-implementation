@@ -8,7 +8,7 @@ import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import InputField from '../FormInputs/InputField/InputField';
 
-const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, width, height, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
@@ -101,10 +101,11 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       return;
     }
 
-    console.log(_configData)
-
+    
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
+    console.log(id)
+    console.log(_configData.pages[_pageIndex]?.components[_index])
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,

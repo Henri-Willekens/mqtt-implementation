@@ -2,6 +2,7 @@ import LibraryProps from './Library.types';
 import './Library.scss'
 
 import { useState } from 'react';
+import {v4 as uuidv4} from 'uuid';
 
 import componentMap from '../../index';
 import Button from '../../atoms/Button/Button';
@@ -32,14 +33,15 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
     if (activePageId == 'Settings' || activePageId == 'AlertLog' || activePageId == 'PagesOverview') {
       return;
     }
-
+    
+    setIsLibraryOpen(false); // Close library
 
     const _element = {
       type: _typeOfElement,
       props: {
         xPos: 50,
         yPos: 50,
-        id: `${_typeOfElement}-${_idNumber}`
+        id: 'id-' + uuidv4()
       }
     };
 

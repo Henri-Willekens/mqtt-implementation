@@ -1,5 +1,5 @@
 export default interface ValveProps {
   id: string,
-  fill: string,
+  content: string,
   configEnabled: boolean
 };

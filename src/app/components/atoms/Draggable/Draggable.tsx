@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { _gridPositions } from '../Grid/Grid';
+import { _gridPositions, _gridSize } from '../Grid/Grid';
 
 import DraggProps from './Draggable.types';
 import './Draggable.scss';

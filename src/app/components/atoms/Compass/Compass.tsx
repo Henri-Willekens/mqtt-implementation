@@ -139,7 +139,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
     // Mimic data changing
     const _interval = setInterval(() => {
       setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 0 : _prevWindSpeed + 1));
+      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
       setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
       setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
       setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));

@@ -30,7 +30,7 @@
 
   &__block {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
 
     width: 100%;
   }
@@ -53,6 +53,6 @@
 
   &__times {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }

@@ -15,7 +15,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
   const [_correctData, setData] = useState('incomplete');
-  const [_cardinalEnabled, setCardinalEnabled] = useState(false);
+  const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const { _currentTheme } = useContext(ThemeContext);
@@ -96,8 +96,8 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
     }));
   };
 
-  const swithBetweenDegreesAndCardinal = () => {
-    setCardinalEnabled(!_cardinalEnabled);
+  const switchNorthLock = () => {
+    setIsNorthLocked(!_isNorthLocked);
   }
 
 
@@ -106,7 +106,6 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       return;
     }
 
-    
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
     console.log(id)
@@ -137,68 +136,53 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
 
 
   useEffect(() => {
+    // Mimic data changing
     const _interval = setInterval(() => {
-      setCurrentHeading(_prevHeading => (_prevHeading + 5));
-      setWindspeed(_prevWindSpeed => _prevWindSpeed + 1);
-      setWindArrow(_prevWindArrow => (_prevWindArrow + 5));
-      setWaveSpeed(_prevWaveSpeed => _prevWaveSpeed + 1);
-      setWaveArrow(_prevWaveArrow => (_prevWaveArrow + 5));
+      setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
+      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 0 : _prevWindSpeed + 1));
+      setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
+      setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
+      setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
     }, 500)
 
     return () => clearInterval(_interval);
   }, []);
-
 
   useEffect(() => {
     if (_correctData == 'incomplete') {
       setTimeout(() => {
         setData('correct');
       }, 5000);
-    } else {
+    } else if(_isNorthLocked) { 
       update(`hdg-${id}`, _currentHeading);
       update(`cog-${id}`, _currentHeading + 20);
+      update(`outer-circle-${id}`, _currentHeading);
+      update(`degree-numbers-${id}`, 0);
+    } else {
+      update(`degree-numbers-${id}`, _currentHeading);
+      update(`hdg-${id}`, 0);
       update(`outer-circle-${id}`, _currentHeading);
     };
   }, [_currentHeading]);
 
-
   useEffect(() => {
-    if (_waveSpeed >= 4) {
-      setWaveSpeed(1);
-    }
-  }, [_waveSpeed]);
-
-  useEffect(() => {
-    if (_waveArrow > 360) {
-      setWaveArrow(0);
-    }
     update(`wave-${id}`, _waveArrow);
   }, [_waveArrow]);
 
   useEffect(() => {
-    if (_windArrow > 360) {
-      setWindArrow(0);
-    }
     update(`wind-speed-${id}`, _windArrow);
   }, [_windArrow]);
 
-  useEffect(() => {
-    if (_windspeed >= 13) {
-      setWindspeed(1);
-    }
-  }, [_windspeed]);
-
-
   return (
     <>
-      <div key={id} onClick={swithBetweenDegreesAndCardinal} onDoubleClick={openModal}>
+      <div key={id} onClick={switchNorthLock} onDoubleClick={openModal}>
         <svg width={width} height={height} viewBox='0 0 400 400'>
           <path className='shadow' d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
           <g id={`outer-circle-${id}`} className='compass__outer-circle'>
             <path d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
           </g>
 
-          <g className='compass__degree-numbers'>
+          <g id={`degree-numbers-${id}`} className='compass__degree-numbers'>
             {generateDegreeNumbers(150, 200, 200)}
           </g>
 

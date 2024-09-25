@@ -15,6 +15,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
   const [_correctData, setData] = useState('incomplete');
+  const [_cardinalEnabled, setCardinalEnabled] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const { _currentTheme } = useContext(ThemeContext);
@@ -94,6 +95,10 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       [_name]: _value
     }));
   };
+
+  const swithBetweenDegreesAndCardinal = () => {
+    setCardinalEnabled(!_cardinalEnabled);
+  }
 
 
   const handleSave = () => {
@@ -186,7 +191,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
 
   return (
     <>
-      <div key={id} onDoubleClick={openModal}>
+      <div key={id} onClick={swithBetweenDegreesAndCardinal} onDoubleClick={openModal}>
         <svg width={width} height={height} viewBox='0 0 400 400'>
           <path className='shadow' d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
           <g id={`outer-circle-${id}`} className='compass__outer-circle'>

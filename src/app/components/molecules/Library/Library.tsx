@@ -21,7 +21,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
     
     for (let component in componentMap) {
       buttons.push(
-        <Button key={component} value={`Create ${component}`} onClick={() => createElementOnPage(component)} extraClasses='library__create-button' />
+        <Button key={component} value={`${component}`} onClick={() => createElementOnPage(component)} extraClasses='library__create-button' />
       );
     };
     

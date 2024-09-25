@@ -49,8 +49,8 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255
     for (let i = -_angle; i <= _angle; i+= stepsOfDegrees) {
       const _radian = (i * Math.PI) / 180;
 
-      const _textX = _centerX + (_elementRadius - 10) * -Math.sin(_radian);
-      const _textY = _centerY - (_elementRadius) * -Math.cos(_radian);
+      const _textX = _centerX + (_elementRadius - 12) * -Math.sin(_radian);
+      const _textY = _centerY - (_elementRadius - 12) * -Math.cos(_radian);
 
       degreeLabels.push(
         <text
@@ -58,6 +58,7 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255
           x={_textX}
           y={_textY}
           textAnchor='middle'
+          dominantBaseline='middle'
           className={`rudder__angles__number ${i == _angle || i == -_angle ? 'rudder__angles__max': '' }`}
         >
           {i}

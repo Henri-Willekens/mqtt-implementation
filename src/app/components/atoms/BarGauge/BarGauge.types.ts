@@ -7,5 +7,6 @@ export default interface BarMeterProps {
   numberOfTickLines: number,
   content?: string,
   configEnabled: boolean,
-  activePageId: string
+  activePageId: string,
+  canSnap: boolean
 }

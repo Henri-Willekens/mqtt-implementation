@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import ValveProps from './Valve.types';
 import './Valve.scss';
 
-const Valve: React.FC<ValveProps> = ({ id, content, configEnabled }) => {
+const Valve: React.FC<ValveProps> = ({ id, content, configEnabled, canSnap = false }) => {
   const [_enabled, setEnabled] = useState(false);
 
   const turnOnOrOff = () => {

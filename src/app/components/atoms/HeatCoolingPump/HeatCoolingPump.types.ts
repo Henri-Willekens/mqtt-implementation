@@ -1,4 +1,5 @@
 export default interface HeatCoolingProps {
   id: string,
-  configEnabled: boolean
+  configEnabled: boolean,
+  canSnap: boolean
 }

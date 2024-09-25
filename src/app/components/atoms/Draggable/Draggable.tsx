@@ -56,16 +56,31 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
 
-    _data.pages[_pageIndex].components[_index] = {
-      type: _data.pages[_pageIndex]?.components[_index].type,
-      props: {
-        ..._data.pages[_pageIndex].components[_index].props,
-        xPos: _position.x,
-        yPos: _position.y,
-        width: _elementSize.width,
-        height: _elementSize.height
-      }
+    if (children?.props.canSnap) {
+      _data.pages[_pageIndex].components[_index] = {
+        type: _data.pages[_pageIndex]?.components[_index].type,
+        props: {
+          ..._data.pages[_pageIndex].components[_index].props,
+          xPos: _position.x,
+          yPos: _position.y,
+          width: _elementSize.width,
+          height: _elementSize.height
+        }
+      };
+    } else {
+      _data.pages[_pageIndex].components[_index] = {
+        type: _data.pages[_pageIndex]?.components[_index].type,
+        props: {
+          ..._data.pages[_pageIndex].components[_index].props,
+          xPos: _position.x,
+          yPos: _position.y
+        }
+      };
+  
     };
+
+    console.log(_data.pages[_pageIndex].components[_index])
+    console.log(_elementSize)
 
     fetch('/api/write-json', {
       method: 'POST',
@@ -112,7 +127,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     });
 
     setPosition({ x: _closestPosition.x, y: _closestPosition.y });
-    setElementSize({ width: _closestPosition.width-15, height: _closestPosition.height-15 });
+    setElementSize({ width: _closestPosition.width - 15, height: _closestPosition.height - 15 });
   };
 
 

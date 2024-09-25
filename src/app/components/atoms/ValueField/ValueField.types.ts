@@ -3,6 +3,7 @@ export default interface ValueFieldProps {
   id: string,
   unit: string,
   requiresValueTimes: boolean,
-  valueTimes?: number
-  isEditable: boolean
+  valueTimes?: number,
+  isEditable: boolean,
+  canSnap: boolean
 };

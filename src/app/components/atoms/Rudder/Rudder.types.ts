@@ -5,5 +5,6 @@ export default interface RudderProps {
   height: number,
   stepsOfDegrees: number,
   activePageId: string,
-  configEnabled: boolean
+  configEnabled: boolean,
+  canSnap: boolean
 }

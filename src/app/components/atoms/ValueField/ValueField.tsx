@@ -3,7 +3,7 @@ import './ValueField.scss';
 
 import { useState } from 'react';
 
-const ValueField: React.FC<ValueFieldProps> = ({ label, id, unit, requiresValueTimes, valueTimes, isEditable }) => {
+const ValueField: React.FC<ValueFieldProps> = ({ label, id, unit, requiresValueTimes, valueTimes, isEditable, canSnap = false }) => {
   const [value, setValue] = useState('203.00');
 
   const onChange = (_event: React.ChangeEvent<HTMLInputElement>) => {

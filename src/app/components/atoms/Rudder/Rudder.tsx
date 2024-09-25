@@ -6,7 +6,7 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 import { Config } from 'src/app/configuration/types';
 
-const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255, height = 255, stepsOfDegrees = 15, activePageId, configEnabled }) => {
+const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255, height = 255, stepsOfDegrees = 15, activePageId, configEnabled, canSnap = true }) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({

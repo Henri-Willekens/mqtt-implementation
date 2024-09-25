@@ -6,7 +6,7 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 import { Config } from 'src/app/configuration/types';
 
-const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, label = 'Label', alertLines = [], numberOfTickLines = 5, content, configEnabled, activePageId }) => {
+const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, label = 'Label', alertLines = [], numberOfTickLines = 5, content, configEnabled, activePageId, canSnap = true }) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();

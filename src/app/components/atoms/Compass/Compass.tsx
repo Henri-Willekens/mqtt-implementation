@@ -8,7 +8,7 @@ import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import InputField from '../FormInputs/InputField/InputField';
 
-const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled, canSnap = true }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);

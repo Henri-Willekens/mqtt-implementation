@@ -79,9 +79,6 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   
     };
 
-    console.log(_data.pages[_pageIndex].components[_index])
-    console.log(_elementSize)
-
     fetch('/api/write-json', {
       method: 'POST',
       headers: {

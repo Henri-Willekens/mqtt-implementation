@@ -26,12 +26,18 @@ const App = () => {
     setActivePageId(_pageId);
   };
 
+  const fetchConfig = () => {
+    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    fetch(`/api/read-json?file=${_fileToFetch}`)
+      .then((_res) => _res.json())
+      .then((_results) => {
+        setConfigData(_results);
+      })
+      .catch((_err) => console.error(_err));
+  };
+
   useEffect(() => {
-    if (config.pages.length !== 0) {
-      _activeConfig == 'ConfigA' ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
-    } else {
-      // fetch the config from mqtt or somewhere else
-    }
+    fetchConfig();
   }, [_activeConfig]);
 
   return (

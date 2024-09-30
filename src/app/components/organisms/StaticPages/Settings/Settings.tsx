@@ -15,7 +15,6 @@ const SettingsPage = () => {
   });
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
-  const [_gridEnabled, setGridEnabled] = useState(true);
   const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
   const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
 
@@ -30,10 +29,6 @@ const SettingsPage = () => {
       default:
         break;
     }
-  };
-
-  const toggleGrid = () => {
-    setGridEnabled(!_gridEnabled);
   };
 
   const toggleConfigMode = () => {
@@ -66,28 +61,64 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className='Settings'>
+    <div className='settings'>
       <h2>Settings</h2>
-      <div className='Buttons'>
-        <div className='Themes'>
-          <label>Themes:</label>
-          <Button extraClasses={`Btn ${_currentTheme == 'day' && 'active'} `} onClick={() => switchTheme('day')} value='Day' />
-          <Button extraClasses={`Btn ${_currentTheme == 'night' && 'active'} `} onClick={() => switchTheme('night')} value='Night' />
+      <div className='settings__buttons'>
+        <div className='settings__themes settings__block'>
+          <h3>Themes</h3>
+          <div className='settings__themes__buttons'>
+            <Button 
+              value='Day' 
+              onClick={() => switchTheme('day')} 
+              extraClasses={`settings__button ${_currentTheme == 'day' && 'active'}`} 
+            />
+            <Button 
+              value='Night' 
+              onClick={() => switchTheme('night')} 
+              extraClasses={`settings__button ${_currentTheme == 'night' && 'active'}`} 
+            />
+          </div>
         </div>
+        <div className='settings__configuration settings__block'>
+          <h3>Configuration</h3>
+          <InputField type='text' label='Access code' id='_configCode' value={_formValues._configCode} onChange={handleFormChange} placeholder='xxx-xxx' />
+          {_formValues._configCode === process.env.NEXT_PUBLIC_CONFIG_CODE && 
+            <Button 
+              value={`Turn config mode ${_configEnabled ? 'off' : 'on'}`} 
+              onClick={toggleConfigMode} 
+              extraClasses={`settings__button settings__configuration__button ${_configEnabled && 'active'}`} 
+            />
+          }
+        </div>
+        <div className='settings__active-config settings__block'>
+          <h3>Active configuration file</h3>
+          <div className='settings__themes__buttons'>
+            <Button 
+              value='Config' 
+              onClick={() => ChangeConfig('ConfigA')} 
+              extraClasses={`settings__button ${_activeConfig == 'ConfigA' && 'active'} `} 
+            />
+            <Button 
+              value='Example Config' 
+              onClick={() => ChangeConfig('ConfigB')} 
+              extraClasses={`settings__button ${_activeConfig == 'ConfigB' && 'active'} `} 
+            />
+          </div>
+        </div>
+        <div className='settings__others settings__block'>
+          <h3>Other settings</h3>
+          <p>Coming soon...</p>
+        </div>
+        {/* 
         <div className='Config'>
           <label>Config:</label>
           <Button extraClasses={`Btn ${_configEnabled && 'active'} `} onClick={toggleConfigMode} value='Config' />
-          <InputField type='text' label='Access code' id='_configCode' value={_formValues._configCode} onChange={handleFormChange} placeholder='xxx-xxx' />
-        </div>
-        <div className='Grid'>
-          <label>Grid:</label>
-          <Button extraClasses='Btn' onClick={toggleGrid} value='Grid' />
         </div>
         <div className='ActiveConfig'>
           <label>Active config file:</label>
           <Button extraClasses={`Btn ${_activeConfig == 'ConfigA' && 'active'} `} onClick={() => ChangeConfig('ConfigA')} value='Config' />
           <Button extraClasses={`Btn ${_activeConfig == 'ConfigB' && 'active'} `} onClick={() => ChangeConfig('ConfigB')} value='Example Config' />
-        </div>
+        </div> */}
       </div>
     </div>
   );

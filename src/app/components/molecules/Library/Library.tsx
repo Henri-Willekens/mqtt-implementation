@@ -41,7 +41,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       props: {
         xPos: 50,
         yPos: 50,
-        id: _typeOfElement + uuidv4()
+        id: `${_typeOfElement}-${uuidv4()}`
       }
     };
 

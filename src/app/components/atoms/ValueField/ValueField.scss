@@ -30,7 +30,8 @@
 
   &__block {
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
 
     width: 100%;
   }

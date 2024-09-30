@@ -37,8 +37,6 @@ const SettingsPage = () => {
   };
 
   const toggleConfigMode = () => {
-    console.log(typeof process.env.NEXT_PUBLIC_CONFIG_CODE)
-    console.log(_formValues._configCode)
     if (_formValues._configCode == process.env.NEXT_PUBLIC_CONFIG_CODE) {
       setConfigEnabled(!_configEnabled);
     };

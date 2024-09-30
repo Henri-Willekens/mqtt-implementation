@@ -100,7 +100,9 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   };
 
   const switchNorthLock = () => {
-    setIsNorthLocked(!_isNorthLocked);
+    if (!configEnabled) {
+      setIsNorthLocked(!_isNorthLocked);
+    }
   }
 
 

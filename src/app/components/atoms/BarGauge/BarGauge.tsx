@@ -1,4 +1,4 @@
-import BarMeterProps from './BarGauge.types';
+import BarGaugeProps from './BarGauge.types';
 import './BarGauge.scss';
 
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import InputField from '../FormInputs/InputField/InputField';
 
 import { Config } from 'src/app/configuration/types';
 
-const BarGauge: React.FC<BarMeterProps> = ({ 
+const BarGauge: React.FC<BarGaugeProps> = ({ 
   id,
   maxValue = 2000, 
   label = 'Label', 

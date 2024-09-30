@@ -1,4 +1,4 @@
-export default interface BarMeterProps {
+export default interface BarGaugeProps {
   id: string,
   maxValue: number,
   label: string,

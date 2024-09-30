@@ -2,13 +2,25 @@ import CompassProps from './Compass.types';
 import './Compass.scss';
 
 import { useState, useEffect, useContext } from 'react';
+
 import FormModal from '../../molecules/FormModal/FormModal';
+import InputField from '../FormInputs/InputField/InputField';
+
 import { ThemeContext } from '../../../contexts/Theme';
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
-import InputField from '../FormInputs/InputField/InputField';
 
-const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled, canSnap = true }) => {
+const Compass: React.FC<CompassProps> = ({ 
+  id, 
+  source = 'magn', 
+  waveArrowOutside = true, 
+  stepsOfDegrees = 30, 
+  width = 400, 
+  height = 400, 
+  canSnap = true,
+  configEnabled, 
+  activePageId
+}) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
@@ -20,11 +32,11 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const { _currentTheme } = useContext(ThemeContext);
   const [_formValues, setFormValues] = useState({
-    source: source,
-    waveArrowOutside: waveArrowOutside,
-    width: width,
-    height: height,
-    stepsOfDegrees: stepsOfDegrees
+    _source: source,
+    _waveArrowOutside: waveArrowOutside,
+    _width: width,
+    _height: height,
+    _stepsOfDegrees: stepsOfDegrees
   });
 
 
@@ -79,6 +91,12 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
 
   const closeModal = () => {
     setIsModalOpen(false);
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));
   };
 
   const submitForm = () => {
@@ -115,11 +133,11 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        source: _formValues.source,
-        width: parseInt(_formValues.width),
-        height: parseInt(_formValues.height),
-        stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
-        waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
+        source: _formValues._source,
+        width: parseInt(_formValues._width),
+        height: parseInt(_formValues._height),
+        stepsOfDegrees: parseInt(_formValues._stepsOfDegrees),
+        waveArrowOutside: stringToBool(_formValues._waveArrowOutside)
       }
     };
 
@@ -229,11 +247,11 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
-        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
-        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />
-        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleFormChange} />
-        <InputField label='Wave arrow outside?' type='text' id='waveArrowOutside' value={_formValues.waveArrowOutside} onChange={handleFormChange} />
+        <InputField label='Source' type='text' id='source' value={_formValues._source} onChange={handleFormChange} />
+        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleFormChange} />
+        <InputField label='Width (px)' type='number' id='width' value={_formValues._width} onChange={handleFormChange} />
+        <InputField label='Height (px)' type='number' id='height' value={_formValues._height} onChange={handleFormChange} />
+        <InputField label='Wave arrow outside?' type='text' id='waveArrowOutside' value={_formValues._waveArrowOutside} onChange={handleFormChange} />
       </FormModal>
     </>
   );

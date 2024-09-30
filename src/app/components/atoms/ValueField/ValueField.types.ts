@@ -5,5 +5,7 @@ export default interface ValueFieldProps {
   requiresValueTimes: boolean,
   valueTimes?: number,
   isEditable: boolean,
-  canSnap: boolean
+  canSnap: boolean,
+  configEnabled: boolean,
+  activePageId: string
 };

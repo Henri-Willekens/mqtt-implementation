@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
-import ConfiguratorBar from './components/molecules/ConfiguratorBar/ConfiguratorBar';
+import Library from './components/molecules/Library/Library';
 
 import { ThemeContext } from './contexts/Theme';
 import { ConfigEnabledContext } from './contexts/ConfigEnabled';
@@ -26,12 +26,18 @@ const App = () => {
     setActivePageId(_pageId);
   };
 
+  const fetchConfig = () => {
+    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    fetch(`/api/read-json?file=${_fileToFetch}`)
+      .then((_res) => _res.json())
+      .then((_results) => {
+        setConfigData(_results);
+      })
+      .catch((_err) => console.error(_err));
+  };
+
   useEffect(() => {
-    if (config.pages.length !== 0) {
-      _activeConfig == 'ConfigA' ? setConfigData(config as Config) : setConfigData(exampleconfig as Config);
-    } else {
-      // fetch the config from mqtt or somewhere else
-    }
+    fetchConfig();
   }, [_activeConfig]);
 
   return (
@@ -54,7 +60,7 @@ const App = () => {
                       <PageManager config={_configData} activePageId={_activePageId} />
                     </ConfigFileContext.Provider>
                   </div>
-                  {_configEnabled && <ConfiguratorBar />}
+                  {_configEnabled && <Library activePageId={_activePageId} config={config} />}
                 </>
               )}
             </div>

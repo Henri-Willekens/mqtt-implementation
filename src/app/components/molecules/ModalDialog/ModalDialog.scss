@@ -1,4 +1,4 @@
-@import '../../../styles/colorVariables';
+@import '../../../styles/colors';
 
 .modal {
   max-width: 900px;
@@ -7,8 +7,8 @@
   border: none;
   border-radius: 10px;
 
-  background-color: $background-body;
-  color: $neutral-soft-white;
+  background-color: $gradient-bg;
+  color: $white;
 
   // animation: fade-out 0.7s ease-out;
 

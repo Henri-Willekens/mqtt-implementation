@@ -1,4 +1,3 @@
-@import '../../../styles/colorVariables';
 @import '../../../styles/colors';
 @import '../../../styles/effects';
 
@@ -17,11 +16,11 @@
 
   &__angles {
     &__port {
-      fill: $port-nav;
+      fill: $port;
     }
 
     &__starboard {
-      fill: $starboard-nav;
+      fill: $stbd;
     }
 
     &__number {

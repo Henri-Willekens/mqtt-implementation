@@ -1,26 +1,31 @@
-@import '../../../../styles/colorVariables';
+@import '../../../../styles/colors';
 
-h2 {
-  color: $neutral-soft-white;
-}
+.alertlog {
+  padding: 0 20px;
 
-label {
-  color: $neutral-soft-white;
-}
+  &__table-component {
+    overflow: auto;
+    width: 100%;
 
-.Themes,
-.Config,
-.Grid {
-  display: flex;
-}
+    & table {
+      border: 1px solid $white;
+      height: 100%;
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      border-spacing: 1px;
+      text-align: left;
+    }
 
-label {
-  margin-right: 10px;
-  margin-top: 10px;
-  width: 10%;
-}
+    & th {
+      border: 1px solid $white;
+      padding: 5px;
+    }
 
-.Btn {
-  width: fit-content;
-  display: flex;
+    & td {
+      border: 1px solid $white;
+      padding: 5px;
+      width: fit-content;
+    }
+  }
 }

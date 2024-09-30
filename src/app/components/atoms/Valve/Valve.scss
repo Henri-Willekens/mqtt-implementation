@@ -1,10 +1,10 @@
-@import '../../../styles/colorVariables';
+@import '../../../styles/colors';
 
 .valve {
   cursor: pointer;
 
   &-top {
-    fill: $neutral-soft-white;
+    fill: $white;
   }
 
   &-fill {
@@ -12,25 +12,25 @@
     clip-path: inset(100% 0 0 0);
 
     &__stroke {
-      stroke: $neutral-soft-white;
+      stroke: $white;
       stroke-width: 1;
     }
 
     &__clean-water {
-      fill: $engine-cleanwater;
+      fill: $pipe-clean-water;
       clip-path: inset(100% 0 0 0);
       animation: fillAnimation 2.5s forwards;
     }
 
     &__fuel {
-      fill: $engine-fuel;
+      fill: $pipe-fuel;
       clip-path: inset(100% 0 0 0);
       animation: fillAnimation 2.5s forwards;
     }
   }
 
   &-flow {
-    fill: $neutral-soft-white;
+    fill: $white;
   }
 }
 

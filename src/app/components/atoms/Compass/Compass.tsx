@@ -14,6 +14,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
+  const [rotationAngle, setRotationAngle] = useState(0);
   const [_correctData, setData] = useState('incomplete');
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -33,35 +34,37 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
     _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
   };
 
-
-  const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
-    const _lines: any[] = [];
-
-    for (let i = 0; i * stepsOfDegrees < 360; i++) {
-      const _angle = stepsOfDegrees * i;
-      const _radian = (_angle * Math.PI) / 180;
-
-      const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
-      const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
-
-      _lines.push(
-        <g key={i}>
+    // Function to generate degree numbers ensuring they always face upright
+    const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
+      const _lines: any[] = [];
+      
+      for (let i = 0; i * stepsOfDegrees < 360; i++) {
+        const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
+        const _radian = (_angle * Math.PI) / 180;
+  
+        const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
+        const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
+  
+        // Counter-rotation: Rotate number to always face upright
+        const counterRotation = -rotationAngle;
+        
+        _lines.push(
           <text
+            key={i}
             className={`compass__degree-number compass__degree-number__${_currentTheme}`}
             x={_textX}
             y={_textY}
-            textAnchor='middle'
-            dominantBaseline='middle'
+            textAnchor="middle"
+            dominantBaseline="central"
+            transform={_isNorthLocked ? '' : `rotate(${counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
           >
             {_angle}
           </text>
-        </g>
-      );
-    }
-
-    return _lines;
-  };
-
+        );
+      }
+      return _lines;
+    };
+  
 
   const openModal = () => {
     if (configEnabled) {
@@ -143,6 +146,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
       setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
       setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
+      setRotationAngle(_prevRotationAngle => (_prevRotationAngle == 360 ? 0 : _prevRotationAngle + 5));
     }, 500)
 
     return () => clearInterval(_interval);
@@ -159,9 +163,10 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       update(`outer-circle-${id}`, _currentHeading);
       update(`degree-numbers-${id}`, 0);
     } else {
-      update(`degree-numbers-${id}`, _currentHeading);
+      update(`cog-${id}`, 0);
       update(`hdg-${id}`, 0);
-      update(`outer-circle-${id}`, _currentHeading);
+      update(`outer-circle-${id}`, 0);
+      update(`degree-numbers-${id}`, _currentHeading);
     };
   }, [_currentHeading]);
 

@@ -3,12 +3,16 @@ import './Settings.scss';
 import { useState, useContext } from 'react';
 
 import Button from '../../../atoms/Button/Button';
+import InputField from 'src/app/components/atoms/FormInputs/InputField/InputField';
 
 import { ConfigEnabledContext } from '../../../../contexts/ConfigEnabled';
 import { ConfigFileContext } from '../../../../contexts/ConfigFile';
 import { ThemeContext } from '../../../../contexts/Theme';
 
 const SettingsPage = () => {
+  const [_formValues, setFormValues] = useState({
+    _configCode: '',
+  });
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const [_gridEnabled, setGridEnabled] = useState(true);
@@ -33,7 +37,11 @@ const SettingsPage = () => {
   };
 
   const toggleConfigMode = () => {
-    setConfigEnabled(!_configEnabled);
+    console.log(typeof process.env.NEXT_PUBLIC_CONFIG_CODE)
+    console.log(_formValues._configCode)
+    if (_formValues._configCode == process.env.NEXT_PUBLIC_CONFIG_CODE) {
+      setConfigEnabled(!_configEnabled);
+    };
   };
 
   const ChangeConfig = (ActiveConfig: string) => {
@@ -49,6 +57,16 @@ const SettingsPage = () => {
     }
   };
 
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const _name = event.target.name;
+    const _value = event.target.value;
+
+    setFormValues((_prevFormValues) => ({
+      ..._prevFormValues,
+      [_name]: _value
+    }));
+  };
+
   return (
     <div className='Settings'>
       <h2>Settings</h2>
@@ -61,6 +79,7 @@ const SettingsPage = () => {
         <div className='Config'>
           <label>Config:</label>
           <Button extraClasses={`Btn ${_configEnabled && 'active'} `} onClick={toggleConfigMode} value='Config' />
+          <InputField type='text' label='Access code' id='_configCode' value={_formValues._configCode} onChange={handleFormChange} placeholder='xxx-xxx' />
         </div>
         <div className='Grid'>
           <label>Grid:</label>

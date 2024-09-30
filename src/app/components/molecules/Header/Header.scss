@@ -20,6 +20,10 @@
   &__pages-overview {
     width: 48px;
     height: 48px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__block {

@@ -10,10 +10,7 @@ import { ThemeContext } from './contexts/Theme';
 import { ConfigEnabledContext } from './contexts/ConfigEnabled';
 import { ConfigFileContext } from './contexts/ConfigFile';
 import { Config } from './configuration/types';
-
-import config from './configuration/config.json';
-import exampleconfig from './configuration/example.config.json';
-
+import { ActivePageContext } from './contexts/ActivePage';
 
 const App = () => {
   const [_configData, setConfigData] = useState<Config | null>(null);
@@ -21,10 +18,6 @@ const App = () => {
   const [_configEnabled, setConfigEnabled] = useState(false);
   const [_activePageId, setActivePageId] = useState('Settings');
   const [_activeConfig, setActiveConfig] = useState('ConfigA');
-
-  const navigateToPage = (_pageId: string) => {
-    setActivePageId(_pageId);
-  };
 
   const fetchConfig = () => {
     const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
@@ -38,6 +31,7 @@ const App = () => {
 
   useEffect(() => {
     fetchConfig();
+    console.log(_configData)
   }, [_activeConfig]);
 
   return (
@@ -53,14 +47,15 @@ const App = () => {
                 </div>
               ) : (
                 <>
-                  <Header configData={config} pages={config.pages} navigateToPage={navigateToPage} activePageId={_activePageId} />
-                  <div className='components'>
-                    {/* <ActivePageContext.Provider value={{ _activePageId, setActivePageId }} /> */}
-                    <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
-                      <PageManager config={_configData} activePageId={_activePageId} />
-                    </ConfigFileContext.Provider>
-                  </div>
-                  {_configEnabled && <Library activePageId={_activePageId} config={config} />}
+                  <ActivePageContext.Provider value={{_activePageId, setActivePageId}}>
+                    <Header configData={_configData} pages={_configData.pages} />
+                    <div className='components'>
+                      <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
+                        <PageManager config={_configData} activePageId={_activePageId} />
+                      </ConfigFileContext.Provider>
+                    </div>
+                    {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}
+                  </ActivePageContext.Provider>
                 </>
               )}
             </div>

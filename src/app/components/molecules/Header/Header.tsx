@@ -10,19 +10,17 @@ import InputField from '../../atoms/FormInputs/InputField/InputField';
 
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
+import { ActivePageContext } from 'src/app/contexts/ActivePage';
 
-const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, navigateToPage }) => {  
+const Header: React.FC<HeaderProps> = ({ configData, pages }) => {  
   const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId, setActivePageId } = useContext(ActivePageContext);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     title: '',
     id: '',
     gridEnabled: false
   });
-  
-  const switchToPage = (id: string) => {
-    navigateToPage(id);
-  };
 
   const openModal = () => {
     if (_configEnabled) {
@@ -79,10 +77,10 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
   };
 
   const pageButtons = pages.map((_page) => {
-    if (_page.id == activePageId) {
-      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} extraClasses='active' />;
+    if (_page.id == _activePageId) {
+      return <Button key={_page.id} value={_page.title} onClick={() => setActivePageId(_page.id)} extraClasses='active' />;
     } else {
-      return <Button key={_page.id} value={_page.title} onClick={() => switchToPage(_page.id)} />;
+      return <Button key={_page.id} value={_page.title} onClick={() => setActivePageId(_page.id)} />;
     }
   });
 
@@ -90,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
     <>
       <div className='navigation'>
         <div className='navigation__block navigation__pages'>
-          {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => switchToPage('PagesOverview')} />}
+          {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => setActivePageId('PagesOverview')} />}
           {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}
         </div>
         <div className='navigation__block navigation__alerts'>
@@ -98,10 +96,10 @@ const Header: React.FC<HeaderProps> = ({ configData, pages, activePageId, naviga
         </div>
         <div className='navigation__block navigation__other'>
           <div className='navigation__block__icons'>
-            <Button value='Alerts' onClick={() => switchToPage('AlertLog')} extraClasses={ activePageId == 'AlertLog' ? 'active' : ''} />
+            <Button value='Alerts' onClick={() => setActivePageId('AlertLog')} extraClasses={ _activePageId == 'AlertLog' ? 'active' : ''} />
           </div>
           <div>
-            <Button value='Settings' onClick={() => switchToPage('Settings')} extraClasses={ activePageId == 'Settings' ? 'active' : ''} />
+            <Button value='Settings' onClick={() => setActivePageId('Settings')} extraClasses={ _activePageId == 'Settings' ? 'active' : ''} />
           </div>
         </div>
       </div>

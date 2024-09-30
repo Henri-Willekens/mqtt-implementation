@@ -1,105 +1,83 @@
 {
   "pages": [
     {
-      "title": "Navigation",
-      "id": "Nav1",
-      "gridEnabled": true,
+      "title": "Engine STBD",
+      "id": "100",
+      "gridEnabled": false,
       "components": [
-        {
-          "type": "Compass",
-          "props": {
-            "id": "magn-compass-1",
-            "source": "magn",
-            "waveArrowOutside": true,
-            "stepsOfDegrees": 30,
-            "width": 300,
-            "height": 300,
-            "xPos": 29.997947692871094,
-            "yPos": 311.4979553222656
-          }
-        },
-        {
-          "type": "Rudder",
-          "props": {
-            "id": "rudder-angle-1",
-            "width": 255,
-            "height": 255,
-            "totalRuddeAngle": 180,
-            "xPos": 681.2039947509766,
-            "yPos": 274.43121337890625
-          }
-        },
-        {
-          "type": "Compass",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "Compass-33"
-          }
-        },
-        {
-          "type": "Rudder",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "Rudder-6"
-          }
-        }
+
       ]
     },
     {
-      "title": "Extra",
-      "id": "wow",
+      "title": "Engine PTS",
+      "id": "101",
       "gridEnabled": false,
       "components": [
-        {
-          "type": "Compass",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "Compass-46"
-          }
-        },
-        {
-          "type": "BarGauge",
-          "props": {
-            "xPos": 579.90625,
-            "yPos": 479.7199401855469,
-            "id": "BarGauge-42"
-          }
-        },
-        {
-          "type": "Rudder",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "Rudder-9"
-          }
-        },
-        {
-          "type": "HeatCoolingPump",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "HeatCoolingPump-12"
-          }
-        },
-        {
-          "type": "Valve",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "Valve-81"
-          }
-        },
-        {
-          "type": "ValueField",
-          "props": {
-            "xPos": 50,
-            "yPos": 50,
-            "id": "ValueField-21"
-          }
-        }
+
+      ]
+    },
+    {
+      "title": "Tank contents",
+      "id": "102",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Electricity",
+      "id": "103",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Propulsion STBD",
+      "id": "104",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Propulsion PTS",
+      "id": "105",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Propulsion configuration CODAD",
+      "id": "106",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Gas Turbine STBD",
+      "id": "107",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Stearing engine",
+      "id": "108",
+      "gridEnabled": false,
+      "components": [
+
+      ]
+    },
+    {
+      "title": "Propulsion configuration E-PTI",
+      "id": "109",
+      "gridEnabled": false,
+      "components": [
+
       ]
     }
   ]

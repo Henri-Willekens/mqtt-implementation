@@ -2,17 +2,29 @@ import RudderProps from './Rudder.types';
 import './Rudder.scss';
 
 import { useEffect, useState } from 'react';
+
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+
 import { Config } from 'src/app/configuration/types';
 
-const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255, height = 255, stepsOfDegrees = 15, activePageId, configEnabled }) => {
+const Rudder: React.FC<RudderProps> = ({ 
+  id, 
+  totalRudderAngle = 270, 
+  width = 255, 
+  height = 255, 
+  stepsOfDegrees = 15, 
+  canSnap = true, 
+  activePageId, 
+  configEnabled
+}) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
-    totalRudderAngle: totalRudderAngle,
-    width: width,
-    height: height
+    _totalRudderAngle: totalRudderAngle,
+    _width: width,
+    _height: height,
+    _stepsOfDegrees: stepsOfDegrees
   });
   const _angle = totalRudderAngle / 2;
   const _elementRadius = 125;
@@ -84,6 +96,12 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255
 
   const closeModal = () => {
     setIsModalOpen(false);
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));
   };
 
   const submitForm = () => {
@@ -115,9 +133,10 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        totalRudderAngle: parseInt(_formValues.totalRudderAngle),
-        width: parseInt(_formValues.width),
-        height: parseInt(_formValues.height)
+        totalRudderAngle: parseInt(_formValues._totalRudderAngle),
+        stepsOfDegrees: parseInt(_formValues._stepsOfDegrees),
+        width: parseInt(_formValues._width),
+        height: parseInt(_formValues._height)
       }
     };
 
@@ -177,9 +196,10 @@ const Rudder: React.FC<RudderProps> = ({ id, totalRudderAngle = 270, width = 255
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Total angle' type='number' id='totalRudderAngle' value={_formValues.totalRudderAngle} onChange={handleFormChange} />
-        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />
-        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleFormChange} />
+        <InputField label='Total angle' type='number' id='_totalRudderAngle' value={_formValues._totalRudderAngle} onChange={handleFormChange} />
+        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleFormChange} />
+        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleFormChange} />
+        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleFormChange} />
       </FormModal>
     </>
   );

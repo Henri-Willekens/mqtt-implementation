@@ -1,11 +1,11 @@
 export default interface BarMeterProps {
-  maxValue: number,
-  unit: string,
   id: string,
+  maxValue: number,
   label: string,
   alertLines: [{ alertType: string, value: number }],
   numberOfTickLines: number,
   content?: string,
   configEnabled: boolean,
-  activePageId: string
+  activePageId: string,
+  canSnap: boolean
 }

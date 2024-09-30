@@ -1,5 +1,7 @@
 export default interface ValveProps {
   id: string,
   content: string,
-  configEnabled: boolean
+  canSnap: boolean,
+  configEnabled: boolean,
+  activePageId: string
 };

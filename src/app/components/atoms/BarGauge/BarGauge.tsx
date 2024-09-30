@@ -2,20 +2,31 @@ import BarMeterProps from './BarGauge.types';
 import './BarGauge.scss';
 
 import { useEffect, useState } from 'react';
+
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+
 import { Config } from 'src/app/configuration/types';
 
-const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, label = 'Label', alertLines = [], numberOfTickLines = 5, content, configEnabled, activePageId }) => {
+const BarGauge: React.FC<BarMeterProps> = ({ 
+  id,
+  maxValue = 2000, 
+  label = 'Label', 
+  alertLines = [], 
+  numberOfTickLines = 5, 
+  content = '', 
+  canSnap = true,
+  configEnabled, 
+  activePageId
+}) => {
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
-    maxValue: maxValue,
-    unit: unit,
-    id: id,
-    label: label,
-    numberOfTickLines: numberOfTickLines
+    _maxValue: maxValue,
+    _numberOfTickLines: numberOfTickLines,
+    _label: label,
+    _content: content
   });
 
 
@@ -86,6 +97,12 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, l
 
   const closeModal = () => {
     setIsModalOpen(false);
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));
   };
 
   const submitForm = () => {
@@ -116,11 +133,10 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, l
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        maxValue: parseInt(_formValues.maxValue),
-        id: _formValues.id,
-        numberOfTickLines: parseInt(_formValues.numberOfTickLines),
-        label: _formValues.label,
-        unit: _formValues.unit
+        maxValue: parseInt(_formValues._maxValue),
+        content: _formValues._content,
+        numberOfTickLines: parseInt(_formValues._numberOfTickLines),
+        label: _formValues._label,
       }
     };
 
@@ -182,11 +198,10 @@ const BarGauge: React.FC<BarMeterProps> = ({ maxValue = 2000, unit  = 'X', id, l
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Element ID' type='text' id='id' value={_formValues.id} onChange={handleFormChange} />
-        <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleFormChange} />
-        <InputField label='Unit' type='text' id='unit' value={_formValues.unit} onChange={handleFormChange} />
-        <InputField label='Maximum value' type='number' id='maxValue' value={_formValues.maxValue} onChange={handleFormChange} />
-        <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={_formValues.numberOfTickLines} onChange={handleFormChange} />
+        <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleFormChange} />
+        <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleFormChange} />
+        <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleFormChange} />
+        <InputField label='Content' type='text' id='_content' value={_formValues._content} onChange={handleFormChange} />
       </FormModal>
     </>
   );

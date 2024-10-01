@@ -105,7 +105,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
         setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
 
-        if (gridEnabled) {
+        if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
           snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
         }
       })

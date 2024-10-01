@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import { _gridPositions } from '../Grid/Grid';
-
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
+
+import { useContext, useEffect, useState } from 'react';
+
+import { _gridPositions } from '../Grid/Grid';
+
 import { Config } from 'src/app/configuration/types';
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
@@ -94,8 +96,8 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
 
   const fetchConfig = () => {
-    const fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
-    fetch(`/api/read-json?file=${fileToFetch}`)
+    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    fetch(`/api/read-json?file=${_fileToFetch}`)
       .then((res) => res.json())
       .then((results) => {
         setData(results);
@@ -118,10 +120,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     let _minDistance = Number.MAX_VALUE;
 
     _gridPositions.forEach((_gridPosition) => {
-      const distance = _fetchedPosition ? Math.hypot(_fetchedPosition.x - _gridPosition.x, _fetchedPosition.y - _gridPosition.y) : Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
-      if (distance < _minDistance) {
+      const _distance = _fetchedPosition ? Math.hypot(_fetchedPosition.x - _gridPosition.x, _fetchedPosition.y - _gridPosition.y) : Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
+      if (_distance < _minDistance) {
         _closestPosition = _gridPosition;
-        _minDistance = distance;
+        _minDistance = _distance;
       }
     });
 

@@ -51,8 +51,8 @@ const Rudder: React.FC<RudderProps> = ({
   };
 
   const updateRudderPosition = (updatedAngle: number) => {
-    const rudderPointer = document.getElementById('rudder-pointer');
-    rudderPointer?.setAttribute('transform', `rotate(${updatedAngle}, ${width / 2}, ${height / 2})`)
+    const _rudderPointer = document.getElementById('rudder-pointer');
+    _rudderPointer?.setAttribute('transform', `rotate(${updatedAngle}, ${width / 2}, ${height / 2})`)
   };
 
   const generateDegreeLabels = () => {

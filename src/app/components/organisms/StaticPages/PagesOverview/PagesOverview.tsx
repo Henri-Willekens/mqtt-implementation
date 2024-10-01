@@ -8,7 +8,7 @@ import { ActivePageContext } from 'src/app/contexts/ActivePage';
 const PagesOverview: React.FC<PagesOverviewProps> = ({ pages }) => {
   const {setActivePageId} = useContext(ActivePageContext);
 
-  const pageLinks = pages.map((_page) => {
+  const _pageLinks = pages.map((_page) => {
     return(
       <p className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
     )
@@ -18,7 +18,7 @@ const PagesOverview: React.FC<PagesOverviewProps> = ({ pages }) => {
     <div className='pages-overview'>
       <h2>All pages</h2>
       <div>
-        {pageLinks}
+        {_pageLinks}
       </div>
     </div>
   );

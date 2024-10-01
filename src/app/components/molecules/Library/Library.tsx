@@ -2,10 +2,11 @@ import LibraryProps from './Library.types';
 import './Library.scss'
 
 import { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
 
 import componentMap from '../../index';
 import Button from '../../atoms/Button/Button';
+
+import {v4 as uuidv4} from 'uuid';
 
 const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);

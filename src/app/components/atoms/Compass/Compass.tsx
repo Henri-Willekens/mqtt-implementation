@@ -2,23 +2,25 @@ import './Compass.scss';
 import CompassProps from './Compass.types';
 
 import { useState, useEffect, useContext } from 'react';
-import FormModal from '../../molecules/FormModal/FormModal';
-import { ThemeContext } from '../../../contexts/Theme';
-import { Config } from 'src/app/configuration/types';
+
 import { stringToBool } from 'src/app/services/stringToBool';
+import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
+import { Config } from 'src/app/configuration/types';
+import { ThemeContext } from '../../../contexts/Theme';
+
 const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+  const { _currentTheme } = useContext(ThemeContext);
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
-  const [_correctData, setData] = useState('incomplete');
+  const [_dataComplete, setData] = useState('incomplete');
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const { _currentTheme } = useContext(ThemeContext);
   const [_formValues, setFormValues] = useState({
     source: source,
     waveArrowOutside: waveArrowOutside,
@@ -45,7 +47,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
         const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
   
         // Counter-rotation: Rotate number to always face upright
-        const counterRotation = -_currentHeading;
+        const _counterRotation = -_currentHeading;
         
         _lines.push(
           <text
@@ -55,7 +57,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
             y={_textY}
             textAnchor="middle"
             dominantBaseline="central"
-            transform={_isNorthLocked ? '' : `rotate(${counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
+            transform={!_isNorthLocked ? '' : `rotate(${_counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
           >
             {_angle}
           </text>
@@ -156,11 +158,11 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
 
   useEffect(() => {
     if (!configEnabled) {
-      if (_correctData == 'incomplete') {
+      if (_dataComplete == 'incomplete') {
         setTimeout(() => {
           setData('correct');
         }, 5000);
-      } else if(_isNorthLocked) { 
+      } else if(!_isNorthLocked) { 
         update(`hdg-${id}`, _currentHeading);
         update(`cog-${id}`, _currentHeading + 20);
         update(`outer-circle-${id}`, _currentHeading);

@@ -7,9 +7,9 @@ import Button from '../../atoms/Button/Button';
 import AlertBoxHeader from '../../atoms/AlertBoxHeader/AlertBoxHeader';
 import FormModal from '../FormModal/FormModal';
 import InputField from '../../atoms/FormInputs/InputField/InputField';
+import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
 
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
-import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
 import { ActivePageContext } from 'src/app/contexts/ActivePage';
 
 const Header: React.FC<HeaderProps> = ({ configData, pages }) => {  

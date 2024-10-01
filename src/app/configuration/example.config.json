@@ -1,3 +1,10 @@
 {
-  "pages": []
+  "pages": [
+    {
+      "title": "Example",
+      "id": "50",
+      "gridEnabled": true,
+      "components": []
+    }
+  ]
 }

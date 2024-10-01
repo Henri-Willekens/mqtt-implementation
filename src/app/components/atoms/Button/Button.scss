@@ -6,7 +6,7 @@
   background-color: $normal-bg;
   border: 0.5px solid $stroke;
   border-radius: $md-radius;
-  
+
   padding: $sm-padding;
   margin: $sm-margin;
 
@@ -24,7 +24,7 @@
 
   &:hover {
     background-color: $onhover-bg;
-    
+
     cursor: pointer;
   }
 
@@ -41,7 +41,7 @@
   background-color: $active-bg;
 
   box-shadow: $md-inner-shadow;
- 
+
   &:hover {
     background-color: $active-bg;
 

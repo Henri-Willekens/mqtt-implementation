@@ -1,4 +1,4 @@
-import { ComponentConfig } from "../../../configuration/types";
+import { ComponentConfig } from '../../../configuration/types';
 
 export default interface DynamicRenderComponentsProps {
   components: ComponentConfig[],

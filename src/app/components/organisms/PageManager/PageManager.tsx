@@ -1,27 +1,39 @@
-import Page from "../Page/Page";
-import AlertLog from "../StaticPages/AlertLog/AlertLog";
-import SettingsPage from "../StaticPages/Settings/Settings";
-import PagesOverview from "../StaticPages/PagesOverview/PagesOverview";
+import './PageManager.scss';
+import PageManagerProps from './PageManager.types';
 
-import "./PageManager.scss";
-import PageManagerProps from "./PageManager.types";
-
+import Page from '../Page/Page';
+import AlertLog from '../StaticPages/AlertLog/AlertLog';
+import SettingsPage from '../StaticPages/Settings/Settings';
+import PagesOverview from '../StaticPages/PagesOverview/PagesOverview';
 
 const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
 
-  const STATIC_PAGES: { [key: string]: React.FC } = {
-    Settings: SettingsPage,
-    PagesOverview: PagesOverview,
-    AlertLog: AlertLog
-
+  const STATIC_PAGES: {
+    [key: string]: {
+      component: React.FC<any>,
+      props?: Record<string, any>
+    }
+  } = {
+    Settings: {
+      component: SettingsPage
+    },
+    PagesOverview: {
+      component: PagesOverview,
+      props: {
+        pages: config.pages
+      }
+    },
+    AlertLog: {
+      component: AlertLog
+    }
   };
 
-  const StaticPageComponent = STATIC_PAGES[activePageId];
-  
+  const _staticPage = STATIC_PAGES[activePageId];
+
   return (
     <>
-      {StaticPageComponent ? (
-        <StaticPageComponent />
+      {_staticPage ? (
+        <_staticPage.component {..._staticPage.props} />
       ) : (
         config.pages.map((_page) =>
           _page.id === activePageId ? (

@@ -13,7 +13,7 @@
 
   &__degree-number {
     font-size: $sm-font-size;
-    
+
     &__day {
       fill: $white;
     }
@@ -27,7 +27,9 @@
     filter: drop-shadow(-4px -4px 0 rgba(10, 10, 10, 0.5));
   }
 
-  &__hdg, &__cog, &__center {
+  &__hdg,
+  &__cog,
+  &__center {
     filter: drop-shadow($sm-shadow);
   }
 
@@ -36,14 +38,15 @@
       fill: $navigation-menu-bg;
       stroke: $white;
     }
-    
+
     &__night {
       fill: $navigation-menu-bg;
       stroke: orange;
     }
   }
 
-  &__cog, &__center {
+  &__cog,
+  &__center {
     &__day {
       fill: $white;
     }

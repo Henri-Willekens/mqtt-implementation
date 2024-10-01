@@ -6,5 +6,6 @@ export default interface CompassProps {
   configEnabled: boolean,
   width: number,
   height: number
-  activePageId: string
+  activePageId: string,
+  canSnap: boolean
 }

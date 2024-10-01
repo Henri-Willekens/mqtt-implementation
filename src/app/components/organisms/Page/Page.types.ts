@@ -1,10 +1,9 @@
-import { PageConfig } from "../../../configuration/types";
+import { ComponentConfig } from '../../../configuration/types';
 
 export default interface PageProps {
-  key: string,
   pageId: string,
   title: string,
-  config: PageConfig,
+  components: ComponentConfig[],
   activePageId: string,
   gridEnabled: boolean
 };

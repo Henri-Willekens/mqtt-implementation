@@ -8,13 +8,15 @@ import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import InputField from '../FormInputs/InputField/InputField';
 
-const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOutside, stepsOfDegrees, width, height, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
+  const [rotationAngle, setRotationAngle] = useState(0);
   const [_correctData, setData] = useState('incomplete');
+  const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const { _currentTheme } = useContext(ThemeContext);
@@ -32,43 +34,46 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
     _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
   };
 
-
-  const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
-    const _lines: any[] = [];
-
-    for (let i = 0; i * stepsOfDegrees < 360; i++) {
-      const _angle = stepsOfDegrees * i;
-      const _radian = (_angle * Math.PI) / 180;
-
-      const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
-      const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
-
-      _lines.push(
-        <g key={i}>
+    // Function to generate degree numbers ensuring they always face upright
+    const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
+      const _lines: any[] = [];
+      
+      for (let i = 0; i * stepsOfDegrees < 360; i++) {
+        const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
+        const _radian = (_angle * Math.PI) / 180;
+  
+        const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
+        const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
+  
+        // Counter-rotation: Rotate number to always face upright
+        const counterRotation = -rotationAngle;
+        
+        _lines.push(
           <text
+            key={i}
             className={`compass__degree-number compass__degree-number__${_currentTheme}`}
             x={_textX}
             y={_textY}
-            textAnchor='middle'
-            dominantBaseline='middle'
+            textAnchor="middle"
+            dominantBaseline="central"
+            transform={_isNorthLocked ? '' : `rotate(${counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
           >
             {_angle}
           </text>
-        </g>
-      );
-    }
-
-    return _lines;
-  };
-
+        );
+      }
+      return _lines;
+    };
+  
 
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json')
+      fetch(`/api/read-json?file=config.json`)
       .then((res) => res.json())
       .then((results) => { 
         setConfigData(results);
+        console.log(results)
       })
       .catch((err) => console.error(err));
     };
@@ -77,9 +82,12 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleSave();
   };
 
+  const submitForm = () => {
+    handleSave();
+    closeModal();
+  };
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const _name = event.target.name;
@@ -91,6 +99,12 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
     }));
   };
 
+  const switchNorthLock = () => {
+    if (!configEnabled) {
+      setIsNorthLocked(!_isNorthLocked);
+    }
+  }
+
 
   const handleSave = () => {
     if (_configData === undefined) {
@@ -99,6 +113,8 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
 
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
+    console.log(id)
+    console.log(_configData.pages[_pageIndex]?.components[_index])
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
@@ -120,100 +136,83 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
       body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
       .catch((error) => console.error('Error saving data:', error));
   };
 
 
   useEffect(() => {
+    // Mimic data changing
     const _interval = setInterval(() => {
-      setCurrentHeading(_prevHeading => (_prevHeading + 5));
-      setWindspeed(_prevWindSpeed => _prevWindSpeed + 1);
-      setWindArrow(_prevWindArrow => (_prevWindArrow + 5));
-      setWaveSpeed(_prevWaveSpeed => _prevWaveSpeed + 1);
-      setWaveArrow(_prevWaveArrow => (_prevWaveArrow + 5));
+      setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
+      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
+      setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
+      setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
+      setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
+      setRotationAngle(_prevRotationAngle => (_prevRotationAngle == 360 ? 0 : _prevRotationAngle + 5));
     }, 500)
 
     return () => clearInterval(_interval);
   }, []);
-
 
   useEffect(() => {
     if (_correctData == 'incomplete') {
       setTimeout(() => {
         setData('correct');
       }, 5000);
-      // console.log('There is data missing, please check the data source.');
+    } else if(_isNorthLocked) { 
+      update(`hdg-${id}`, _currentHeading);
+      update(`cog-${id}`, _currentHeading + 20);
+      update(`outer-circle-${id}`, _currentHeading);
+      update(`degree-numbers-${id}`, 0);
     } else {
-      update('hdg', _currentHeading);
-      update('outer-circle', _currentHeading);
-      update('cog', _currentHeading + 20);
+      update(`cog-${id}`, 0);
+      update(`hdg-${id}`, 0);
+      update(`outer-circle-${id}`, 0);
+      update(`degree-numbers-${id}`, _currentHeading);
     };
   }, [_currentHeading]);
 
-
   useEffect(() => {
-    if (_waveSpeed >= 4) {
-      setWaveSpeed(1);
-    }
-  }, [_waveSpeed]);
-
-  useEffect(() => {
-    if (_waveArrow > 360) {
-      setWaveArrow(0);
-    }
-    update('wave', _waveArrow);
+    update(`wave-${id}`, _waveArrow);
   }, [_waveArrow]);
-  
+
   useEffect(() => {
-    if (_windArrow > 360) {
-      setWindArrow(0);
-    }
-    update('wind-speed', _windArrow);
+    update(`wind-speed-${id}`, _windArrow);
   }, [_windArrow]);
-
-  useEffect(() => {
-    if (_windspeed >= 13) {
-      setWindspeed(1);
-    }
-  }, [_windspeed]);
-
 
   return (
     <>
-      <div key={id} onDoubleClick={openModal}>
+      <div key={id} onClick={switchNorthLock} onDoubleClick={openModal}>
         <svg width={width} height={height} viewBox='0 0 400 400'>
           <path className='shadow' d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
-          <g id='outer-circle' className='compass__outer-circle'>
+          <g id={`outer-circle-${id}`} className='compass__outer-circle'>
             <path d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
           </g>
 
-          <g className='compass__degree-numbers'>
-            { generateDegreeNumbers(150, 200, 200) }
+          <g id={`degree-numbers-${id}`} className='compass__degree-numbers'>
+            {generateDegreeNumbers(150, 200, 200)}
           </g>
 
           <g className='compass__inner-circle'>
-            <circle cx='200' cy='200' r='130' fill='url(#paint1_linear_988_2110)'/>
+            <circle cx='200' cy='200' r='130' fill='url(#paint1_linear_988_2110)' />
           </g>
 
-          <g id='hdg'>
-            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M181.204 160.591C181.943 123.981 194.471 84.9312 203.316 84.9312C212.602 84.9312 226.191 122.761 225.427 160.591L225.427 313.486C225.427 320.211 225.427 320.211 220.12 320.211L186.511 320.211C181.204 320.211 181.204 320.211 181.204 313.487L181.204 160.591Z' fill='#353548' stroke='#EFEFEF'/>
+          <g id={`hdg-${id}`}>
+            <path className={`compass__hdg compass__hdg__${_currentTheme}`} d='M 178 160 C 178 125 192 84 201 84 C 210 84 223 125 223 160 L 223 315 C 223 320 223 320 218 320 L 184 320 C 178 320 178 320 178 315 L 178 160 Z' />
           </g>
 
-          <g id='cog' className={`compass__cog compass__cog__${_currentTheme}`}>
-            <path d='M203 70L194.34 85H211.66L203 70ZM204.5 203V198.25H201.5V203H204.5ZM204.5 188.75V179.25H201.5V188.75H204.5ZM204.5 169.75V160.25H201.5V169.75H204.5ZM204.5 150.75V141.25H201.5V150.75H204.5ZM204.5 131.75V122.25H201.5V131.75H204.5ZM204.5 112.75V103.25H201.5V112.75H204.5ZM204.5 93.75V84.25H201.5V93.75H204.5Z' />
+          <g id={`cog-${id}`} className={`compass__cog compass__cog__${_currentTheme}`}>
+            <path d='m 200 70 L 190 85 H 210 L 200 70 Z M 202 200 V 198 H 198 V 200 H 202 Z M 202 189 V 179 H 198 V 189 H 202 Z M 202 170 V 160 H 198 V 170 H 202 Z M 202 151 V 141 H 198 V 151 H 202 Z M 202 132 V 122 H 198 V 132 H 202 Z M 202 113 V 104 H 198 V 113 H 202 Z M 202 94 V 85 H 198 V 94 Z' />
           </g>
           <g className={`compass__center compass__center__${_currentTheme}`}>
-            <circle cx='203' cy='203' r='10' />
+            <circle cx='200' cy='200' r='10' />
           </g>
 
-          <g id='wind-speed'>
+          <g id={`wind-speed-${id}`}>
             <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x='188' y='10' />
           </g>
 
-          <g id='wave'>
+          <g id={`wave-${id}`}>
             {waveArrowOutside 
               ? <image href={`./icons/wave/outside/wave-${_waveSpeed}.svg`} x='188' y='10' />
               : <image href={`./icons/wave/inside/wave-${_waveSpeed}.svg`} x='188' y='60' />
@@ -236,7 +235,7 @@ const Compass: React.FC<CompassProps> = ({ id, activePageId, source, waveArrowOu
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onClose={closeModal} cancelText='Discard changes' submitText='Save changes'>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
         <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />

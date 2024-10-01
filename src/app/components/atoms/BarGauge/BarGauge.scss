@@ -1,4 +1,3 @@
-@import "../../../styles/colorVariables";
 @import '../../../styles/colors';
 @import '../../../styles/effects';
 @import '../../../styles/fonts';
@@ -25,10 +24,26 @@
     rx: $md-radius;
 
     transition: height 0.5s ease, y 0.5s ease;
+
+    &__clean-water {
+      fill: $pipe-clean-water;
+    }
+    
+    &__fuel {
+      fill: $pipe-fuel;
+    }
+    
+    &__sea-water {
+      fill: $pipe-sea-water;
+    }
+
+    &__oil {
+      fill: $pipe-oil;
+    }
   }
 
   &__alert-lines {
-    stroke-width: 2;
+    stroke-width: 3;
 
     &__alarm {
       stroke: $alert-alarm;
@@ -53,10 +68,11 @@
   }
 
   &__tick-line {
-    & > line { 
+    &>line {
       stroke: $white;
-    } 
-    & > text {
+    }
+
+    &>text {
       fill: $white;
     }
   }

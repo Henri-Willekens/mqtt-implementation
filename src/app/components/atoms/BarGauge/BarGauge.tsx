@@ -133,9 +133,9 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        maxValue: parseInt(_formValues._maxValue),
+        maxValue: Math.floor(_formValues._maxValue),
         content: _formValues._content,
-        numberOfTickLines: parseInt(_formValues._numberOfTickLines),
+        numberOfTickLines: Math.floor(_formValues._numberOfTickLines),
         label: _formValues._label,
       }
     };

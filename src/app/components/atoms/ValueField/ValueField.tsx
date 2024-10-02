@@ -21,7 +21,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   configEnabled,
   activePageId
 }) => {
-  const [value, setValue] = useState('000.00');
+  const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
@@ -117,10 +117,10 @@ const ValueField: React.FC<ValueFieldProps> = ({
               type='text' 
               id={id}
               name={id}
-              value={value} 
+              value={_value} 
               onChange={onChange}
               className={`value-field__input ${isEditable ? 'value-field__editable' : ''}`} 
-              size={value.length} 
+              size={_value.length} 
               disabled={!isEditable} 
             />
             { requiresValueTimes && <div className='value-field__times'><p className='value-field__times-amount'>x {valueTimes}</p></div> }

@@ -3,10 +3,10 @@ import CompassProps from './Compass.types';
 
 import { useState, useEffect, useContext } from 'react';
 
-import { stringToBool } from 'src/app/services/stringToBool';
-import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+import FormModal from '../../molecules/FormModal/FormModal';
 
+import { stringToBool } from 'src/app/services/stringToBool';
 import { Config } from 'src/app/configuration/types';
 import { ThemeContext } from '../../../contexts/Theme';
 

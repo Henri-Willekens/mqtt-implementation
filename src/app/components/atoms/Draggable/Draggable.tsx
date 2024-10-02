@@ -5,8 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 
 import { _gridPositions } from '../Grid/Grid';
 
-import { Config } from 'src/app/configuration/types';
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
+import { Config } from 'src/app/configuration/types';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
 const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId }) => {

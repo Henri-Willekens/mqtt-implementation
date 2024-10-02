@@ -45,7 +45,6 @@ const Draggable: React.FC<DraggProps> = ({
   const stopDrag = () => {
     if (_configEnabled) {
       setDragging(false);
-      console.log(_SNAPPABLE.includes(children?.props.type))
       if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
         snapToGrid();
       }
@@ -66,7 +65,7 @@ const Draggable: React.FC<DraggProps> = ({
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
 
-    if (children?.props.canSnap) {
+    if (_SNAPPABLE.includes(children?.props.type)) {
       _data.pages[_pageIndex].components[_index] = {
         type: _data.pages[_pageIndex]?.components[_index].type,
         props: {
@@ -113,6 +112,7 @@ const Draggable: React.FC<DraggProps> = ({
 
         setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
 
+        // Snappable also determines if a element should scale or not with a grid
         if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
           snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
         }

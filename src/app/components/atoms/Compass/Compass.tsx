@@ -1,5 +1,5 @@
-import CompassProps from './Compass.types';
 import './Compass.scss';
+import CompassProps from './Compass.types';
 
 import { useState, useEffect, useContext } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
@@ -14,7 +14,6 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
-  const [rotationAngle, setRotationAngle] = useState(0);
   const [_correctData, setData] = useState('incomplete');
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -46,7 +45,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
         const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
   
         // Counter-rotation: Rotate number to always face upright
-        const counterRotation = -rotationAngle;
+        const counterRotation = -_currentHeading;
         
         _lines.push(
           <text
@@ -121,10 +120,10 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
         source: _formValues.source,
-        width: parseInt(_formValues.width),
-        height: parseInt(_formValues.height),
-        stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
-        waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
+        width: Math.floor(_formValues.width),
+        height: Math.floor(_formValues.height),
+        stepsOfDegrees: Math.floor(_formValues.stepsOfDegrees),
+        waveArrowOutside: stringToBool(_formValues.waveArrowOutside.toString())
       }
     };
 
@@ -142,42 +141,45 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
 
   useEffect(() => {
     // Mimic data changing
-    const _interval = setInterval(() => {
-      setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
-      setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
-      setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
-      setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
-      setRotationAngle(_prevRotationAngle => (_prevRotationAngle == 360 ? 0 : _prevRotationAngle + 5));
-    }, 500)
+    if (!configEnabled) {
+      const _interval = setInterval(() => {
+        setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
+        setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
+        setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
+        setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
+        setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
+      }, 500)
 
-    return () => clearInterval(_interval);
+      return () => clearInterval(_interval);
+    }
   }, []);
 
   useEffect(() => {
-    if (_correctData == 'incomplete') {
-      setTimeout(() => {
-        setData('correct');
-      }, 5000);
-    } else if(_isNorthLocked) { 
-      update(`hdg-${id}`, _currentHeading);
-      update(`cog-${id}`, _currentHeading + 20);
-      update(`outer-circle-${id}`, _currentHeading);
-      update(`degree-numbers-${id}`, 0);
-    } else {
-      update(`cog-${id}`, 0);
-      update(`hdg-${id}`, 0);
-      update(`outer-circle-${id}`, 0);
-      update(`degree-numbers-${id}`, _currentHeading);
-    };
+    if (!configEnabled) {
+      if (_correctData == 'incomplete') {
+        setTimeout(() => {
+          setData('correct');
+        }, 5000);
+      } else if(_isNorthLocked) { 
+        update(`hdg-${id}`, _currentHeading);
+        update(`cog-${id}`, _currentHeading + 20);
+        update(`outer-circle-${id}`, _currentHeading);
+        update(`degree-numbers-${id}`, 0);
+      } else {
+        update(`cog-${id}`, 0);
+        update(`hdg-${id}`, 0);
+        update(`outer-circle-${id}`, 0);
+        update(`degree-numbers-${id}`, _currentHeading);
+      };
+    }
   }, [_currentHeading]);
 
   useEffect(() => {
-    update(`wave-${id}`, _waveArrow);
+    if (!configEnabled) { update(`wave-${id}`, _waveArrow) };
   }, [_waveArrow]);
 
   useEffect(() => {
-    update(`wind-speed-${id}`, _windArrow);
+    if (!configEnabled) { update(`wind-speed-${id}`, _windArrow) };
   }, [_windArrow]);
 
   return (

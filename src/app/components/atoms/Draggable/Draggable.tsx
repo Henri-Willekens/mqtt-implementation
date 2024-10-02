@@ -12,9 +12,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const [_elementSize, setElementSize] = useState({ width: 100, height: 100 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
-  const { _configEnabled } = useContext(ConfigEnabledContext);
   const [_data, setData] = useState<Config>();
-  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
+  const _SNAPPABLE = ['Compass', 'Rudder']
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activeConfig } = useContext(ConfigFileContext);
 
   const startDrag = (_event: any) => {
     if (_configEnabled) {
@@ -36,7 +37,8 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const stopDrag = () => {
     if (_configEnabled) {
       setDragging(false);
-      if (gridEnabled) {
+      console.log(_SNAPPABLE.includes(children?.props.type))
+      if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
         snapToGrid();
       }
       handleSave();
@@ -49,7 +51,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       return;
     }
 
-    if (gridEnabled) {
+    if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
       snapToGrid();
     }
 
@@ -103,7 +105,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
         setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
 
-        if (gridEnabled) {
+        if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
           snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
         }
       })

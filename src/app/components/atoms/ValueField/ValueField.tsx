@@ -80,8 +80,8 @@ const ValueField: React.FC<ValueFieldProps> = ({
         label: _formValues._label,
         unit: _formValues._unit,
         requiresValueTimes: _formValues._requiresValueTimes,
-        valueTimes: parseInt(_formValues._valueTimes),
-        isEditable: stringToBool(_formValues._isEditable)
+        valueTimes: Math.floor(_formValues._valueTimes),
+        isEditable: stringToBool(_formValues._isEditable.toString())
       }
     };
 

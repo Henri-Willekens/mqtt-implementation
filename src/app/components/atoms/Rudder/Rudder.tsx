@@ -133,10 +133,10 @@ const Rudder: React.FC<RudderProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        totalRudderAngle: parseInt(_formValues._totalRudderAngle),
-        stepsOfDegrees: parseInt(_formValues._stepsOfDegrees),
-        width: parseInt(_formValues._width),
-        height: parseInt(_formValues._height)
+        totalRudderAngle: Math.floor(_formValues._totalRudderAngle),
+        stepsOfDegrees: Math.floor(_formValues._stepsOfDegrees),
+        width: Math.floor(_formValues._width),
+        height: Math.floor(_formValues._height)
       }
     };
 

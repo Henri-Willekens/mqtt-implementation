@@ -20,10 +20,9 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ compo
         const Component = componentMap[type];
         const componentProps = { ...props }
 
-
         return (
           <Draggable key={index} elementInsideId={props.id} id={props.id} gridEnabled={gridEnabled} activePageId={activePageId}>
-            <Component key={props.id} activePageId={activePageId} configEnabled={_configEnabled} {...componentProps} />
+            <Component key={props.id} type={type} activePageId={activePageId} configEnabled={_configEnabled} {...componentProps} />
           </Draggable>
         )
       })}

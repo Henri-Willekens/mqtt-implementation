@@ -14,7 +14,6 @@ const Rudder: React.FC<RudderProps> = ({
   width = 255, 
   height = 255, 
   stepsOfDegrees = 15, 
-  canSnap = true, 
   activePageId, 
   configEnabled
 }) => {

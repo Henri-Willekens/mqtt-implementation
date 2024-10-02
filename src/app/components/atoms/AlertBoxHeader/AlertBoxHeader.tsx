@@ -5,7 +5,10 @@ import { useState } from 'react';
 
 import Button from '../Button/Button';
 
-const AlertBoxHeader: React.FC<AlertBoxHeaderProps> = ({ type, status }) => {
+const AlertBoxHeader: React.FC<AlertBoxHeaderProps> = ({ 
+  type, 
+  status 
+}) => {
   const [_isExpanded, setIsExpanded] = useState(false);
 
   const expandAlertBox = () => {

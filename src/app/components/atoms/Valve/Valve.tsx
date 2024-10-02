@@ -11,7 +11,6 @@ import InputField from '../FormInputs/InputField/InputField';
 const Valve: React.FC<ValveProps> = ({ 
   id, 
   content = '', 
-  canSnap = false,
   configEnabled,
   activePageId
 }) => {

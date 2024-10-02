@@ -5,7 +5,9 @@ import { useContext } from 'react';
 
 import { ActivePageContext } from 'src/app/contexts/ActivePage';
 
-const PagesOverview: React.FC<PagesOverviewProps> = ({ pages }) => {
+const PagesOverview: React.FC<PagesOverviewProps> = ({ 
+  pages
+}) => {
   const {setActivePageId} = useContext(ActivePageContext);
 
   const _pageLinks = pages.map((_page) => {

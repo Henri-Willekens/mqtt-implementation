@@ -6,7 +6,10 @@ import AlertLog from '../StaticPages/AlertLog/AlertLog';
 import SettingsPage from '../StaticPages/Settings/Settings';
 import PagesOverview from '../StaticPages/PagesOverview/PagesOverview';
 
-const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
+const PageManager: React.FC<PageManagerProps> = ({ 
+  config, 
+  activePageId 
+}) => {
 
   const STATIC_PAGES: {
     [key: string]: {

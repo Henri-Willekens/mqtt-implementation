@@ -17,7 +17,6 @@ const ValueField: React.FC<ValueFieldProps> = ({
   requiresValueTimes = false, 
   valueTimes = 0, 
   isEditable = false, 
-  canSnap = false,
   configEnabled,
   activePageId
 }) => {

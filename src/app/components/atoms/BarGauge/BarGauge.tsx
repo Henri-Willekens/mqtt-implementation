@@ -15,7 +15,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   alertLines = [], 
   numberOfTickLines = 5, 
   content = '', 
-  canSnap = true,
   configEnabled, 
   activePageId
 }) => {

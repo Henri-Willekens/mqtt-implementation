@@ -10,7 +10,16 @@ import { stringToBool } from 'src/app/services/stringToBool';
 import { Config } from 'src/app/configuration/types';
 import { ThemeContext } from '../../../contexts/Theme';
 
-const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ 
+  id = '', 
+  source = 'magn', 
+  waveArrowOutside = true,
+  stepsOfDegrees = 30, 
+  width = 400, 
+  height = 400, 
+  configEnabled,
+  activePageId
+}) => {
   const { _currentTheme } = useContext(ThemeContext);
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);

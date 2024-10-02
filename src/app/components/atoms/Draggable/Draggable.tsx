@@ -9,7 +9,13 @@ import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { Config } from 'src/app/configuration/types';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
-const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId }) => {
+const Draggable: React.FC<DraggProps> = ({ 
+  id, 
+  children, 
+  elementInsideId, 
+  gridEnabled, 
+  activePageId 
+}) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_elementSize, setElementSize] = useState({ width: 100, height: 100 });
   const [_dragging, setDragging] = useState(false);

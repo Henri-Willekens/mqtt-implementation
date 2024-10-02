@@ -1,6 +1,6 @@
 import './Settings.scss';
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import Button from '../../../atoms/Button/Button';
 import InputField from 'src/app/components/atoms/FormInputs/InputField/InputField';
@@ -58,7 +58,23 @@ const SettingsPage = () => {
       ..._prevFormValues,
       [_name]: _value
     }));
+
+    if (_value === process.env.NEXT_PUBLIC_CONFIG_CODE) {
+      sessionStorage.setItem('configCode', _value);
+    } else if (_value != process.env.NEXT_PUBLIC_CONFIG_CODE && sessionStorage.getItem('configCode') != null) {
+      sessionStorage.removeItem('configCode');
+    };
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem('configCode') === null) {
+      return;
+    };
+
+    setFormValues({
+      _configCode: sessionStorage.getItem('configCode') as string
+    });
+  }, []);
 
   return (
     <div className='settings'>

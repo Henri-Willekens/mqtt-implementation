@@ -1,25 +1,35 @@
-// ./components/atoms/Heading/Autopilotinput.tsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-interface SendNumberProps {
-  onSendNumber: (topic: string, number: number) => void;
+interface AutopilotInputProps {
+  onHeadingTopicChange: (topic: string, heading: number) => void;
+  onCogTopicChange: (topic: string, cog: number) => void;
 }
 
-const SendNumber: React.FC<SendNumberProps> = ({ onSendNumber }) => {
-  const [topic, setTopic] = useState("test/heading"); // Default topic
-  const [number, setNumber] = useState<number | null>(null); // State to hold the number
+const AutopilotInput: React.FC<AutopilotInputProps> = ({
+  onHeadingTopicChange,
+  onCogTopicChange
+}) => {
+  const [heading, setHeading] = useState<number | null>(null);
+  const [cog, setCog] = useState<number | null>(null);
+  const [topic, setTopic] = useState('default/topic'); // Default topic
 
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Convert input value to a number or set to null if NaN
-    const parsedValue = parseFloat(value);
-    setNumber(isNaN(parsedValue) ? null : parsedValue); // Set number to null if NaN
+  const handleHeadingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setHeading(isNaN(value) ? null : value);
+  };
+
+  const handleCogChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setCog(isNaN(value) ? null : value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (number !== null) {
-      onSendNumber(topic, number); // Call the send function only if number is valid
+    if (heading !== null) {
+      onHeadingTopicChange(topic, heading);
+    }
+    if (cog !== null) {
+      onCogTopicChange(topic, cog);
     }
   };
 
@@ -27,19 +37,13 @@ const SendNumber: React.FC<SendNumberProps> = ({ onSendNumber }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={topic} // Always a string
+        value={topic}
         onChange={(e) => setTopic(e.target.value)}
-        placeholder="Enter Topic"
+        placeholder="Enter topic"
       />
-      <input
-        type="number" // Use number input for better validation
-        value={number !== null ? number : ""} // Handle NaN by providing an empty string
-        onChange={handleNumberChange}
-        placeholder="Enter Number"
-      />
-      <button type="submit">Send Number</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
 
-export default SendNumber;
+export default AutopilotInput;

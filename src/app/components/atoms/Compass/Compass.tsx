@@ -1,34 +1,24 @@
-import './Compass.scss';
 import CompassProps from './Compass.types';
+import './Compass.scss';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
 import { ThemeContext } from '../../../contexts/Theme';
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import InputField from '../FormInputs/InputField/InputField';
-import Input from "./Compassinput"; // Import Input component mqtt
 
-interface CompassProps {
-  mqttHeadingMessage: string | null; // MQTT message for heading
-  mqttCogMessage: string | null; // MQTT message for COG
-  onHeadingTopicChange: (newTopic: string) => void;
-  onCogTopicChange: (newTopic: string) => void;
-  id: string;
-  activePageId: string;
-  source: string;
-  waveArrowOutside: boolean;
-  stepsOfDegrees: number;
-  configEnabled: boolean;
-}
-
-const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, onHeadingTopicChange, onCogTopicChange, id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+  const [defaultTopicMessage, setDefaultTopicMessage] = useState<number | null>(0);
+  const [cogMessage, setCogMessage] = useState<number | null>(0);
+  const [outerCircle, setOuterCircle] = useState<number | null>(0);
+  const ws = useRef<WebSocket | null>(null);
   const [_currentHeading, setCurrentHeading] = useState(0);
-  const [_currentCOG, setCurrentCOG] = useState(0); // State to handle COG
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
+  const [rotationAngle, setRotationAngle] = useState(0);
   const [_correctData, setData] = useState('incomplete');
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_configData, setConfigData] = useState<Config>();
@@ -41,7 +31,41 @@ const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, 
     height: height,
     stepsOfDegrees: stepsOfDegrees
   });
+  useEffect(() => {
+    // Connect to the WebSocket server in Compass
+    ws.current = new WebSocket("ws://localhost:4000");
 
+    ws.current.onopen = () => {
+      console.log("WebSocket connection established in Compass");
+    };
+
+    ws.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const { topic, message } = data;
+
+      if (topic === "default/topic") {
+        console.log(`Received message on topic "${topic}": ${message}`);
+        setDefaultTopicMessage(Number(message)); // Convert to number and set state
+      } else if (topic === "test/topic2"){
+        console.log(`Received message on topic "${topic}": ${message}`);
+        setCogMessage(Number(message)); // Convert to number and set state
+      }
+      else if (topic === "test/topic3"){
+        console.log(`Received message on topic "${topic}": ${message}`);
+        setOuterCircle(Number(message)); // Convert to number and set state
+      }
+    };
+    
+
+    ws.current.onclose = () => {
+      console.log("WebSocket connection closed in Compass");
+    };
+
+    // Cleanup function to close WebSocket connection when component unmounts
+    return () => {
+      ws.current?.close();
+    };
+  }, []);
 
   const update = (_elementToSelect: string, _updatedValue: number) => {
     let _element = document.getElementById(_elementToSelect);
@@ -60,7 +84,7 @@ const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, 
         const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
   
         // Counter-rotation: Rotate number to always face upright
-        const counterRotation = -_currentHeading;
+        const counterRotation = -rotationAngle;
         
         _lines.push(
           <text
@@ -135,10 +159,10 @@ const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, 
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
         source: _formValues.source,
-        width: Math.floor(_formValues.width),
-        height: Math.floor(_formValues.height),
-        stepsOfDegrees: Math.floor(_formValues.stepsOfDegrees),
-        waveArrowOutside: stringToBool(_formValues.waveArrowOutside.toString())
+        width: parseInt(_formValues.width),
+        height: parseInt(_formValues.height),
+        stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
+        waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
       }
     };
 
@@ -156,72 +180,42 @@ const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, 
 
   useEffect(() => {
     // Mimic data changing
-    if (!configEnabled) {
-      const _interval = setInterval(() => {
-        setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-        setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
-        setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
-        setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
-        setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
-      }, 500)
+    const _interval = setInterval(() => {
+      setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
+      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
+      setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
+      setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
+      setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
+      setRotationAngle(_prevRotationAngle => (_prevRotationAngle == 360 ? 0 : _prevRotationAngle + 5));
+    }, 500)
 
-      return () => clearInterval(_interval);
-    }
+    return () => clearInterval(_interval);
   }, []);
 
-  // Update the heading and COG based on received MQTT messages
   useEffect(() => {
-    if (mqttHeadingMessage) {
-      const newHeading = parseInt(mqttHeadingMessage, 10); // Parse the message as heading
-      if (!isNaN(newHeading)) {
-        setCurrentHeading(newHeading); // Set new heading
-      }
-    }
-  }, [mqttHeadingMessage]);
+    if (_correctData == 'incomplete') {
+      setTimeout(() => {
+        setData('correct');
+      }, 5000);
+    } else if(_isNorthLocked) { 
+      update(`hdg-${id}`, defaultTopicMessage);
+      update(`cog-${id}`, cogMessage);
+      update(`outer-circle-${id}`, outerCircle);
+      update(`degree-numbers-${id}`, 0);
+    } else {
+      update(`cog-${id}`, 0);
+      update(`hdg-${id}`, 0);
+      update(`outer-circle-${id}`, 0);
+      update(`degree-numbers-${id}`, _currentHeading);
+    };
+  }, [_currentHeading]);
 
   useEffect(() => {
-    if (mqttCogMessage) {
-      const newCOG = parseInt(mqttCogMessage, 10); // Parse the message as COG
-      if (!isNaN(newCOG)) {
-        setCurrentCOG(newCOG); // Set new COG
-      }
-    }
-  }, [mqttCogMessage]);
-
-  // Define the update function to rotate the SVG elements
-  const update = (elementId: string, updatedValue: number) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.setAttribute("transform", `rotate(${updatedValue}, 200, 200)`);
-    }
-  };
-  
-  useEffect(() => {
-    if (!configEnabled) {
-      if (_correctData == 'incomplete') {
-        setTimeout(() => {
-          setData('correct');
-        }, 5000);
-      } else if(_isNorthLocked) { 
-        update(`hdg-${id}`, _currentHeading);
-        update(`cog-${id}`, _currentCOG);
-        update(`outer-circle-${id}`, _currentHeading);
-        update(`degree-numbers-${id}`, 0);
-      } else {
-        update(`cog-${id}`, 0);
-        update(`hdg-${id}`, 0);
-        update(`outer-circle-${id}`, 0);
-        update(`degree-numbers-${id}`, _currentHeading);
-      };
-    }
-  }, [_currentHeading, _currentCOG]);
-
-  useEffect(() => {
-    if (!configEnabled) { update(`wave-${id}`, _waveArrow) };
+    update(`wave-${id}`, _waveArrow);
   }, [_waveArrow]);
 
   useEffect(() => {
-    if (!configEnabled) { update(`wind-speed-${id}`, _windArrow) };
+    update(`wind-speed-${id}`, _windArrow);
   }, [_windArrow]);
 
   return (
@@ -279,22 +273,6 @@ const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, 
           </defs>
         </svg>
       </div>
-          <div key={id}>
-      {/* Use the Input component */}
-      <Input onHeadingTopicChange={onHeadingTopicChange} onCogTopicChange={onCogTopicChange} />
-
-      <svg width="400" height="400">
-        <circle className="compass-windrose" cx="200" cy="200" r="150" />
-        <g id="hdg">
-          <path d="M 180 120 L 180 335 L 220 335 L 220 120 C 220 93 206 65 200 65 C 194 65 180 93 180 120 Z" />
-        </g>
-        <g id="cog">
-          <line x1="200" y1="70" x2="200" y2="200" />
-          <polygon points="200,60 210,80 190,80" />
-          <circle cx="200" cy="200" r="5" />
-        </g>
-      </svg>
-    </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />

@@ -243,7 +243,7 @@ const Compass: React.FC<CompassProps> = ({
             </linearGradient>
             <linearGradient xmlns='http://www.w3.org/2000/svg' id='paint0_linear_1210_582' x1='77' y1='165' x2='327' y2='165' gradientUnits='userSpaceOnUse'>
               <stop offset='0.5' stopColor='#851111'/>
-              <stop offset='0.5' stopColor='#138`fix517'/>
+              <stop offset='0.5' stopColor='#138517'/>
             </linearGradient>
           </defs>
         </svg>

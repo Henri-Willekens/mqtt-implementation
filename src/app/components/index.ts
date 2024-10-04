@@ -4,6 +4,7 @@ import Rudder from './atoms/Rudder/Rudder';
 import HeatCoolingPump from './atoms/HeatCoolingPump/HeatCoolingPump';
 import Valve from './atoms/Valve/Valve';
 import ValueField from './atoms/ValueField/ValueField';
+import ReferenceButton from './atoms/ReferenceButton/ReferenceButton';
 
 const componentMap: { [key: string]: React.FC<any> } = {
   Compass,
@@ -11,7 +12,8 @@ const componentMap: { [key: string]: React.FC<any> } = {
   Rudder,
   HeatCoolingPump,
   Valve,
-  ValueField
+  ValueField,
+  ReferenceButton
 };
 
 export default componentMap;

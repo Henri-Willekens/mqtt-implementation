@@ -1,0 +1,27 @@
+@import '../../../styles/colors'; 
+@import '../../../styles/effects'; 
+@import '../../../styles/fonts'; 
+
+.reference-button {
+  width: fit-content;
+  padding: $md-padding;
+
+  background-color: $normal-bg;
+
+  border-radius: $md-radius;
+  border: 1px solid $stroke;
+
+  box-shadow: $sm-shadow;
+
+  &:hover {
+    background-color: $onhover-bg;
+
+    cursor: pointer;
+  }
+
+  &__text {
+    margin: 0;
+
+    font-size: $sm-font-size;
+  }
+}

@@ -13,25 +13,31 @@
     stroke-width: 5px;
   }
 
-  &__type__pipe {
-    &__clean-water {
-      stroke: blue;
+  &__type {
+    &__connection {
+      stroke: $white;
     }
 
-    &__sea-water {
-      stroke: green;
-    }
-
-    &__fuel {
-      stroke: brown;
-    }
-
-    &__lub-oil {
-      stroke: orange;
+    &__pipe {
+      &__clean-water {
+        stroke: $pipe-clean-water;
+      }
+  
+      &__sea-water {
+        stroke: $pipe-sea-water;
+      }
+  
+      &__fuel {
+        stroke: $pipe-fuel;
+      }
+  
+      &__oil {
+        stroke: $pipe-oil;
+      }
     }
   }
 
-  &__type__connection {
-    stroke: $white;
+  &__state__empty {
+    stroke: $black;
   }
 }

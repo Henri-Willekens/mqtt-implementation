@@ -1,30 +1,46 @@
 import OrthologalLineProps from './OrthogonalLine.types';
 
 import './OrthogonalLine.scss';
+import { useEffect } from 'react';
 
 const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, fromConnectionPosition, toConnectionPosition, type, content }) => {
   let pathData = '';
-  const _midX =(from.props.xPos + to.props.xPos) / 2;
+  let state = Math.floor(Math.random() * 2);
 
+  console.log(from)
+  console.log(to)
 
-  if (from.props.xPos !== to.props.xPos && from.props.yPos !== to.props.yPos) {
+  // Calculate middle points of 'from' and 'to' elements
+  const fromMiddleX = from.props.xPos + from.props.width / 2;
+  const fromMiddleY = from.props.yPos - from.props.height / 2;
+  const toMiddleX = to.props.xPos + to.props.width / 2;
+  const toMiddleY = to.props.yPos - to.props.height / 2;
+
+  // Calculate the mid-point in the X direction for the path
+  const _midX = (fromMiddleX + toMiddleX) / 2;
+
+  // Generate path data for orthogonal lines
+  if (fromMiddleX !== toMiddleX && fromMiddleY !== toMiddleY) {
     pathData = `
-      M ${from.props.xPos}, ${from.props.yPos}
-      L ${_midX}, ${from.props.yPos}
-      L ${_midX}, ${to.props.yPos}
-      L ${to.props.xPos}, ${to.props.yPos}
+      M ${fromMiddleX}, ${fromMiddleY}
+      L ${_midX}, ${fromMiddleY}
+      L ${_midX}, ${toMiddleY}
+      L ${toMiddleX}, ${toMiddleY}
     `;
   } else {
     pathData = `
-      M ${from.props.xPos}, ${from.props.yPos}
-      L ${to.props.xPos}, ${to.props.yPos}
+      M ${fromMiddleX}, ${fromMiddleY}
+      L ${toMiddleX}, ${toMiddleY}
     `;
   }
 
-
   return (
     <svg className='orthogonal-line'>
-      <path className={type == 'connection' ? 'orthogonal-line__type__connection': `orthogonal-line__type__pipe__${content}`} d={pathData} />
+    { type == 'connection' ? (
+      <path className='orthogonal-line__type__connection' d={pathData} />
+    ) : (
+      <path className={state == 0 ? 'orthogonal-line__state__empty ' : `orthogonal-line__type__pipe__${content}`} d={pathData} />
+    )}
     </svg>
   )
 };

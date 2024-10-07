@@ -1,11 +1,13 @@
-import DynamicRenderComponentsProps from "./DynamicRenderComponents.types";
+import DynamicRenderComponentsProps from './DynamicRenderComponents.types';
 
-import { useContext, useState } from "react";
-import componentMap from "../../index";
-import { ComponentConfig } from "../../../configuration/types";
-import Draggable from "../../atoms/Draggable/Draggable";
+import { useContext, useState } from 'react';
+
+import Draggable from '../../atoms/Draggable/Draggable';
+
+import componentMap from '../../index';
+import { ComponentConfig } from '../../../configuration/types';
 import OrthologalLine from "../../atoms/OrthogonalLine/OrthogonalLine";
-import { ConfigEnabledContext } from "src/app/contexts/ConfigEnabled";
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
 const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ components, connections, gridEnabled, activePageId }) => {
 
@@ -22,9 +24,8 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ compo
 
         return (
           <Draggable key={index} elementInsideId={props.id} id={props.id} gridEnabled={gridEnabled} activePageId={activePageId}>
-            <Component key={index} activePageId={activePageId} configEnabled={_configEnabled} {...componentProps} />
+            <Component key={props.id} type={type} activePageId={activePageId} configEnabled={_configEnabled} {...componentProps} />
           </Draggable>
-
         )
       })}
       {connections && connections.map((conn, index) => {

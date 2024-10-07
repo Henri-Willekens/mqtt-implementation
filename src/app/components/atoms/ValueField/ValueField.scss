@@ -30,7 +30,8 @@
 
   &__block {
     display: flex;
-    align-items: start;
+    flex-direction: row;
+    align-items: baseline;
 
     width: 100%;
   }
@@ -53,6 +54,6 @@
 
   &__times {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }

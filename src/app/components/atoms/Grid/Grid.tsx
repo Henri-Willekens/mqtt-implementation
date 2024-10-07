@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './Grid.scss';
 
-const _gridPositions: [{ x: number, y: number }] = [{ x: 0, y: 0 }];
+const _gridPositions: [{ element?: any, x: number, y: number, width: number, height: number}] = [{ x: 0, y: 0, width: 0, height: 0 }];
 
 const Grid = () => {
   useEffect(() => {
@@ -11,7 +11,8 @@ const Grid = () => {
         const _rect = _item.getBoundingClientRect();
         const _coordinates = _item.querySelector('.coordinates');
         if (_coordinates) {
-          _gridPositions.push({ x: _rect.left, y: _rect.top });
+          _gridPositions.push({ element: _item, x: _rect.left, y: _rect.top, width: _rect.width, height: _rect.height });
+
           // _coordinates.textContent = `(${_rect.left.toFixed(2)}, ${_rect.top.toFixed(2)})`;
         }
       });
@@ -30,9 +31,9 @@ const Grid = () => {
   }, []);
 
   return (
-    <div className="grid-container">
+    <div className='grid-container'>
       {Array.from({ length: 9 }).map((_, _index) => (
-        <div key={_index} className="grid-square"><span className="coordinates"></span></div>
+        <div key={_index} className='grid-square'><span className='coordinates'></span></div>
       ))}
     </div>
   );

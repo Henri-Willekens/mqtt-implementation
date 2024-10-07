@@ -1,10 +1,10 @@
-@import "../../../styles/colorVariables";
+@import '../../../styles/colors';
 
 .valve {
   cursor: pointer;
 
   &-top {
-    fill: $neutral-soft-white;
+    fill: $white;
   }
 
   &-fill {
@@ -12,36 +12,39 @@
     clip-path: inset(100% 0 0 0);
 
     &__stroke {
-      stroke: $neutral-soft-white;
+      stroke: $white;
       stroke-width: 1;
     }
-    
-    &__cleanwater {
-      fill: $engine-cleanwater;
+
+    &__clean-water {
+      fill: $pipe-clean-water;
       clip-path: inset(100% 0 0 0);
       animation: fillAnimation 2.5s forwards;
     }
+
     &__fuel {
-      fill: $engine-fuel;
+      fill: $pipe-fuel;
       clip-path: inset(100% 0 0 0);
       animation: fillAnimation 2.5s forwards;
     }
   }
-  
+
   &-flow {
-    fill: $neutral-soft-white;
+    fill: $white;
   }
 }
 
 
 @keyframes fillAnimation {
   to {
-    clip-path: inset(0 0 0 0); /* Reveal the fill */
+    clip-path: inset(0 0 0 0);
+    /* Reveal the fill */
   }
 }
 
 @keyframes emptyAnimation {
   to {
-    clip-path: inset(100% 0 0 0); /* Reveal the fill */
+    clip-path: inset(100% 0 0 0);
+    /* Reveal the fill */
   }
 }

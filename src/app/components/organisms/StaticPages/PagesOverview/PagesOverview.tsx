@@ -1,42 +1,25 @@
-import { useState, useContext } from "react";
-import Button from "../../../atoms/Button/Button";
-
-
-import { ConfigEnabledContext } from "../../../../contexts/ConfigEnabled";
-import { ThemeContext } from "../../../../contexts/Theme";
-
+import PagesOverviewProps from './PagesOverview.types';
 import './PagesOverview.scss';
 
-const PagesOverview = () => {
+import { useContext } from 'react';
 
-  const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
-  const [_gridEnabled, setGridEnabled] = useState(true);
-  const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
+import { ActivePageContext } from 'src/app/contexts/ActivePage';
 
-  const switchTheme = (theme: string) => {
-    switch (theme) {
-      case "night":
-        setCurrentTheme("night");
-        break;
-      case "day":
-        setCurrentTheme("day");
-        break;
-      default:
-        break;
-    }
-  };
+const PagesOverview: React.FC<PagesOverviewProps> = ({ pages }) => {
+  const {setActivePageId} = useContext(ActivePageContext);
 
-  const toggleGrid = () => {
-    setGridEnabled(!_gridEnabled);
-  };
-
-  const toggleConfigMode = () => {
-    setConfigEnabled(!_configEnabled);
-  };
+  const pageLinks = pages.map((_page) => {
+    return(
+      <p className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
+    )
+  });
 
   return (
-    <div className="Settings">
+    <div className='pages-overview'>
       <h2>All pages</h2>
+      <div>
+        {pageLinks}
+      </div>
     </div>
   );
 };

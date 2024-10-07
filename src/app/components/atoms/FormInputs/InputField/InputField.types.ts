@@ -5,5 +5,6 @@ export default interface InputFieldProps {
   type: 'text' | 'number',
   id: string,
   value: string | number | boolean, // TODO: temporary added boolean to it, should be removed
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+  placeholder?: string
 }

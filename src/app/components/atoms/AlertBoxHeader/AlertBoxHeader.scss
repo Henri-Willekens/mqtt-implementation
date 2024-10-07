@@ -6,7 +6,7 @@
   background-color: $normal-bg;
   border: 0.5px solid $stroke;
   border-radius: $md-radius;
-  
+
   // padding: $sm-padding;
   margin: $sm-margin;
 
@@ -21,9 +21,9 @@
 
   z-index: 2; // To stop the alert glitching through the grid lines
 
-  &__header:hover{
+  &__header:hover {
     background-color: $onhover-bg;
-    
+
     cursor: pointer;
   }
 
@@ -31,13 +31,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
     padding: $sm-padding;
 
     border-top-left-radius: $md-radius;
     border-top-right-radius: $md-radius;
 
-    & > div {
+    &>div {
       display: flex;
       flex-direction: row;
     }
@@ -65,6 +65,7 @@
 
   &__warning {
     border-color: $alert-warning;
+
     &.alertboxheader__unack {
       animation: pulse-warning-animation 1s infinite;
     }
@@ -105,6 +106,7 @@
   0% {
     box-shadow: 0 0 0 0px rgba(255, 0, 0, 0.9);
   }
+
   100% {
     box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
   }
@@ -114,6 +116,7 @@
   0% {
     box-shadow: 0 0 0 0px rgba(255, 123, 0, 0.9);
   }
+
   100% {
     box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
   }

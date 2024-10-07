@@ -1,6 +1,6 @@
 export default interface ModalDialogProps {
-    modalTitle: string,
-    isOpen: boolean,
-    onClose: () => void,
-    children: React.ReactNode,
+  modalTitle: string,
+  isOpen: boolean,
+  onClose: () => void,
+  children: React.ReactNode,
 };

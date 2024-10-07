@@ -1,5 +1,6 @@
 @import '../../../styles/colors';
 @import '../../../styles/effects';
+@import '../../../styles/fonts';
 
 .navigation {
   background-color: $navigation-menu-bg;
@@ -19,6 +20,10 @@
   &__pages-overview {
     width: 48px;
     height: 48px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__block {
@@ -39,7 +44,7 @@
 
       cursor: pointer;
 
-      & > img {
+      &>img {
         width: 48px;
         height: 48px;
       }
@@ -50,5 +55,10 @@
     width: 300px;
 
     align-items: center;
+  }
+
+  &__config-mode-enabled {
+    font-size: 18px;
+    text-align: center;
   }
 }

@@ -1,7 +1,6 @@
-import { PageConfig } from "../../../configuration/types";
+import { Config, PagesConfig } from '../../../configuration/types';
 
 export default interface HeaderProps {
-  pages: PageConfig[],
-  navigateToPage: (id: string) => any,
-  activePageId: string
+  configData: Config,
+  pages: PagesConfig[]
 }

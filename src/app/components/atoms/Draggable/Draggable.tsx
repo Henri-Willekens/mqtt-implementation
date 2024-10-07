@@ -7,14 +7,15 @@ import { Config } from 'src/app/configuration/types';
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
-const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId}) => {
+const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId }) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
+  const [_elementSize, setElementSize] = useState({ width: 100, height: 100 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
-  const { _configEnabled } = useContext(ConfigEnabledContext);
   const [_data, setData] = useState<Config>();
-  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
-
+  const _SNAPPABLE = ['Compass', 'Rudder']
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activeConfig } = useContext(ConfigFileContext);
 
   const startDrag = (_event: any) => {
     if (_configEnabled) {
@@ -36,7 +37,8 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const stopDrag = () => {
     if (_configEnabled) {
       setDragging(false);
-      if (gridEnabled) {
+      console.log(_SNAPPABLE.includes(children?.props.type))
+      if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
         snapToGrid();
       }
       handleSave();
@@ -49,55 +51,65 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
       return;
     }
 
-    if (gridEnabled) {
+    if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
       snapToGrid();
     }
-    console.log(_position)
 
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
 
-    _data.pages[_pageIndex].components[_index] = {
-      type: _data.pages[_pageIndex]?.components[_index].type,
-      props: {
-        ..._data.pages[_pageIndex].components[_index].props,
-        xPos: _position.x,
-        yPos: _position.y
-      }
+    if (children?.props.canSnap) {
+      _data.pages[_pageIndex].components[_index] = {
+        type: _data.pages[_pageIndex]?.components[_index].type,
+        props: {
+          ..._data.pages[_pageIndex].components[_index].props,
+          xPos: _position.x,
+          yPos: _position.y,
+          width: _elementSize.width,
+          height: _elementSize.height
+        }
+      };
+    } else {
+      _data.pages[_pageIndex].components[_index] = {
+        type: _data.pages[_pageIndex]?.components[_index].type,
+        props: {
+          ..._data.pages[_pageIndex].components[_index].props,
+          xPos: _position.x,
+          yPos: _position.y
+        }
+      };
+  
     };
 
-    fetch("/api/write-json", {
-      method: "POST",
+    fetch('/api/write-json', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(_data),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result.message);
-      })
-      .catch((error) => console.error("Error saving data:", error));
+      .catch((error) => console.error('Error saving data:', error));
   };
 
 
   const fetchConfig = () => {
     const fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
     fetch(`/api/read-json?file=${fileToFetch}`)
-    .then((res) => res.json())
-    .then((results) => { 
-      setData(results);
-      
-      let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
-      let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
+      .then((res) => res.json())
+      .then((results) => {
+        setData(results);
 
-      setPosition({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos})
+        let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
+        let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
 
-      if (gridEnabled) {
-        snapToGrid({x:results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos});
-      }
-    })
-    .catch((err) => console.error(err));
+        setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
+
+        if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
+          snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
+        }
+      })
+      .catch((err) => console.error(err));
   }
 
 
@@ -114,25 +126,22 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     });
 
     setPosition({ x: _closestPosition.x, y: _closestPosition.y });
+    setElementSize({ width: _closestPosition.width - 15, height: _closestPosition.height - 15 });
   };
 
 
   useEffect(() => {
     fetchConfig();
   }, []);
-  
-  useEffect(() => {
-    console.log(`Element: ${elementInsideId}: ${_position.x} ${_position.y}`);
-  }, [_position])
 
   return (
     <div
-      className={_configEnabled ? "draggable" : "non-draggable"}
+      className={_configEnabled ? 'draggable' : 'non-draggable'}
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
       key={id}
-      style={{ left: _position.x, top: _position.y, zIndex: _dragging ? 1000 : 'auto' }}
+      style={{ left: _position.x, top: _position.y, height: _elementSize.height, width: _elementSize.width, zIndex: _dragging ? 1000 : 'auto' }}
     >
       {children}
     </div>

@@ -1,20 +1,20 @@
 import LibraryProps from './Library.types';
 import './Library.scss'
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import componentMap from '../../index';
 import Button from '../../atoms/Button/Button';
 
 import {v4 as uuidv4} from 'uuid';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
+  const { setConfigData } = useContext(ConfigDataContext);
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);
-  const [_idNumber, setIdNumber] = useState(0);
 
   const showLibrary = () => {
     setIsLibraryOpen(!_isLibraryOpen);
-    console.log(config)
   };
 
   const elementButtons = () => {
@@ -29,7 +29,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
     return buttons;
   };
 
-  const createElementOnPage = (_typeOfElement) => {
+  const createElementOnPage = (_typeOfElement: string) => {
     // Should not be able to do this on settings, alert log or pages overview
     if (activePageId == 'Settings' || activePageId == 'AlertLog' || activePageId == 'PagesOverview') {
       return;
@@ -57,7 +57,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       },
       body: JSON.stringify(config),
     })
-      .then(() => setIdNumber((_prevIdNumber) => _prevIdNumber + 1))
+      .then(() => setConfigData(config))
       .catch((error) => console.error('Error saving data:', error));
   };
 

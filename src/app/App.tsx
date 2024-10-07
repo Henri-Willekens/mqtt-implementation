@@ -49,10 +49,10 @@ const App = () => {
                 ) : (
                   <>
                     <ActivePageContext.Provider value={{_activePageId, setActivePageId}}>
-                      <Header configData={_configData} pages={_configData.pages} />
+                      <Header />
                       <div className='components'>
                         <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
-                          <PageManager config={_configData} activePageId={_activePageId} />
+                          <PageManager activePageId={_activePageId} />
                         </ConfigFileContext.Provider>
                       </div>
                       {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}

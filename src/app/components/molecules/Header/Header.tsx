@@ -11,10 +11,13 @@ import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
 
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageContext } from 'src/app/contexts/ActivePage';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
-const Header: React.FC<HeaderProps> = ({ configData, pages }) => {  
+const Header: React.FC<HeaderProps> = () => {  
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId, setActivePageId } = useContext(ActivePageContext);
+  const { _configData } = useContext(ConfigDataContext);
+
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     title: '',
@@ -54,11 +57,11 @@ const Header: React.FC<HeaderProps> = ({ configData, pages }) => {
   };
 
   const handleSave = () => {
-    if (configData === undefined) {
+    if (_configData === null) {
       return;
     }
 
-    configData.pages.push({
+    _configData.pages.push({
       title: _formValues.title,
       id: _formValues.id,
       gridEnabled: _formValues.gridEnabled,
@@ -70,13 +73,13 @@ const Header: React.FC<HeaderProps> = ({ configData, pages }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(configData),
+      body: JSON.stringify(_configData),
     })
       .then((response) => response.json())
       .catch((error) => console.error('Error saving data:', error));
   };
 
-  const pageButtons = pages.map((_page) => {
+  const pageButtons = _configData?.pages.map((_page) => {
     if (_page.id == _activePageId) {
       return <Button key={_page.id} value={_page.title} onClick={() => setActivePageId(_page.id)} extraClasses='active' />;
     } else {
@@ -88,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({ configData, pages }) => {
     <>
       <div className='navigation'>
         <div className='navigation__block navigation__pages'>
-          {pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => setActivePageId('PagesOverview')} />}
+          {_configData != null && _configData.pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => setActivePageId('PagesOverview')} />}
           {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}
         </div>
         <div className='navigation__block navigation__alerts'>

@@ -110,7 +110,7 @@ const Compass: React.FC<CompassProps> = ({
 
 
   const handleSave = () => {
-    if (_configData === undefined || _configData === null) {
+    if (_configData === null) {
       return;
     }
 

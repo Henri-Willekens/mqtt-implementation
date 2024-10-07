@@ -7,9 +7,24 @@ import { ThemeContext } from '../../../contexts/Theme';
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import InputField from '../FormInputs/InputField/InputField';
+import Input from "./Compassinput"; // Import Input component mqtt
 
-const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
+interface CompassProps {
+  mqttHeadingMessage: string | null; // MQTT message for heading
+  mqttCogMessage: string | null; // MQTT message for COG
+  onHeadingTopicChange: (newTopic: string) => void;
+  onCogTopicChange: (newTopic: string) => void;
+  id: string;
+  activePageId: string;
+  source: string;
+  waveArrowOutside: boolean;
+  stepsOfDegrees: number;
+  configEnabled: boolean;
+}
+
+const Compass: React.FC<CompassProps> = ({  mqttHeadingMessage, mqttCogMessage, onHeadingTopicChange, onCogTopicChange, id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
   const [_currentHeading, setCurrentHeading] = useState(0);
+  const [_currentCOG, setCurrentCOG] = useState(0); // State to handle COG
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
@@ -154,6 +169,33 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
     }
   }, []);
 
+  // Update the heading and COG based on received MQTT messages
+  useEffect(() => {
+    if (mqttHeadingMessage) {
+      const newHeading = parseInt(mqttHeadingMessage, 10); // Parse the message as heading
+      if (!isNaN(newHeading)) {
+        setCurrentHeading(newHeading); // Set new heading
+      }
+    }
+  }, [mqttHeadingMessage]);
+
+  useEffect(() => {
+    if (mqttCogMessage) {
+      const newCOG = parseInt(mqttCogMessage, 10); // Parse the message as COG
+      if (!isNaN(newCOG)) {
+        setCurrentCOG(newCOG); // Set new COG
+      }
+    }
+  }, [mqttCogMessage]);
+
+  // Define the update function to rotate the SVG elements
+  const update = (elementId: string, updatedValue: number) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.setAttribute("transform", `rotate(${updatedValue}, 200, 200)`);
+    }
+  };
+  
   useEffect(() => {
     if (!configEnabled) {
       if (_correctData == 'incomplete') {
@@ -162,7 +204,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
         }, 5000);
       } else if(_isNorthLocked) { 
         update(`hdg-${id}`, _currentHeading);
-        update(`cog-${id}`, _currentHeading + 20);
+        update(`cog-${id}`, _currentCOG);
         update(`outer-circle-${id}`, _currentHeading);
         update(`degree-numbers-${id}`, 0);
       } else {
@@ -172,7 +214,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
         update(`degree-numbers-${id}`, _currentHeading);
       };
     }
-  }, [_currentHeading]);
+  }, [_currentHeading, _currentCOG]);
 
   useEffect(() => {
     if (!configEnabled) { update(`wave-${id}`, _waveArrow) };
@@ -237,6 +279,22 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
           </defs>
         </svg>
       </div>
+          <div key={id}>
+      {/* Use the Input component */}
+      <Input onHeadingTopicChange={onHeadingTopicChange} onCogTopicChange={onCogTopicChange} />
+
+      <svg width="400" height="400">
+        <circle className="compass-windrose" cx="200" cy="200" r="150" />
+        <g id="hdg">
+          <path d="M 180 120 L 180 335 L 220 335 L 220 120 C 220 93 206 65 200 65 C 194 65 180 93 180 120 Z" />
+        </g>
+        <g id="cog">
+          <line x1="200" y1="70" x2="200" y2="200" />
+          <polygon points="200,60 210,80 190,80" />
+          <circle cx="200" cy="200" r="5" />
+        </g>
+      </svg>
+    </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
         <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />

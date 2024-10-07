@@ -13,8 +13,6 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ compo
 
   const { _configEnabled } = useContext(ConfigEnabledContext);
 
-  console.log(connections)
-
   return (
     <>
       {components.map((componentConfig: ComponentConfig, index: number) => {

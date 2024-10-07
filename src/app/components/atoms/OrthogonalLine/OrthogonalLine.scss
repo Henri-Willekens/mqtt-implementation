@@ -1,4 +1,4 @@
-@import '../../../styles/colorVariables';
+@import '../../../styles/colors';
 
 .orthogonal-line {
   position: absolute;
@@ -32,6 +32,6 @@
   }
 
   &__type__connection {
-    stroke: $neutral-soft-white;
+    stroke: $white;
   }
 }

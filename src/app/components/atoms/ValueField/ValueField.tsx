@@ -1,7 +1,7 @@
 import ValueFieldProps from './ValueField.types';
 import './ValueField.scss';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
@@ -9,6 +9,7 @@ import ToggleField from '../FormInputs/ToggleField/ToggleField';
 
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -20,9 +21,9 @@ const ValueField: React.FC<ValueFieldProps> = ({
   configEnabled,
   activePageId
 }) => {
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     _label: label,
     _unit: unit,
@@ -40,13 +41,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json?file=config.json')
-        .then((res) => res.json())
-        .then((results) => { 
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));
-    }
+    };
   };
 
   const closeModal = () => {
@@ -65,7 +60,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   };
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 

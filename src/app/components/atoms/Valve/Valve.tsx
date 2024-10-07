@@ -1,12 +1,12 @@
 import './Valve.scss';
 import ValveProps from './Valve.types';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
-
-import { Config } from 'src/app/configuration/types';
 import InputField from '../FormInputs/InputField/InputField';
+
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Valve: React.FC<ValveProps> = ({ 
   id, 
@@ -14,9 +14,9 @@ const Valve: React.FC<ValveProps> = ({
   configEnabled,
   activePageId
 }) => {
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_enabled, setEnabled] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     _content: content
   });
@@ -24,14 +24,8 @@ const Valve: React.FC<ValveProps> = ({
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json?file=config.json')
-        .then((res) => res.json())
-        .then((results) => {
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));
-    }
-  }
+    };
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -43,7 +37,7 @@ const Valve: React.FC<ValveProps> = ({
   };
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 

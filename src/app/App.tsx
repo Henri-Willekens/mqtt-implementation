@@ -11,13 +11,14 @@ import { ConfigEnabledContext } from './contexts/ConfigEnabled';
 import { ConfigFileContext } from './contexts/ConfigFile';
 import { Config } from './configuration/types';
 import { ActivePageContext } from './contexts/ActivePage';
+import { ConfigDataContext } from './contexts/ConfigData';
 
 const App = () => {
-  const [_configData, setConfigData] = useState<Config | null>(null);
   const [_currentTheme, setCurrentTheme] = useState('day');
   const [_configEnabled, setConfigEnabled] = useState(false);
   const [_activePageId, setActivePageId] = useState('Settings');
   const [_activeConfig, setActiveConfig] = useState('ConfigA');
+  const [_configData, setConfigData] = useState<Config | null>(null);
 
   const fetchConfig = () => {
     const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
@@ -31,7 +32,6 @@ const App = () => {
 
   useEffect(() => {
     fetchConfig();
-    console.log(_configData)
   }, [_activeConfig]);
 
   return (
@@ -39,26 +39,28 @@ const App = () => {
       <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
         <div className={`filter filter__${_currentTheme}`}>
           <ConfigEnabledContext.Provider value={{ _configEnabled, setConfigEnabled }}>
-            <div className={_configEnabled ? 'main main-config-mode' : 'main'}>
-              {_configData === null ? (
-                <div className='loading'>
-                  <div className='loader'></div>
-                  <p>Loading...</p>
-                </div>
-              ) : (
-                <>
-                  <ActivePageContext.Provider value={{_activePageId, setActivePageId}}>
-                    <Header configData={_configData} pages={_configData.pages} />
-                    <div className='components'>
-                      <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
-                        <PageManager config={_configData} activePageId={_activePageId} />
-                      </ConfigFileContext.Provider>
-                    </div>
-                    {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}
-                  </ActivePageContext.Provider>
-                </>
-              )}
-            </div>
+            <ConfigDataContext.Provider value={{ _configData, setConfigData }}>
+              <div className={_configEnabled ? 'main main-config-mode' : 'main'}>
+                {_configData === null ? (
+                  <div className='loading'>
+                    <div className='loader'></div>
+                    <p>Loading...</p>
+                  </div>
+                ) : (
+                  <>
+                    <ActivePageContext.Provider value={{_activePageId, setActivePageId}}>
+                      <Header configData={_configData} pages={_configData.pages} />
+                      <div className='components'>
+                        <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
+                          <PageManager config={_configData} activePageId={_activePageId} />
+                        </ConfigFileContext.Provider>
+                      </div>
+                      {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}
+                    </ActivePageContext.Provider>
+                  </>
+                )}
+              </div>
+            </ConfigDataContext.Provider>
           </ConfigEnabledContext.Provider>
         </div>
       </ThemeContext.Provider>

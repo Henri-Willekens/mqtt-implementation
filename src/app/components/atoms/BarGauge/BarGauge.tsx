@@ -1,12 +1,13 @@
 import BarGaugeProps from './BarGauge.types';
 import './BarGauge.scss';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
 import { Config } from 'src/app/configuration/types';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const BarGauge: React.FC<BarGaugeProps> = ({ 
   id,
@@ -18,9 +19,9 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   configEnabled, 
   activePageId
 }) => {
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     _maxValue: maxValue,
     _numberOfTickLines: numberOfTickLines,
@@ -84,12 +85,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json?file=config.json')
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-      })
-      .catch((err) => console.error(err));
     };
   };
 
@@ -121,7 +116,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 

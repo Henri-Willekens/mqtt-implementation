@@ -7,8 +7,8 @@ import InputField from '../FormInputs/InputField/InputField';
 import FormModal from '../../molecules/FormModal/FormModal';
 
 import { stringToBool } from 'src/app/services/stringToBool';
-import { Config } from 'src/app/configuration/types';
 import { ThemeContext } from '../../../contexts/Theme';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Compass: React.FC<CompassProps> = ({ 
   id = '', 
@@ -21,6 +21,7 @@ const Compass: React.FC<CompassProps> = ({
   activePageId
 }) => {
   const { _currentTheme } = useContext(ThemeContext);
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
@@ -28,7 +29,6 @@ const Compass: React.FC<CompassProps> = ({
   const [_waveArrow, setWaveArrow] = useState(180);
   const [_dataComplete, setData] = useState('incomplete');
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     source: source,
@@ -79,13 +79,6 @@ const Compass: React.FC<CompassProps> = ({
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch(`/api/read-json?file=config.json`)
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-        console.log(results)
-      })
-      .catch((err) => console.error(err));
     };
   };
 
@@ -117,14 +110,12 @@ const Compass: React.FC<CompassProps> = ({
 
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
-    console.log(id)
-    console.log(_configData.pages[_pageIndex]?.components[_index])
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
@@ -145,7 +136,10 @@ const Compass: React.FC<CompassProps> = ({
       },
       body: JSON.stringify(_configData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        response.json();
+        setConfigData(_configData);
+      })
       .catch((error) => console.error('Error saving data:', error));
   };
 

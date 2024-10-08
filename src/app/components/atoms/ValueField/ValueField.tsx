@@ -1,7 +1,7 @@
 import ValueFieldProps from './ValueField.types';
 import './ValueField.scss';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
@@ -10,6 +10,8 @@ import ToggleField from '../FormInputs/ToggleField/ToggleField';
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import SelectField from '../FormInputs/SelectField/SelectField';
+import { timeStamp } from 'console';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -18,6 +20,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   requiresValueTimes = false, 
   valueTimes = 0, 
   isEditable = false, 
+  dataSource = 'mqtt_topic',
   configEnabled,
   activePageId
 }) => {
@@ -29,13 +32,26 @@ const ValueField: React.FC<ValueFieldProps> = ({
     _unit: unit,
     _requiresValueTimes: requiresValueTimes,
     _valueTimes: valueTimes,
-    _isEditable: isEditable
+    _isEditable: isEditable,
+    _dataSource: dataSource
   });
 
   const onChange = (_event: React.ChangeEvent<HTMLInputElement>) => {
     const _value = _event.target.value;
 
     setValue(_value);
+  };
+
+  const getCurrentTime = (_locale: 'local_time' | 'utc_time') => {
+    const _dateTime = new Date();
+
+    if (_locale === 'utc_time') {
+      return `${_dateTime.getUTCHours().toString().padStart(2, '0')}:${_dateTime.getUTCMinutes().toString().padStart(2, '0')}`;
+    } else if (_locale === 'local_time') {
+      return `${_dateTime.getHours().toString().padStart(2, '0')}:${_dateTime.getMinutes().toString().padStart(2, '0')}`;
+    } else {
+      return '';
+    };
   };
 
   const openModal = () => {
@@ -75,7 +91,8 @@ const ValueField: React.FC<ValueFieldProps> = ({
         unit: _formValues._unit,
         requiresValueTimes: _formValues._requiresValueTimes,
         valueTimes: Math.floor(_formValues._valueTimes),
-        isEditable: stringToBool(_formValues._isEditable.toString())
+        isEditable: stringToBool(_formValues._isEditable.toString()),
+        dataSource: _formValues._dataSource
       }
     };
 
@@ -90,7 +107,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
       .catch((error) => console.error('Error saving data:', error));
   };
 
-  const handleFormChange = (_event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (_event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const _name = _event.target.name;
     // Value is dependant on whether it's a checkbox or not
     const _value = _event.target.type == 'checkbox' ? _event.target.checked : _event.target.value;
@@ -100,6 +117,27 @@ const ValueField: React.FC<ValueFieldProps> = ({
       [_name]: _value
     }));
   };
+
+  useEffect(() => {
+    if (dataSource === 'utc_time' || dataSource === 'local_time') {
+      setValue(getCurrentTime(dataSource)); // Update immediately when minute changes
+      const startMinuteUpdates = () => {
+        
+        // Set interval to update every 60 seconds
+        const interval = setInterval(() => {
+          setValue(getCurrentTime(dataSource));
+        }, 60000); // 60000 ms = 1 minute
+  
+        return () => clearInterval(interval); // Clean up on unmount
+      };
+  
+      // Get current time and calculate seconds until next minute
+      const now = new Date();
+      const secondsUntilNextMinute = 60 - now.getUTCSeconds();
+      const timeout = setTimeout(startMinuteUpdates, secondsUntilNextMinute * 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, []);
 
   return (
     <>
@@ -128,6 +166,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
         <ToggleField label='Value times x?' id='_requiresValueTimes' isChecked={_formValues._requiresValueTimes} onChange={handleFormChange} />
         {_formValues._requiresValueTimes && <InputField type='number' label='Value times' id='_valueTimes' value={_formValues._valueTimes} onChange={handleFormChange} />}
         <ToggleField label='Is editable?' id='_isEditable' isChecked={_formValues._isEditable} onChange={handleFormChange} />
+        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleFormChange} />
       </FormModal>
     </>  
   );

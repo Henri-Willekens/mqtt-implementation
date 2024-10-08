@@ -42,7 +42,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
     setValue(_value);
   };
 
-  const getCurrentTime = (_locale: 'local_time' | 'utc_time') => {
+  const getCurrentTime = (_locale?: 'local_time' | 'utc_time') => {
     const _dateTime = new Date();
 
     if (_locale === 'utc_time') {
@@ -120,22 +120,15 @@ const ValueField: React.FC<ValueFieldProps> = ({
 
   useEffect(() => {
     if (dataSource === 'utc_time' || dataSource === 'local_time') {
-      setValue(getCurrentTime(dataSource)); // Update immediately when minute changes
-      const startMinuteUpdates = () => {
-        
-        // Set interval to update every 60 seconds
-        const interval = setInterval(() => {
-          setValue(getCurrentTime(dataSource));
-        }, 60000); // 60000 ms = 1 minute
+      setValue(getCurrentTime(dataSource)); // Set first value
+      // Set interval to update every 60 seconds
+      const interval = setInterval(() => {
+        setValue(getCurrentTime(dataSource));
+      }, 1000);
   
-        return () => clearInterval(interval); // Clean up on unmount
-      };
-  
-      // Get current time and calculate seconds until next minute
-      const now = new Date();
-      const secondsUntilNextMinute = 60 - now.getUTCSeconds();
-      const timeout = setTimeout(startMinuteUpdates, secondsUntilNextMinute * 1000);
-      return () => clearTimeout(timeout);
+      return () => clearInterval(interval); // Clean up on unmount
+    } else if (dataSource === 'mqtt_topic') {
+      // Subscribe to MQTT topic
     }
   }, []);
 
@@ -167,6 +160,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
         {_formValues._requiresValueTimes && <InputField type='number' label='Value times' id='_valueTimes' value={_formValues._valueTimes} onChange={handleFormChange} />}
         <ToggleField label='Is editable?' id='_isEditable' isChecked={_formValues._isEditable} onChange={handleFormChange} />
         <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleFormChange} />
+        {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value='/example/topic' onChange={handleFormChange} />}
       </FormModal>
     </>  
   );

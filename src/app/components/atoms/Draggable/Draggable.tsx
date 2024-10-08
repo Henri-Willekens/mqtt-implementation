@@ -26,7 +26,7 @@ const Draggable: React.FC<DraggProps> = ({
   const { _activeConfig } = useContext(ConfigFileContext);
 
   const startDrag = (_event: any) => {
-    if (_configEnabled) {
+    if (_configEnabled && document.querySelector("dialog:modal") === null) {
       const _rect = _event.target.getBoundingClientRect();
       setOffset({ x: _event.clientX - _rect.left, y: _event.clientY - _rect.top });
       setDragging(true);

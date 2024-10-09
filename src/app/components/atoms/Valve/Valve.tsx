@@ -4,10 +4,9 @@ import ValveProps from './Valve.types';
 import React, { useContext, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
-import InputField from '../FormInputs/InputField/InputField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
-import SelectField from '../FormInputs/SelectField/SelectField';
 
 const Valve: React.FC<ValveProps> = ({ 
   id, 
@@ -15,7 +14,7 @@ const Valve: React.FC<ValveProps> = ({
   configEnabled,
   activePageId
 }) => {
-  const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _configData } = useContext(ConfigDataContext);
   const [_enabled, setEnabled] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
@@ -75,10 +74,8 @@ const Valve: React.FC<ValveProps> = ({
   };
 
   const turnOnOrOff = () => {
-    console.log(' fd')
     setEnabled(!_enabled);
   };
-
 
   return (
     <>

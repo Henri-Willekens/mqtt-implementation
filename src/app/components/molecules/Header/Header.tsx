@@ -65,7 +65,8 @@ const Header: React.FC<HeaderProps> = () => {
       title: _formValues.title,
       id: _formValues.id,
       gridEnabled: _formValues.gridEnabled,
-      components: []
+      components: [],
+      connections: []
     });
 
     fetch('/api/write-json', {

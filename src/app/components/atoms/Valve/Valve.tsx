@@ -48,7 +48,9 @@ const Valve: React.FC<ValveProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        content: _formValues._content
+        content: _formValues._content,
+        width: 72,
+        height: 48
       }
     };
 

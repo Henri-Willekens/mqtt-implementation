@@ -12,10 +12,10 @@ export interface ComponentConfig {
 }
 
 export interface ConnectionConfig {
-  type: 'Pipe' | 'Connection',
+  type: string,
   from: string,
   to: string,
-  filled: boolean
+  content: string
 }
 
 export interface Config {

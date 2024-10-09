@@ -1,6 +1,6 @@
 import DynamicRenderComponentsProps from './DynamicRenderComponents.types';
 
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Draggable from '../../atoms/Draggable/Draggable';
 
@@ -36,7 +36,7 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
         const toConn = components[components.findIndex((_o) => _o.props.id === conn.to)];
 
         return(
-          activePageId == 'Engine1' && <OrthologalLine key={index} from={fromConn} to={toConn} fromConnectionPosition="bottom" toConnectionPosition="bottom" type={conn.type} content={conn.content} />
+          <OrthologalLine key={index} from={fromConn} to={toConn} fromConnectionPosition="bottom" toConnectionPosition="bottom" type={conn.type} content={conn.content} />
         );
       })}
     </>

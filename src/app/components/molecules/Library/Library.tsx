@@ -9,11 +9,9 @@ import Button from '../../atoms/Button/Button';
 
 const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);
-  const [_idNumber, setIdNumber] = useState(0);
 
   const showLibrary = () => {
     setIsLibraryOpen(!_isLibraryOpen);
-    console.log(config)
   };
 
   const elementButtons = () => {
@@ -56,7 +54,6 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       },
       body: JSON.stringify(config),
     })
-      .then(() => setIdNumber((_prevIdNumber) => _prevIdNumber + 1))
       .catch((error) => console.error('Error saving data:', error));
   };
 

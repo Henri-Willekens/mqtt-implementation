@@ -1,0 +1,43 @@
+@import '../../../styles/colors';
+
+.orthogonal-line {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+
+  overflow: visible;
+
+  & > path {
+    fill: none;
+    stroke-width: 5px;
+  }
+
+  &__type {
+    &__connection {
+      stroke: $white;
+    }
+
+    &__pipe {
+      &__clean-water {
+        stroke: $pipe-clean-water;
+      }
+  
+      &__sea-water {
+        stroke: $pipe-sea-water;
+      }
+  
+      &__fuel {
+        stroke: $pipe-fuel;
+      }
+  
+      &__oil {
+        stroke: $pipe-oil;
+      }
+    }
+  }
+
+  &__state__empty {
+    stroke: $black;
+  }
+}

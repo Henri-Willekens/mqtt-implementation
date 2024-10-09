@@ -1,8 +1,9 @@
-export interface PagesConfig {
+export interface PageConfig {
   gridEnabled: boolean,
   title: string,
   id: string,
-  components: ComponentConfig[]
+  components: ComponentConfig[],
+  connections?: ConnectionConfig[]
 }
 
 export interface ComponentConfig {
@@ -10,6 +11,13 @@ export interface ComponentConfig {
   props: { [key: string]: any };
 }
 
+export interface ConnectionConfig {
+  type: string,
+  from: string,
+  to: string,
+  content: string
+}
+
 export interface Config {
-  pages: PagesConfig[];
+  pages: PageConfig[];
 }

@@ -1,7 +1,8 @@
 import { ComponentConfig } from '../../../configuration/types';
 
 export default interface DynamicRenderComponentsProps {
-  config: ComponentConfig[],
+  components: ComponentConfig[],
+  connections: any[] | undefined,
   gridEnabled: boolean,
   activePageId: string
 }

@@ -4,8 +4,9 @@ import ReferenceButtonProps from './ReferenceButton.types';
 import { useContext, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
-import { ActivePageContext } from 'src/app/contexts/ActivePage';
 import InputField from '../FormInputs/InputField/InputField';
+
+import { ActivePageContext } from 'src/app/contexts/ActivePage';
 
 const ReferenceButton: React.FC<ReferenceButtonProps> = ({ 
   referencePageId = 'xxx', 

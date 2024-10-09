@@ -1,0 +1,126 @@
+{
+  "pages": [
+    {
+      "title": "Engine",
+      "id": "Engine1",
+      "gridEnabled": false,
+      "components": [
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-1",
+            "xPos": 36.36964416503906,
+            "yPos": 243.885986328125,
+            "width": 72,
+            "height": 48,
+            "content": "clean-water"
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-2",
+            "content": "oil",
+            "xPos": 307.0638427734375,
+            "yPos": 167.00213623046875,
+            "width": 72,
+            "height": 48
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-3",
+            "content": "clean-water",
+            "xPos": 566.36962890625,
+            "yPos": 179.885986328125,
+            "width": 72,
+            "height": 48
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-4",
+            "content": "sea-water",
+            "xPos": 811.05712890625,
+            "yPos": 173.135986328125,
+            "width": 72,
+            "height": 48
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "id": "valve-5",
+            "content": "clean-water",
+            "xPos": 1041.05712890625,
+            "yPos": 171.135986328125,
+            "width": 72,
+            "height": 48
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 1157.60400390625,
+            "yPos": 479.760986328125,
+            "id": "Valve-b39d76db-b0a8-40ae-a614-fc9ab08ff9bc",
+            "content": "clean-water",
+            "width": 72,
+            "height": 48
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 1388.307144165039,
+            "yPos": 478.885986328125,
+            "id": "Valve-38629766-c667-4e88-b3f2-b46030cb262b",
+            "content": "sea-water",
+            "width": 72,
+            "height": 48
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "valve-1",
+          "to": "valve-2",
+          "type": "pipe",
+          "content": "clean-water"
+        },
+        {
+          "from": "valve-2",
+          "to": "valve-3",
+          "type": "pipe",
+          "content": "sea-water"
+        },
+        {
+          "from": "valve-3",
+          "to": "valve-4",
+          "type": "pipe",
+          "content": "oil"
+        },
+        {
+          "from": "valve-4",
+          "to": "valve-5",
+          "type": "pipe",
+          "content": "fuel"
+        },
+        {
+          "from": "Valve-b39d76db-b0a8-40ae-a614-fc9ab08ff9bc",
+          "to": "valve-5",
+          "type": "pipe",
+          "content": "fuel"
+        },
+        {
+          "from": "Valve-b39d76db-b0a8-40ae-a614-fc9ab08ff9bc",
+          "to": "Valve-38629766-c667-4e88-b3f2-b46030cb262b",
+          "type": "connection",
+          "content": ""
+        }
+      ]
+    }
+  ]
+}

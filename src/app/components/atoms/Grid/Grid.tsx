@@ -12,8 +12,6 @@ const Grid = () => {
         const _coordinates = _item.querySelector('.coordinates');
         if (_coordinates) {
           _gridPositions.push({ element: _item, x: _rect.left, y: _rect.top, width: _rect.width, height: _rect.height });
-
-          // _coordinates.textContent = `(${_rect.left.toFixed(2)}, ${_rect.top.toFixed(2)})`;
         }
       });
     }

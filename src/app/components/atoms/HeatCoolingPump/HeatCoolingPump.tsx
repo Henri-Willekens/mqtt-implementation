@@ -1,10 +1,13 @@
-
-import React, { useEffect, useState } from 'react';
-
 import HeatCoolingProps from './HeatCoolingPump.types';
 import './HeatCoolingPump.scss';
 
-const HeatCooling: React.FC<HeatCoolingProps> = ({ id, configEnabled, canSnap = false }) => {
+import React, { useEffect, useState } from 'react';
+
+
+const HeatCooling: React.FC<HeatCoolingProps> = ({ 
+  id, 
+  configEnabled
+}) => {
   const [_internalInterval, setInternalInterval] = useState<any>();
   const [_currentRotation, setCurrentRotation] = useState(0);
   const [_isEnabled, setIsEnabled] = useState(false);

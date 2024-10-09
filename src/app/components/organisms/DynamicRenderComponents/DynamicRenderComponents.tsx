@@ -8,7 +8,11 @@ import componentMap from '../../index';
 import { ComponentConfig } from '../../../configuration/types';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
-const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ config, gridEnabled, activePageId }) => {
+const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ 
+  config, 
+  gridEnabled, 
+  activePageId 
+}) => {
 
   const { _configEnabled } = useContext(ConfigEnabledContext);
 

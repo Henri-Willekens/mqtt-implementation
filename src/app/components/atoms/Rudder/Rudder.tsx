@@ -1,12 +1,12 @@
 import RudderProps from './Rudder.types';
 import './Rudder.scss';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
-import { Config } from 'src/app/configuration/types';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Rudder: React.FC<RudderProps> = ({ 
   id, 
@@ -14,12 +14,11 @@ const Rudder: React.FC<RudderProps> = ({
   width = 255, 
   height = 255, 
   stepsOfDegrees = 15, 
-  canSnap = true, 
   activePageId, 
   configEnabled
 }) => {
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     _totalRudderAngle: totalRudderAngle,
     _width: width,
@@ -44,15 +43,15 @@ const Rudder: React.FC<RudderProps> = ({
 
     return (
       <g>
-        <path className='rudder__angles__port' d={`M${_centerX},${_centerY} L${_centerX},${_centerY + _elementRadius} A${_elementRadius},${_elementRadius} 0 0,0 ${_portX},${_portY} Z`} />
-        <path className='rudder__angles__starboard' d={`M${_centerX},${_centerY} L${_centerX},${_centerY + _elementRadius} A${_elementRadius},${_elementRadius} 0 0,1 ${_starboardX},${_starboardY} Z`} />
+        <path className='rudder__angles__starboard' d={`M${_centerX},${_centerY} L${_centerX},${_centerY + _elementRadius} A${_elementRadius},${_elementRadius} 0 0,0 ${_portX},${_portY} Z`} />
+        <path className='rudder__angles__port' d={`M${_centerX},${_centerY} L${_centerX},${_centerY + _elementRadius} A${_elementRadius},${_elementRadius} 0 0,1 ${_starboardX},${_starboardY} Z`} />
       </g>
     );
   };
 
   const updateRudderPosition = (updatedAngle: number) => {
-    const rudderPointer = document.getElementById('rudder-pointer');
-    rudderPointer?.setAttribute('transform', `rotate(${updatedAngle}, ${width / 2}, ${height / 2})`)
+    const _rudderPointer = document.getElementById('rudder-pointer');
+    _rudderPointer?.setAttribute('transform', `rotate(${updatedAngle}, ${width / 2}, ${height / 2})`)
   };
 
   const generateDegreeLabels = () => {
@@ -84,12 +83,6 @@ const Rudder: React.FC<RudderProps> = ({
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json?file=config.json')
-        .then((res) => res.json())
-        .then((results) => {
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));
     };
   };
 
@@ -122,7 +115,7 @@ const Rudder: React.FC<RudderProps> = ({
 
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 

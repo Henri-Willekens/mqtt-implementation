@@ -4,6 +4,8 @@
 
 .value-field {
   &__field {
+    width: fit-content;
+
     margin: $sm-margin;
   }
   

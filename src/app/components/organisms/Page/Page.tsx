@@ -4,7 +4,13 @@ import PageProps from './Page.types';
 import { Grid } from '../../atoms/Grid/Grid';
 import DynamicRenderComponents from '../DynamicRenderComponents/DynamicRenderComponents';
 
-const Page: React.FC<PageProps> = ({ pageId, title, components, activePageId, gridEnabled }) => {
+const Page: React.FC<PageProps> = ({ 
+  pageId,
+  title, 
+  components, 
+  activePageId, 
+  gridEnabled 
+}) => {
   return (
     <div key={pageId} className='page'>
       {gridEnabled && <Grid /> }

@@ -1,13 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
-import { _gridPositions } from '../Grid/Grid';
-
 import DraggProps from './Draggable.types';
 import './Draggable.scss';
-import { Config } from 'src/app/configuration/types';
+
+import { useContext, useEffect, useState } from 'react';
+
+import { _gridPositions } from '../Grid/Grid';
+
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
+import { Config } from 'src/app/configuration/types';
 import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
 
-const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEnabled, activePageId }) => {
+const Draggable: React.FC<DraggProps> = ({ 
+  id, 
+  children, 
+  elementInsideId, 
+  gridEnabled, 
+  activePageId 
+}) => {
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_elementSize, setElementSize] = useState({ width: 100, height: 100 });
   const [_dragging, setDragging] = useState(false);
@@ -18,7 +26,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const { _activeConfig } = useContext(ConfigFileContext);
 
   const startDrag = (_event: any) => {
-    if (_configEnabled) {
+    if (_configEnabled && document.querySelector("dialog:modal") === null) {
       const _rect = _event.target.getBoundingClientRect();
       setOffset({ x: _event.clientX - _rect.left, y: _event.clientY - _rect.top });
       setDragging(true);
@@ -37,7 +45,6 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
   const stopDrag = () => {
     if (_configEnabled) {
       setDragging(false);
-      console.log(_SNAPPABLE.includes(children?.props.type))
       if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
         snapToGrid();
       }
@@ -58,7 +65,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
 
-    if (children?.props.canSnap) {
+    if (_SNAPPABLE.includes(children?.props.type)) {
       _data.pages[_pageIndex].components[_index] = {
         type: _data.pages[_pageIndex]?.components[_index].type,
         props: {
@@ -94,8 +101,8 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
 
   const fetchConfig = () => {
-    const fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
-    fetch(`/api/read-json?file=${fileToFetch}`)
+    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    fetch(`/api/read-json?file=${_fileToFetch}`)
       .then((res) => res.json())
       .then((results) => {
         setData(results);
@@ -105,6 +112,7 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
 
         setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
 
+        // Snappable also determines if a element should scale or not with a grid
         if (gridEnabled && _SNAPPABLE.includes(children?.props.type)) {
           snapToGrid({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos });
         }
@@ -118,10 +126,10 @@ const Draggable: React.FC<DraggProps> = ({ id, children, elementInsideId, gridEn
     let _minDistance = Number.MAX_VALUE;
 
     _gridPositions.forEach((_gridPosition) => {
-      const distance = _fetchedPosition ? Math.hypot(_fetchedPosition.x - _gridPosition.x, _fetchedPosition.y - _gridPosition.y) : Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
-      if (distance < _minDistance) {
+      const _distance = _fetchedPosition ? Math.hypot(_fetchedPosition.x - _gridPosition.x, _fetchedPosition.y - _gridPosition.y) : Math.hypot(_position.x - _gridPosition.x, _position.y - _gridPosition.y);
+      if (_distance < _minDistance) {
         _closestPosition = _gridPosition;
-        _minDistance = distance;
+        _minDistance = _distance;
       }
     });
 

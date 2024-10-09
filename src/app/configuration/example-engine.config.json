@@ -14,9 +14,19 @@
             "width": 100,
             "height": 100,
             "maxValue": 500,
-            "content": "fuel",
+            "content": "",
             "numberOfTickLines": 5,
-            "label": "Fuel tank STBD"
+            "label": "Fuel tank STBD",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 100
+              },
+              {
+                "alertType": "warning",
+                "value": 200
+              }
+            ]
           }
         },
         {
@@ -85,9 +95,19 @@
             "width": 100,
             "height": 100,
             "maxValue": 500,
-            "content": "fuel",
+            "content": "",
             "numberOfTickLines": 5,
-            "label": "Fuel tank PTS"
+            "label": "Fuel tank PTS",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 100
+              },
+              {
+                "alertType": "warning",
+                "value": 200
+              }
+            ]
           }
         },
         {
@@ -171,9 +191,19 @@
             "width": 100,
             "height": 100,
             "maxValue": 2000,
-            "content": "clean-water",
+            "content": "",
             "numberOfTickLines": 5,
-            "label": "Clean water"
+            "label": "Clean water",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 200
+              },
+              {
+                "alertType": "warning",
+                "value": 500
+              }
+            ]
           }
         },
         {
@@ -183,9 +213,21 @@
             "yPos": 73,
             "id": "BarGauge-7edee003-9581-49f5-8dae-fb1f9a45e9fd",
             "maxValue": 2000,
-            "content": "fuel",
+            "content": "",
+            "width": 100,
+            "height": 100,
             "numberOfTickLines": 5,
-            "label": "Fuel tank PTS"
+            "label": "Fuel tank PTS",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 200
+              },
+              {
+                "alertType": "warning",
+                "value": 500
+              }
+            ]
           }
         },
         {
@@ -195,9 +237,21 @@
             "yPos": 76,
             "id": "BarGauge-0fbbdb4c-6061-4a57-8842-a1b2ece63ffa",
             "maxValue": 2000,
-            "content": "fuel",
+            "width": 100,
+            "height": 100,
+            "content": "",
             "numberOfTickLines": 5,
-            "label": "Fuel tank STBD"
+            "label": "Fuel tank STBD",
+            "alertLines": [
+              {
+                "alertType": "alarm",
+                "value": 200
+              },
+              {
+                "alertType": "warning",
+                "value": 500
+              }
+            ]
           }
         },
         {
@@ -207,6 +261,8 @@
             "yPos": 386,
             "id": "ValueField-3354dcef-088a-4cb0-bf63-d1ff6a2f2b60",
             "label": "Fuel tank STBD",
+            "width": 100,
+            "height": 100,
             "unit": "m³",
             "requiresValueTimes": false,
             "valueTimes": 0,
@@ -222,6 +278,8 @@
             "id": "ValueField-f7104d46-5bd8-4ee9-b804-1ec05f419b34",
             "label": "Fuel tank PTS",
             "unit": "m³",
+            "width": 100,
+            "height": 100,
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false,
@@ -252,7 +310,9 @@
             "xPos": 881.0639038085938,
             "yPos": 260.75213623046875,
             "id": "Valve-7f82cd62-a2ee-40aa-914d-446fe83b0316",
-            "content": "fuel"
+            "content": "fuel",
+            "width": 72,
+            "height": 48
           }
         },
         {
@@ -261,8 +321,24 @@
             "xPos": 1385.3764038085938,
             "yPos": 251.50213623046875,
             "id": "Valve-4cf51dcf-555d-4a07-a598-9c70d408e7b9",
-            "content": "fuel"
+            "content": "fuel",
+            "width": 72,
+            "height": 48
           }
+        }
+      ],
+      "connections": [
+        {
+          "type": "pipe",
+          "content": "fuel",
+          "from": "BarGauge-0fbbdb4c-6061-4a57-8842-a1b2ece63ffa",
+          "to": "Valve-7f82cd62-a2ee-40aa-914d-446fe83b0316"
+        }, 
+        {
+          "type": "pipe",
+          "content": "fuel",
+          "from": "BarGauge-7edee003-9581-49f5-8dae-fb1f9a45e9fd",
+          "to": "Valve-4cf51dcf-555d-4a07-a598-9c70d408e7b9"
         }
       ]
     },

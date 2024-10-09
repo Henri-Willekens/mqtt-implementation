@@ -34,6 +34,7 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
       {connections && connections.map((conn, index) => {
         const fromConn = components[components.findIndex((_o) => _o.props.id === conn.from)];
         const toConn = components[components.findIndex((_o) => _o.props.id === conn.to)];
+        console.log(fromConn)
 
         return(
           <OrthologalLine key={index} from={fromConn} to={toConn} fromConnectionPosition="bottom" toConnectionPosition="bottom" type={conn.type} content={conn.content} />

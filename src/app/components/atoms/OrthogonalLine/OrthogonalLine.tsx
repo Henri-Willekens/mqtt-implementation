@@ -11,10 +11,10 @@ const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, fromConnectio
   console.log(to)
 
   // Calculate middle points of 'from' and 'to' elements
-  const fromMiddleX = from.props.xPos + from.props.width / 2;
-  const fromMiddleY = from.props.yPos - from.props.height / 2;
-  const toMiddleX = to.props.xPos + to.props.width / 2;
-  const toMiddleY = to.props.yPos - to.props.height / 2;
+  const fromMiddleX = Math.floor(from.props.xPos + from.props.width / 2);
+  const fromMiddleY = Math.floor(from.props.yPos - from.props.height / 2 - 5);
+  const toMiddleX = Math.floor(to.props.xPos + to.props.width / 2);
+  const toMiddleY = Math.floor(to.props.yPos - to.props.height / 2 - 5);
 
   // Calculate the mid-point in the X direction for the path
   const _midX = (fromMiddleX + toMiddleX) / 2;

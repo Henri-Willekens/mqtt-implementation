@@ -24,10 +24,10 @@
             "xPos": 1298.328125,
             "yPos": 336,
             "id": "Rudder-ab1d66fd-7b4b-4044-ba25-a281ffed7757",
-            "width": 615.671875,
+            "width": 615,
             "height": 403,
             "totalRudderAngle": 270,
-            "stepsOfDegrees": 15
+            "stepsOfDegrees": 30
           }
         },
         {
@@ -38,11 +38,26 @@
             "id": "ValueField-979f4971-0fb1-45c0-8763-4bad5ada0e40",
             "width": 615.65625,
             "height": 194,
-            "label": "Time",
-            "unit": "h:m:s",
+            "label": "UTC time",
+            "unit": "h:m",
             "requiresValueTimes": false,
             "valueTimes": 0,
-            "isEditable": false
+            "isEditable": false,
+            "dataSource": "utc_time"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 8,
+            "yPos": 138,
+            "id": "ValueField-d9b2f940-0c91-4306-9897-91bbc608bbfd",
+            "label": "Local time",
+            "unit": "h:m",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "local_time"
           }
         }
       ]
@@ -55,23 +70,24 @@
         {
           "type": "Compass",
           "props": {
-            "xPos": 394.65625,
-            "yPos": 264.5,
+            "xPos": 640.65625,
+            "yPos": 279,
             "id": "Compass-b5a1a9fc-e373-4223-8fef-09b963da5cd3",
             "width": 615.671875,
-            "height": 428
+            "height": 403
           }
         },
         {
           "type": "ValueField",
           "props": {
-            "xPos": 10,
-            "yPos": 70,
+            "xPos": 26.40625,
+            "yPos": 80,
             "id": "ValueField-0912a5a6-8f89-426d-8070-f26755af00ea",
             "width": 615.65625,
             "height": 194,
-            "label": "Time",
-            "unit": "h:m:s",
+            "label": "UTC time",
+            "unit": "h:m",
+            "dataSource": "utc_time",
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false
@@ -90,6 +106,20 @@
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 17,
+            "yPos": 148,
+            "id": "ValueField-8aec64df-4515-4fd7-a536-fbcdf8fe6470",
+            "label": "Local time",
+            "unit": "h:m",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "local_time"
           }
         }
       ]

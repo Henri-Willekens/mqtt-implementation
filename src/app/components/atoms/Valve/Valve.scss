@@ -27,6 +27,18 @@
       clip-path: inset(100% 0 0 0);
       animation: fillAnimation 2.5s forwards;
     }
+
+    &__sea-water {
+      fill: $pipe-sea-water;
+      clip-path: inset(100% 0 0 0);
+      animation: fillAnimation 2.5s forwards;
+    }
+
+    &__oil {
+      fill: $pipe-oil;
+      clip-path: inset(100% 0 0 0);
+      animation: fillAnimation 2.5s forwards;
+    }
   }
 
   &-flow {

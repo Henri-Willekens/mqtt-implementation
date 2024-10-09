@@ -1,13 +1,17 @@
 import './ReferenceButton.scss';
 import ReferenceButtonProps from './ReferenceButton.types';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
-import { ActivePageContext } from 'src/app/contexts/ActivePage';
 import InputField from '../FormInputs/InputField/InputField';
 
-const ReferenceButton: React.FC<ReferenceButtonProps> = ({ referencePageId, configEnabled }) => {
+import { ActivePageContext } from 'src/app/contexts/ActivePage';
+
+const ReferenceButton: React.FC<ReferenceButtonProps> = ({ 
+  referencePageId = 'xxx', 
+  configEnabled 
+}) => {
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
     _referencePageId: referencePageId,

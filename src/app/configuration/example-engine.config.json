@@ -23,7 +23,7 @@
           "type": "ValueField",
           "props": {
             "xPos": 22,
-            "yPos": 372,
+            "yPos": 404,
             "id": "ValueField-3ab31d56-ca33-45c6-bba1-5f4f7f8dbb5a",
             "width": 100,
             "height": 100,
@@ -32,6 +32,41 @@
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 260.6875,
+            "yPos": 72.6875,
+            "id": "BarGauge-bf0ddeb9-a177-47f1-a977-4fb8195dd621",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. STBD"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 265,
+            "yPos": 378,
+            "id": "ValueField-38435312-6765-47cf-9209-fbd2355159be",
+            "label": "Prop. STBD",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 31,
+            "yPos": 342,
+            "id": "ReferenceButton-84d3cbe5-492c-4ccc-ba18-3d37b56f1909",
+            "referencePageId": "102"
           }
         }
       ]
@@ -44,8 +79,8 @@
         {
           "type": "BarGauge",
           "props": {
-            "xPos": 43.640625,
-            "yPos": 99.5,
+            "xPos": 73.015625,
+            "yPos": 76.5,
             "id": "BarGauge-28bab395-5e8e-4a0d-8e13-413ff3d587a4",
             "width": 100,
             "height": 100,
@@ -58,8 +93,8 @@
         {
           "type": "ValueField",
           "props": {
-            "xPos": 16,
-            "yPos": 406,
+            "xPos": 22,
+            "yPos": 404,
             "id": "ValueField-59586e52-db26-4744-8c1e-2bb8937656bf",
             "width": 100,
             "height": 100,
@@ -68,6 +103,41 @@
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false
+          }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 31,
+            "yPos": 342,
+            "id": "ReferenceButton-f13bd874-7931-4b8d-afee-bce308d36fae",
+            "referencePageId": "102"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 262,
+            "yPos": 398,
+            "id": "ValueField-e6fc6ddd-1dd4-49ec-8415-2201b3c00e5d",
+            "label": "Prop. PTS",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 264.6875,
+            "yPos": 75.6875,
+            "id": "BarGauge-62027618-a6ff-4038-a068-d8e15061673a",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. PTS"
           }
         }
       ]
@@ -104,6 +174,94 @@
             "content": "clean-water",
             "numberOfTickLines": 5,
             "label": "Clean water"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1200,
+            "yPos": 73,
+            "id": "BarGauge-7edee003-9581-49f5-8dae-fb1f9a45e9fd",
+            "maxValue": 2000,
+            "content": "fuel",
+            "numberOfTickLines": 5,
+            "label": "Fuel tank PTS"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 706.375,
+            "yPos": 76,
+            "id": "BarGauge-0fbbdb4c-6061-4a57-8842-a1b2ece63ffa",
+            "maxValue": 2000,
+            "content": "fuel",
+            "numberOfTickLines": 5,
+            "label": "Fuel tank STBD"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 709,
+            "yPos": 386,
+            "id": "ValueField-3354dcef-088a-4cb0-bf63-d1ff6a2f2b60",
+            "label": "Fuel tank STBD",
+            "unit": "m³",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1200,
+            "yPos": 386,
+            "id": "ValueField-f7104d46-5bd8-4ee9-b804-1ec05f419b34",
+            "label": "Fuel tank PTS",
+            "unit": "m³",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 655,
+            "yPos": 83,
+            "id": "ReferenceButton-45555632-5f24-44a3-b23d-23469a5fd9bd",
+            "referencePageId": "100"
+          }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 1149,
+            "yPos": 76,
+            "id": "ReferenceButton-fb0cbfd6-04f9-4d6c-a80d-38c1c1591ef5",
+            "referencePageId": "101"
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 881.0639038085938,
+            "yPos": 260.75213623046875,
+            "id": "Valve-7f82cd62-a2ee-40aa-914d-446fe83b0316",
+            "content": "fuel"
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 1385.3764038085938,
+            "yPos": 251.50213623046875,
+            "id": "Valve-4cf51dcf-555d-4a07-a598-9c70d408e7b9",
+            "content": "fuel"
           }
         }
       ]

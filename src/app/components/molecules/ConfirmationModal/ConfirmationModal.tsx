@@ -6,12 +6,10 @@ import ModalDialog from '../ModalDialog/ModalDialog';
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, cancelText, confirmText }) => {
   const handleConfirm = () => {
-    // Do something to confirm?
     onClose();
   };
 
   const handleCancel = () => {
-    // Do something to cancel?
     onClose();
   };
 

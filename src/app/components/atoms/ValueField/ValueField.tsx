@@ -1,7 +1,7 @@
 import ValueFieldProps from './ValueField.types';
 import './ValueField.scss';
 
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
@@ -9,6 +9,9 @@ import ToggleField from '../FormInputs/ToggleField/ToggleField';
 
 import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import SelectField from '../FormInputs/SelectField/SelectField';
+import { timeStamp } from 'console';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -17,19 +20,20 @@ const ValueField: React.FC<ValueFieldProps> = ({
   requiresValueTimes = false, 
   valueTimes = 0, 
   isEditable = false, 
-  canSnap = false,
+  dataSource = 'mqtt_topic',
   configEnabled,
   activePageId
 }) => {
-  const [value, setValue] = useState('000.00');
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_formValues, setFormValues] = useState({
     _label: label,
     _unit: unit,
     _requiresValueTimes: requiresValueTimes,
     _valueTimes: valueTimes,
-    _isEditable: isEditable
+    _isEditable: isEditable,
+    _dataSource: dataSource
   });
 
   const onChange = (_event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,16 +42,22 @@ const ValueField: React.FC<ValueFieldProps> = ({
     setValue(_value);
   };
 
+  const getCurrentTime = (_locale?: 'local_time' | 'utc_time') => {
+    const _dateTime = new Date();
+
+    if (_locale === 'utc_time') {
+      return `${_dateTime.getUTCHours().toString().padStart(2, '0')}:${_dateTime.getUTCMinutes().toString().padStart(2, '0')}`;
+    } else if (_locale === 'local_time') {
+      return `${_dateTime.getHours().toString().padStart(2, '0')}:${_dateTime.getMinutes().toString().padStart(2, '0')}`;
+    } else {
+      return '';
+    };
+  };
+
   const openModal = () => {
     if (configEnabled) {
       setIsModalOpen(true);
-      fetch('/api/read-json?file=config.json')
-        .then((res) => res.json())
-        .then((results) => { 
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));
-    }
+    };
   };
 
   const closeModal = () => {
@@ -66,7 +76,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   };
 
   const handleSave = () => {
-    if (_configData === undefined) {
+    if (_configData === undefined || _configData === null) {
       return;
     }
 
@@ -81,7 +91,8 @@ const ValueField: React.FC<ValueFieldProps> = ({
         unit: _formValues._unit,
         requiresValueTimes: _formValues._requiresValueTimes,
         valueTimes: Math.floor(_formValues._valueTimes),
-        isEditable: stringToBool(_formValues._isEditable.toString())
+        isEditable: stringToBool(_formValues._isEditable.toString()),
+        dataSource: _formValues._dataSource
       }
     };
 
@@ -96,7 +107,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
       .catch((error) => console.error('Error saving data:', error));
   };
 
-  const handleFormChange = (_event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (_event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const _name = _event.target.name;
     // Value is dependant on whether it's a checkbox or not
     const _value = _event.target.type == 'checkbox' ? _event.target.checked : _event.target.value;
@@ -106,6 +117,20 @@ const ValueField: React.FC<ValueFieldProps> = ({
       [_name]: _value
     }));
   };
+
+  useEffect(() => {
+    if (dataSource === 'utc_time' || dataSource === 'local_time') {
+      setValue(getCurrentTime(dataSource)); // Set first value
+      // Set interval to update every 60 seconds
+      const interval = setInterval(() => {
+        setValue(getCurrentTime(dataSource));
+      }, 1000);
+  
+      return () => clearInterval(interval); // Clean up on unmount
+    } else if (dataSource === 'mqtt_topic') {
+      // Subscribe to MQTT topic
+    }
+  }, []);
 
   return (
     <>
@@ -117,10 +142,10 @@ const ValueField: React.FC<ValueFieldProps> = ({
               type='text' 
               id={id}
               name={id}
-              value={value} 
+              value={_value} 
               onChange={onChange}
               className={`value-field__input ${isEditable ? 'value-field__editable' : ''}`} 
-              size={value.length} 
+              size={_value.length} 
               disabled={!isEditable} 
             />
             { requiresValueTimes && <div className='value-field__times'><p className='value-field__times-amount'>x {valueTimes}</p></div> }
@@ -134,6 +159,8 @@ const ValueField: React.FC<ValueFieldProps> = ({
         <ToggleField label='Value times x?' id='_requiresValueTimes' isChecked={_formValues._requiresValueTimes} onChange={handleFormChange} />
         {_formValues._requiresValueTimes && <InputField type='number' label='Value times' id='_valueTimes' value={_formValues._valueTimes} onChange={handleFormChange} />}
         <ToggleField label='Is editable?' id='_isEditable' isChecked={_formValues._isEditable} onChange={handleFormChange} />
+        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleFormChange} />
+        {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value='/example/topic' onChange={handleFormChange} />}
       </FormModal>
     </>  
   );

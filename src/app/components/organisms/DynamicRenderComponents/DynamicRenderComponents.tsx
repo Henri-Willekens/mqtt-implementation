@@ -9,7 +9,12 @@ import { ComponentConfig } from '../../../configuration/types';
 import OrthologalLine from "../../atoms/OrthogonalLine/OrthogonalLine";
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
-const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ components, connections, gridEnabled, activePageId }) => {
+const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({ 
+  components, 
+  connections, 
+  gridEnabled, 
+  activePageId 
+}) => {
 
   const { _configEnabled } = useContext(ConfigEnabledContext);
 

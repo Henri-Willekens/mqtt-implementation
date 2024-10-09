@@ -1,12 +1,19 @@
 import './PageManager.scss';
 import PageManagerProps from './PageManager.types';
 
+import { useContext } from 'react';
+
 import Page from '../Page/Page';
 import AlertLog from '../StaticPages/AlertLog/AlertLog';
 import SettingsPage from '../StaticPages/Settings/Settings';
 import PagesOverview from '../StaticPages/PagesOverview/PagesOverview';
 
-const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+
+const PageManager: React.FC<PageManagerProps> = ({ 
+  activePageId 
+}) => {
+  const { _configData } = useContext(ConfigDataContext);
 
   const STATIC_PAGES: {
     [key: string]: {
@@ -20,7 +27,7 @@ const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
     PagesOverview: {
       component: PagesOverview,
       props: {
-        pages: config.pages
+        pages: _configData?.pages
       }
     },
     AlertLog: {
@@ -35,7 +42,7 @@ const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
       {_staticPage ? (
         <_staticPage.component {..._staticPage.props} />
       ) : (
-        config.pages.map((_page) =>
+        _configData?.pages.map((_page, _index) =>
           _page.id === activePageId ? (
             <Page
               key={_page.id}

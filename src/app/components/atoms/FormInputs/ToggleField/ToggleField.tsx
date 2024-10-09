@@ -1,7 +1,12 @@
 import ToggleFieldProps from './ToggleField.types';
 import './ToggleField.scss';
 
-const ToggleField: React.FC<ToggleFieldProps> = ({ label, id, isChecked, onChange }) => {
+const ToggleField: React.FC<ToggleFieldProps> = ({ 
+  label, 
+  id, 
+  isChecked, 
+  onChange 
+}) => {
   return(
     <div className='toggle-field__field'>
       <label className='toggle-field__label' htmlFor={id}>{label}</label>

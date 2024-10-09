@@ -119,6 +119,12 @@ const ValueField: React.FC<ValueFieldProps> = ({
   };
 
   useEffect(() => {
+    if (dataSource === 'mqtt_topic') {
+      setValue(Math.floor(Math.random() * 100).toString());
+    };
+  }, [])
+
+  useEffect(() => {
     if (dataSource === 'utc_time' || dataSource === 'local_time') {
       setValue(getCurrentTime(dataSource)); // Set first value
       // Set interval to update every 60 seconds

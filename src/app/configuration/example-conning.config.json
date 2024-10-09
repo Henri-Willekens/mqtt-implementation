@@ -8,56 +8,146 @@
         {
           "type": "Compass",
           "props": {
-            "xPos": 703.65625,
-            "yPos": 317,
-            "id": "Compass-9fa019ff-3b30-4fc3-b1c9-be6e1de2b5de",
+            "xPos": 640.65625,
+            "yPos": 279,
+            "id": "Compass-b5a1a9fc-e373-4223-8fef-09b963da5cd3",
             "width": 615.671875,
-            "height": 403,
-            "source": "magn",
-            "stepsOfDegrees": 30,
-            "waveArrowOutside": true
-          }
-        },
-        {
-          "type": "Rudder",
-          "props": {
-            "xPos": 1298.328125,
-            "yPos": 336,
-            "id": "Rudder-ab1d66fd-7b4b-4044-ba25-a281ffed7757",
-            "width": 615,
-            "height": 403,
-            "totalRudderAngle": 270,
-            "stepsOfDegrees": 30
+            "height": 403
           }
         },
         {
           "type": "ValueField",
           "props": {
-            "xPos": 10,
-            "yPos": 70,
-            "id": "ValueField-979f4971-0fb1-45c0-8763-4bad5ada0e40",
+            "xPos": 7.40625,
+            "yPos": 202,
+            "id": "ValueField-0912a5a6-8f89-426d-8070-f26755af00ea",
             "width": 615.65625,
             "height": 194,
             "label": "UTC time",
             "unit": "h:m",
+            "dataSource": "utc_time",
             "requiresValueTimes": false,
             "valueTimes": 0,
-            "isEditable": false,
-            "dataSource": "utc_time"
+            "isEditable": false
           }
         },
         {
           "type": "ValueField",
           "props": {
-            "xPos": 8,
-            "yPos": 138,
-            "id": "ValueField-d9b2f940-0c91-4306-9897-91bbc608bbfd",
+            "xPos": 1260.328125,
+            "yPos": 187,
+            "id": "ValueField-9a3480c6-e47f-4d01-b7e2-6ffa1af26668",
+            "width": 615.671875,
+            "height": 403,
+            "label": "ROT",
+            "unit": "'",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 166,
+            "yPos": 201,
+            "id": "ValueField-8aec64df-4515-4fd7-a536-fbcdf8fe6470",
             "label": "Local time",
             "unit": "h:m",
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false,
             "dataSource": "local_time"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1098,
+            "yPos": 551,
+            "id": "ValueField-465761e1-1cc2-4ee9-8e1f-a97a713fe706",
+            "label": "HDG",
+            "unit": "°",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1099,
+            "yPos": 622,
+            "id": "ValueField-1b4a3dbe-0945-4eb9-81b4-4b04595dfe70",
+            "label": "COG",
+            "unit": "°",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1467.6875,
+            "yPos": 289.90625,
+            "id": "BarGauge-75e6fce9-f194-443e-af25-74a65f92f0b3",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. motor PTS"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1262.375,
+            "yPos": 291,
+            "id": "BarGauge-2cde5fc8-7e1d-433f-a70d-343d8f6fb264",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. motor STBD"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1471,
+            "yPos": 598,
+            "id": "ValueField-4dd86c17-28a3-44d6-a791-446996f7b10f",
+            "label": "Prop. motor PTS",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1263,
+            "yPos": 599,
+            "id": "ValueField-25b1ccc6-5106-46c2-91be-cdd401b054fe",
+            "label": "Prop. motor STBD",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "Rudder",
+          "props": {
+            "xPos": 1257.328125,
+            "yPos": 78,
+            "id": "Rudder-1a3b0dd7-e171-44e0-9ad0-f086835e5899",
+            "width": 604.671875,
+            "height": 208.5
           }
         }
       ]
@@ -80,8 +170,8 @@
         {
           "type": "ValueField",
           "props": {
-            "xPos": 26.40625,
-            "yPos": 80,
+            "xPos": 7.40625,
+            "yPos": 202,
             "id": "ValueField-0912a5a6-8f89-426d-8070-f26755af00ea",
             "width": 615.65625,
             "height": 194,
@@ -96,8 +186,8 @@
         {
           "type": "ValueField",
           "props": {
-            "xPos": 1271.328125,
-            "yPos": 279,
+            "xPos": 1263.328125,
+            "yPos": 186,
             "id": "ValueField-9a3480c6-e47f-4d01-b7e2-6ffa1af26668",
             "width": 615.671875,
             "height": 403,
@@ -111,8 +201,8 @@
         {
           "type": "ValueField",
           "props": {
-            "xPos": 17,
-            "yPos": 148,
+            "xPos": 166,
+            "yPos": 201,
             "id": "ValueField-8aec64df-4515-4fd7-a536-fbcdf8fe6470",
             "label": "Local time",
             "unit": "h:m",
@@ -120,6 +210,128 @@
             "valueTimes": 0,
             "isEditable": false,
             "dataSource": "local_time"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1098,
+            "yPos": 551,
+            "id": "ValueField-465761e1-1cc2-4ee9-8e1f-a97a713fe706",
+            "label": "HDG",
+            "unit": "°",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1099,
+            "yPos": 622,
+            "id": "ValueField-1b4a3dbe-0945-4eb9-81b4-4b04595dfe70",
+            "label": "COG",
+            "unit": "°",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1256,
+            "yPos": 93,
+            "id": "ValueField-8380cbd2-4477-4681-9200-a465c514a26b",
+            "label": "Air temp.",
+            "unit": "°C",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1418,
+            "yPos": 90,
+            "id": "ValueField-de781199-473b-4386-b8c0-a652eabebee2",
+            "label": "Pressure",
+            "unit": "hPa",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1589,
+            "yPos": 85,
+            "id": "ValueField-f79a81c6-f975-4e10-9640-e9d7c21752d2",
+            "label": "Humidity",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1467.6875,
+            "yPos": 289.90625,
+            "id": "BarGauge-75e6fce9-f194-443e-af25-74a65f92f0b3",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. motor PTS"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1262.375,
+            "yPos": 291,
+            "id": "BarGauge-2cde5fc8-7e1d-433f-a70d-343d8f6fb264",
+            "maxValue": 100,
+            "content": "",
+            "numberOfTickLines": 5,
+            "label": "Prop. motor STBD"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1471,
+            "yPos": 598,
+            "id": "ValueField-4dd86c17-28a3-44d6-a791-446996f7b10f",
+            "label": "Prop. motor PTS",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 1263,
+            "yPos": 599,
+            "id": "ValueField-25b1ccc6-5106-46c2-91be-cdd401b054fe",
+            "label": "Prop. motor STBD",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
           }
         }
       ]

@@ -8,6 +8,7 @@ import { _gridPositions } from '../Grid/Grid';
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { Config } from 'src/app/configuration/types';
 import { ActiveConfigFileContext } from 'src/app/contexts/ActiveConfigFile';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Draggable: React.FC<DraggProps> = ({ 
   id, 
@@ -24,6 +25,7 @@ const Draggable: React.FC<DraggProps> = ({
   const _SNAPPABLE = ['Compass', 'Rudder']
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activeConfigFile } = useContext(ActiveConfigFileContext);
+  const { setConfigData } = useContext(ConfigDataContext);
 
   const startDrag = (_event: any) => {
     if (_configEnabled && document.querySelector("dialog:modal") === null) {
@@ -95,7 +97,7 @@ const Draggable: React.FC<DraggProps> = ({
       },
       body: JSON.stringify(_data),
     })
-      .then((response) => response.json())
+      .then(() => setConfigData(_data))
       .catch((error) => console.error('Error saving data:', error));
   };
 

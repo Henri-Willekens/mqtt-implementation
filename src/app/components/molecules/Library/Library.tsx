@@ -57,6 +57,12 @@ const Library: React.FC<LibraryProps> = ({
 
   const closeCreateConnectionModal = () => {
     setIsModalOpen(false);
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));  
   };
 
   const createElementOnPage = (_typeOfElement: string) => {
@@ -89,6 +95,13 @@ const Library: React.FC<LibraryProps> = ({
     })
       .then(() => setConfigData(config))
       .catch((error) => console.error('Error saving data:', error));
+
+      fetch('/api/read-json?file=config.json')
+        .then((res) => res.json())
+        .then((results) => { 
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));  
   };
 
   const handleSubmit = () => {

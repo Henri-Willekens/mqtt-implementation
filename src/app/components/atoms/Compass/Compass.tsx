@@ -7,7 +7,7 @@ import InputField from '../FormInputs/InputField/InputField';
 import FormModal from '../../molecules/FormModal/FormModal';
 
 import { stringToBool } from 'src/app/services/stringToBool';
-import { ThemeContext } from '../../../contexts/Theme';
+import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Compass: React.FC<CompassProps> = ({ 
@@ -20,7 +20,7 @@ const Compass: React.FC<CompassProps> = ({
   configEnabled,
   activePageId
 }) => {
-  const { _currentTheme } = useContext(ThemeContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);

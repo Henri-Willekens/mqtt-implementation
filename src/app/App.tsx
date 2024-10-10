@@ -6,7 +6,7 @@ import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
 import Library from './components/molecules/Library/Library';
 
-import { ThemeContext } from './contexts/Theme';
+import { CurrentThemeContext } from './contexts/CurrentTheme';
 import { ConfigEnabledContext } from './contexts/ConfigEnabled';
 import { ActiveConfigFileContext } from './contexts/ActiveConfigFile';
 import { ActivePageIdContext } from './contexts/ActivePageId';
@@ -40,7 +40,7 @@ const App = () => {
 
   return(
     <div className='app'>
-      <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
+      <CurrentThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
         <div className={`filter filter__${_currentTheme}`}>
           <ConfigEnabledContext.Provider value={{ _configEnabled, setConfigEnabled }}>
             <div className={_configEnabled ? 'main main-config-mode' : 'main'}>
@@ -65,7 +65,7 @@ const App = () => {
             </div>
           </ConfigEnabledContext.Provider>
         </div>
-      </ThemeContext.Provider>
+      </CurrentThemeContext.Provider>
     </div>
   );
 };

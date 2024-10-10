@@ -7,14 +7,14 @@ import InputField from 'src/app/components/atoms/FormInputs/InputField/InputFiel
 
 import { ConfigEnabledContext } from '../../../../contexts/ConfigEnabled';
 import { ActiveConfigFileContext } from '../../../../contexts/ActiveConfigFile';
-import { ThemeContext } from '../../../../contexts/Theme';
+import { CurrentThemeContext } from '../../../../contexts/CurrentTheme';
 
 const SettingsPage = () => {
   const [_formValues, setFormValues] = useState({
     _configCode: '',
   });
 
-  const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
+  const { _currentTheme, setCurrentTheme } = useContext(CurrentThemeContext);
   const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
   const { _activeConfigFile, setActiveConfigFile } = useContext(ActiveConfigFileContext);
 

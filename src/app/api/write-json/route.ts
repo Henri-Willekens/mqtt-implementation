@@ -14,5 +14,5 @@ export async function POST(request: NextRequest) {
       { error: 'Failed to write file' },
       { status: 500 },
     );
-  }
-}
+  };
+};

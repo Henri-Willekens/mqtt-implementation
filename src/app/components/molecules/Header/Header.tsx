@@ -79,7 +79,15 @@ const Header: React.FC<HeaderProps> = () => {
           {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}
         </div>
         <div className='navigation__block navigation__alerts'>
-          {_configEnabled ? <p className='navigation__config-mode-enabled'>Currently in configuration mode</p> : <AlertBoxHeader type='alarm' status='unack' />}
+          {_configEnabled ? 
+            <p className='navigation__config-mode-enabled'>Currently in configuration mode</p> : 
+            <AlertBoxHeader 
+              type='alarm' 
+              status='unack' 
+              title='GPS 1 failed' 
+              description='GPS 1 has failed to fetch data from GPS sensor.'
+            />
+          }
         </div>
         <div className='navigation__block navigation__other'>
           <div className='navigation__block__icons'>

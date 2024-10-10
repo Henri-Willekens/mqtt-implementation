@@ -43,7 +43,7 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       const data = JSON.parse(event.data);
       const { topic, message } = data;
 
-      if (topic === "default/topic") {
+      if (topic === "aquastorm/eindmaas/modules/Motions/0/outputs/heading") {
         console.log(`Received message on topic "${topic}": ${message}`);
         setDefaultTopicMessage(Number(message)); // Convert to number and set state
       } else if (topic === "test/topic2"){

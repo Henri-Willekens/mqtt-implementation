@@ -3,7 +3,7 @@ import OrthologalLineProps from './OrthogonalLine.types';
 import './OrthogonalLine.scss';
 import { useEffect } from 'react';
 
-const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, fromConnectionPosition, toConnectionPosition, type, content }) => {
+const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, type, content }) => {
   let pathData = '';
   let state = Math.floor(Math.random() * 2);
 

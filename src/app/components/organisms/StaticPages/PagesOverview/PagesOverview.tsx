@@ -5,7 +5,7 @@ import { useContext } from 'react';
 
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
-const PagesOverview: React.FC<PagesOverviewProps> = ({ 
+const PagesOverviewPage: React.FC<PagesOverviewProps> = ({ 
   pages
 }) => {
   const {setActivePageId} = useContext(ActivePageIdContext);
@@ -26,4 +26,4 @@ const PagesOverview: React.FC<PagesOverviewProps> = ({
   );
 };
 
-export default PagesOverview;
+export default PagesOverviewPage;

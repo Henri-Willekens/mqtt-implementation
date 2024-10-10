@@ -1,6 +1,6 @@
 import './AlertLog.scss';
 
-const AlertLog = () => {
+const AlertLogPage = () => {
   return (
     <div className='alertlog'>
       <h2>Alert Log</h2>
@@ -52,4 +52,4 @@ const AlertLog = () => {
   );
 };
 
-export default AlertLog;
+export default AlertLogPage;

@@ -9,17 +9,16 @@ const Page: React.FC<PageProps> = ({
   title, 
   components, 
   connections, 
-  activePageId, 
   gridEnabled 
 }) => {
   return (
-    <div key={pageId} className='page'>
+    <div className='page'>
+      <p className='page__title'>Active page: {title}</p>
       {gridEnabled && <Grid /> }
       <DynamicRenderComponents 
         gridEnabled={gridEnabled} 
         components={components} 
         connections={connections} 
-        activePageId={activePageId} 
       />
     </div>
   )

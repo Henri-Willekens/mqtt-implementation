@@ -1,45 +1,40 @@
 import OrthologalLineProps from './OrthogonalLine.types';
-
 import './OrthogonalLine.scss';
-import { useEffect } from 'react';
 
 const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, type, content }) => {
-  let pathData = '';
-  let state = Math.floor(Math.random() * 2);
-
-  console.log(from.props)
-  console.log(to.props)
+  let _pathData = '';
+  let _state = Math.floor(Math.random() * 2);
 
   // Calculate middle points of 'from' and 'to' elements, for element to valve
-  const fromMiddleX = Math.floor(from.props.xPos + (from.props.width / 2));
-  const fromMiddleY = Math.floor(from.props.yPos + (from.props.height / 2) - 5);
-  const toMiddleX = Math.floor(to.props.xPos + (to.props.width / 2));
-  const toMiddleY = Math.floor(to.props.yPos - (to.props.height / 2) - 5);
+  const _fromMiddleX = Math.floor(from.props.xPos + (from.props.width / 2));
+  const _fromMiddleY = Math.floor(from.props.yPos + (from.props.height / 2) - 5);
+  const _toMiddleX = Math.floor(to.props.xPos + (to.props.width / 2));
+  const _toMiddleY = Math.floor(to.props.yPos - (to.props.height / 2) - 5);
 
   // Calculate the mid-point in the X direction for the path
-  const _midX = (fromMiddleX + toMiddleX) / 2;
+  const _midX = (_fromMiddleX + _toMiddleX) / 2;
 
   // Generate path data for orthogonal lines
-  if (fromMiddleX !== toMiddleX && fromMiddleY !== toMiddleY) {
-    pathData = `
-      M ${fromMiddleX}, ${fromMiddleY}
-      L ${_midX}, ${fromMiddleY}
-      L ${_midX}, ${toMiddleY}
-      L ${toMiddleX}, ${toMiddleY}
+  if (_fromMiddleX !== _toMiddleX && _fromMiddleY !== _toMiddleY) {
+    _pathData = `
+      M ${_fromMiddleX}, ${_fromMiddleY}
+      L ${_midX}, ${_fromMiddleY}
+      L ${_midX}, ${_toMiddleY}
+      L ${_toMiddleX}, ${_toMiddleY}
     `;
   } else {
-    pathData = `
-      M ${fromMiddleX}, ${fromMiddleY}
-      L ${toMiddleX}, ${toMiddleY}
+    _pathData = `
+      M ${_fromMiddleX}, ${_fromMiddleY}
+      L ${_toMiddleX}, ${_toMiddleY}
     `;
   }
 
   return (
     <svg className='orthogonal-line'>
     { type == 'connection' ? (
-      <path className='orthogonal-line__type__connection' d={pathData} />
+      <path className='orthogonal-line__type__connection' d={_pathData} />
     ) : (
-      <path className={state == 0 ? 'orthogonal-line__state__empty ' : `orthogonal-line__type__pipe__${content}`} d={pathData} />
+      <path className={_state == 0 ? 'orthogonal-line__state__empty ' : `orthogonal-line__type__pipe__${content}`} d={_pathData} />
     )}
     </svg>
   )

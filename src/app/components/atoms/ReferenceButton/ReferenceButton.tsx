@@ -6,7 +6,7 @@ import { useContext, useState } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
-import { ActivePageContext } from 'src/app/contexts/ActivePage';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
 const ReferenceButton: React.FC<ReferenceButtonProps> = ({ 
   referencePageId = 'xxx', 
@@ -17,7 +17,7 @@ const ReferenceButton: React.FC<ReferenceButtonProps> = ({
     _referencePageId: referencePageId,
   });
 
-  const {setActivePageId} = useContext(ActivePageContext);
+  const {setActivePageId} = useContext(ActivePageIdContext);
 
   const navigateToReferencedPage = () => {
     if (!configEnabled) {

@@ -6,7 +6,7 @@ import Button from '../../../atoms/Button/Button';
 import InputField from 'src/app/components/atoms/FormInputs/InputField/InputField';
 
 import { ConfigEnabledContext } from '../../../../contexts/ConfigEnabled';
-import { ConfigFileContext } from '../../../../contexts/ConfigFile';
+import { ActiveConfigFileContext } from '../../../../contexts/ActiveConfigFile';
 import { ThemeContext } from '../../../../contexts/Theme';
 
 const SettingsPage = () => {
@@ -16,7 +16,7 @@ const SettingsPage = () => {
 
   const { _currentTheme, setCurrentTheme } = useContext(ThemeContext);
   const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
-  const { _activeConfig, setActiveConfig } = useContext(ConfigFileContext);
+  const { _activeConfigFile, setActiveConfigFile } = useContext(ActiveConfigFileContext);
 
   const switchTheme = (theme: string) => {
     switch (theme) {
@@ -40,10 +40,10 @@ const SettingsPage = () => {
   const ChangeConfig = (ActiveConfig: string) => {
     switch (ActiveConfig) {
       case 'ConfigA':
-        setActiveConfig('ConfigA');
+        setActiveConfigFile('ConfigA');
         break;
       case 'ConfigB':
-        setActiveConfig('ConfigB');
+        setActiveConfigFile('ConfigB');
         break;
       default:
         break;
@@ -112,12 +112,12 @@ const SettingsPage = () => {
             <Button 
               value='Config' 
               onClick={() => ChangeConfig('ConfigA')} 
-              extraClasses={`settings__button ${_activeConfig == 'ConfigA' && 'active'} `} 
+              extraClasses={`settings__button ${_activeConfigFile == 'ConfigA' && 'active'} `} 
             />
             <Button 
               value='Example Config' 
               onClick={() => ChangeConfig('ConfigB')} 
-              extraClasses={`settings__button ${_activeConfig == 'ConfigB' && 'active'} `} 
+              extraClasses={`settings__button ${_activeConfigFile == 'ConfigB' && 'active'} `} 
             />
           </div>
         </div>

@@ -3,12 +3,12 @@ import './PagesOverview.scss';
 
 import { useContext } from 'react';
 
-import { ActivePageContext } from 'src/app/contexts/ActivePage';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
 const PagesOverview: React.FC<PagesOverviewProps> = ({ 
   pages
 }) => {
-  const {setActivePageId} = useContext(ActivePageContext);
+  const {setActivePageId} = useContext(ActivePageIdContext);
 
   const _pageLinks = pages.map((_page) => {
     return(

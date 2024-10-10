@@ -10,12 +10,12 @@ import InputField from '../../atoms/FormInputs/InputField/InputField';
 import ToggleField from '../../atoms/FormInputs/ToggleField/ToggleField';
 
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
-import { ActivePageContext } from 'src/app/contexts/ActivePage';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const Header: React.FC<HeaderProps> = () => {  
   const { _configEnabled } = useContext(ConfigEnabledContext);
-  const { _activePageId, setActivePageId } = useContext(ActivePageContext);
+  const { _activePageId, setActivePageId } = useContext(ActivePageIdContext);
   const { _configData } = useContext(ConfigDataContext);
 
   const [_isModalOpen, setIsModalOpen] = useState(false);

@@ -7,7 +7,7 @@ import { _gridPositions } from '../Grid/Grid';
 
 import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { Config } from 'src/app/configuration/types';
-import { ConfigFileContext } from 'src/app/contexts/ConfigFile';
+import { ActiveConfigFileContext } from 'src/app/contexts/ActiveConfigFile';
 
 const Draggable: React.FC<DraggProps> = ({ 
   id, 
@@ -23,7 +23,7 @@ const Draggable: React.FC<DraggProps> = ({
   const [_data, setData] = useState<Config>();
   const _SNAPPABLE = ['Compass', 'Rudder']
   const { _configEnabled } = useContext(ConfigEnabledContext);
-  const { _activeConfig } = useContext(ConfigFileContext);
+  const { _activeConfigFile } = useContext(ActiveConfigFileContext);
 
   const startDrag = (_event: any) => {
     if (_configEnabled && document.querySelector("dialog:modal") === null) {
@@ -101,7 +101,7 @@ const Draggable: React.FC<DraggProps> = ({
 
 
   const fetchConfig = () => {
-    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+    const _fileToFetch = _activeConfigFile == 'ConfigA' ? 'config.json' : 'example.config.json';
     fetch(`/api/read-json?file=${_fileToFetch}`)
       .then((res) => res.json())
       .then((results) => {

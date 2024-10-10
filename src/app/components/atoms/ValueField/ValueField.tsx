@@ -12,6 +12,8 @@ import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import SelectField from '../FormInputs/SelectField/SelectField';
 import { timeStamp } from 'console';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -20,11 +22,12 @@ const ValueField: React.FC<ValueFieldProps> = ({
   requiresValueTimes = false, 
   valueTimes = 0, 
   isEditable = false, 
-  dataSource = 'mqtt_topic',
-  configEnabled,
-  activePageId
+  dataSource = 'mqtt_topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+
   const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_formValues, setFormValues] = useState({
@@ -55,7 +58,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   };
 
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
     };
   };
@@ -80,7 +83,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
     _configData.pages[_pageIndex].components[_index] = {

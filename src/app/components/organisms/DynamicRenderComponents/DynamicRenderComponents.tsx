@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import Draggable from '../../atoms/Draggable/Draggable';
 import OrthologalLine from "../../atoms/OrthogonalLine/OrthogonalLine";
 
-import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ComponentConfig, ConnectionConfig } from '../../../configuration/types';
 import componentMap from '../../index';
@@ -15,7 +14,6 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
   connections,
   gridEnabled
 }) => {
-  const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId } = useContext(ActivePageIdContext);
 
   return(
@@ -37,8 +35,6 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
             <Component
               key={props.id}
               type={type}
-              activePageId={_activePageId}
-              configEnabled={_configEnabled}
               { ..._componentProps }
             />
           </Draggable>

@@ -92,6 +92,12 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   const closeModal = () => {
     if (_configEnabled) {
       setIsModalOpen(false);
+      fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));      
     };
   };
 

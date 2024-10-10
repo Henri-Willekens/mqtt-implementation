@@ -9,11 +9,13 @@ import InputField from '../FormInputs/InputField/InputField';
 import useFormInput from 'src/app/hooks/useFormInput';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
 const ReferenceButton: React.FC<ReferenceButtonProps> = ({ 
   referencePageId = 'xxx'
 }) => {
   const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
@@ -36,7 +38,15 @@ const ReferenceButton: React.FC<ReferenceButtonProps> = ({
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    if (_configEnabled) {
+      setIsModalOpen(false);
+      fetch('/api/read-json?file=config.json')
+        .then((res) => res.json())
+        .then((results) => { 
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));
+    };
   };
 
   const handleSubmit = () => {

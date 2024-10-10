@@ -9,6 +9,10 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import useFormInput from 'src/app/hooks/useFormInput';
+import ToggleField from '../FormInputs/ToggleField/ToggleField';
 
 const Compass: React.FC<CompassProps> = ({ 
   id = '', 
@@ -16,27 +20,31 @@ const Compass: React.FC<CompassProps> = ({
   waveArrowOutside = true,
   stepsOfDegrees = 30, 
   width = 400, 
-  height = 400, 
-  configEnabled,
-  activePageId
+  height = 400
 }) => {
-  const { _currentTheme } = useContext(CurrentThemeContext);
   const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
+  
+  // Mocked data
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
   const [_dataComplete, setData] = useState('incomplete');
+
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_formValues, setFormValues] = useState({
-    source: source,
-    waveArrowOutside: waveArrowOutside,
-    width: width,
-    height: height,
-    stepsOfDegrees: stepsOfDegrees
+  const [_initialValues, setInitialValues] = useState({
+    _source: source,
+    _waveArrowOutside: waveArrowOutside,
+    _width: width,
+    _height: height,
+    _stepsOfDegrees: stepsOfDegrees
   });
+  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
 
   const update = (_elementToSelect: string, _updatedValue: number) => {
@@ -44,88 +52,71 @@ const Compass: React.FC<CompassProps> = ({
     _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
   };
 
-    // Function to generate degree numbers ensuring they always face upright
-    const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
-      const _lines: any[] = [];
-      
-      for (let i = 0; i * stepsOfDegrees < 360; i++) {
-        const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
-        const _radian = (_angle * Math.PI) / 180;
-  
-        const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
-        const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
-  
-        // Counter-rotation: Rotate number to always face upright
-        const _counterRotation = -_currentHeading;
-        
-        _lines.push(
-          <text
-            key={i}
-            className={`compass__degree-number compass__degree-number__${_currentTheme}`}
-            x={_textX}
-            y={_textY}
-            textAnchor="middle"
-            dominantBaseline="central"
-            transform={!_isNorthLocked ? '' : `rotate(${_counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
-          >
-            {_angle}
-          </text>
-        );
-      }
-      return _lines;
-    };
-  
+  const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
+    const _lines: any[] = [];
+    
+    for (let i = 0; i * stepsOfDegrees < 360; i++) {
+      const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
+      const _radian = (_angle * Math.PI) / 180;
 
+      const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
+      const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
+
+      // Counter-rotation: Rotate number to always face upright
+      const _counterRotation = -_currentHeading;
+      
+      _lines.push(
+        <text
+          key={i}
+          className={`compass__degree-number compass__degree-number__${_currentTheme}`}
+          x={_textX}
+          y={_textY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          transform={!_isNorthLocked ? '' : `rotate(${_counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
+        >
+          {_angle}
+        </text>
+      );
+    }
+    return _lines;
+  };
+
+  const switchNorthLock = () => {
+    if (!_configEnabled) {
+      setIsNorthLocked(!_isNorthLocked);
+    }
+  }
+  
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
     };
   };
 
-
   const closeModal = () => {
-    setIsModalOpen(false);
+    if (_configEnabled) {
+      setIsModalOpen(false);
+    };
   };
 
-  const submitForm = () => {
-    handleSave();
-    closeModal();
-  };
-
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const _name = event.target.name;
-    const _value = event.target.value;
-
-    setFormValues((_prevFormValues) => ({
-      ..._prevFormValues,
-      [_name]: _value
-    }));
-  };
-
-  const switchNorthLock = () => {
-    if (!configEnabled) {
-      setIsNorthLocked(!_isNorthLocked);
-    }
-  }
-
-
-  const handleSave = () => {
+  const handleSubmit = () => {
     if (_configData === null) {
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        source: _formValues.source,
-        width: Math.floor(_formValues.width),
-        height: Math.floor(_formValues.height),
-        stepsOfDegrees: Math.floor(_formValues.stepsOfDegrees),
-        waveArrowOutside: stringToBool(_formValues.waveArrowOutside.toString())
+        source: _formValues._source,
+        width: Math.floor(parseInt(_formValues._width.toString())),
+        height: Math.floor(parseInt(_formValues._height.toString())),
+        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
+        waveArrowOutside: stringToBool(_formValues._waveArrowOutside.toString())
       }
     };
 
@@ -141,12 +132,14 @@ const Compass: React.FC<CompassProps> = ({
         setConfigData(_configData);
       })
       .catch((error) => console.error('Error saving data:', error));
+
+    closeModal();
   };
 
 
   useEffect(() => {
     // Mimic data changing
-    if (!configEnabled) {
+    if (!_configEnabled) {
       const _interval = setInterval(() => {
         setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
         setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
@@ -160,7 +153,8 @@ const Compass: React.FC<CompassProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!configEnabled) {
+    // Mock data changing
+    if (!_configEnabled) {
       if (_dataComplete == 'incomplete') {
         setTimeout(() => {
           setData('correct');
@@ -180,11 +174,13 @@ const Compass: React.FC<CompassProps> = ({
   }, [_currentHeading]);
 
   useEffect(() => {
-    if (!configEnabled) { update(`wave-${id}`, _waveArrow) };
+    // Mock data changing
+    if (!_configEnabled) { update(`wave-${id}`, _waveArrow) };
   }, [_waveArrow]);
 
   useEffect(() => {
-    if (!configEnabled) { update(`wind-speed-${id}`, _windArrow) };
+    // Mock data changing
+    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow) };
   }, [_windArrow]);
 
   return (
@@ -242,12 +238,12 @@ const Compass: React.FC<CompassProps> = ({
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
-        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
-        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />
-        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleFormChange} />
-        <InputField label='Wave arrow outside?' type='text' id='waveArrowOutside' value={_formValues.waveArrowOutside} onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+        <InputField label='Source' type='text' id='_source' value={_formValues._source} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
+        <ToggleField label='Wave arrow outside?' id='_waveArrowOutside' isChecked={stringToBool(_formValues._waveArrowOutside.toString())} onChange={handleChange} />
       </FormModal>
     </>
   );

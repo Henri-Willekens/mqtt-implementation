@@ -1,6 +1,6 @@
-import './AlertLog.scss';
+import './AlertLogPage.scss';
 
-const AlertLogPage = () => {
+const AlertLogPage: React.FC = () => {
   return (
     <div className='alertlog'>
       <h2>Alert Log</h2>

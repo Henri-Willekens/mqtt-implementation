@@ -1,16 +1,16 @@
-import PagesOverviewProps from './PagesOverview.types';
-import './PagesOverview.scss';
+import PagesOverviewProps from './PagesOverviewPage.types';
+import './PagesOverviewPage.scss';
 
 import { useContext } from 'react';
 
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
-const PagesOverviewPage: React.FC<PagesOverviewProps> = ({ 
-  pages
-}) => {
-  const {setActivePageId} = useContext(ActivePageIdContext);
+const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
+  const { _configData } = useContext(ConfigDataContext);
+  const { setActivePageId } = useContext(ActivePageIdContext);
 
-  const _pageLinks = pages.map((_page) => {
+  const _pageLinks = _configData?.pages.map((_page) => {
     return(
       <p className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
     )

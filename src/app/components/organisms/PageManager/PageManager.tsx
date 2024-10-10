@@ -4,9 +4,9 @@ import PageManagerProps from './PageManager.types';
 import { useContext } from 'react';
 
 import Page from '../Page/Page';
-import SettingsPage from '../StaticPages/Settings/Settings';
-import PagesOverviewPage from '../StaticPages/PagesOverview/PagesOverview';
-import AlertLogPage from '../StaticPages/AlertLog/AlertLog';
+import SettingsPage from '../StaticPages/Settings/SettingsPage';
+import PagesOverviewPage from '../StaticPages/PagesOverview/PagesOverviewPage';
+import AlertLogPage from '../StaticPages/AlertLog/AlertLogPage';
 
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';

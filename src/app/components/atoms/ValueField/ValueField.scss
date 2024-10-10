@@ -10,12 +10,13 @@
   }
   
   &__editable {
-    color: $editable-value !important;
-  }
-
-  &__input {
-    background-color: $input-bg;
     color: $white;
+  }
+  
+  &__input {
+    color: $editable-value !important;
+    font-weight: bold;
+    background-color: $input-bg;
     
     border: 1px solid $stroke;
     

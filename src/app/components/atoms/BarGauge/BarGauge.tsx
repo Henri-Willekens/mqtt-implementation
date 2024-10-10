@@ -6,29 +6,34 @@ import { useContext, useEffect, useState } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
-import { Config } from 'src/app/configuration/types';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import useFormInput from 'src/app/hooks/useFormInput';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
-const BarGauge: React.FC<BarGaugeProps> = ({ 
+const BarGauge: React.FC<BarGaugeProps> = ({
   id,
-  maxValue = 2000, 
-  label = 'Label', 
-  alertLines = [], 
-  numberOfTickLines = 5, 
-  content = '', 
-  configEnabled, 
-  activePageId
+  label = 'Label',
+  maxValue = 2000,
+  alertLines = [],
+  numberOfTickLines = 5
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_formValues, setFormValues] = useState({
+  const [_initialValues, setInitialValues] = useState({
     _maxValue: maxValue,
     _numberOfTickLines: numberOfTickLines,
     _label: label,
-    _content: content
+    _alarmTooHigh: 0,
+    _warningTooHigh: 0,
+    _alarmTooLow: 0,
+    _warningTooLow: 0
   });
-
+  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
   const updateBarMeter = (_value: number) => {
     let _percentage = (_value / maxValue) * 100;
@@ -45,7 +50,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     }
   };
 
-
   const generateTickLines = () => {
     const _tickLines: any[] = [];
     const _tickSpacing = 250 / (numberOfTickLines - 1);
@@ -56,7 +60,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
       _tickLines.push(
         <g className='bar-gauge__tick-line' key={i}>
-          {/* <line x1='62' x2='72' y1={_y} y2={_y} /> */}
           <text x='70' y={_y + 10}>{Math.round(_value)}</text>
         </g>
       )
@@ -64,7 +67,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
     return _tickLines;
   };
-
 
   const determineAlertLinesLocation = () => {
     const _alertLines: any[] = [];
@@ -81,56 +83,52 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     return _alertLines;
   };
 
-
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
     };
   };
 
-
   const closeModal = () => {
-    setIsModalOpen(false);
-    fetch('/api/read-json?file=config.json')
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-      })
-      .catch((err) => console.error(err));
+    if (_configEnabled) {
+      setIsModalOpen(false);
+    };
   };
 
-  const submitForm = () => {
-    handleSave();
-    closeModal();
-  };
-
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const _name = event.target.name;
-    const _value = event.target.value;
-
-    setFormValues((_prevFormValues) => ({
-      ..._prevFormValues,
-      [_name]: _value
-    }));
-  };
-
-
-  const handleSave = () => {
+  const handleSubmit = () => {
     if (_configData === undefined || _configData === null) {
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        maxValue: Math.floor(_formValues._maxValue),
+        maxValue: Math.floor(parseInt(_formValues._maxValue.toString())),
         content: _formValues._content,
-        numberOfTickLines: Math.floor(_formValues._numberOfTickLines),
+        numberOfTickLines: Math.floor(parseInt(_formValues._numberOfTickLines.toString())),
         label: _formValues._label,
+        alertLines: [
+          {
+            value: _formValues._alarmTooHigh,
+            alertType: 'alarm'
+          },
+          {
+            value: _formValues._warningTooHigh,
+            alertType: 'warning'
+          },
+          {
+            value: _formValues._alarmTooLow,
+            alertType: 'alarm'
+          },
+          {
+            value: _formValues._warningTooLow,
+            alertType: 'warning'
+          }
+        ]
       }
     };
 
@@ -141,26 +139,26 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       },
       body: JSON.stringify(_configData),
     })
-      .then((response) => response.json())
-      .catch((error) => console.error('Error saving data:', error));
+      .then(((_response) => _response.json()))
+      .catch((_error) => console.error('Error saving data:', _error));
+
+    closeModal();
   };
 
-
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Create mock data
+    const _interval = setInterval(() => {
       setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
     }, 1000)
 
-    return () => clearInterval(interval);
+    return () => clearInterval(_interval);
   }, []);
-
 
   useEffect(() => {
     updateBarMeter(_currentValue);
   }, [_currentValue]);
 
-
-  return (
+  return(
     <>
       <div onDoubleClick={openModal} className={`barmeter ${id}`}>
         <p className='bar-gauge__label'>{label}</p>
@@ -169,7 +167,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
             <rect x='11' y='0' width='50' height='250' className='bar-gauge__background' />
 
             <g>
-              <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id} ${content !== null && 'bar-gauge__fill__' + content}`} />
+              <rect width='50' height='250' x='10.5' y='0.5' className={`bar-gauge__fill ${id}`} />
             </g>
 
             <rect x='10.5' y='0.5' width='50' height='250' className='bar-gauge__stroke' />
@@ -191,11 +189,14 @@ const BarGauge: React.FC<BarGaugeProps> = ({
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleFormChange} />
-        <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleFormChange} />
-        <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleFormChange} />
-        <InputField label='Content' type='text' id='_content' value={_formValues._content} onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+        <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleChange} />
+        <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleChange} />
+        <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleChange} />
+        <InputField label='Alarm too high' type='text' id='_alarmTooHigh' value={_formValues._alarmTooHigh} onChange={handleChange} />
+        <InputField label='Warning too high' type='text' id='_warningTooHigh' value={_formValues._warningTooHigh} onChange={handleChange} />
+        <InputField label='Warning too low' type='text' id='_warningTooLow' value={_formValues._warningTooLow} onChange={handleChange} />
+        <InputField label='Alarm too low' type='text' id='_alarmTooLow' value={_formValues._alarmTooLow} onChange={handleChange} />
       </FormModal>
     </>
   );

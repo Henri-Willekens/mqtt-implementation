@@ -1,31 +1,35 @@
 import LibraryProps from './Library.types';
-import './Library.scss'
+import './Library.scss';
 
 import { useContext, useState } from 'react';
 
-import componentMap from '../../index';
 import Button from '../../atoms/Button/Button';
-
-import {v4 as uuidv4} from 'uuid';
-import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import FormModal from '../FormModal/FormModal';
 import SelectField from '../../atoms/FormInputs/SelectField/SelectField';
 import InputField from '../../atoms/FormInputs/InputField/InputField';
 
-const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
+import useFormInput from 'src/app/hooks/useFormInput';
+import componentMap from '../../index';
+import {v4 as uuidv4} from 'uuid';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+
+const Library: React.FC<LibraryProps> = ({
+  config
+}) => {
   const { setConfigData } = useContext(ConfigDataContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);
+
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_formValuesNewConnection, setFormValuesNewConnection] = useState({
+  const [_initialValuesNewConnection, setInitialValuesNewConnection] = useState({
     _fromId: '',
     _toId: '',
     _type: '',
     _content: ''
   });
-
-  const showLibrary = () => {
-    setIsLibraryOpen(!_isLibraryOpen);
-  };
+  const { _formValues, handleChange, resetForm } = useFormInput(_initialValuesNewConnection);
 
   const elementButtons = () => {
     const buttons: any[] = [];
@@ -43,9 +47,21 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
     return buttons;
   };
 
+  const openCreateConnectionModal = () => {
+    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
+      return;
+    };
+  
+    setIsModalOpen(true);
+  };
+
+  const closeCreateConnectionModal = () => {
+    setIsModalOpen(false);
+  };
+
   const createElementOnPage = (_typeOfElement: string) => {
     // Should not be able to do this on settings, alert log or pages overview
-    if (activePageId == 'Settings' || activePageId == 'AlertLog' || activePageId == 'PagesOverview') {
+    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
       return;
     }
     
@@ -60,7 +76,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       }
     };
 
-    let _pageIndex = config.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = config?.pages.findIndex((_o) => _o.id === _activePageId);
 
     config.pages[_pageIndex].components.push(_element);
 
@@ -75,28 +91,15 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       .catch((error) => console.error('Error saving data:', error));
   };
 
-  const openCreateConnectionModal = () => {
-    if (activePageId == 'Settings' || activePageId == 'AlertLog' || activePageId == 'PagesOverview') {
-      return;
-    };
-
-    setIsModalOpen(true);
-    setIsLibraryOpen(false);
-  }
-
-  const closeCreateConnectionModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const createConnection = () => {
+  const handleSubmit = () => {
     const _connection = {
-      from: _formValuesNewConnection._fromId,
-      to: _formValuesNewConnection._toId,
-      type: _formValuesNewConnection._type,
-      content: _formValuesNewConnection._content
+      from: _formValues._fromId.toString(),
+      to: _formValues._toId.toString(),
+      type: _formValues._type.toString(),
+      content: _formValues._content.toString()
     };
 
-    let _pageIndex = config.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = config.pages.findIndex((_o) => _o.id === _activePageId);
 
     config.pages[_pageIndex].connections?.push(_connection);
 
@@ -108,21 +111,12 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       body: JSON.stringify(config),
     })
       .catch((error) => console.error('Error saving data:', error));
-    
+
     closeCreateConnectionModal();
-  };
+    resetForm();
+  }
 
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const _name = event.target.name;
-    const _value = event.target.value;
-
-    setFormValuesNewConnection((_prevFormValues) => ({
-      ..._prevFormValues,
-      [_name]: _value
-    }));
-  };
-
-  return (
+  return(
     <div className={`library ${_isLibraryOpen ? 'library-open' : ''}`}>
       {_isLibraryOpen && 
         <div className='library__libary'>
@@ -130,16 +124,16 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
         </div>
       }
       <div className='library__open-button'>
-        <Button onClick={showLibrary} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
+        <Button onClick={() => setIsLibraryOpen(!_isLibraryOpen)} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
       </div>
-      <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={createConnection}>
-        <InputField type='text' label='From' id='_fromId' value={_formValuesNewConnection._fromId} onChange={handleFormChange} />
-        <InputField type='text' label='To' id='_toId' value={_formValuesNewConnection._toId} onChange={handleFormChange} />
-        <SelectField label='Type' id='_type' value={_formValuesNewConnection._type} options={['connection', 'pipe']} onChange={handleFormChange} />
-        <SelectField label='Content' id='_content' value={_formValuesNewConnection._content} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleFormChange} />
+      <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={handleSubmit}>
+        <InputField type='text' label='From' id='_fromId' value={_formValues._fromId} onChange={handleChange} />
+        <InputField type='text' label='To' id='_toId' value={_formValues._toId} onChange={handleChange} />
+        <SelectField label='Type' id='_type' value={_formValues._type.toString()} options={['connection', 'pipe']} onChange={handleChange} />
+        <SelectField label='Content' id='_content' value={_formValues._content.toString()} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleChange} />
       </FormModal>
     </div>
-  )
+  );
 };
 
 export default Library;

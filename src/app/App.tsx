@@ -58,7 +58,7 @@ const App = () => {
                         <PageManager />
                       </ActiveConfigFileContext.Provider>
                     </div>
-                    {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}
+                    {_configEnabled && <Library config={_configData} />}
                   </ConfigDataContext.Provider>
                 </ActivePageIdContext.Provider>
               )}

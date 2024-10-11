@@ -12,7 +12,7 @@ const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
 
   const _pageLinks = _configData?.pages.map((_page) => {
     return(
-      <p className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
+      <p key={_page.id} className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
     )
   });
 

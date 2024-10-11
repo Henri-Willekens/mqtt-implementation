@@ -1,11 +1,8 @@
 import DynamicRenderComponentsProps from './DynamicRenderComponents.types';
 
-import { useContext } from 'react';
-
 import Draggable from '../../atoms/Draggable/Draggable';
 import OrthologalLine from "../../atoms/OrthogonalLine/OrthogonalLine";
 
-import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ComponentConfig, ConnectionConfig } from '../../../configuration/types';
 import componentMap from '../../index';
 
@@ -14,8 +11,6 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
   connections,
   gridEnabled
 }) => {
-  const { _activePageId } = useContext(ActivePageIdContext);
-
   return(
     <>
       {components.map((_componentConfig: ComponentConfig, _index: number) => {
@@ -27,11 +22,9 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
         return(
           <Draggable 
             key={_index} 
-            elementInsideId={props.id} 
             id={props.id} 
-            gridEnabled={gridEnabled} 
-            activePageId={_activePageId}
-          >
+            elementInsideId={props.id}
+            gridEnabled={gridEnabled} >
             <Component
               key={props.id}
               type={type}

@@ -9,23 +9,25 @@ import { ConfigEnabledContext } from '../../../contexts/ConfigEnabled';
 import { Config } from 'src/app/configuration/types';
 import { ActiveConfigFileContext } from 'src/app/contexts/ActiveConfigFile';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
 const Draggable: React.FC<DraggProps> = ({ 
   id, 
-  children, 
-  elementInsideId, 
-  gridEnabled, 
-  activePageId 
+  elementInsideId,
+  gridEnabled,
+  children
 }) => {
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activeConfigFile } = useContext(ActiveConfigFileContext);
+  const { setConfigData } = useContext(ConfigDataContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+
   const [_position, setPosition] = useState({ x: 50, y: 50 });
   const [_elementSize, setElementSize] = useState({ width: 100, height: 100 });
   const [_dragging, setDragging] = useState(false);
   const [_offset, setOffset] = useState({ x: 0, y: 0 });
   const [_data, setData] = useState<Config>();
   const _SNAPPABLE = ['Compass', 'Rudder']
-  const { _configEnabled } = useContext(ConfigEnabledContext);
-  const { _activeConfigFile } = useContext(ActiveConfigFileContext);
-  const { setConfigData } = useContext(ConfigDataContext);
 
   const startDrag = (_event: any) => {
     if (_configEnabled && document.querySelector("dialog:modal") === null) {
@@ -64,7 +66,7 @@ const Draggable: React.FC<DraggProps> = ({
       snapToGrid();
     }
 
-    let _pageIndex = _data.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _data.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _data.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId);
 
     if (_SNAPPABLE.includes(children?.props.type)) {
@@ -109,7 +111,7 @@ const Draggable: React.FC<DraggProps> = ({
       .then((results) => {
         setData(results);
 
-        let _pageIndex = results.pages.findIndex((_o) => _o.id === activePageId);
+        let _pageIndex = results.pages.findIndex((_o) => _o.id === _activePageId);
         let _index = results.pages[_pageIndex].components.findIndex((_o) => _o.props.id === elementInsideId)
 
         setPosition({ x: results.pages[_pageIndex].components[_index].props.xPos, y: results.pages[_pageIndex].components[_index].props.yPos })
@@ -135,8 +137,18 @@ const Draggable: React.FC<DraggProps> = ({
       }
     });
 
-    setPosition({ x: _closestPosition.x, y: _closestPosition.y });
-    setElementSize({ width: _closestPosition.width - 15, height: _closestPosition.height - 15 });
+    setPosition({ x: _closestPosition.x + 10, y: _closestPosition.y + 10 });
+    
+    // Adjust width and height accordingly
+    let _adjustedWidth = Math.floor(_closestPosition.width) - 40;
+    let _adjustedHeight = Math.floor(_closestPosition.height) - 40;
+
+    let _e = document.getElementById(`draggable-${elementInsideId}`);
+    if (_e != null) {
+      _e.style.width = `${_adjustedWidth}px`;
+      _e.style.height = `${_adjustedHeight}px`;
+    };
+    setElementSize({width: _adjustedWidth, height: _adjustedHeight});
   };
 
 
@@ -146,12 +158,13 @@ const Draggable: React.FC<DraggProps> = ({
 
   return (
     <div
+      id={`draggable-${elementInsideId}`}
       className={_configEnabled ? 'draggable' : 'non-draggable'}
       onMouseDown={startDrag}
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
       key={id}
-      style={{ left: _position.x, top: _position.y, height: _elementSize.height, width: _elementSize.width, zIndex: _dragging ? 1000 : 1 }}
+      style={{ left: `${_position.x}px`, top: `${_position.y}px`, zIndex: _dragging ? 1000 : 1 }}
     >
       {children}
     </div>

@@ -1,7 +1,6 @@
-export default interface DraggProps {
+export default interface DraggableProps {
   elementInsideId: string,
-  id: string
+  id: string,
   gridEnabled: boolean,
-  children: React.ReactElement,
-  activePageId: string
+  children: React.ReactElement
 }

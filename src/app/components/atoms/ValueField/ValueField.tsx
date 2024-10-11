@@ -6,12 +6,10 @@ import { useContext, useEffect, useState } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 import ToggleField from '../FormInputs/ToggleField/ToggleField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
-import { Config } from 'src/app/configuration/types';
 import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
-import SelectField from '../FormInputs/SelectField/SelectField';
-import { timeStamp } from 'console';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 

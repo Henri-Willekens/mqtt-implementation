@@ -189,8 +189,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
           <defs>
             <linearGradient id='paint1_linear_988_2110' x1='200' y1='70' x2='200' y2='330' gradientUnits='userSpaceOnUse'>
-              <stop stopColor='#343453'/>
-              <stop offset='1' stopColor='#7474B9'/>
+              <stop stopColor='#7474B9'/>
+              <stop offset='1' stopColor='#343453'/>
             </linearGradient>
           </defs>
         </svg>

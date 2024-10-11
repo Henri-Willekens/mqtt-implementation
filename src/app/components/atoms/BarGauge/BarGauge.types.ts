@@ -1,7 +1,13 @@
+interface AlertLine {
+  alertType: string, 
+  value: number
+}
+
 export default interface BarGaugeProps {
   id: string,
   maxValue: number,
   label: string,
-  alertLines: [{ alertType: string, value: number }],
-  numberOfTickLines: number
+  alertLines: AlertLine[],
+  numberOfTickLines: number,
+  alarmSource: string,
 }

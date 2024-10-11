@@ -10,13 +10,15 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import useFormInput from 'src/app/hooks/useFormInput';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 const BarGauge: React.FC<BarGaugeProps> = ({
   id,
   label = 'Label',
   maxValue = 2000,
   alertLines = [],
-  numberOfTickLines = 5
+  numberOfTickLines = 5,
+  alarmSource = 'config'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
@@ -28,6 +30,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     _maxValue: maxValue,
     _numberOfTickLines: numberOfTickLines,
     _label: label,
+    _alarmSource: alarmSource,
     _alarmTooHigh: 0,
     _warningTooHigh: 0,
     _alarmTooLow: 0,
@@ -117,6 +120,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         content: _formValues._content,
         numberOfTickLines: Math.floor(parseInt(_formValues._numberOfTickLines.toString())),
         label: _formValues._label,
+        alarmSource: _formValues._alarmSource,
         alertLines: [
           {
             value: _formValues._alarmTooHigh,
@@ -199,10 +203,15 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleChange} />
         <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleChange} />
         <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleChange} />
-        <InputField label='Alarm too high' type='text' id='_alarmTooHigh' value={_formValues._alarmTooHigh} onChange={handleChange} />
-        <InputField label='Warning too high' type='text' id='_warningTooHigh' value={_formValues._warningTooHigh} onChange={handleChange} />
-        <InputField label='Warning too low' type='text' id='_warningTooLow' value={_formValues._warningTooLow} onChange={handleChange} />
-        <InputField label='Alarm too low' type='text' id='_alarmTooLow' value={_formValues._alarmTooLow} onChange={handleChange} />
+        <SelectField label='Alarm source' id='_alarmSource' value={_formValues._alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
+        { _formValues._alarmSource === 'config' && (
+          <>
+            <InputField label='Alarm too high' type='text' id='_alarmTooHigh' value={_formValues._alarmTooHigh} onChange={handleChange} />
+            <InputField label='Warning too high' type='text' id='_warningTooHigh' value={_formValues._warningTooHigh} onChange={handleChange} />
+            <InputField label='Warning too low' type='text' id='_warningTooLow' value={_formValues._warningTooLow} onChange={handleChange} />
+            <InputField label='Alarm too low' type='text' id='_alarmTooLow' value={_formValues._alarmTooLow} onChange={handleChange} />
+          </>
+        )}
       </FormModal>
     </>
   );

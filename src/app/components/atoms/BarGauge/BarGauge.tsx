@@ -18,8 +18,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   maxValue = 2000,
   alertLines = [],
   numberOfTickLines = 5,
-  width,
-  height,
+  width = 130,
+  height = 300,
   alarmSource = 'config'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);

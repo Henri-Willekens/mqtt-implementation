@@ -155,9 +155,8 @@ const ValueField: React.FC<ValueFieldProps> = ({
               size={_value.length} 
               disabled={!isEditable} 
             />
-            { requiresValueTimes && <div className='value-field__times'><p className='value-field__times-amount'>x {valueTimes}</p></div> }
           </span>
-          <p className='value-field__unit'>{unit}</p>
+          <p className='value-field__unit'>{requiresValueTimes && 'x' + valueTimes} {unit}</p>
         </div>
       </div>  
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>

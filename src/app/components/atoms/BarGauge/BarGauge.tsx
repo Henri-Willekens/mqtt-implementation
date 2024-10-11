@@ -18,6 +18,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   maxValue = 2000,
   alertLines = [],
   numberOfTickLines = 5,
+  width,
+  height,
   alarmSource = 'config'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
@@ -30,6 +32,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     _maxValue: maxValue,
     _numberOfTickLines: numberOfTickLines,
     _label: label,
+    _width: width,
+    _height: height,
     _alarmSource: alarmSource,
     _alarmTooHigh: 0,
     _warningTooHigh: 0,
@@ -120,6 +124,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         content: _formValues._content,
         numberOfTickLines: Math.floor(parseInt(_formValues._numberOfTickLines.toString())),
         label: _formValues._label,
+        width: _formValues._width,
+        height: _formValues._height,
         alarmSource: _formValues._alarmSource,
         alertLines: [
           {
@@ -172,7 +178,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     <>
       <div onDoubleClick={openModal} className={`barmeter ${id}`}>
         <p className='bar-gauge__label'>{label}</p>
-        <svg width='130' height='300' viewBox='0 0 130 320'>
+        <svg width={width} height={height} viewBox='0 0 130 320'>
           <g className='bar-gauge__base'>
             <rect x='11' y='0' width='50' height='250' className='bar-gauge__background' />
 
@@ -203,6 +209,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleChange} />
         <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleChange} />
         <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
         <SelectField label='Alarm source' id='_alarmSource' value={_formValues._alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
         { _formValues._alarmSource === 'config' && (
           <>

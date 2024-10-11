@@ -9,5 +9,7 @@ export default interface BarGaugeProps {
   label: string,
   alertLines: AlertLine[],
   numberOfTickLines: number,
+  width: number,
+  height: number,
   alarmSource: string,
 }

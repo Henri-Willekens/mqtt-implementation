@@ -20,26 +20,6 @@ const AlertLogPage: React.FC = () => {
             <tr>
               <td><img src='./icons/alerts/alarm-unack.svg' /></td>
               <td>GPS 1 failed</td>
-              <td>GPS 1 failed to fetch information from the MQTT broker.</td>
-              <td>12:01</td>
-              <td>203</td>
-            </tr>
-            <tr>
-              <td><img src='./icons/alerts/alarm-unack.svg' /></td>
-              <td>GPS 1 failed</td>
-              <td>GPS 1 failed to fetch information from the MQTT broker.</td>
-              <td>12:01</td>
-              <td>203</td>
-            </tr>
-            <tr>
-              <td><img src='./icons/alerts/alarm-unack.svg' /></td>
-              <td>GPS 1 failed</td>
-              <td>GPS 1 failed to fetch information from the MQTT broker.</td>
-              <td>12:01</td>
-              <td>203</td>
-            </tr>
-            <tr>
-              <td><img src='./icons/alerts/alarm-unack.svg' /></td>
               <td>GPS 1 failed</td>
               <td>GPS 1 failed to fetch information from the MQTT broker.</td>
               <td>12:01</td>

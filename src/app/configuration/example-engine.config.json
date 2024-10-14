@@ -8,23 +8,68 @@
         {
           "type": "BarGauge",
           "props": {
-            "xPos": 73.015625,
-            "yPos": 76.5,
-            "id": "BarGauge-7011b963-87d3-493a-bed6-067f70de6dac",
+            "xPos": 45,
+            "yPos": 115,
+            "id": "BarGauge-6d567ccf-0cac-4a75-bbe5-b34a3e35c1ae",
+            "maxValue": 100,
+            "numberOfTickLines": 5,
+            "label": "Propulsion",
             "width": 130,
             "height": 300,
-            "maxValue": 500,
-            "content": "",
-            "numberOfTickLines": 5,
-            "label": "Fuel tank STBD",
+            "alarmSource": "config",
+            "alertLines": []
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 518,
+            "yPos": 252,
+            "width": 100,
+            "height": 0,
+            "id": "ValueField-420de351-eff0-40f0-bd3b-46f7742e3ded",
+            "label": "Gearbox",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 47,
+            "yPos": 398,
+            "id": "ValueField-f8b76d5e-c340-4e20-a540-7db71384e0af",
+            "label": "Propulsion",
+            "unit": "%",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 1036.015625,
+            "yPos": 150.734375,
+            "id": "BarGauge-00ec3c7b-e389-4dcf-9e5c-25b1b13ec5a1",
+            "maxValue": 50,
+            "numberOfTickLines": 6,
+            "label": "Lub. oil",
+            "width": "130",
+            "height": "250",
+            "alarmSource": "config",
             "alertLines": [
               {
-                "alertType": "alarm",
-                "value": 100
+                "value": 5,
+                "alertType": "alarm"
               },
               {
-                "alertType": "warning",
-                "value": 200
+                "value": 10,
+                "alertType": "warning"
               }
             ]
           }
@@ -32,40 +77,11 @@
         {
           "type": "ValueField",
           "props": {
-            "xPos": 22,
-            "yPos": 404,
-            "id": "ValueField-3ab31d56-ca33-45c6-bba1-5f4f7f8dbb5a",
-            "width": 130,
-            "height": 100,
-            "label": "Fuel STBD",
-            "unit": "m³",
-            "requiresValueTimes": false,
-            "valueTimes": 0,
-            "isEditable": false
-          }
-        },
-        {
-          "type": "BarGauge",
-          "props": {
-            "xPos": 260.6875,
-            "yPos": 72.6875,
-            "width": 130,
-            "height": 300,
-            "id": "BarGauge-bf0ddeb9-a177-47f1-a977-4fb8195dd621",
-            "maxValue": 100,
-            "content": "",
-            "numberOfTickLines": 5,
-            "label": "Prop. STBD"
-          }
-        },
-        {
-          "type": "ValueField",
-          "props": {
-            "xPos": 265,
-            "yPos": 378,
-            "id": "ValueField-38435312-6765-47cf-9209-fbd2355159be",
-            "label": "Prop. STBD",
-            "unit": "%",
+            "xPos": 1129,
+            "yPos": 325,
+            "id": "ValueField-23e0d064-37e4-4e59-952b-c2a0f3c9fb5c",
+            "label": "Lub. oil",
+            "unit": "L",
             "requiresValueTimes": false,
             "valueTimes": 0,
             "isEditable": false,
@@ -75,11 +91,103 @@
         {
           "type": "ReferenceButton",
           "props": {
-            "xPos": 31,
-            "yPos": 342,
-            "id": "ReferenceButton-84d3cbe5-492c-4ccc-ba18-3d37b56f1909",
-            "referencePageId": "102"
+            "xPos": 166,
+            "yPos": 116,
+            "referencePageId": 115,
+            "id": "ReferenceButton-62f01d16-1ab0-410b-9ce2-4073fc0ffa22"
           }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 1134,
+            "yPos": 297,
+            "referencePageId": 165,
+            "id": "ReferenceButton-90f6e7fe-2e69-4809-8965-2d31bb37a68e"
+          }
+        },
+        {
+          "type": "Valve",
+          "props": {
+            "xPos": 812,
+            "yPos": 216,
+            "width": 72,
+            "height": 0,
+            "id": "Valve-bb376395-17c6-4aaf-aa57-7f98094f7639"
+          }
+        },
+        {
+          "type": "BarGauge",
+          "props": {
+            "xPos": 228.28125,
+            "yPos": 485.296875,
+            "id": "BarGauge-8002ff57-aa91-4f86-a014-b935194db17a",
+            "maxValue": 2000,
+            "numberOfTickLines": 5,
+            "label": "Fuel tank STBD",
+            "width": 130,
+            "height": 300,
+            "alarmSource": "config",
+            "alertLines": [
+              {
+                "value": "500",
+                "alertType": "alarm"
+              },
+              {
+                "value": "750",
+                "alertType": "warning"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ValueField",
+          "props": {
+            "xPos": 64,
+            "yPos": 695,
+            "id": "ValueField-dbc3bb22-795d-4086-aa01-9484f7c52d04",
+            "label": "Fuel tank STBD",
+            "unit": "L",
+            "requiresValueTimes": false,
+            "valueTimes": 0,
+            "isEditable": false,
+            "dataSource": "mqtt_topic"
+          }
+        },
+        {
+          "type": "ReferenceButton",
+          "props": {
+            "xPos": 74,
+            "yPos": 659,
+            "referencePageId": 103,
+            "id": "ReferenceButton-aafce58b-902a-4ebd-8c77-af9fabe9489d"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "BarGauge-6d567ccf-0cac-4a75-bbe5-b34a3e35c1ae",
+          "to": "ValueField-420de351-eff0-40f0-bd3b-46f7742e3ded",
+          "type": "connection",
+          "content": ""
+        },
+        {
+          "from": "BarGauge-00ec3c7b-e389-4dcf-9e5c-25b1b13ec5a1",
+          "to": "Valve-bb376395-17c6-4aaf-aa57-7f98094f7639",
+          "type": "pipe",
+          "content": "oil"
+        },
+        {
+          "from": "ValueField-420de351-eff0-40f0-bd3b-46f7742e3ded",
+          "to": "Valve-bb376395-17c6-4aaf-aa57-7f98094f7639",
+          "type": "pipe",
+          "content": "oil"
+        },
+        {
+          "from": "BarGauge-8002ff57-aa91-4f86-a014-b935194db17a",
+          "to": "BarGauge-6d567ccf-0cac-4a75-bbe5-b34a3e35c1ae",
+          "type": "pipe",
+          "content": "fuel"
         }
       ]
     },
@@ -242,27 +350,10 @@
             "id": "BarGauge-0fbbdb4c-6061-4a57-8842-a1b2ece63ffa",
             "maxValue": 2000,
             "width": "130",
-            "height": "200",
+            "height": "300",
             "numberOfTickLines": 5,
             "label": "Fuel tank STBD",
-            "alertLines": [
-              {
-                "value": 0,
-                "alertType": "alarm"
-              },
-              {
-                "value": 0,
-                "alertType": "warning"
-              },
-              {
-                "value": 0,
-                "alertType": "alarm"
-              },
-              {
-                "value": 0,
-                "alertType": "warning"
-              }
-            ],
+            "alertLines": [],
             "alarmSource": "config"
           }
         },
@@ -324,7 +415,7 @@
             "id": "Valve-7f82cd62-a2ee-40aa-914d-446fe83b0316",
             "content": "fuel",
             "width": 72,
-            "height": 48
+            "height": 0
           }
         },
         {
@@ -335,7 +426,7 @@
             "id": "Valve-4cf51dcf-555d-4a07-a598-9c70d408e7b9",
             "content": "fuel",
             "width": 72,
-            "height": 48
+            "height": 0
           }
         }
       ],

@@ -41,7 +41,7 @@ const Draggable: React.FC<DraggProps> = ({
 
   const onDrag = (_event: any) => {
     if (_dragging) {
-      setPosition({ x: _event.clientX - _offset.x, y: _event.clientY - _offset.y });
+      setPosition({ x: Math.floor(_event.clientX - _offset.x), y: Math.floor(_event.clientY - _offset.y) });
     }
   };
 

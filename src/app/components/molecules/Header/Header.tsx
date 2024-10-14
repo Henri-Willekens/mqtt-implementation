@@ -14,11 +14,13 @@ import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { stringToBool } from 'src/app/services/stringToBool';
+import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 
 const Header: React.FC<HeaderProps> = () => { 
   const { _configData } = useContext(ConfigDataContext);
   const { _activePageId, setActivePageId } = useContext(ActivePageIdContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
@@ -73,7 +75,7 @@ const Header: React.FC<HeaderProps> = () => {
 
   return(
     <>
-      <div className='navigation'>
+      <div className={`navigation ${_currentTheme}-navigation`}>
         <div className='navigation__block navigation__pages'>
           {_configData != null && _configData.pages.length < 10 ? pageButtons : <img src='./icons/general/apps.svg' className='navigation__pages-overview' onClick={() => setActivePageId('PagesOverview')} />}
           {_configEnabled && <Button value='+ Add new page' onClick={openModal} />}

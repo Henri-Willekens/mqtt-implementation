@@ -1,95 +1,97 @@
 
 # EVAP/SDI GUI
 
-Dit project is de grafische gebruikersinterface voor het EVAP/SDI-platform. Het is een webinterface, gebouwd in React, die elementen zoals een kompas weergeeft. De use-case is voor de maritieme sector om aan boord te gebruiken om scheepsgegevens in te zien en monitoren.
+This project is a GUI webinterface for the EVAP/SDI project. The webinterface is built in React using TypeScript and Next. Next is used for back-end purposes, such as updating the config.json. Configuration is done via config.json within the folder /configuration. The data from the ship is send via an MQTT broker.
+
+Use-case of this GUI is to monitor ship data (heading, motor temperature, etc).
+
 
 ## Demo
 
 Insert gif or link to demo
 
 
-## Lokaal draaiend krijgen
+## Run Locally
 
-Clone het project
+Clone the project
 
 ```bash
-  git clone https://github.com/TzunderWulf/evap-sdi-gui.git
+    git clone https://github.com/TzunderWulf/evap-sdi-gui.git
 ```
 
-Ga naar de projectmap
+Go to the project directory
 
 ```bash
   cd evap-sdi-gui
 ```
 
-Installeer de dependecies
+Install dependencies
 
 ```bash
   npm install
 ```
 
-Start de server
+Start the server
 
 ```bash
   npm run start
 ```
 
 
-## Runnen van tests
-
-Voer het volgende commando uit om tests uit te voeren
-
-```bash
-  npm run test
-```
-
-
-## Beschikbare elementen
-
-Dit zijn alle elementen die tot nu toe zijn ingebouwd:
+## Available elements
 
 - Compass
-- Rudder
-- Barmeter
-- HeatCoolingPump
+- Rudder angle indicator
+- Bar gauge
+- Value field
+- Valve
+- Pump
+- Pipes and connection lines
 
-## Confugiratie
 
-Om te configureren welke elementen op dat moment zichtbaar zijn en welke specificaties (props) ze hebben, is documentatie geschreven voor de configurator.
 
-[Documentation](https://linktodocumentation)
+## Setup future elements
 
-## Opzet van nieuwe elementen
+To create new elements in the future:
 
-Voor nieuwe elementen wordt de volgende mappenstructuur aangehouden (ter voorbeeld is er ook het dummy component in _src/components/molecules/Dummy_)
+There are three files available for each element:
+- Element.tsx (contains the React code)
+- Element.types.ts (contains the interface, what props does it have)
+- Element.scss (styling related code)
 
-- `ElementName`
-  - `ElementName.tsx` (react code voor het element)
-  - `ElementName.types.ts` (het interface van het element)
-  - `ElementName.scss` (de styling van het element)  
-
-Als het element vanuit het configuratiebestand moet worden opgezet is het volgende nog van belang. Voeg het element toe aan _src/components/index.ts_ op de volgende manier:
+React components use PascalCase for naming, so BarGauge or ValueField. The rest of the variables use camelCase, so isEditable or isModalOpen. Local variables within components start with an underscore (ex. _width) to differenate them from props, in case they require the same name. Function names, both local and not, just use normal camelCase. So for an example element:
 
 ```
-const componentMap: { [key: string]: React.FC<any> } = {
-  Compass,
-  BarMeter,
-  Rudder,
-  ElementName
+const ElementName: React.FC = ({
+    isEditable = false,
+    isModalOpen = false
+}) => {
+    const _isModalOpen = true;
+    let _isEditable = true;
+
+    const changeEditable = (_changedValue: string) => {
+        _isEditable = _changedValue;
+    };
 };
+
+export default ElementName;
 ```
 
-Voeg het element ook toe aan het configuratie document met de props die het element kan doorkrijgen. 
+To make sure components are picked up by the config.json, they require to be added to components/index.ts. Import the new element and add them to componentMap. This also adds them to the library so that you can add your new element to the config.json via the GUI (while in configurator mode).
+## Documentation
 
-## Auteurs
+There are two types of documentation available. Designer documentation is available within this README. Configurator related documentation is available [here](https://linktodocumentation).
 
-Eerdere studenten die aan het project hebben gewerkt staan hier vermeld voor het geval er contact nodig is.
+
+## Authors
+
+Previous students that have worked on the project are listed here in case contact is needed.
 
 - [@TzunderWulf](https://www.github.com/tzunderwulf)
 - [@Dancingkoalaa](https://www.github.com/Dancingkoalaa)
 
 
-## Licentie
+## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 

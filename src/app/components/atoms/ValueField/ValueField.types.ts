@@ -6,6 +6,7 @@ export default interface ValueFieldProps {
   valueTimes?: number,
   isEditable: boolean,
   dataSource: string,
+  mqttTopic: string,
   canSnap: boolean,
   configEnabled: boolean,
   activePageId: string

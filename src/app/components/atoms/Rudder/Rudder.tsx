@@ -147,11 +147,10 @@ const Rudder: React.FC<RudderProps> = ({
   };
 
   useEffect(() => {
-    // Connect to the WebSocket server in Compass
     ws.current = new WebSocket("ws://localhost:4000");
 
     ws.current.onopen = () => {
-      console.log("WebSocket connection established in Compass");
+      console.log("WebSocket connection established in Rudder");
     };
 
     ws.current.onmessage = (event) => {
@@ -160,23 +159,22 @@ const Rudder: React.FC<RudderProps> = ({
 
       if (topic === "aquastorm/eindmaas/modules/Rudder/0/outputs/Rudder-angle") {
         console.log(`Received message on topic "${topic}": ${message}`);
-        setRudderMessage(Number(message)); // Convert to number and set state
+        setRudderMessage(Number(message)); 
       }
     };
     
 
     ws.current.onclose = () => {
-      console.log("WebSocket connection closed in Compass");
+      console.log("WebSocket connection closed in Rudder");
     };
 
-    // Cleanup function to close WebSocket connection when component unmounts
+
     return () => {
       ws.current?.close();
     };
   }, []);
 
   useEffect(() => {
-    console.log(rudderMessage)
     updateRudderPosition(rudderMessage)
   }, [rudderMessage])
 

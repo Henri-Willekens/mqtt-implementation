@@ -10,7 +10,7 @@ Use-case of this GUI is to monitor ship data (heading, motor temperature, etc).
 
 <br /> Demo for GUI for an engineer <br />
 ![](https://github.com/TzunderWulf/evap-sdi-gui/blob/master/2024-10-1512-05-55-ezgif.com-resize.gif)
-<br /> Demo for configuring a GUI for navigator
+<br /> Demo for configuring a GUI for navigator <br />
 ![](https://github.com/TzunderWulf/evap-sdi-gui/blob/master/2024-10-1512-06-52-ezgif.com-video-to-gif-converter.gif)
 
 

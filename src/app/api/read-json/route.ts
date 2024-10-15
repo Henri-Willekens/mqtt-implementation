@@ -19,6 +19,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(JSON.parse(data)); // Return the parsed JSON content
   } catch (error) {
     return NextResponse.json({ error: `Failed to read file: ${error.message}` }, { status: 500 });
-  }
-}
-
+  };
+};

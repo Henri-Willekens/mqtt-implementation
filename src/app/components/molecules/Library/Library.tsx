@@ -1,20 +1,35 @@
 import LibraryProps from './Library.types';
-import './Library.scss'
+import './Library.scss';
 
-import { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
+import { useContext, useState } from 'react';
 
-import componentMap from '../../index';
 import Button from '../../atoms/Button/Button';
+import FormModal from '../FormModal/FormModal';
+import SelectField from '../../atoms/FormInputs/SelectField/SelectField';
+import InputField from '../../atoms/FormInputs/InputField/InputField';
 
-const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
+import useFormInput from 'src/app/hooks/useFormInput';
+import componentMap from '../../index';
+import {v4 as uuidv4} from 'uuid';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+
+const Library: React.FC<LibraryProps> = ({
+  config
+}) => {
+  const { setConfigData } = useContext(ConfigDataContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);
-  const [_idNumber, setIdNumber] = useState(0);
 
-  const showLibrary = () => {
-    setIsLibraryOpen(!_isLibraryOpen);
-    console.log(config)
-  };
+  const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_initialValuesNewConnection, setInitialValuesNewConnection] = useState({
+    _fromId: '',
+    _toId: '',
+    _type: '',
+    _content: ''
+  });
+  const { _formValues, handleChange, resetForm } = useFormInput(_initialValuesNewConnection);
 
   const elementButtons = () => {
     const buttons: any[] = [];
@@ -24,13 +39,35 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
         <Button key={component} value={`${component}`} onClick={() => createElementOnPage(component)} extraClasses='library__create-button' />
       );
     };
+
+    buttons.push(
+      <Button value='Connection' onClick={openCreateConnectionModal} extraClasses='library__create-button' />
+    )
     
     return buttons;
   };
 
-  const createElementOnPage = (_typeOfElement) => {
+  const openCreateConnectionModal = () => {
+    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
+      return;
+    };
+  
+    setIsModalOpen(true);
+  };
+
+  const closeCreateConnectionModal = () => {
+    setIsModalOpen(false);
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));  
+  };
+
+  const createElementOnPage = (_typeOfElement: string) => {
     // Should not be able to do this on settings, alert log or pages overview
-    if (activePageId == 'Settings' || activePageId == 'AlertLog' || activePageId == 'PagesOverview') {
+    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
       return;
     }
     
@@ -45,7 +82,7 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       }
     };
 
-    let _pageIndex = config.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = config?.pages.findIndex((_o) => _o.id === _activePageId);
 
     config.pages[_pageIndex].components.push(_element);
 
@@ -56,11 +93,43 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
       },
       body: JSON.stringify(config),
     })
-      .then(() => setIdNumber((_prevIdNumber) => _prevIdNumber + 1))
+      .then(() => setConfigData(config))
       .catch((error) => console.error('Error saving data:', error));
+
+      fetch('/api/read-json?file=config.json')
+        .then((res) => res.json())
+        .then((results) => { 
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));  
   };
 
-  return (
+  const handleSubmit = () => {
+    const _connection = {
+      from: _formValues._fromId.toString(),
+      to: _formValues._toId.toString(),
+      type: _formValues._type.toString(),
+      content: _formValues._content.toString()
+    };
+
+    let _pageIndex = config.pages.findIndex((_o) => _o.id === _activePageId);
+
+    config.pages[_pageIndex].connections?.push(_connection);
+
+    fetch('/api/write-json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(config),
+    })
+      .catch((error) => console.error('Error saving data:', error));
+
+    closeCreateConnectionModal();
+    resetForm();
+  }
+
+  return(
     <div className={`library ${_isLibraryOpen ? 'library-open' : ''}`}>
       {_isLibraryOpen && 
         <div className='library__libary'>
@@ -68,10 +137,16 @@ const Library: React.FC<LibraryProps> = ({ activePageId, config }) => {
         </div>
       }
       <div className='library__open-button'>
-        <Button onClick={showLibrary} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
+        <Button onClick={() => setIsLibraryOpen(!_isLibraryOpen)} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
       </div>
+      <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={handleSubmit}>
+        <InputField type='text' label='From' id='_fromId' value={_formValues._fromId} onChange={handleChange} />
+        <InputField type='text' label='To' id='_toId' value={_formValues._toId} onChange={handleChange} />
+        <SelectField label='Type' id='_type' value={_formValues._type.toString()} options={['connection', 'pipe']} onChange={handleChange} />
+        <SelectField label='Content' id='_content' value={_formValues._content.toString()} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleChange} />
+      </FormModal>
     </div>
-  )
+  );
 };
 
 export default Library;

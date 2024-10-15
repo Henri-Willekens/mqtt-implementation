@@ -7,6 +7,11 @@
 }
 
 .compass {
+
+  &:hover{
+    cursor: pointer;
+  }
+
   &__outer-circle {
     fill: url(#paint0_linear_1210_582);
   }

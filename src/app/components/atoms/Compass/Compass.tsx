@@ -1,168 +1,140 @@
-import CompassProps from './Compass.types';
 import './Compass.scss';
+import CompassProps from './Compass.types';
 
 import { useState, useEffect, useContext, useRef } from 'react';
-import FormModal from '../../molecules/FormModal/FormModal';
-import { ThemeContext } from '../../../contexts/Theme';
-import { Config } from 'src/app/configuration/types';
-import { stringToBool } from 'src/app/services/stringToBool';
-import InputField from '../FormInputs/InputField/InputField';
 
-const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn', waveArrowOutside = true, stepsOfDegrees = 30, width = 400, height = 400, configEnabled }) => {
-  const [defaultTopicMessage, setDefaultTopicMessage] = useState<number | null>(0);
-  const [cogMessage, setCogMessage] = useState<number | null>(0);
-  const [outerCircle, setOuterCircle] = useState<number | null>(0);
+import InputField from '../FormInputs/InputField/InputField';
+import FormModal from '../../molecules/FormModal/FormModal';
+
+import { stringToBool } from 'src/app/services/stringToBool';
+import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import useFormInput from 'src/app/hooks/useFormInput';
+import ToggleField from '../FormInputs/ToggleField/ToggleField';
+import SelectField from '../FormInputs/SelectField/SelectField';
+
+
+const Compass: React.FC<CompassProps> = ({ 
+  id = '', 
+  source = 'magn', 
+  waveArrowOutside = true,
+  stepsOfDegrees = 30, 
+  width = 400, 
+  height = 400,
+  isEditable = false, 
+  dataSource = 'mqtt_topic',
+  mqttTopic = '/example/topic'
+}) => {
+  const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
   const ws = useRef<WebSocket | null>(null);
+  
+  // Mocked data
   const [_currentHeading, setCurrentHeading] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
   const [_waveArrow, setWaveArrow] = useState(180);
-  const [rotationAngle, setRotationAngle] = useState(0);
-  const [_correctData, setData] = useState('incomplete');
+  const [_dataComplete, setData] = useState('incomplete');
+
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
-  const [_configData, setConfigData] = useState<Config>();
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const { _currentTheme } = useContext(ThemeContext);
-  const [_formValues, setFormValues] = useState({
-    source: source,
-    waveArrowOutside: waveArrowOutside,
-    width: width,
-    height: height,
-    stepsOfDegrees: stepsOfDegrees
+  const [_initialValues, setInitialValues] = useState({
+    _source: source,
+    _waveArrowOutside: waveArrowOutside,
+    _width: width,
+    _height: height,
+    _stepsOfDegrees: stepsOfDegrees,
+    _isEditable: isEditable,
+    _dataSource: dataSource,
+    _mqttTopic: mqttTopic
   });
-  useEffect(() => {
-    // Connect to the WebSocket server in Compass
-    ws.current = new WebSocket("ws://localhost:4000");
+  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
-    ws.current.onopen = () => {
-      console.log("WebSocket connection established in Compass");
-    };
-
-    ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const { topic, message } = data;
-
-      if (topic === "aquastorm/eindmaas/modules/Motions/0/outputs/heading") {
-        console.log(`Received message on topic "${topic}": ${message}`);
-        setDefaultTopicMessage(Number(message)); // Convert to number and set state
-      } else if (topic === "test/topic2"){
-        console.log(`Received message on topic "${topic}": ${message}`);
-        setCogMessage(Number(message)); // Convert to number and set state
-      }
-      else if (topic === "test/topic3"){
-        console.log(`Received message on topic "${topic}": ${message}`);
-        setOuterCircle(Number(message)); // Convert to number and set state
-      }
-    };
-    
-
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed in Compass");
-    };
-
-    // Cleanup function to close WebSocket connection when component unmounts
-    return () => {
-      ws.current?.close();
-    };
-  }, []);
 
   const update = (_elementToSelect: string, _updatedValue: number) => {
     let _element = document.getElementById(_elementToSelect);
     _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
   };
 
-    // Function to generate degree numbers ensuring they always face upright
-    const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
-      const _lines: any[] = [];
+  const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
+    const _lines: any[] = [];
+    
+    for (let i = 0; i * stepsOfDegrees < 360; i++) {
+      const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
+      const _radian = (_angle * Math.PI) / 180;
+
+      const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
+      const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
+
+      // Counter-rotation: Rotate number to always face upright
+      const _counterRotation = -_currentHeading;
       
-      for (let i = 0; i * stepsOfDegrees < 360; i++) {
-        const _angle = stepsOfDegrees * i; // The angle at which each number is positioned
-        const _radian = (_angle * Math.PI) / 180;
-  
-        const _textX = _centerX + (_radius - 3) * Math.sin(_radian);
-        const _textY = _centerY - (_radius - 3) * Math.cos(_radian);
-  
-        // Counter-rotation: Rotate number to always face upright
-        const counterRotation = -rotationAngle;
-        
-        _lines.push(
-          <text
-            key={i}
-            className={`compass__degree-number compass__degree-number__${_currentTheme}`}
-            x={_textX}
-            y={_textY}
-            textAnchor="middle"
-            dominantBaseline="central"
-            transform={_isNorthLocked ? '' : `rotate(${counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
-          >
-            {_angle}
-          </text>
-        );
-      }
-      return _lines;
-    };
-  
-
-  const openModal = () => {
-    if (configEnabled) {
-      setIsModalOpen(true);
-      fetch(`/api/read-json?file=config.json`)
-      .then((res) => res.json())
-      .then((results) => { 
-        setConfigData(results);
-        console.log(results)
-      })
-      .catch((err) => console.error(err));
-    };
-  };
-
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const submitForm = () => {
-    handleSave();
-    closeModal();
-  };
-
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const _name = event.target.name;
-    const _value = event.target.value;
-
-    setFormValues((_prevFormValues) => ({
-      ..._prevFormValues,
-      [_name]: _value
-    }));
+      _lines.push(
+        <text
+          key={i}
+          className={`compass__degree-number compass__degree-number__${_currentTheme}`}
+          x={_textX}
+          y={_textY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          transform={!_isNorthLocked ? '' : `rotate(${_counterRotation}, ${_textX}, ${_textY})`} // Rotate to stay upright
+        >
+          {_angle}
+        </text>
+      );
+    }
+    return _lines;
   };
 
   const switchNorthLock = () => {
-    if (!configEnabled) {
+    if (!_configEnabled) {
       setIsNorthLocked(!_isNorthLocked);
     }
   }
+  
+  const openModal = () => {
+    if (_configEnabled) {
+      setIsModalOpen(true);
+    };
+  };
 
+  const closeModal = () => {
+    if (_configEnabled) {
+      setIsModalOpen(false);
+      fetch('/api/read-json?file=config.json')
+        .then((res) => res.json())
+        .then((results) => { 
+          setConfigData(results);
+        })
+        .catch((err) => console.error(err));  
+    };
+  };
 
-  const handleSave = () => {
-    if (_configData === undefined) {
+  const handleSubmit = () => {
+    if (_configData === null) {
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
-    console.log(id)
-    console.log(_configData.pages[_pageIndex]?.components[_index])
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        source: _formValues.source,
-        width: parseInt(_formValues.width),
-        height: parseInt(_formValues.height),
-        stepsOfDegrees: parseInt(_formValues.stepsOfDegrees),
-        waveArrowOutside: stringToBool(_formValues.waveArrowOutside)
+        source: _formValues._source,
+        width: Math.floor(parseInt(_formValues._width.toString())),
+        height: Math.floor(parseInt(_formValues._height.toString())),
+        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
+        waveArrowOutside: stringToBool(_formValues._waveArrowOutside.toString()),
+        isEditable: stringToBool(_formValues._isEditable.toString()),
+        dataSource: _formValues._dataSource,
+        mqttTopic: _formValues._mqttTopic
       }
     };
 
@@ -173,55 +145,96 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
       },
       body: JSON.stringify(_configData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        response.json();
+        setConfigData(_configData);
+      })
       .catch((error) => console.error('Error saving data:', error));
+
+    closeModal();
   };
 
 
   useEffect(() => {
     // Mimic data changing
-    const _interval = setInterval(() => {
-      setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-      setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
-      setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
-      setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
-      setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
-      setRotationAngle(_prevRotationAngle => (_prevRotationAngle == 360 ? 0 : _prevRotationAngle + 5));
-    }, 500)
+    if (!_configEnabled) {
+      const _interval = setInterval(() => {
+        //setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
+        setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
+        setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
+        setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
+        setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
+      }, 500)
 
-    return () => clearInterval(_interval);
+      return () => clearInterval(_interval);
+    }
   }, []);
+  useEffect(() => {
+    if (dataSource === 'mqtt_topic') {
+        // Connect to the WebSocket server in Compass
+        ws.current = new WebSocket("ws://localhost:4000");
+    
+        ws.current.onopen = () => {
+          console.log("WebSocket connection established in Compass");
+        };
+    
+        ws.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { topic, message } = data;
+    
+          if (topic === mqttTopic) {
+            console.log(`Received message on topic "${topic}": ${message}`);
+            setCurrentHeading(message); // Convert to number and set state
+          } }
+        
+    
+        ws.current.onclose = () => {
+          console.log("WebSocket connection closed in Compass");
+        };
+    
+        // Cleanup function to close WebSocket connection when component unmounts
+        return () => {
+          ws.current?.close();
+        };
+    };
+  })
 
   useEffect(() => {
-    if (_correctData == 'incomplete') {
-      setTimeout(() => {
-        setData('correct');
-      }, 5000);
-    } else if(_isNorthLocked) { 
-      update(`hdg-${id}`, defaultTopicMessage);
-      update(`cog-${id}`, cogMessage);
-      update(`outer-circle-${id}`, outerCircle);
-      update(`degree-numbers-${id}`, 0);
-    } else {
-      update(`cog-${id}`, 0);
-      update(`hdg-${id}`, 0);
-      update(`outer-circle-${id}`, 0);
-      update(`degree-numbers-${id}`, _currentHeading);
-    };
+    // Mock data changing
+    if (!_configEnabled) {
+      if (_dataComplete == 'incomplete') {
+        setTimeout(() => {
+          setData('correct');
+        }, 5000);
+      } else if(!_isNorthLocked) { 
+        update(`hdg-${id}`, _currentHeading);
+        update(`cog-${id}`, _currentHeading + 20);
+        update(`outer-circle-${id}`, _currentHeading);
+        update(`degree-numbers-${id}`, 0);
+      } else {
+        update(`cog-${id}`, 0);
+        update(`hdg-${id}`, 0);
+        update(`outer-circle-${id}`, 0);
+        update(`degree-numbers-${id}`, _currentHeading);
+      };
+    }
   }, [_currentHeading]);
 
   useEffect(() => {
-    update(`wave-${id}`, _waveArrow);
+    // Mock data changing
+    if (!_configEnabled) { update(`wave-${id}`, _waveArrow) };
   }, [_waveArrow]);
 
   useEffect(() => {
-    update(`wind-speed-${id}`, _windArrow);
+    // Mock data changing
+    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow) };
   }, [_windArrow]);
+
 
   return (
     <>
       <div key={id} onClick={switchNorthLock} onDoubleClick={openModal}>
-        <svg width={width} height={height} viewBox='0 0 400 400'>
+        <svg width={width} height={height} viewBox='0 0 400 400' className='compass'>
           <path className='shadow' d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
           <g id={`outer-circle-${id}`} className='compass__outer-circle'>
             <path d='M360 200C360 288.366 288.366 360 200 360C111.634 360 40 288.366 40 200C40 111.634 111.634 40 200 40C288.366 40 360 111.634 360 200ZM72.4126 200C72.4126 270.465 129.535 327.587 200 327.587C270.465 327.587 327.587 270.465 327.587 200C327.587 129.535 270.465 72.4126 200 72.4126C129.535 72.4126 72.4126 129.535 72.4126 200Z' />
@@ -267,18 +280,20 @@ const Compass: React.FC<CompassProps> = ({ id = '', activePageId, source = 'magn
                 <stop offset='1' stopColor='#7474B9'/>
             </linearGradient>
             <linearGradient xmlns='http://www.w3.org/2000/svg' id='paint0_linear_1210_582' x1='77' y1='165' x2='327' y2='165' gradientUnits='userSpaceOnUse'>
-              <stop offset='0.5' stopColor='#138517'/>
               <stop offset='0.5' stopColor='#851111'/>
+              <stop offset='0.5' stopColor='#138517'/>
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Source' type='text' id='source' value={_formValues.source} onChange={handleFormChange} />
-        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={_formValues.stepsOfDegrees} onChange={handleFormChange} />
-        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleFormChange} />
-        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleFormChange} />
-        <InputField label='Wave arrow outside?' type='text' id='waveArrowOutside' value={_formValues.waveArrowOutside} onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+        <InputField label='Source' type='text' id='_source' value={_formValues._source} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
+        <ToggleField label='Wave arrow outside?' id='_waveArrowOutside' isChecked={stringToBool(_formValues._waveArrowOutside.toString())} onChange={handleChange} />
+        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+            {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value={_formValues._mqttTopic  } onChange={handleChange} />}
       </FormModal>
     </>
   );

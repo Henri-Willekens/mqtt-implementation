@@ -1,6 +1,6 @@
-export default interface ConfirmationModalProps {
+export default interface FormModalProps {
+  modalTitle?: string,
   isOpen: boolean,
-  onClose: () => void,
-  confirmText: string,
-  cancelText: string
+  onCancel: () => void,
+  onSubmit: () => void
 };

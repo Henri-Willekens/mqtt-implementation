@@ -3,7 +3,7 @@ import './Grid.scss';
 
 const _gridPositions: [{ element?: any, x: number, y: number, width: number, height: number}] = [{ x: 0, y: 0, width: 0, height: 0 }];
 
-const Grid = () => {
+const Grid: React.FC = () => {
   useEffect(() => {
     function updateCoordinates() {
       const _gridItems = document.querySelectorAll('.grid-square');
@@ -12,8 +12,6 @@ const Grid = () => {
         const _coordinates = _item.querySelector('.coordinates');
         if (_coordinates) {
           _gridPositions.push({ element: _item, x: _rect.left, y: _rect.top, width: _rect.width, height: _rect.height });
-
-          // _coordinates.textContent = `(${_rect.left.toFixed(2)}, ${_rect.top.toFixed(2)})`;
         }
       });
     }

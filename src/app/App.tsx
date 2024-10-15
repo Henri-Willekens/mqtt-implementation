@@ -6,37 +6,41 @@ import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
 import Library from './components/molecules/Library/Library';
 
-import { ThemeContext } from './contexts/Theme';
+import { CurrentThemeContext } from './contexts/CurrentTheme';
 import { ConfigEnabledContext } from './contexts/ConfigEnabled';
-import { ConfigFileContext } from './contexts/ConfigFile';
+import { ActiveConfigFileContext } from './contexts/ActiveConfigFile';
+import { ActivePageIdContext } from './contexts/ActivePageId';
+import { ConfigDataContext } from './contexts/ConfigData';
+
 import { Config } from './configuration/types';
-import { ActivePageContext } from './contexts/ActivePage';
 
 const App = () => {
-  const [_configData, setConfigData] = useState<Config | null>(null);
+  // To update context, it needs to be combined with a state
   const [_currentTheme, setCurrentTheme] = useState('day');
   const [_configEnabled, setConfigEnabled] = useState(false);
-  const [_activePageId, setActivePageId] = useState('Settings');
-  const [_activeConfig, setActiveConfig] = useState('ConfigA');
+  const [_activeConfigFile, setActiveConfigFile] = useState('ConfigA'); // Config A = config.json, Config B = example.config.json
+  const [_activePageId, setActivePageId] = useState('Settings'); // Settings always exist, so save page to initially start
+  const [_configData, setConfigData] = useState<Config | null>(null);
 
-  const fetchConfig = () => {
-    const _fileToFetch = _activeConfig == 'ConfigA' ? 'config.json' : 'example.config.json';
+  const fetchConfigData = () => {
+    const _fileToFetch = _activeConfigFile == 'ConfigA'? 'config.json' : 'example.config.json';
+
     fetch(`/api/read-json?file=${_fileToFetch}`)
-      .then((_res) => _res.json())
+      .then((_response) => _response.json())
       .then((_results) => {
         setConfigData(_results);
       })
-      .catch((_err) => console.error(_err));
+      .catch((_error) => console.error(_error));
   };
 
   useEffect(() => {
-    fetchConfig();
-    console.log(_configData)
-  }, [_activeConfig]);
+    // UseEffect fetches data on initial load, and when the _activeConfigFile changes
+    fetchConfigData();
+  }, [_activeConfigFile]);
 
-  return (
+  return(
     <div className='app'>
-      <ThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
+      <CurrentThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
         <div className={`filter filter__${_currentTheme}`}>
           <ConfigEnabledContext.Provider value={{ _configEnabled, setConfigEnabled }}>
             <div className={_configEnabled ? 'main main-config-mode' : 'main'}>
@@ -46,22 +50,22 @@ const App = () => {
                   <p>Loading...</p>
                 </div>
               ) : (
-                <>
-                  <ActivePageContext.Provider value={{_activePageId, setActivePageId}}>
-                    <Header configData={_configData} pages={_configData.pages} />
+                <ActivePageIdContext.Provider value={{_activePageId, setActivePageId}}>
+                  <ConfigDataContext.Provider value={{_configData, setConfigData}}>
+                    <Header />
                     <div className='components'>
-                      <ConfigFileContext.Provider value={{ _activeConfig, setActiveConfig }}>
-                        <PageManager config={_configData} activePageId={_activePageId} />
-                      </ConfigFileContext.Provider>
+                      <ActiveConfigFileContext.Provider value={{ _activeConfigFile, setActiveConfigFile }}>
+                        <PageManager />
+                      </ActiveConfigFileContext.Provider>
                     </div>
-                    {_configEnabled && <Library activePageId={_activePageId} config={_configData} />}
-                  </ActivePageContext.Provider>
-                </>
+                    {_configEnabled && <Library config={_configData} />}
+                  </ConfigDataContext.Provider>
+                </ActivePageIdContext.Provider>
               )}
             </div>
           </ConfigEnabledContext.Provider>
         </div>
-      </ThemeContext.Provider>
+      </CurrentThemeContext.Provider>
     </div>
   );
 };

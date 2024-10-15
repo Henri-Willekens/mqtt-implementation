@@ -1,5 +1,5 @@
-const stringToBool = (s: string): boolean => {
-    return s.toString().toLowerCase() === 'true';
+const stringToBool = (_s: string): boolean => {
+    return _s.toString().toLowerCase() === 'true';
 };
 
 export { stringToBool };

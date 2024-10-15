@@ -1,55 +1,53 @@
 import './PageManager.scss';
 import PageManagerProps from './PageManager.types';
 
+import { useContext } from 'react';
+
 import Page from '../Page/Page';
-import AlertLog from '../StaticPages/AlertLog/AlertLog';
-import SettingsPage from '../StaticPages/Settings/Settings';
-import PagesOverview from '../StaticPages/PagesOverview/PagesOverview';
+import SettingsPage from '../StaticPages/Settings/SettingsPage';
+import PagesOverviewPage from '../StaticPages/PagesOverview/PagesOverviewPage';
+import AlertLogPage from '../StaticPages/AlertLog/AlertLogPage';
 
-const PageManager: React.FC<PageManagerProps> = ({ config, activePageId }) => {
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
-  const STATIC_PAGES: {
-    [key: string]: {
-      component: React.FC<any>,
-      props?: Record<string, any>
-    }
-  } = {
+const PageManager: React.FC<PageManagerProps> = () => {
+  const { _activePageId } = useContext(ActivePageIdContext);
+  const { _configData } = useContext(ConfigDataContext);
+
+  // Determine several "static" pages, these aren't configurable and should always exist
+  const STATIC_PAGES: {[key: string]: { component: React.FC<any>, props?: Record<string, any>}} =  {
     Settings: {
-      component: SettingsPage
+      component: SettingsPage,
     },
     PagesOverview: {
-      component: PagesOverview,
-      props: {
-        pages: config.pages
-      }
+      component: PagesOverviewPage,
     },
     AlertLog: {
-      component: AlertLog
+      component: AlertLogPage,
     }
   };
+  const _staticPage = STATIC_PAGES[_activePageId]
 
-  const _staticPage = STATIC_PAGES[activePageId];
-
-  return (
+  return(
     <>
       {_staticPage ? (
-        <_staticPage.component {..._staticPage.props} />
+        <_staticPage.component { ..._staticPage.props } />
       ) : (
-        config.pages.map((_page) =>
-          _page.id === activePageId ? (
+        _configData?.pages.map((_page, _index) => 
+          _page.id === _activePageId ? (
             <Page
-              key={_page.id}
+              key={_index}
               pageId={_page.id}
               title={_page.title}
               gridEnabled={_page.gridEnabled}
               components={_page.components}
-              activePageId={activePageId}
+              connections={_page.connections}
             />
-          ) : null
-        )
+          ) : null)
       )}
     </>
-  );
+  )
 };
 
 export default PageManager;

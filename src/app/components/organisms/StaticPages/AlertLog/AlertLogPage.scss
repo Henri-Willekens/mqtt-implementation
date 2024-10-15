@@ -1,0 +1,31 @@
+@import '../../../../styles/colors';
+
+.alertlog {
+  padding: 0 20px;
+
+  &__table-component {
+    overflow: auto;
+    width: 100%;
+
+    & table {
+      border: 1px solid $white;
+      height: 100%;
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      border-spacing: 1px;
+      text-align: left;
+    }
+
+    & th {
+      border: 1px solid $white;
+      padding: 5px;
+    }
+
+    & td {
+      border: 1px solid $white;
+      padding: 5px;
+      width: fit-content;
+    }
+  }
+}

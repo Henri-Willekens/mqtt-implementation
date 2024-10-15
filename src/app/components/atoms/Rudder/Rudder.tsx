@@ -6,27 +6,40 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 
+import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import useFormInput from 'src/app/hooks/useFormInput';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 const Rudder: React.FC<RudderProps> = ({ 
   id, 
   totalRudderAngle = 270, 
   width = 255, 
   height = 255, 
-  stepsOfDegrees = 15, 
-  activePageId, 
-  configEnabled
+  stepsOfDegrees = 15,
+  isEditable = false, 
+  dataSource = 'mqtt_topic',
+  mqttTopic = '/example/topic'
 }) => {
-  const ws = useRef<WebSocket | null>(null);
-  const [rudderMessage, setRudderMessage] = useState<number | null>(0);
   const { _configData, setConfigData } = useContext(ConfigDataContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+  const ws = useRef<WebSocket | null>(null);
+
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_formValues, setFormValues] = useState({
+  const [_initialValues, setInitialValues] = useState({
     _totalRudderAngle: totalRudderAngle,
     _width: width,
     _height: height,
-    _stepsOfDegrees: stepsOfDegrees
+    _stepsOfDegrees: stepsOfDegrees,
+    _isEditable: isEditable,
+    _dataSource: dataSource,
+    _mqttTopic: mqttTopic
   });
+  const { _formValues, handleChange } = useFormInput(_initialValues);
+
   const _angle = totalRudderAngle / 2;
   const _elementRadius = 125;
   const _centerX = _elementRadius;
@@ -57,7 +70,7 @@ const Rudder: React.FC<RudderProps> = ({
   };
 
   const generateDegreeLabels = () => {
-    let degreeLabels: any[] = [];
+    let _degreeLabels: any[] = [];
 
     for (let i = -_angle; i <= _angle; i+= stepsOfDegrees) {
       const _radian = (i * Math.PI) / 180;
@@ -65,7 +78,7 @@ const Rudder: React.FC<RudderProps> = ({
       const _textX = _centerX + (_elementRadius - 12) * -Math.sin(_radian);
       const _textY = _centerY - (_elementRadius - 12) * -Math.cos(_radian);
 
-      degreeLabels.push(
+      _degreeLabels.push(
         <text
           key={i}
           x={_textX}
@@ -79,11 +92,11 @@ const Rudder: React.FC<RudderProps> = ({
       );
     };
 
-    return degreeLabels;
+    return _degreeLabels;
   };
 
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
     };
   };
@@ -99,39 +112,25 @@ const Rudder: React.FC<RudderProps> = ({
       .catch((err) => console.error(err));
   };
 
-  const submitForm = () => {
-    handleSave();
-    closeModal();
-  };
-
-
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const _name = event.target.name;
-    const _value = event.target.value;
-
-    setFormValues((_prevFormValues) => ({
-      ..._prevFormValues,
-      [_name]: _value
-    }));
-  };
-
-
-  const handleSave = () => {
+  const handleSubmit = () => {
     if (_configData === undefined || _configData === null) {
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        totalRudderAngle: Math.floor(_formValues._totalRudderAngle),
-        stepsOfDegrees: Math.floor(_formValues._stepsOfDegrees),
-        width: Math.floor(_formValues._width),
-        height: Math.floor(_formValues._height)
+        totalRudderAngle: Math.floor(parseInt(_formValues._totalRudderAngle.toString())),
+        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
+        width: Math.floor(parseInt(_formValues._width.toString())),
+        height: Math.floor(parseInt(_formValues._height.toString())),
+        isEditable: stringToBool(_formValues._isEditable.toString()),
+        dataSource: _formValues._dataSource,
+        mqttTopic: _formValues._mqttTopic
       }
     };
 
@@ -144,39 +143,39 @@ const Rudder: React.FC<RudderProps> = ({
     })
       .then((response) => response.json())
       .catch((error) => console.error('Error saving data:', error));
+    closeModal();
   };
 
+
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:4000");
-
-    ws.current.onopen = () => {
-      console.log("WebSocket connection established in Rudder");
-    };
-
-    ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const { topic, message } = data;
-
-      if (topic === "aquastorm/eindmaas/modules/Rudder/0/outputs/Rudder-angle") {
-        console.log(`Received message on topic "${topic}": ${message}`);
-        setRudderMessage(Number(message)); 
-      }
-    };
+    if (dataSource === 'mqtt_topic') {
+        // Connect to the WebSocket server in Compass
+        ws.current = new WebSocket("ws://localhost:4000");
     
-
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed in Rudder");
+        ws.current.onopen = () => {
+          console.log("WebSocket connection established in Compass");
+        };
+    
+        ws.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { topic, message } = data;
+    
+          if (topic === mqttTopic) {
+            console.log(`Received message on topic "${topic}": ${message}`);
+            updateRudderPosition(message); // Convert to number and set state
+          } }
+        
+    
+        ws.current.onclose = () => {
+          console.log("WebSocket connection closed in Compass");
+        };
+    
+        // Cleanup function to close WebSocket connection when component unmounts
+        return () => {
+          ws.current?.close();
+        };
     };
-
-
-    return () => {
-      ws.current?.close();
-    };
-  }, []);
-
-  useEffect(() => {
-    updateRudderPosition(rudderMessage)
-  }, [rudderMessage])
+  }, [])
 
   return (
     <>
@@ -217,11 +216,13 @@ const Rudder: React.FC<RudderProps> = ({
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <InputField label='Total angle' type='number' id='_totalRudderAngle' value={_formValues._totalRudderAngle} onChange={handleFormChange} />
-        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleFormChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleFormChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleFormChange} />
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+        <InputField label='Total angle' type='number' id='_totalRudderAngle' value={_formValues._totalRudderAngle} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
+        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value={_formValues._mqttTopic  } onChange={handleChange} />}
       </FormModal>
     </>
   );

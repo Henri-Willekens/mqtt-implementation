@@ -25,7 +25,10 @@ const Compass: React.FC<CompassProps> = ({
   height = 400,
   isEditable = false, 
   dataSource = 'mqtt_topic',
-  mqttTopic = '/example/topic'
+  mqttTopic = '/example/topic',
+  mqttCogTopic = '/example/topic',
+  mqttWaveTopic = '/example/topic', 
+  mqttWindTopic = '/example/topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
@@ -35,6 +38,7 @@ const Compass: React.FC<CompassProps> = ({
   
   // Mocked data
   const [_currentHeading, setCurrentHeading] = useState(0);
+  const [_cog, setCog] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
@@ -51,7 +55,10 @@ const Compass: React.FC<CompassProps> = ({
     _stepsOfDegrees: stepsOfDegrees,
     _isEditable: isEditable,
     _dataSource: dataSource,
-    _mqttTopic: mqttTopic
+    _mqttTopic: mqttTopic,
+    _mqttCogTopic: mqttCogTopic, 
+    _mqttWaveTopic: mqttWaveTopic, 
+    _mqttWindTopic: mqttWindTopic 
   });
   const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
@@ -134,7 +141,10 @@ const Compass: React.FC<CompassProps> = ({
         waveArrowOutside: stringToBool(_formValues._waveArrowOutside.toString()),
         isEditable: stringToBool(_formValues._isEditable.toString()),
         dataSource: _formValues._dataSource,
-        mqttTopic: _formValues._mqttTopic
+        mqttTopic: _formValues._mqttTopic,  // Heading
+        mqttCogTopic: _formValues._mqttCogTopic,  // COG
+        mqttWaveTopic: _formValues._mqttWaveTopic,  // Wave
+        mqttWindTopic: _formValues._mqttWindTopic  // Wind
       }
     };
 
@@ -154,6 +164,63 @@ const Compass: React.FC<CompassProps> = ({
     closeModal();
   };
 
+  
+
+
+
+  useEffect(() => {
+    if (dataSource === 'mqtt_topic') {
+      ws.current = new WebSocket("ws://localhost:4000");
+      ws.current.onopen = () => {
+        console.log("WebSocket connection established in Compass");
+      };
+      ws.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const { topic, message } = data;
+
+        if (topic === mqttTopic) {
+          setCurrentHeading(Number(message)); 
+        } if (topic === mqttWindTopic) {
+          setWindArrow(Number(message));
+        } if (topic === mqttWaveTopic) {
+          setWaveArrow(Number(message));
+        } if (topic === mqttCogTopic) { 
+          setCog(Number(message));
+      }
+      };
+      ws.current.onclose = () => {
+        console.log("WebSocket connection closed in Compass");
+      };
+
+      return () => {
+        ws.current?.close();
+      };
+    }
+  }, [dataSource, mqttTopic, mqttWindTopic, mqttWaveTopic, mqttCogTopic]);
+
+  useEffect(() => {
+    if (!_configEnabled) {
+      if (!_isNorthLocked) {
+        update(`hdg-${id}`, _currentHeading);
+        update(`cog-${id}`, _cog);
+        update(`outer-circle-${id}`, _currentHeading);
+        update(`degree-numbers-${id}`, 0);
+      } else {
+        update(`cog-${id}`, 0);
+        update(`hdg-${id}`, 0);
+        update(`outer-circle-${id}`, 0);
+        update(`degree-numbers-${id}`, _currentHeading);
+      }
+    }
+  }, [_currentHeading, _cog]);
+
+  useEffect(() => {
+    if (!_configEnabled) { update(`wave-${id}`, _waveArrow); }
+  }, [_waveArrow]);
+
+  useEffect(() => {
+    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow); }
+  }, [_windArrow]);
 
   useEffect(() => {
     // Mimic data changing
@@ -169,66 +236,6 @@ const Compass: React.FC<CompassProps> = ({
       return () => clearInterval(_interval);
     }
   }, []);
-  useEffect(() => {
-    if (dataSource === 'mqtt_topic') {
-        // Connect to the WebSocket server in Compass
-        ws.current = new WebSocket("ws://localhost:4000");
-    
-        ws.current.onopen = () => {
-          console.log("WebSocket connection established in Compass");
-        };
-    
-        ws.current.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          const { topic, message } = data;
-    
-          if (topic === mqttTopic) {
-            console.log(`Received message on topic "${topic}": ${message}`);
-            setCurrentHeading(message); // Convert to number and set state
-          } }
-        
-    
-        ws.current.onclose = () => {
-          console.log("WebSocket connection closed in Compass");
-        };
-    
-        // Cleanup function to close WebSocket connection when component unmounts
-        return () => {
-          ws.current?.close();
-        };
-    };
-  })
-
-  useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) {
-      if (_dataComplete == 'incomplete') {
-        setTimeout(() => {
-          setData('correct');
-        }, 5000);
-      } else if(!_isNorthLocked) { 
-        update(`hdg-${id}`, _currentHeading);
-        update(`cog-${id}`, _currentHeading + 20);
-        update(`outer-circle-${id}`, _currentHeading);
-        update(`degree-numbers-${id}`, 0);
-      } else {
-        update(`cog-${id}`, 0);
-        update(`hdg-${id}`, 0);
-        update(`outer-circle-${id}`, 0);
-        update(`degree-numbers-${id}`, _currentHeading);
-      };
-    }
-  }, [_currentHeading]);
-
-  useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) { update(`wave-${id}`, _waveArrow) };
-  }, [_waveArrow]);
-
-  useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow) };
-  }, [_windArrow]);
 
 
   return (
@@ -293,8 +300,15 @@ const Compass: React.FC<CompassProps> = ({
         <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
         <ToggleField label='Wave arrow outside?' id='_waveArrowOutside' isChecked={stringToBool(_formValues._waveArrowOutside.toString())} onChange={handleChange} />
         <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
-            {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value={_formValues._mqttTopic  } onChange={handleChange} />}
-      </FormModal>
+        {_formValues._dataSource === 'mqtt_topic' && (
+      <>
+        <InputField type='text' label='MQTT Heading Topic' id='_mqttTopic' value={_formValues._mqttTopic} onChange={handleChange} />
+        <InputField type='text' label='MQTT COG Topic' id='_mqttCogTopic' value={_formValues._mqttCogTopic} onChange={handleChange} /> 
+        <InputField type='text' label='MQTT Wave Topic' id='_mqttWaveTopic' value={_formValues._mqttWaveTopic} onChange={handleChange} /> 
+        <InputField type='text' label='MQTT Wind Topic' id='_mqttWindTopic' value={_formValues._mqttWindTopic} onChange={handleChange} />
+      </>
+    )}
+</FormModal>
     </>
   );
 };

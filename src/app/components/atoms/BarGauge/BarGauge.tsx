@@ -174,11 +174,11 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-        // Connect to the WebSocket server in Compass
+        // Connect to the WebSocket server in Bar Gauge
         ws.current = new WebSocket("ws://localhost:4000");
     
         ws.current.onopen = () => {
-          console.log("WebSocket connection established in Compass");
+          console.log("WebSocket connection established in Bar Gauge");
         };
     
         ws.current.onmessage = (event) => {
@@ -192,7 +192,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         
     
         ws.current.onclose = () => {
-          console.log("WebSocket connection closed in Compass");
+          console.log("WebSocket connection closed in Bar Gauge");
         };
     
         // Cleanup function to close WebSocket connection when component unmounts

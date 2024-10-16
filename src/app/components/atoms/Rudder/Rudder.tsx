@@ -149,11 +149,11 @@ const Rudder: React.FC<RudderProps> = ({
 
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-        // Connect to the WebSocket server in Compass
+        // Connect to the WebSocket server in rudder
         ws.current = new WebSocket("ws://localhost:4000");
     
         ws.current.onopen = () => {
-          console.log("WebSocket connection established in Compass");
+          console.log("WebSocket connection established in rudder");
         };
     
         ws.current.onmessage = (event) => {
@@ -167,7 +167,7 @@ const Rudder: React.FC<RudderProps> = ({
         
     
         ws.current.onclose = () => {
-          console.log("WebSocket connection closed in Compass");
+          console.log("WebSocket connection closed in rudder");
         };
     
         // Cleanup function to close WebSocket connection when component unmounts

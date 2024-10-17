@@ -10,12 +10,17 @@
   height: 100%;
 
   position: relative;
+
 }
 
 .grid-square {
   display: flex;
 
   border: 1px solid $white;
+
+  &__night {
+    border-color: $black;
+  }
 
   &:nth-child(-n+3) {
     border-top: none;

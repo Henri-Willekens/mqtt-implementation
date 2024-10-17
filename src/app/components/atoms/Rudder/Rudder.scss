@@ -26,6 +26,10 @@
     &__number {
       fill: $white;
       font-size: 14px;
+
+      &__night {
+        fill: orange;
+      }
     }
 
     &__max {
@@ -36,6 +40,9 @@
   &__pointer {
     fill: $white;
     filter: drop-shadow($sm-shadow);
+    &__night {
+      fill: orange;
+    }
   }
 
   &__boat {
@@ -43,5 +50,9 @@
 
     fill: $navigation-menu-bg;
     stroke: $white;
+
+    &__night {
+      stroke: orange;
+    }
   }
 }

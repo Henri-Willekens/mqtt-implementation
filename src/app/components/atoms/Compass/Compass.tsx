@@ -218,13 +218,13 @@ const Compass: React.FC<CompassProps> = ({
           </g>
 
           <g id={`wind-speed-${id}`}>
-            <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x='188' y='10' />
+            <image href={`./icons/wind/${_currentTheme}/windspeed-${_windspeed}.svg`} x='188' y='10' />
           </g>
 
           <g id={`wave-${id}`}>
             {waveArrowOutside 
-              ? <image href={`./icons/wave/outside/wave-${_waveSpeed}.svg`} x='188' y='10' />
-              : <image href={`./icons/wave/inside/wave-${_waveSpeed}.svg`} x='188' y='60' />
+              ? <image href={`./icons/wave/outside/${_currentTheme}/wave-${_waveSpeed}.svg`} x='188' y='10' />
+              : <image href={`./icons/wave/inside/${_currentTheme}/wave-${_waveSpeed}.svg`} x='188' y='60' />
             }
           </g>
 

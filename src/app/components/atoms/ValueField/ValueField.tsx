@@ -13,6 +13,7 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import useFormInput from 'src/app/hooks/useFormInput';
+import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -27,6 +28,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _activePageId } = useContext(ActivePageIdContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
 
   const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
@@ -136,7 +138,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   return (
     <>
       <div onDoubleClick={openModal} className='value-field__field'>
-        <label className='value-field__label' htmlFor={id}>{label}</label>
+        <label className={`value-field__label value-field__label__${_currentTheme}`} htmlFor={id}>{label}</label>
         <div className='value-field__block'>
           <span>
             <input 
@@ -145,12 +147,12 @@ const ValueField: React.FC<ValueFieldProps> = ({
               name={id}
               value={_value} 
               onChange={onChange}
-              className={`value-field__input ${isEditable ? 'value-field__editable' : ''}`} 
+              className={`value-field__input value-field__input__${_currentTheme} ${isEditable ? 'value-field__editable' : ''}`} 
               size={_value.length} 
               disabled={!isEditable} 
             />
           </span>
-          <p className='value-field__unit'>{requiresValueTimes && 'x' + valueTimes} {unit}</p>
+          <p className={`value-field__unit value-field__unit__${_currentTheme}`}>{requiresValueTimes && 'x' + valueTimes} {unit}</p>
         </div>
       </div>  
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>

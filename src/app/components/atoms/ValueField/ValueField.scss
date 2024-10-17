@@ -8,13 +8,10 @@
 
     margin: $sm-margin;
   }
-  
-  &__editable {
-    color: $white;
-  }
+
   
   &__input {
-    color: $editable-value !important;
+    color: $editable-value;
     font-weight: bold;
     background-color: $input-bg;
     
@@ -31,6 +28,10 @@
     padding: $md-padding;
   }
 
+  &__editable {
+    color: $white;
+  }
+
   &__block {
     display: flex;
     flex-direction: row;
@@ -43,12 +44,20 @@
     margin: $sm-margin;
 
     height: 100%;
+
+    &__night {
+      color: orange;
+    }
   }
 
   &__label, &__times-amount {
     font-size: $st-font-size;
 
     margin: 0 0 5px 0;
+
+    &__night {
+      color: orange;
+    }
   }
 
   &__times-amount {

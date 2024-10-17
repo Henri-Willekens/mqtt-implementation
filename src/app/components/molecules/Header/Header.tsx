@@ -61,6 +61,7 @@ const Header: React.FC<HeaderProps> = () => {
     })
       .then((response) => response.json())
       .catch((error) => console.error('Error saving data:', error));
+    closeModal();
   };
 
   const pageButtons = _configData?.pages.map((_page) => {
@@ -100,9 +101,9 @@ const Header: React.FC<HeaderProps> = () => {
       </div>
 
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} >
-        <InputField label='Page title' type='text' id='title' value={_formValues._title} onChange={handleChange} />
-        <InputField label='Page ID' type='text' id='id' value={_formValues._id} onChange={handleChange} placeholder='example-id-for-page' />
-        <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={stringToBool(_formValues._gridEnabled.toString())} onChange={handleChange} />
+        <InputField label='Page title' type='text' id='_title' value={_formValues._title} onChange={handleChange} />
+        <InputField label='Page ID' type='text' id='_id' value={_formValues._id} onChange={handleChange} placeholder='example-id-for-page' />
+        <ToggleField label='Grid enabled?' id='_gridEnabled' isChecked={stringToBool(_formValues._gridEnabled.toString())} onChange={handleChange} />
       </FormModal>
     </>
   );

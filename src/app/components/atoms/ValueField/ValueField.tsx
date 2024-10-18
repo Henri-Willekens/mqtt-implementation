@@ -53,9 +53,13 @@ const ValueField: React.FC<ValueFieldProps> = ({
     const _dateTime = new Date();
 
     if (_locale === 'utc_time') {
-      return `${_dateTime.getUTCHours().toString().padStart(2, '0')}:${_dateTime.getUTCMinutes().toString().padStart(2, '0')}`;
+      const hh = _dateTime.getUTCHours.toString().padStart(2, '0');
+      const mm = _dateTime.getUTCMinutes.toString().padStart(2, '0');
+      return `${hh}:${mm}`;
     } else if (_locale === 'local_time') {
-      return `${_dateTime.getHours().toString().padStart(2, '0')}:${_dateTime.getMinutes().toString().padStart(2, '0')}`;
+      const hh = _dateTime.getHours.toString().padStart(2, '0');
+      const mm = _dateTime.getMinutes.toString().padStart(2, '0');
+      return `${hh}:${mm}`;
     } else {
       return '';
     };
@@ -124,7 +128,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   useEffect(() => {
     if (dataSource === 'utc_time' || dataSource === 'local_time') {
       setValue(getCurrentTime(dataSource)); // Set first value
-      // Set interval to update every 60 seconds
+      // Set interval to update every second
       const interval = setInterval(() => {
         setValue(getCurrentTime(dataSource));
       }, 1000);

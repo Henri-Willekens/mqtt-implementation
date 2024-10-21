@@ -42,52 +42,55 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   });
   const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
-  const updateBarMeter = (_value: number) => {
-    let _percentage = (_value / maxValue) * 100;
+  const updateBarMeter = (value: number) => {
+    let percentage = (value / maxValue) * 100;
+    if (percentage < 0) {
+      percentage = percentage * -1;
+    };
 
-    let _barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
+    let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 
-    const _containerHeight = 250;
-    const _fillHeight = (_percentage / 100) * _containerHeight;
-    const _newY = _containerHeight - _fillHeight;
+    const containerHeight = 250;
+    const fillHeight = (percentage / 100) * containerHeight;
+    const newY = containerHeight - fillHeight;
 
-    if (_barMeterFilling != null) {
-      _barMeterFilling.style.height = `${_fillHeight}px`;
-      _barMeterFilling.setAttribute('y', _newY.toString());
+    if (barMeterFilling != null) {
+      barMeterFilling.style.height = `${fillHeight}px`;
+      barMeterFilling.setAttribute('y', newY.toString());
     }
   };
 
   const generateTickLines = () => {
-    const _tickLines: any[] = [];
-    const _tickSpacing = 250 / (numberOfTickLines - 1);
+    const tickLines: any[] = [];
+    const tickSpacing = 250 / (numberOfTickLines - 1);
 
     for (let i = 0; i < numberOfTickLines; i++) {
-      const _y = 1 + i * _tickSpacing;
-      const _value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
+      const y = 1 + i * tickSpacing;
+      const value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
 
-      _tickLines.push(
+      tickLines.push(
         <g className='bar-gauge__tick-line' key={i}>
-          <text x='70' y={_y + 10}>{Math.round(_value)}</text>
+          <text x='70' y={y + 10}>{Math.round(value)}</text>
         </g>
       )
     }
 
-    return _tickLines;
+    return tickLines;
   };
 
   const determineAlertLinesLocation = () => {
-    const _alertLines: any[] = [];
+    const alertLines: any[] = [];
 
-    const _barmeterHeight = 250;
+    const barmeterHeight = 250;
 
-    for (let _alertValue of alertLines) {
-      const yPos = _barmeterHeight - (_alertValue.value / maxValue) * _barmeterHeight;
-      _alertLines.push(
-        <line key={_alertValue.value} className={`bar-gauge__alert-lines__${_alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
+    for (let alertValue of alertLines) {
+      const yPos = barmeterHeight - (alertValue.value / maxValue) * barmeterHeight;
+      alertLines.push(
+        <line key={alertValue.value} className={`bar-gauge__alert-lines__${alertValue.alertType}`} x1='10' x2='60' y1={yPos} y2={yPos} />
       )
     }
 
-    return _alertLines;
+    return alertLines;
   };
 
   const openModal = () => {
@@ -171,7 +174,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   }, []);
 
   useEffect(() => {
-    updateBarMeter(_currentValue);
+    updateBarMeter(30);
   }, [_currentValue]);
 
   return(

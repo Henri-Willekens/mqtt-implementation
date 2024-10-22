@@ -11,10 +11,10 @@ import { ActiveConfigFileContext } from 'src/app/contexts/ActiveConfigFile';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
 const SettingsPage: React.FC = () => {
-  const [_initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState({
     configCode: '',
   });
-  const { formValues, handleChange } = useFormInput(_initialValues);
+  const { formValues, handleChange } = useFormInput(initialValues);
 
   const { _currentTheme, setCurrentTheme } = useContext(CurrentThemeContext);
   const { _activeConfigFile, setActiveConfigFile } = useContext(ActiveConfigFileContext);

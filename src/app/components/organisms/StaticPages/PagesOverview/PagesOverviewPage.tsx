@@ -10,9 +10,9 @@ const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
   const { _configData } = useContext(ConfigDataContext);
   const { setActivePageId } = useContext(ActivePageIdContext);
 
-  const _pageLinks = _configData?.pages.map((_page) => {
+  const pageLinks = _configData?.pages.map((page) => {
     return(
-      <p key={_page.id} className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
+      <p key={page.id} className='page__link' onClick={() => setActivePageId(page.id)}>{page.id} - {page.title}</p>
     )
   });
 
@@ -20,7 +20,7 @@ const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
     <div className='pages-overview'>
       <h2>All pages</h2>
       <div>
-        {_pageLinks}
+        {pageLinks}
       </div>
     </div>
   );

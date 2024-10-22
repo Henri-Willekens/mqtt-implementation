@@ -53,12 +53,12 @@ const ValueField: React.FC<ValueFieldProps> = ({
     const _dateTime = new Date();
 
     if (_locale === 'utc_time') {
-      const hh = _dateTime.getUTCHours.toString().padStart(2, '0');
-      const mm = _dateTime.getUTCMinutes.toString().padStart(2, '0');
+      const hh = _dateTime.getUTCHours().toString().padStart(2, '0');
+      const mm = _dateTime.getUTCMinutes().toString().padStart(2, '0');
       return `${hh}:${mm}`;
     } else if (_locale === 'local_time') {
-      const hh = _dateTime.getHours.toString().padStart(2, '0');
-      const mm = _dateTime.getMinutes.toString().padStart(2, '0');
+      const hh = _dateTime.getHours().toString().padStart(2, '0');
+      const mm = _dateTime.getMinutes().toString().padStart(2, '0');
       return `${hh}:${mm}`;
     } else {
       return '';

@@ -127,7 +127,7 @@ const Library: React.FC<LibraryProps> = ({
 
     closeCreateConnectionModal();
     resetForm();
-  }
+  };
 
   return(
     <div className={`library ${_isLibraryOpen ? 'library-open' : ''}`}>

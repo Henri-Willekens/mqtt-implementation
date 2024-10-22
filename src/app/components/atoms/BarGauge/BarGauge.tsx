@@ -28,25 +28,32 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_initialValues, setInitialValues] = useState({
-    _maxValue: maxValue,
-    _numberOfTickLines: numberOfTickLines,
-    _label: label,
-    _width: width,
-    _height: height,
-    _alarmSource: alarmSource,
-    _alarmTooHigh: 0,
-    _warningTooHigh: 0,
-    _alarmTooLow: 0,
-    _warningTooLow: 0
+  const [initialValues, setInitialValues] = useState({
+    maxValue: maxValue,
+    numberOfTickLines: numberOfTickLines,
+    label: label,
+    width: width,
+    height: height,
+    alarmSource: alarmSource,
+    alarmTooHigh: 0,
+    warningTooHigh: 0,
+    alarmTooLow: 0,
+    warningTooLow: 0
   });
-  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
+  const { _formValues, handleChange, resetForm } = useFormInput(initialValues);
 
   const updateBarMeter = (value: number) => {
+    if ((value < 0 && maxValue > 0) || (value > 0 && maxValue < 0)) {
+      console.log('Invalid: value and maxValue have opposite signs');
+      value = 0;
+    }
+  
+    // Calculate the percentage
     let percentage = (value / maxValue) * 100;
-    if (percentage < 0) {
-      percentage = percentage * -1;
-    };
+  
+    // Make sure percentage is capped between 0% and 100%
+    if (percentage < 0) percentage = 0;
+    if (percentage > 100) percentage = 100;
 
     let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 
@@ -123,28 +130,28 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        maxValue: Math.floor(parseInt(_formValues._maxValue.toString())),
-        content: _formValues._content,
-        numberOfTickLines: Math.floor(parseInt(_formValues._numberOfTickLines.toString())),
-        label: _formValues._label,
-        width: _formValues._width,
-        height: _formValues._height,
-        alarmSource: _formValues._alarmSource,
+        maxValue: Math.floor(parseInt(_formValues.maxValue.toString())),
+        content: _formValues.content,
+        numberOfTickLines: Math.floor(parseInt(_formValues.numberOfTickLines.toString())),
+        label: _formValues.label,
+        width: _formValues.width,
+        height: _formValues.height,
+        alarmSource: _formValues.alarmSource,
         alertLines: [
           {
-            value: _formValues._alarmTooHigh,
+            value: _formValues.alarmTooHigh,
             alertType: 'alarm'
           },
           {
-            value: _formValues._warningTooHigh,
+            value: _formValues.warningTooHigh,
             alertType: 'warning'
           },
           {
-            value: _formValues._alarmTooLow,
+            value: _formValues.alarmTooLow,
             alertType: 'alarm'
           },
           {
-            value: _formValues._warningTooLow,
+            value: _formValues.warningTooLow,
             alertType: 'warning'
           }
         ]
@@ -174,7 +181,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   }, []);
 
   useEffect(() => {
-    updateBarMeter(30);
+    updateBarMeter(_currentValue);
   }, [_currentValue]);
 
   return(
@@ -209,18 +216,18 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Element label' type='text' id='_label' value={_formValues._label} onChange={handleChange} />
-        <InputField label='Maximum value' type='number' id='_maxValue' value={_formValues._maxValue} onChange={handleChange} />
-        <InputField label='Number of tick lines' type='number' id='_numberOfTickLines' value={_formValues._numberOfTickLines} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
-        <SelectField label='Alarm source' id='_alarmSource' value={_formValues._alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
-        { _formValues._alarmSource === 'config' && (
+        <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleChange} />
+        <InputField label='Maximum value' type='number' id='maxValue' value={_formValues.maxValue} onChange={handleChange} />
+        <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={_formValues.numberOfTickLines} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleChange} />
+        <SelectField label='Alarm source' id='alarmSource' value={_formValues.alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
+        { _formValues.alarmSource === 'config' && (
           <>
-            <InputField label='Alarm too high' type='text' id='_alarmTooHigh' value={_formValues._alarmTooHigh} onChange={handleChange} />
-            <InputField label='Warning too high' type='text' id='_warningTooHigh' value={_formValues._warningTooHigh} onChange={handleChange} />
-            <InputField label='Warning too low' type='text' id='_warningTooLow' value={_formValues._warningTooLow} onChange={handleChange} />
-            <InputField label='Alarm too low' type='text' id='_alarmTooLow' value={_formValues._alarmTooLow} onChange={handleChange} />
+            <InputField label='Alarm too high' type='text' id='alarmTooHigh' value={_formValues.alarmTooHigh} onChange={handleChange} />
+            <InputField label='Warning too high' type='text' id='warningTooHigh' value={_formValues.warningTooHigh} onChange={handleChange} />
+            <InputField label='Warning too low' type='text' id='warningTooLow' value={_formValues.warningTooLow} onChange={handleChange} />
+            <InputField label='Alarm too low' type='text' id='alarmTooLow' value={_formValues.alarmTooLow} onChange={handleChange} />
           </>
         )}
       </FormModal>

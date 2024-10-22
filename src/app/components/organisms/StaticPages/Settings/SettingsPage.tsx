@@ -12,9 +12,9 @@ import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
 const SettingsPage: React.FC = () => {
   const [_initialValues, setInitialValues] = useState({
-    _configCode: '',
+    configCode: '',
   });
-  const { _formValues, handleChange } = useFormInput(_initialValues);
+  const { formValues, handleChange } = useFormInput(_initialValues);
 
   const { _currentTheme, setCurrentTheme } = useContext(CurrentThemeContext);
   const { _activeConfigFile, setActiveConfigFile } = useContext(ActiveConfigFileContext);
@@ -26,19 +26,19 @@ const SettingsPage: React.FC = () => {
     };
 
     setInitialValues({
-      _configCode: sessionStorage.getItem('configCode') as string
+      configCode: sessionStorage.getItem('configCode') as string
     });
   }, []);
 
   useEffect(() => {
     // Store the configCode for the session, once sessions ends, removes code automatically
     // or if code no longer matches
-    if (_formValues._configCode === process.env.NEXT_PUBLIC_CONFIG_CODE) {
-      sessionStorage.setItem('configCode', _formValues._configCode);
-    } else if (_formValues._configCode != process.env.NEXT_PUBLIC_CONFIG_CODE && sessionStorage.getItem('configCode') != null) {
+    if (formValues.configCode === process.env.NEXT_PUBLIC_CONFIG_CODE) {
+      sessionStorage.setItem('configCode', formValues.configCode);
+    } else if (formValues.configCode != process.env.NEXT_PUBLIC_CONFIG_CODE && sessionStorage.getItem('configCode') != null) {
       sessionStorage.removeItem('configCode');
     };
-  }, [_formValues._configCode]);
+  }, [formValues.configCode]);
 
   return(
     <div className='settings'>
@@ -61,8 +61,8 @@ const SettingsPage: React.FC = () => {
         </div>
         <div className='settings__configuration settings__block'>
           <h3>Configuration</h3>
-          <InputField type='text' label='Access code' id='_configCode' value={_formValues._configCode} onChange={handleChange} placeholder='xxx-xxx' />
-          {_formValues._configCode === process.env.NEXT_PUBLIC_CONFIG_CODE && 
+          <InputField type='text' label='Access code' id='configCode' value={formValues.configCode} onChange={handleChange} placeholder='xxx-xxx' />
+          {formValues.configCode === process.env.NEXT_PUBLIC_CONFIG_CODE && 
             <Button 
               value={`Turn config mode ${_configEnabled ? 'off' : 'on'}`} 
               onClick={() => { setConfigEnabled(!_configEnabled)} } 

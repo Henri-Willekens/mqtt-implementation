@@ -26,12 +26,12 @@ const Rudder: React.FC<RudderProps> = ({
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _totalRudderAngle: totalRudderAngle,
-    _width: width,
-    _height: height,
-    _stepsOfDegrees: stepsOfDegrees
+    totalRudderAngle: totalRudderAngle,
+    width: width,
+    height: height,
+    stepsOfDegrees: stepsOfDegrees
   });
-  const { _formValues, handleChange } = useFormInput(_initialValues);
+  const { formValues, handleChange } = useFormInput(_initialValues);
 
   const _angle = totalRudderAngle / 2;
   const _elementRadius = 125;
@@ -119,10 +119,10 @@ const Rudder: React.FC<RudderProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        totalRudderAngle: Math.floor(parseInt(_formValues._totalRudderAngle.toString())),
-        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
-        width: Math.floor(parseInt(_formValues._width.toString())),
-        height: Math.floor(parseInt(_formValues._height.toString()))
+        totalRudderAngle: Math.floor(parseInt(formValues.totalRudderAngle.toString())),
+        stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
+        width: Math.floor(parseInt(formValues.width.toString())),
+        height: Math.floor(parseInt(formValues.height.toString()))
       }
     };
 
@@ -183,10 +183,10 @@ const Rudder: React.FC<RudderProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Total angle' type='number' id='_totalRudderAngle' value={_formValues._totalRudderAngle} onChange={handleChange} />
-        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
+        <InputField label='Total angle' type='number' id='totalRudderAngle' value={formValues.totalRudderAngle} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
       </FormModal>
     </>
   );

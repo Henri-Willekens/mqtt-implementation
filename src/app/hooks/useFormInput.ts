@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useFormInput = (_initialValues: { [key: string]: string | number | boolean; }) => {
-  const [_formValues, setValues] = useState(_initialValues);
+  const [formValues, setValues] = useState(_initialValues);
 
   const handleChange = (_event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, type } = _event.target;
@@ -10,7 +10,7 @@ const useFormInput = (_initialValues: { [key: string]: string | number | boolean
     const newValue = type === 'checkbox' ? _event.target.checked : _event.target.value;
 
     setValues({
-      ..._formValues,
+      ...formValues,
       [name]: newValue,
     });
   };
@@ -20,7 +20,7 @@ const useFormInput = (_initialValues: { [key: string]: string | number | boolean
   };
 
   return {
-    _formValues,
+    formValues,
     handleChange,
     resetForm,
   };

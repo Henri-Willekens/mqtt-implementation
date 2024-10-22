@@ -38,13 +38,13 @@ const Compass: React.FC<CompassProps> = ({
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _source: source,
-    _waveArrowOutside: waveArrowOutside,
-    _width: width,
-    _height: height,
-    _stepsOfDegrees: stepsOfDegrees
+    source: source,
+    waveArrowOutside: waveArrowOutside,
+    width: width,
+    height: height,
+    stepsOfDegrees: stepsOfDegrees
   });
-  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
+  const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
 
   const update = (_elementToSelect: string, _updatedValue: number) => {
@@ -118,11 +118,11 @@ const Compass: React.FC<CompassProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        source: _formValues._source,
-        width: Math.floor(parseInt(_formValues._width.toString())),
-        height: Math.floor(parseInt(_formValues._height.toString())),
-        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
-        waveArrowOutside: stringToBool(_formValues._waveArrowOutside.toString())
+        source: formValues.source,
+        width: Math.floor(parseInt(formValues.width.toString())),
+        height: Math.floor(parseInt(formValues.height.toString())),
+        stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
+        waveArrowOutside: stringToBool(formValues.waveArrowOutside.toString())
       }
     };
 
@@ -245,11 +245,11 @@ const Compass: React.FC<CompassProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Source' type='text' id='_source' value={_formValues._source} onChange={handleChange} />
-        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
-        <ToggleField label='Wave arrow outside?' id='_waveArrowOutside' isChecked={stringToBool(_formValues._waveArrowOutside.toString())} onChange={handleChange} />
+        <InputField label='Source' type='text' id='source' value={formValues.source} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <ToggleField label='Wave arrow outside?' id='waveArrowOutside' isChecked={stringToBool(formValues.waveArrowOutside.toString())} onChange={handleChange} />
       </FormModal>
     </>
   );

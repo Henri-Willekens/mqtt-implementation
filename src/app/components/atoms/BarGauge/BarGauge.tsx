@@ -40,7 +40,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     alarmTooLow: 0,
     warningTooLow: 0
   });
-  const { _formValues, handleChange, resetForm } = useFormInput(initialValues);
+  const { formValues, handleChange, resetForm } = useFormInput(initialValues);
 
   const updateBarMeter = (value: number) => {
     if ((value < 0 && maxValue > 0) || (value > 0 && maxValue < 0)) {
@@ -130,28 +130,28 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        maxValue: Math.floor(parseInt(_formValues.maxValue.toString())),
-        content: _formValues.content,
-        numberOfTickLines: Math.floor(parseInt(_formValues.numberOfTickLines.toString())),
-        label: _formValues.label,
-        width: _formValues.width,
-        height: _formValues.height,
-        alarmSource: _formValues.alarmSource,
+        maxValue: Math.floor(parseInt(formValues.maxValue.toString())),
+        content: formValues.content,
+        numberOfTickLines: Math.floor(parseInt(formValues.numberOfTickLines.toString())),
+        label: formValues.label,
+        width: formValues.width,
+        height: formValues.height,
+        alarmSource: formValues.alarmSource,
         alertLines: [
           {
-            value: _formValues.alarmTooHigh,
+            value: formValues.alarmTooHigh,
             alertType: 'alarm'
           },
           {
-            value: _formValues.warningTooHigh,
+            value: formValues.warningTooHigh,
             alertType: 'warning'
           },
           {
-            value: _formValues.alarmTooLow,
+            value: formValues.alarmTooLow,
             alertType: 'alarm'
           },
           {
-            value: _formValues.warningTooLow,
+            value: formValues.warningTooLow,
             alertType: 'warning'
           }
         ]
@@ -216,18 +216,18 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Element label' type='text' id='label' value={_formValues.label} onChange={handleChange} />
-        <InputField label='Maximum value' type='number' id='maxValue' value={_formValues.maxValue} onChange={handleChange} />
-        <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={_formValues.numberOfTickLines} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='width' value={_formValues.width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='height' value={_formValues.height} onChange={handleChange} />
-        <SelectField label='Alarm source' id='alarmSource' value={_formValues.alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
-        { _formValues.alarmSource === 'config' && (
+        <InputField label='Element label' type='text' id='label' value={formValues.label} onChange={handleChange} />
+        <InputField label='Maximum value' type='number' id='maxValue' value={formValues.maxValue} onChange={handleChange} />
+        <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={formValues.numberOfTickLines} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <SelectField label='Alarm source' id='alarmSource' value={formValues.alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
+        { formValues.alarmSource === 'config' && (
           <>
-            <InputField label='Alarm too high' type='text' id='alarmTooHigh' value={_formValues.alarmTooHigh} onChange={handleChange} />
-            <InputField label='Warning too high' type='text' id='warningTooHigh' value={_formValues.warningTooHigh} onChange={handleChange} />
-            <InputField label='Warning too low' type='text' id='warningTooLow' value={_formValues.warningTooLow} onChange={handleChange} />
-            <InputField label='Alarm too low' type='text' id='alarmTooLow' value={_formValues.alarmTooLow} onChange={handleChange} />
+            <InputField label='Alarm too high' type='text' id='alarmTooHigh' value={formValues.alarmTooHigh} onChange={handleChange} />
+            <InputField label='Warning too high' type='text' id='warningTooHigh' value={formValues.warningTooHigh} onChange={handleChange} />
+            <InputField label='Warning too low' type='text' id='warningTooLow' value={formValues.warningTooLow} onChange={handleChange} />
+            <InputField label='Alarm too low' type='text' id='alarmTooLow' value={formValues.alarmTooLow} onChange={handleChange} />
           </>
         )}
       </FormModal>

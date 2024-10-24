@@ -7,7 +7,13 @@ const useFormInput = (_initialValues: { [key: string]: string | number | boolean
     const { name, type } = _event.target;
     
     // Handle checkbox separately since its value is in `checked`
-    const newValue = type === 'checkbox' ? _event.target.checked : _event.target.value;
+    let newValue: any;
+
+    if (type === 'checkbox') {
+      newValue = (_event.target as HTMLInputElement).checked;
+    } else {
+      newValue = _event.target.value;
+    }
 
     setValues({
       ...formValues,

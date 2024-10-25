@@ -7,22 +7,25 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
+import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 
 const Valve: React.FC<ValveProps> = ({ 
   id, 
-  content = '', 
-  configEnabled,
-  activePageId
+  content = ''
 }) => {
   const { _configData } = useContext(ConfigDataContext);
+  const { _configEnabled } = useContext(ConfigEnabledContext);
+  const { _activePageId } = useContext(ActivePageIdContext);
+
   const [_enabled, setEnabled] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_formValues, setFormValues] = useState({
-    _content: content
+  const [formValues, setFormValues] = useState({
+    content: content
   });
 
   const openModal = () => {
-    if (configEnabled) {
+    if (_configEnabled) {
       setIsModalOpen(true);
     };
   };
@@ -41,14 +44,14 @@ const Valve: React.FC<ValveProps> = ({
       return;
     }
 
-    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === activePageId);
+    let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
 
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        content: _formValues._content,
+        content: formValues.content,
         width: 72,
         height: 48
       }
@@ -81,7 +84,7 @@ const Valve: React.FC<ValveProps> = ({
 
   return (
     <>
-      <div onDoubleClick={openModal} className={`valve ${id}`} onClick={configEnabled ? () => { } : turnOnOrOff}>
+      <div onDoubleClick={openModal} className={`valve ${id}`} onClick={_configEnabled ? () => { } : turnOnOrOff}>
         <svg width='72' height='48' viewBox='0 0 30 28'>
         {/* fill  */}
           <path className='valve-fill__stroke' d='M 0.04860905,23.977543 C 0.0286728,23.957943 0.0125,21.004963 0.0125,17.415283 v -6.5267 h 1.8864493 1.8864494 l 0.8612266,1.09372 0.8612263,1.09371 h 1.9706395 1.9706188 l 0.449624,-0.41924 c 0.2472911,-0.23057 0.6710081,-0.55943 0.9416031,-0.7308 l 0.491988,-0.31157 v -0.67509 -0.67509 l -0.541616,-0.5629996 -0.541615,-0.56299 v -0.6987 -0.6987 h 1.218645 1.218635 v -0.987 -0.98701 h 1.787338 1.787348 v 0.98701 0.987 h 1.218645 1.218635 v 0.6987 0.6987 l -0.541616,0.56299 -0.541615,0.5629996 v 0.67509 0.67509 l 0.491978,0.31157 c 0.270596,0.171368 0.694332,0.50023 0.941613,0.7308 l 0.449613,0.41924 h 1.970619 1.97064 l 0.861226,-1.09371 0.861237,-1.09372 h 1.886663 1.886663 l -0.01373,6.54893 -0.01373,6.54893 -1.868588,0.0124 -1.868578,0.0124 -0.859609,-1.09274 -0.859589,-1.09274 h -1.989386 -1.989375 l -0.390802,0.36926 c -2.027885,1.91605 -5.092426,2.36583 -7.609614,1.11685 -0.567339,-0.2815 -1.059137,-0.620568 -1.5956954,-1.10013 L 9.4448074,21.825763 H 7.4704046 5.4959916 l -0.8595989,1.09225 -0.8595992,1.09224 -1.8460072,0.001 c -1.01531562,8.1e-4 -1.86227147,-0.0145 -1.88213655,-0.0341 z ' />
@@ -90,7 +93,7 @@ const Valve: React.FC<ValveProps> = ({
           </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <SelectField label='Content' id='_content' value={_formValues._content} onChange={handleFormChange} options={['clean-water', 'sea-water', 'fuel', 'oil']} />
+        <SelectField label='Content' id='content' value={formValues.content} onChange={handleFormChange} options={['clean-water', 'sea-water', 'fuel', 'oil']} />
       </FormModal>
     </>
   );

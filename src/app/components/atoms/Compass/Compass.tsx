@@ -5,6 +5,8 @@ import { useState, useEffect, useContext, useRef } from 'react';
 
 import InputField from '../FormInputs/InputField/InputField';
 import FormModal from '../../molecules/FormModal/FormModal';
+import ToggleField from '../FormInputs/ToggleField/ToggleField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
@@ -12,9 +14,6 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import useFormInput from 'src/app/hooks/useFormInput';
-import ToggleField from '../FormInputs/ToggleField/ToggleField';
-import SelectField from '../FormInputs/SelectField/SelectField';
-
 
 const Compass: React.FC<CompassProps> = ({ 
   id = '', 
@@ -23,7 +22,6 @@ const Compass: React.FC<CompassProps> = ({
   stepsOfDegrees = 30, 
   width = 400, 
   height = 400,
-  isEditable = false, 
   dataSource = 'mqtt_topic',
   mqttTopic = '/example/topic',
   mqttCogTopic = '/example/topic',
@@ -48,24 +46,23 @@ const Compass: React.FC<CompassProps> = ({
   const [_isNorthLocked, setIsNorthLocked] = useState(false);
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _source: source,
-    _waveArrowOutside: waveArrowOutside,
-    _width: width,
-    _height: height,
-    _stepsOfDegrees: stepsOfDegrees,
-    _isEditable: isEditable,
-    _dataSource: dataSource,
-    _mqttTopic: mqttTopic,
-    _mqttCogTopic: mqttCogTopic, 
-    _mqttWaveTopic: mqttWaveTopic, 
-    _mqttWindTopic: mqttWindTopic 
+    source: source,
+    waveArrowOutside: waveArrowOutside,
+    width: width,
+    height: height,
+    stepsOfDegrees: stepsOfDegrees,
+    dataSource: dataSource,
+    mqttTopic: mqttTopic,
+    mqttCogTopic: mqttCogTopic, 
+    mqttWaveTopic: mqttWaveTopic, 
+    mqttWindTopic: mqttWindTopic 
   });
-  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
+  const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
 
-  const update = (_elementToSelect: string, _updatedValue: number) => {
-    let _element = document.getElementById(_elementToSelect);
-    _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
+  const update = (elementToSelect: string, updatedValue: number) => {
+    let element = document.getElementById(elementToSelect);
+    element?.setAttribute('transform', `rotate(${updatedValue}, 200, 200)`)
   };
 
   const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
@@ -134,17 +131,16 @@ const Compass: React.FC<CompassProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        source: _formValues._source,
-        width: Math.floor(parseInt(_formValues._width.toString())),
-        height: Math.floor(parseInt(_formValues._height.toString())),
-        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
-        waveArrowOutside: stringToBool(_formValues._waveArrowOutside.toString()),
-        isEditable: stringToBool(_formValues._isEditable.toString()),
-        dataSource: _formValues._dataSource,
-        mqttTopic: _formValues._mqttTopic,  // Heading
-        mqttCogTopic: _formValues._mqttCogTopic,  // COG
-        mqttWaveTopic: _formValues._mqttWaveTopic,  // Wave
-        mqttWindTopic: _formValues._mqttWindTopic  // Wind
+        source: formValues.source,
+        width: Math.floor(parseInt(formValues.width.toString())),
+        height: Math.floor(parseInt(formValues.height.toString())),
+        stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
+        waveArrowOutside: stringToBool(formValues.waveArrowOutside.toString()),
+        dataSource: formValues.dataSource,
+        mqttTopic: formValues.mqttTopic,  // Heading
+        mqttCogTopic: formValues.mqttCogTopic,  // COG
+        mqttWaveTopic: formValues.mqttWaveTopic,  // Wave
+        mqttWindTopic: formValues.mqttWindTopic  // Wind
       }
     };
 
@@ -199,8 +195,7 @@ const Compass: React.FC<CompassProps> = ({
   }, [dataSource, mqttTopic, mqttWindTopic, mqttWaveTopic, mqttCogTopic]);
 
   useEffect(() => {
-    if (!_configEnabled) {
-      if (!_isNorthLocked) {
+    if(!_isNorthLocked) { 
         update(`hdg-${id}`, _currentHeading);
         update(`cog-${id}`, _cog);
         update(`outer-circle-${id}`, _currentHeading);
@@ -213,30 +208,6 @@ const Compass: React.FC<CompassProps> = ({
       }
     }
   }, [_currentHeading, _cog]);
-
-  useEffect(() => {
-    if (!_configEnabled) { update(`wave-${id}`, _waveArrow); }
-  }, [_waveArrow]);
-
-  useEffect(() => {
-    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow); }
-  }, [_windArrow]);
-
-  useEffect(() => {
-    // Mimic data changing
-    if (!_configEnabled) {
-      const _interval = setInterval(() => {
-        //setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-        setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
-        setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
-        setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
-        setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
-      }, 500)
-
-      return () => clearInterval(_interval);
-    }
-  }, []);
-
 
   return (
     <>
@@ -267,13 +238,13 @@ const Compass: React.FC<CompassProps> = ({
           </g>
 
           <g id={`wind-speed-${id}`}>
-            <image href={`./icons/wind/windspeed-${_windspeed}.svg`} x='188' y='10' />
+            <image href={`./icons/wind/${_currentTheme}/windspeed-${_windspeed}.svg`} x='188' y='10' />
           </g>
 
           <g id={`wave-${id}`}>
             {waveArrowOutside 
-              ? <image href={`./icons/wave/outside/wave-${_waveSpeed}.svg`} x='188' y='10' />
-              : <image href={`./icons/wave/inside/wave-${_waveSpeed}.svg`} x='188' y='60' />
+              ? <image href={`./icons/wave/outside/${_currentTheme}/wave-${_waveSpeed}.svg`} x='188' y='10' />
+              : <image href={`./icons/wave/inside/${_currentTheme}/wave-${_waveSpeed}.svg`} x='188' y='60' />
             }
           </g>
 
@@ -294,21 +265,21 @@ const Compass: React.FC<CompassProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Source' type='text' id='_source' value={_formValues._source} onChange={handleChange} />
-        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
-        <ToggleField label='Wave arrow outside?' id='_waveArrowOutside' isChecked={stringToBool(_formValues._waveArrowOutside.toString())} onChange={handleChange} />
-        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
-        {_formValues._dataSource === 'mqtt_topic' && (
-      <>
-        <InputField type='text' label='MQTT Heading Topic' id='_mqttTopic' value={_formValues._mqttTopic} onChange={handleChange} />
-        <InputField type='text' label='MQTT COG Topic' id='_mqttCogTopic' value={_formValues._mqttCogTopic} onChange={handleChange} /> 
-        <InputField type='text' label='MQTT Wave Topic' id='_mqttWaveTopic' value={_formValues._mqttWaveTopic} onChange={handleChange} /> 
-        <InputField type='text' label='MQTT Wind Topic' id='_mqttWindTopic' value={_formValues._mqttWindTopic} onChange={handleChange} />
-      </>
-    )}
-</FormModal>
+        <InputField label='Source' type='text' id='source' value={formValues.source} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <ToggleField label='Wave arrow outside?' id='waveArrowOutside' isChecked={stringToBool(formValues.waveArrowOutside.toString())} onChange={handleChange} />
+        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {formValues.dataSource === 'mqtt_topic' && (
+          <>
+            <InputField type='text' label='MQTT Heading Topic' id='mqttTopic' value={formValues.mqttTopic} onChange={handleChange} />
+            <InputField type='text' label='MQTT COG Topic' id='mqttCogTopic' value={formValues.mqttCogTopic} onChange={handleChange} /> 
+            <InputField type='text' label='MQTT Wave Topic' id='mqttWaveTopic' value={formValues.mqttWaveTopic} onChange={handleChange} /> 
+            <InputField type='text' label='MQTT Wind Topic' id='mqttWindTopic' value={formValues.mqttWindTopic} onChange={handleChange} />
+          </>
+        )}
+     </FormModal>
     </>
   );
 };

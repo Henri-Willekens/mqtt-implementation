@@ -4,25 +4,25 @@ import ModalDialogProps from './ModalDialog.types';
 import { useEffect, useRef } from 'react';
 
 const ModalDialog: React.FC<ModalDialogProps> = ({ modalTitle, isOpen, onClose, children }) => {
-  const _dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const handleClose = () => {
     onClose();
   }
 
   useEffect(() => {
-    const _dialog = _dialogRef.current;
-    if (_dialog) {
+    const dialog = dialogRef.current;
+    if (dialog) {
       if (isOpen) {
-        _dialog.showModal();
+        dialog.showModal();
       } else {
-        _dialog.close();
+        dialog.close();
       };
     };
   }, [isOpen]);
 
   return (
-    <dialog ref={_dialogRef} onClose={handleClose} className='modal'>
+    <dialog ref={dialogRef} onClose={handleClose} className='modal'>
       <div className='modal__header'>
         <p>{modalTitle}</p>
       </div>

@@ -5,11 +5,10 @@ const OrthologalLine: React.FC<OrthologalLineProps> = ({ from, to, type, content
   let _pathData = '';
   let _state = Math.floor(Math.random() * 2);
 
-  // Calculate middle points of 'from' and 'to' elements, for element to valve
   const _fromMiddleX = Math.floor(from.props.xPos + (from.props.width / 2));
-  const _fromMiddleY = Math.floor(from.props.yPos + (from.props.height / 2) - 5);
+  const _fromMiddleY = Math.floor(from.props.yPos + (from.props.height / 2) - 10);
   const _toMiddleX = Math.floor(to.props.xPos + (to.props.width / 2));
-  const _toMiddleY = Math.floor(to.props.yPos - (to.props.height / 2) - 5);
+  const _toMiddleY = Math.floor(to.props.yPos + (to.props.height / 2) - 10);
 
   // Calculate the mid-point in the X direction for the path
   const _midX = (_fromMiddleX + _toMiddleX) / 2;

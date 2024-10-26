@@ -27,22 +27,22 @@ const PageManager: React.FC<PageManagerProps> = () => {
       component: AlertLogPage,
     }
   };
-  const _staticPage = STATIC_PAGES[_activePageId]
+  const staticPage = STATIC_PAGES[_activePageId]
 
   return(
     <>
-      {_staticPage ? (
-        <_staticPage.component { ..._staticPage.props } />
+      {staticPage ? (
+        <staticPage.component { ...staticPage.props } />
       ) : (
-        _configData?.pages.map((_page, _index) => 
-          _page.id === _activePageId ? (
+        _configData?.pages.map((page, index) => 
+          page.id === _activePageId ? (
             <Page
-              key={_index}
-              pageId={_page.id}
-              title={_page.title}
-              gridEnabled={_page.gridEnabled}
-              components={_page.components}
-              connections={_page.connections}
+              key={index}
+              pageId={page.id}
+              title={page.title}
+              gridEnabled={page.gridEnabled}
+              components={page.components}
+              connections={page.connections}
             />
           ) : null)
       )}

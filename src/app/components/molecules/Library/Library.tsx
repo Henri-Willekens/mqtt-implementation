@@ -24,12 +24,12 @@ const Library: React.FC<LibraryProps> = ({
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValuesNewConnection, setInitialValuesNewConnection] = useState({
-    _fromId: '',
-    _toId: '',
-    _type: '',
-    _content: ''
+    fromId: '',
+    toId: '',
+    type: '',
+    content: ''
   });
-  const { _formValues, handleChange, resetForm } = useFormInput(_initialValuesNewConnection);
+  const { formValues, handleChange, resetForm } = useFormInput(_initialValuesNewConnection);
 
   const elementButtons = () => {
     const buttons: any[] = [];
@@ -65,7 +65,7 @@ const Library: React.FC<LibraryProps> = ({
       .catch((err) => console.error(err));  
   };
 
-  const createElementOnPage = (_typeOfElement: string) => {
+  const createElementOnPage = (typeOfElement: string) => {
     // Should not be able to do this on settings, alert log or pages overview
     if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
       return;
@@ -73,18 +73,18 @@ const Library: React.FC<LibraryProps> = ({
     
     setIsLibraryOpen(false); // Close library
 
-    const _element = {
-      type: _typeOfElement,
+    const element = {
+      type: typeOfElement,
       props: {
         xPos: 50,
         yPos: 50,
-        id: `${_typeOfElement}-${uuidv4()}`
+        id: `${typeOfElement}-${uuidv4()}`
       }
     };
 
-    let _pageIndex = config?.pages.findIndex((_o) => _o.id === _activePageId);
+    let pageIndex = config?.pages.findIndex((_o) => _o.id === _activePageId);
 
-    config.pages[_pageIndex].components.push(_element);
+    config.pages[pageIndex].components.push(element);
 
     fetch('/api/write-json', {
       method: 'POST',
@@ -105,16 +105,16 @@ const Library: React.FC<LibraryProps> = ({
   };
 
   const handleSubmit = () => {
-    const _connection = {
-      from: _formValues._fromId.toString(),
-      to: _formValues._toId.toString(),
-      type: _formValues._type.toString(),
-      content: _formValues._content.toString()
+    const connection = {
+      from: formValues.fromId.toString(),
+      to: formValues.toId.toString(),
+      type: formValues.type.toString(),
+      content: formValues.content.toString()
     };
 
-    let _pageIndex = config.pages.findIndex((_o) => _o.id === _activePageId);
+    let pageIndex = config.pages.findIndex((_o) => _o.id === _activePageId);
 
-    config.pages[_pageIndex].connections?.push(_connection);
+    config.pages[pageIndex].connections?.push(connection);
 
     fetch('/api/write-json', {
       method: 'POST',
@@ -127,7 +127,7 @@ const Library: React.FC<LibraryProps> = ({
 
     closeCreateConnectionModal();
     resetForm();
-  }
+  };
 
   return(
     <div className={`library ${_isLibraryOpen ? 'library-open' : ''}`}>
@@ -140,10 +140,10 @@ const Library: React.FC<LibraryProps> = ({
         <Button onClick={() => setIsLibraryOpen(!_isLibraryOpen)} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
       </div>
       <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={handleSubmit}>
-        <InputField type='text' label='From' id='_fromId' value={_formValues._fromId} onChange={handleChange} />
-        <InputField type='text' label='To' id='_toId' value={_formValues._toId} onChange={handleChange} />
-        <SelectField label='Type' id='_type' value={_formValues._type.toString()} options={['connection', 'pipe']} onChange={handleChange} />
-        <SelectField label='Content' id='_content' value={_formValues._content.toString()} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleChange} />
+        <InputField type='text' label='From' id='fromId' value={formValues.fromId} onChange={handleChange} />
+        <InputField type='text' label='To' id='toId' value={formValues.toId} onChange={handleChange} />
+        <SelectField label='Type' id='type' value={formValues.type.toString()} options={['connection', 'pipe']} onChange={handleChange} />
+        <SelectField label='Content' id='content' value={formValues.content.toString()} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleChange} />
       </FormModal>
     </div>
   );

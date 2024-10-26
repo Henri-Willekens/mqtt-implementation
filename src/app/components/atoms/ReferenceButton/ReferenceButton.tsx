@@ -19,9 +19,9 @@ const ReferenceButton: React.FC<ReferenceButtonProps> = ({
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _referencePageId: referencePageId,
+    referencePageId: referencePageId,
   });
-  const { _formValues, handleChange } = useFormInput(_initialValues);
+  const { formValues, handleChange } = useFormInput(_initialValues);
 
   const {setActivePageId} = useContext(ActivePageIdContext);
 
@@ -64,7 +64,7 @@ const ReferenceButton: React.FC<ReferenceButtonProps> = ({
       </div>
       <FormModal isOpen={_isModalOpen} onCancel={handleCancel} onSubmit={handleSubmit}>
         <div>
-          <InputField label='Reference page ID' type='text' id='_referencePageId' value={_formValues._referencePageId} onChange={handleChange} />
+          <InputField label='Reference page ID' type='text' id='referencePageId' value={formValues.referencePageId} onChange={handleChange} />
         </div>
       </FormModal>
     </>

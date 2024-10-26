@@ -13,38 +13,38 @@ const DynamicRenderComponents: React.FC<DynamicRenderComponentsProps> = ({
 }) => {
   return(
     <>
-      {components.map((_componentConfig: ComponentConfig, _index: number) => {
+      {components.map((componentConfig: ComponentConfig, index: number) => {
         // Destructure our component into it's type and props, to determine what to create and send through
-        const { type, props } = _componentConfig; 
+        const { type, props } = componentConfig; 
         const Component = componentMap[type];
-        const _componentProps = { ... props }
+        const componentProps = { ... props }
 
         return(
           <Draggable 
-            key={_index} 
+            key={index} 
             id={props.id} 
             elementInsideId={props.id}
             gridEnabled={gridEnabled} >
             <Component
               key={props.id}
               type={type}
-              { ..._componentProps }
+              { ...componentProps }
             />
           </Draggable>
         )
       })}
-      {connections && connections.map((_connection: ConnectionConfig, _index: number) => {
+      {connections && connections.map((connection: ConnectionConfig, index: number) => {
         // Check what elements the connections needs to be mapped through and what information to send through
-        const _fromConnection = components[components.findIndex((_o) => _o.props.id === _connection.from)];
-        const _toConnection = components[components.findIndex((_o) => _o.props.id === _connection.to)];
+        const fromConnection = components[components.findIndex((o) => o.props.id === connection.from)];
+        const toConnection = components[components.findIndex((o) => o.props.id === connection.to)];
 
         return(
           <OrthologalLine
-            key={_index}
-            from={_fromConnection}
-            to={_toConnection}
-            type={_connection.type}
-            content={_connection.content}
+            key={index}
+            from={fromConnection}
+            to={toConnection}
+            type={connection.type}
+            content={connection.content}
           />
         )
       })}

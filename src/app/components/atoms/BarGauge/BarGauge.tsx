@@ -60,7 +60,6 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     // Make sure percentage is capped between 0% and 100%
     if (percentage < 0) percentage = 0;
     if (percentage > 100) percentage = 100;
-    let percentage = (value / maxValue) * 100;
 
     let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 

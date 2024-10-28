@@ -12,6 +12,10 @@
 
   box-shadow: $md-shadow;
 
+  &__night {
+    background-color: $night-filter; 
+  }
+
   &__pages {
     width: 60%;
     max-width: 60%;
@@ -59,4 +63,8 @@
     font-size: 18px;
     text-align: center;
   }
+}
+
+.night-navigation {
+  background-color: #9F4100;
 }

@@ -5,40 +5,41 @@ import { useContext, useEffect, useState, useRef } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
-import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
+import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 import useFormInput from 'src/app/hooks/useFormInput';
-import SelectField from '../FormInputs/SelectField/SelectField';
 
 const Rudder: React.FC<RudderProps> = ({ 
   id, 
   totalRudderAngle = 270, 
   width = 255, 
   height = 255, 
-  stepsOfDegrees = 15,
-  isEditable = false, 
+  stepsOfDegrees = 15, 
   dataSource = 'mqtt_topic',
   mqttTopic = '/example/topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId } = useContext(ActivePageIdContext);
+  const { _currentTheme } = useContext(CurrentThemeContext);
+      
   const ws = useRef<WebSocket | null>(null);
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _totalRudderAngle: totalRudderAngle,
-    _width: width,
-    _height: height,
-    _stepsOfDegrees: stepsOfDegrees,
-    _isEditable: isEditable,
-    _dataSource: dataSource,
-    _mqttTopic: mqttTopic
+    totalRudderAngle: totalRudderAngle,
+    width: width,
+    height: height,
+    stepsOfDegrees: stepsOfDegrees,
+    isEditable: isEditable,
+    dataSource: dataSource,
+    mqttTopic: mqttTopic
   });
-  const { _formValues, handleChange } = useFormInput(_initialValues);
+  const { formValues, handleChange } = useFormInput(_initialValues);
 
   const _angle = totalRudderAngle / 2;
   const _elementRadius = 125;
@@ -78,6 +79,8 @@ const Rudder: React.FC<RudderProps> = ({
       const _textX = _centerX + (_elementRadius - 12) * -Math.sin(_radian);
       const _textY = _centerY - (_elementRadius - 12) * -Math.cos(_radian);
 
+      const maxClass = (i == _angle || i == -_angle) ? 'rudder__angles__max': '';
+      
       _degreeLabels.push(
         <text
           key={i}
@@ -85,7 +88,7 @@ const Rudder: React.FC<RudderProps> = ({
           y={_textY}
           textAnchor='middle'
           dominantBaseline='middle'
-          className={`rudder__angles__number ${i == _angle || i == -_angle ? 'rudder__angles__max': '' }`}
+          className={`rudder__angles__number rudder__angles__number__${_currentTheme} ${maxClass}`}
         >
           {i}
         </text>
@@ -124,13 +127,12 @@ const Rudder: React.FC<RudderProps> = ({
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
-        totalRudderAngle: Math.floor(parseInt(_formValues._totalRudderAngle.toString())),
-        stepsOfDegrees: Math.floor(parseInt(_formValues._stepsOfDegrees.toString())),
-        width: Math.floor(parseInt(_formValues._width.toString())),
-        height: Math.floor(parseInt(_formValues._height.toString())),
-        isEditable: stringToBool(_formValues._isEditable.toString()),
-        dataSource: _formValues._dataSource,
-        mqttTopic: _formValues._mqttTopic
+        totalRudderAngle: Math.floor(parseInt(formValues.totalRudderAngle.toString())),
+        stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
+        width: Math.floor(parseInt(formValues.width.toString())),
+        height: Math.floor(parseInt(formValues.height.toString())),
+        dataSource: formValues.dataSource,
+        mqttTopic: formValues.mqttTopic
       }
     };
 
@@ -193,10 +195,10 @@ const Rudder: React.FC<RudderProps> = ({
           <circle cx='125' cy='125' r='100' className='rudder__inner-circle' />
 
           <g>
-            <path className='rudder__boat' fillRule='evenodd' clipRule='evenodd' d='M 101 28 V 137 C 101 139.761 103.239 142 106 142 H 140 C 142.761 142 145 139.761 145 137 V 28 C 138 24 131 24 123 24 C 115 24 108 24 101 28 Z' />
+            <path className={`rudder__boat rudder__boat__${_currentTheme}`} fillRule='evenodd' clipRule='evenodd' d='M 101 28 V 137 C 101 139.761 103.239 142 106 142 H 140 C 142.761 142 145 139.761 145 137 V 28 C 138 24 131 24 123 24 C 115 24 108 24 101 28 Z' />
           </g>
 
-          <g id='rudder-pointer' className='rudder__pointer'>
+          <g id='rudder-pointer' className={`rudder__pointer rudder__pointer__${_currentTheme}`}>
             <path fillRule='evenodd' clipRule='evenodd' d='M133.988 125.101C133.996 124.942 134 124.782 134 124.62C134 119.307 129.523 115 124 115C118.477 115 114 119.307 114 124.62C114 124.782 114.004 124.942 114.012 125.101H114L123.231 229L133.94 125.68C133.947 125.618 133.954 125.555 133.959 125.492L134 125.101H133.988Z' />
           </g>
 
@@ -217,12 +219,12 @@ const Rudder: React.FC<RudderProps> = ({
         </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
-        <InputField label='Total angle' type='number' id='_totalRudderAngle' value={_formValues._totalRudderAngle} onChange={handleChange} />
-        <InputField label='Steps of degrees' type='number' id='_stepsOfDegrees' value={_formValues._stepsOfDegrees} onChange={handleChange} />
-        <InputField label='Width (px)' type='number' id='_width' value={_formValues._width} onChange={handleChange} />
-        <InputField label='Height (px)' type='number' id='_height' value={_formValues._height} onChange={handleChange} />
-        <SelectField label='Datasource' id='_dataSource' value={_formValues._dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
-        {_formValues._dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value={_formValues._mqttTopic  } onChange={handleChange} />}
+        <InputField label='Total angle' type='number' id='totalRudderAngle' value={formValues.totalRudderAngle} onChange={handleChange} />
+        <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
+        <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
+        <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {formValues.dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='mqttTopic' value={formValues.mqttTopic  } onChange={handleChange} />}
       </FormModal>
     </>
   );

@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './Grid.scss';
+import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 
 const _gridPositions: [{ element?: any, x: number, y: number, width: number, height: number}] = [{ x: 0, y: 0, width: 0, height: 0 }];
 
 const Grid: React.FC = () => {
+  const { _currentTheme } = useContext(CurrentThemeContext);
+
   useEffect(() => {
     function updateCoordinates() {
       const _gridItems = document.querySelectorAll('.grid-square');
@@ -29,9 +32,9 @@ const Grid: React.FC = () => {
   }, []);
 
   return (
-    <div className='grid-container'>
+    <div className={`grid-container`}>
       {Array.from({ length: 9 }).map((_, _index) => (
-        <div key={_index} className='grid-square'><span className='coordinates'></span></div>
+        <div key={_index} className={`grid-square grid-square__${_currentTheme}`}><span className='coordinates'></span></div>
       ))}
     </div>
   );

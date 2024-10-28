@@ -206,7 +206,6 @@ const Compass: React.FC<CompassProps> = ({
         update(`outer-circle-${id}`, 0);
         update(`degree-numbers-${id}`, _currentHeading);
       }
-    }
   }, [_currentHeading, _cog]);
 
   return (

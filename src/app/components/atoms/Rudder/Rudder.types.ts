@@ -4,4 +4,6 @@ export default interface RudderProps {
   width: number,
   height: number,
   stepsOfDegrees: number,
+  dataSource: string,
+  mqttTopic: string
 }

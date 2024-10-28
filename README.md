@@ -54,15 +54,15 @@ Start the server
 
 
 ## Setup future elements
+o create new elements in the future, first create a folder. The folder is either atoms, molecules or organisms. This is dependent on whether your element is created combining several elements. Then add three files available for each element:
 
-To create new elements in the future:
-
-There are three files available for each element:
 - Element.tsx (contains the React code)
 - Element.types.ts (contains the interface, what props does it have)
 - Element.scss (styling related code)
 
-React components use PascalCase for naming, so BarGauge or ValueField. The rest of the variables use camelCase, so isEditable or isModalOpen. Local variables within components start with an underscore (ex. _width) to differenate them from props, in case they require the same name. Function names, both local and not, just use normal camelCase. So for an example element:
+React components use PascalCase for naming, so BarGauge or ValueField. The rest of the variables use camelCase, so isEditable or isModalOpen. Private variables within components start with an underscore (ex. _width) to differenate them from props, in case they require the same name. Function names, both local and not, just use normal camelCase. So for an example element:
+
+*ElementName, isEditable, isModalOpen and all other names are example, this are dependent on the element in question (buttons need text, bargauges need limits, etc.)*
 
 ```
 const ElementName: React.FC = ({
@@ -72,12 +72,19 @@ const ElementName: React.FC = ({
     const _isModalOpen = true;
     let _isEditable = true;
 
-    const changeEditable = (_changedValue: string) => {
-        _isEditable = _changedValue;
+    const changeEditable = (changedValue: string) => {
+        _isEditable = changedValue;
     };
+    
+    return(
+	    <div>
+		    <p>Hi there!</p>
+	    </div>
+    );
 };
 
 export default ElementName;
+
 ```
 
 To make sure components are picked up by the config.json, they require to be added to components/index.ts. Import the new element and add them to componentMap. This also adds them to the library so that you can add your new element to the config.json via the GUI (while in configurator mode).

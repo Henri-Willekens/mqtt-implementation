@@ -35,7 +35,6 @@ const Rudder: React.FC<RudderProps> = ({
     width: width,
     height: height,
     stepsOfDegrees: stepsOfDegrees,
-    isEditable: isEditable,
     dataSource: dataSource,
     mqttTopic: mqttTopic
   });

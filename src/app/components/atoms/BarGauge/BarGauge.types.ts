@@ -12,4 +12,6 @@ export default interface BarGaugeProps {
   width: number,
   height: number,
   alarmSource: string,
+  dataSource: string,
+  mqttTopic: string
 }

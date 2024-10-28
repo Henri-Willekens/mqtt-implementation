@@ -1,10 +1,12 @@
 import './Compass.scss';
 import CompassProps from './Compass.types';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 
 import InputField from '../FormInputs/InputField/InputField';
 import FormModal from '../../molecules/FormModal/FormModal';
+import ToggleField from '../FormInputs/ToggleField/ToggleField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
@@ -12,7 +14,6 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import useFormInput from 'src/app/hooks/useFormInput';
-import ToggleField from '../FormInputs/ToggleField/ToggleField';
 
 const Compass: React.FC<CompassProps> = ({ 
   id = '', 
@@ -20,15 +21,22 @@ const Compass: React.FC<CompassProps> = ({
   waveArrowOutside = true,
   stepsOfDegrees = 30, 
   width = 400, 
-  height = 400
+  height = 400,
+  dataSource = 'mqtt_topic',
+  mqttTopic = '/example/topic',
+  mqttCogTopic = '/example/topic',
+  mqttWaveTopic = '/example/topic', 
+  mqttWindTopic = '/example/topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId } = useContext(ActivePageIdContext);
   const { _currentTheme } = useContext(CurrentThemeContext);
+  const ws = useRef<WebSocket | null>(null);
   
   // Mocked data
   const [_currentHeading, setCurrentHeading] = useState(0);
+  const [_cog, setCog] = useState(0);
   const [_windspeed, setWindspeed] = useState(5);
   const [_waveSpeed, setWaveSpeed] = useState(1);
   const [_windArrow, setWindArrow] = useState(0);
@@ -42,14 +50,19 @@ const Compass: React.FC<CompassProps> = ({
     waveArrowOutside: waveArrowOutside,
     width: width,
     height: height,
-    stepsOfDegrees: stepsOfDegrees
+    stepsOfDegrees: stepsOfDegrees,
+    dataSource: dataSource,
+    mqttTopic: mqttTopic,
+    mqttCogTopic: mqttCogTopic, 
+    mqttWaveTopic: mqttWaveTopic, 
+    mqttWindTopic: mqttWindTopic 
   });
   const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
 
-  const update = (_elementToSelect: string, _updatedValue: number) => {
-    let _element = document.getElementById(_elementToSelect);
-    _element?.setAttribute('transform', `rotate(${_updatedValue}, 200, 200)`)
+  const update = (elementToSelect: string, updatedValue: number) => {
+    let element = document.getElementById(elementToSelect);
+    element?.setAttribute('transform', `rotate(${updatedValue}, 200, 200)`)
   };
 
   const generateDegreeNumbers = (_radius: number, _centerX: number, _centerY: number) => {
@@ -122,7 +135,12 @@ const Compass: React.FC<CompassProps> = ({
         width: Math.floor(parseInt(formValues.width.toString())),
         height: Math.floor(parseInt(formValues.height.toString())),
         stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
-        waveArrowOutside: stringToBool(formValues.waveArrowOutside.toString())
+        waveArrowOutside: stringToBool(formValues.waveArrowOutside.toString()),
+        dataSource: formValues.dataSource,
+        mqttTopic: formValues.mqttTopic,  // Heading
+        mqttCogTopic: formValues.mqttCogTopic,  // COG
+        mqttWaveTopic: formValues.mqttWaveTopic,  // Wave
+        mqttWindTopic: formValues.mqttWindTopic  // Wind
       }
     };
 
@@ -142,32 +160,44 @@ const Compass: React.FC<CompassProps> = ({
     closeModal();
   };
 
+  
+
+
 
   useEffect(() => {
-    // Mimic data changing
-    if (!_configEnabled) {
-      const _interval = setInterval(() => {
-        setCurrentHeading(_prevHeading => (_prevHeading == 360 ? 0 : _prevHeading + 5));
-        setWindspeed(_prevWindSpeed => (_prevWindSpeed == 13 ? 1 : _prevWindSpeed + 1));
-        setWindArrow(_prevWindArrow => (_prevWindArrow == 360 ? 0 : _prevWindArrow + 5));
-        setWaveSpeed(_prevWaveSpeed => (_prevWaveSpeed == 4 ? 1 : _prevWaveSpeed + 1));
-        setWaveArrow(_prevWaveArrow => (_prevWaveArrow == 360 ? 0 : _prevWaveArrow + 5));
-      }, 500)
+    if (dataSource === 'mqtt_topic') {
+      ws.current = new WebSocket("ws://localhost:4000");
+      ws.current.onopen = () => {
+        console.log("WebSocket connection established in Compass");
+      };
+      ws.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const { topic, message } = data;
 
-      return () => clearInterval(_interval);
+        if (topic === mqttTopic) {
+          setCurrentHeading(Number(message)); 
+        } if (topic === mqttWindTopic) {
+          setWindArrow(Number(message));
+        } if (topic === mqttWaveTopic) {
+          setWaveArrow(Number(message));
+        } if (topic === mqttCogTopic) { 
+          setCog(Number(message));
+      }
+      };
+      ws.current.onclose = () => {
+        console.log("WebSocket connection closed in Compass");
+      };
+
+      return () => {
+        ws.current?.close();
+      };
     }
-  }, []);
+  }, [dataSource, mqttTopic, mqttWindTopic, mqttWaveTopic, mqttCogTopic]);
 
   useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) {
-      if (_dataComplete == 'incomplete') {
-        setTimeout(() => {
-          setData('correct');
-        }, 5000);
-      } else if(!_isNorthLocked) { 
+    if(!_isNorthLocked) { 
         update(`hdg-${id}`, _currentHeading);
-        update(`cog-${id}`, _currentHeading + 20);
+        update(`cog-${id}`, _cog);
         update(`outer-circle-${id}`, _currentHeading);
         update(`degree-numbers-${id}`, 0);
       } else {
@@ -175,19 +205,9 @@ const Compass: React.FC<CompassProps> = ({
         update(`hdg-${id}`, 0);
         update(`outer-circle-${id}`, 0);
         update(`degree-numbers-${id}`, _currentHeading);
-      };
+      }
     }
-  }, [_currentHeading]);
-
-  useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) { update(`wave-${id}`, _waveArrow) };
-  }, [_waveArrow]);
-
-  useEffect(() => {
-    // Mock data changing
-    if (!_configEnabled) { update(`wind-speed-${id}`, _windArrow) };
-  }, [_windArrow]);
+  }, [_currentHeading, _cog]);
 
   return (
     <>
@@ -250,7 +270,16 @@ const Compass: React.FC<CompassProps> = ({
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
         <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
         <ToggleField label='Wave arrow outside?' id='waveArrowOutside' isChecked={stringToBool(formValues.waveArrowOutside.toString())} onChange={handleChange} />
-      </FormModal>
+        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {formValues.dataSource === 'mqtt_topic' && (
+          <>
+            <InputField type='text' label='MQTT Heading Topic' id='mqttTopic' value={formValues.mqttTopic} onChange={handleChange} />
+            <InputField type='text' label='MQTT COG Topic' id='mqttCogTopic' value={formValues.mqttCogTopic} onChange={handleChange} /> 
+            <InputField type='text' label='MQTT Wave Topic' id='mqttWaveTopic' value={formValues.mqttWaveTopic} onChange={handleChange} /> 
+            <InputField type='text' label='MQTT Wind Topic' id='mqttWindTopic' value={formValues.mqttWindTopic} onChange={handleChange} />
+          </>
+        )}
+     </FormModal>
     </>
   );
 };

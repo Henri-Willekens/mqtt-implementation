@@ -1,16 +1,16 @@
 import BarGaugeProps from './BarGauge.types';
 import './BarGauge.scss';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
-import useFormInput from 'src/app/hooks/useFormInput';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
-import SelectField from '../FormInputs/SelectField/SelectField';
+import useFormInput from 'src/app/hooks/useFormInput';
 
 const BarGauge: React.FC<BarGaugeProps> = ({
   id,
@@ -20,15 +20,19 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   numberOfTickLines = 5,
   width = 130,
   height = 300,
-  alarmSource = 'config'
+  alarmSource = 'config', 
+  dataSource = 'mqtt_topic',
+  mqttTopic = '/example/topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId } = useContext(ActivePageIdContext);
 
+  const ws = useRef<WebSocket | null>(null);
+
   const [_currentValue, setCurrentValue] = useState(0);
   const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [initialValues, setInitialValues] = useState({
+  const [_initialValues, setInitialValues] = useState({
     maxValue: maxValue,
     numberOfTickLines: numberOfTickLines,
     label: label,
@@ -38,9 +42,11 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     alarmTooHigh: 0,
     warningTooHigh: 0,
     alarmTooLow: 0,
-    warningTooLow: 0
+    warningTooLow: 0,
+    dataSource: dataSource,
+    mqttTopic: mqttTopic
   });
-  const { formValues, handleChange, resetForm } = useFormInput(initialValues);
+  const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
   const updateBarMeter = (value: number) => {
     if ((value < 0 && maxValue > 0) || (value > 0 && maxValue < 0)) {
@@ -54,6 +60,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     // Make sure percentage is capped between 0% and 100%
     if (percentage < 0) percentage = 0;
     if (percentage > 100) percentage = 100;
+    let percentage = (value / maxValue) * 100;
 
     let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 
@@ -154,7 +161,9 @@ const BarGauge: React.FC<BarGaugeProps> = ({
             value: formValues.warningTooLow,
             alertType: 'warning'
           }
-        ]
+        ],
+        dataSource: formValues.dataSource,
+        mqttTopic: formValues.mqttTopic
       }
     };
 
@@ -167,22 +176,38 @@ const BarGauge: React.FC<BarGaugeProps> = ({
     })
       .then(((_response) => _response.json()))
       .catch((_error) => console.error('Error saving data:', _error));
-
     closeModal();
   };
 
   useEffect(() => {
-    // Create mock data
-    const _interval = setInterval(() => {
-      setCurrentValue(Math.floor(Math.random() * (maxValue + 1)));
-    }, 1000)
-
-    return () => clearInterval(_interval);
-  }, []);
-
-  useEffect(() => {
-    updateBarMeter(_currentValue);
-  }, [_currentValue]);
+    if (dataSource === 'mqtt_topic') {
+        // Connect to the WebSocket server in Bar Gauge
+        ws.current = new WebSocket("ws://localhost:4000");
+    
+        ws.current.onopen = () => {
+          console.log("WebSocket connection established in Bar Gauge");
+        };
+    
+        ws.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { topic, message } = data;
+    
+          if (topic === mqttTopic) {
+            console.log(`Received message on topic "${topic}": ${message}`);
+            updateBarMeter(message); // Convert to number and set state
+          } }
+        
+    
+        ws.current.onclose = () => {
+          console.log("WebSocket connection closed in Bar Gauge");
+        };
+    
+        // Cleanup function to close WebSocket connection when component unmounts
+        return () => {
+          ws.current?.close();
+        };
+    };
+  }, [_currentValue])
 
   return(
     <>
@@ -221,6 +246,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={formValues.numberOfTickLines} onChange={handleChange} />
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
         <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {formValues.dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='_mqttTopic' value={formValues.mqttTopic  } onChange={handleChange} />}
         <SelectField label='Alarm source' id='alarmSource' value={formValues.alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
         { formValues.alarmSource === 'config' && (
           <>

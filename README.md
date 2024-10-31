@@ -54,7 +54,7 @@ Start the server
 
 
 ## Setup future elements
-o create new elements in the future, first create a folder. The folder is either atoms, molecules or organisms. This is dependent on whether your element is created combining several elements. Then add three files available for each element:
+To create new elements in the future, first create a folder. The folder is either atoms, molecules or organisms. This is dependent on whether your element is created combining several elements. Then add three files available for each element:
 
 - Element.tsx (contains the React code)
 - Element.types.ts (contains the interface, what props does it have)

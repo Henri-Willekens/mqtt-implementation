@@ -184,7 +184,7 @@ export default interface BarGaugeProps {
 
 ## Documentation
 
-There are two types of documentation available. Designer documentation is available within this README: [Setup future elements](Setup-future-elements). Configurator related documentation is available [here](https://linktodocumentation).
+There are two types of documentation available. Designer documentation is available within this README: [Setup future elements](#Setup-future-elements). Configurator related documentation is available [here](https://linktodocumentation).
 
 
 ## Authors

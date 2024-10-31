@@ -76,7 +76,7 @@ kebab-case is used for styling and scss, so ex. `compass-pointer`, `alarm-limit`
 
 ### Styling
 
-For styling, we used SCSS. This allows the creation of variables within CSS, allowing easy adjusting in terms of colors, effects, shadows, et cetera. These variables are stored in `app/styles/*.scss` . Within your own .scss files for styling elements, you can import these (examples can be found in the next chapter *The different types of files*).
+For styling, we used SCSS. This allows the creation of variables within CSS, allowing easy adjusting in terms of colors, effects, shadows, et cetera. These variables are stored in `app/styles/*.scss` . Within your own .scss files for styling elements, you can import these (examples can be found in the next chapter [The different types of files](#The-different-types-of-files)).
 
 ### Making components configurable
 
@@ -184,7 +184,7 @@ export default interface BarGaugeProps {
 
 ## Documentation
 
-There are two types of documentation available. Designer documentation is available within this README. Configurator related documentation is available [here](https://linktodocumentation).
+There are two types of documentation available. Designer documentation is available within this README: [Setup future elements](Setup-future-elements). Configurator related documentation is available [here](https://linktodocumentation).
 
 
 ## Authors

@@ -40,7 +40,7 @@ const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
         {setupGroups}
         <div className='pages-overview__block'>
         <p className='pages-overview__block-header'>Pages with no group</p>
-          {pageLinks('none')}
+          {pageLinks('')}
       </div>
       </div>
     </div>

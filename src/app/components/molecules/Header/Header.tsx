@@ -66,6 +66,8 @@ const Header: React.FC<HeaderProps> = () => {
     })
       .then((response) => response.json())
       .catch((error) => console.error('Error saving data:', error));
+
+    closeModal();
   };
 
   const pageButtons = _configData?.pages.map((_page) => {

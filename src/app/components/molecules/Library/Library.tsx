@@ -142,8 +142,19 @@ const Library: React.FC<LibraryProps> = ({
       <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={handleSubmit}>
         <InputField type='text' label='From' id='fromId' value={formValues.fromId} onChange={handleChange} />
         <InputField type='text' label='To' id='toId' value={formValues.toId} onChange={handleChange} />
-        <SelectField label='Type' id='type' value={formValues.type.toString()} options={['connection', 'pipe']} onChange={handleChange} />
-        <SelectField label='Content' id='content' value={formValues.content.toString()} options={['fuel', 'oil', 'sea-water', 'clean-water']} onChange={handleChange} />
+        <SelectField 
+          label='Type' 
+          id='type' 
+          value={formValues.type.toString()} 
+          options={[{label: 'Connection', value: 'connection'}, {label: 'Pipe', value: 'pipe'}]} 
+          onChange={handleChange} 
+        />
+        <SelectField 
+          label='Content' id='content' 
+          value={formValues.content.toString()} 
+          options={[{label: 'Fuel', value: 'fuel'}, {label: 'Oil', value: 'oil'}, {label: 'Sea water', value: 'sea-water'}, {label: 'Clean water', value: 'clean-water'}]} 
+          onChange={handleChange} 
+        />
       </FormModal>
     </div>
   );

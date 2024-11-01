@@ -221,7 +221,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={formValues.numberOfTickLines} onChange={handleChange} />
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
         <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
-        <SelectField label='Alarm source' id='alarmSource' value={formValues.alarmSource.toString()} options={['mqtt', 'config']} onChange={handleChange} />
+        <SelectField label='Alarm source' id='alarmSource' value={formValues.alarmSource.toString()} options={[{label: 'From MQTT', value: 'mqtt'}, {label: 'From config', value: 'config'}]} onChange={handleChange} />
         { formValues.alarmSource === 'config' && (
           <>
             <InputField label='Alarm too high' type='text' id='alarmTooHigh' value={formValues.alarmTooHigh} onChange={handleChange} />

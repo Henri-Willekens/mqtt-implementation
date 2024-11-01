@@ -165,7 +165,13 @@ const ValueField: React.FC<ValueFieldProps> = ({
         <ToggleField label='Value times x?' id='requiresValueTimes' isChecked={stringToBool(formValues.requiresValueTimes.toString())} onChange={handleChange} />
         {formValues.requiresValueTimes && <InputField type='number' label='Value times' id='valueTimes' value={formValues.valueTimes} onChange={handleChange} />}
         <ToggleField label='Is editable?' id='isEditable' isChecked={stringToBool(formValues.isEditable.toString())} onChange={handleChange} />
-        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        <SelectField 
+          label='Datasource' 
+          id='dataSource' 
+          value={formValues.dataSource.toString()} 
+          options={[{label: 'MQTT topic', value: 'mqtt_topic'}, {label: 'UTC time', value: 'utc_time'}, {label: 'Local time', value: 'local_time'}]} 
+          onChange={handleChange} 
+        />
         {formValues.dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='mqttTopic' value={formValues.mqttTopic  } onChange={handleChange} />}
       </FormModal>
     </>  

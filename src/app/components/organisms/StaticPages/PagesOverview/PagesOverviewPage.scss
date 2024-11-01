@@ -1,5 +1,33 @@
+@import '../../../../styles/colors';
+@import '../../../../styles/effects';
+@import '../../../../styles/fonts';
+
 .page__link:hover {
   cursor: pointer;
 
   text-decoration: underline;
+}
+
+.pages-overview {
+  padding: 20px;
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+  }
+
+  &__block {
+    background-color: $block-bg;
+    padding: $md-padding;
+    border: 1px solid $stroke;
+    border-radius: $md-radius;
+    box-shadow: 8px 8px 8px $block-bg;
+
+    &-header {
+      font-size: $lg-font-size;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+  }
 }

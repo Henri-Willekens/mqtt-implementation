@@ -12,9 +12,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
     <div className='select-field__field'>
       <label className='select-field__label' htmlFor={id}>{label}</label>
       <select onChange={onChange} id={id} name={id} value={value} className='select-field__input'>
-        <option id=''>none</option>
-        {options.map((_option) => (
-          <option key={_option} id={_option}>{_option}</option>
+        <option value='none' id='none'>None</option>
+        {options.map((option) => (
+          <option key={option.value} id={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
     </div>

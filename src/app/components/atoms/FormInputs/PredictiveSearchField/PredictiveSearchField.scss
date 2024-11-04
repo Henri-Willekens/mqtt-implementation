@@ -1,0 +1,70 @@
+@import '../../../../styles/fonts';
+@import '../../../../styles/effects';
+@import '../../../../styles/colors';
+
+.search-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: $md-margin;
+
+  &__label {
+    display: inline-block;
+  
+    width: 150px;
+
+    font-weight: bold;
+    font-size: $st-font-size;
+
+    margin: 0px 10px 0px 0px;
+  }
+
+  &__input {
+    width: 300px;
+    height: fit-content;
+
+    font-family: 'Work Sans', sans-serif;
+    font-size: $st-font-size;
+
+    border-radius: $md-radius;
+    border: 1px solid $stroke;
+
+    padding: $sm-padding;
+
+    box-shadow: $sm-inner-shadow;
+  }
+
+  &__dropdown {
+    max-height: 200px;
+    background-color: $white;
+    color: $black;
+    padding: $sm-padding;
+    margin: $md-margin;
+    border-radius: $md-radius;
+    overflow-y: scroll;
+
+    &-item {
+      cursor: pointer; // Show pointer cursor on hover
+      transition: background-color 0.2s ease;
+      padding: 5px;
+
+      &:hover {
+        background-color: $editable-value;
+        border: 1px solid $stroke;
+        border-radius: $md-radius;
+      }
+
+      &:focus {
+        background-color: $editable-value;
+        border: 1px solid $stroke;
+        border-radius: $md-radius;
+      }
+    }
+
+    &-highlighted {
+      border: 1px solid $stroke;
+      background-color: $editable-value;
+      border-radius: $md-radius;
+    }
+  }
+}

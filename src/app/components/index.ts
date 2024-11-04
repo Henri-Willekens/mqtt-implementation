@@ -5,6 +5,8 @@ import Pump from './atoms/Pump/Pump';
 import Valve from './atoms/Valve/Valve';
 import ValueField from './atoms/ValueField/ValueField';
 import ReferenceButton from './atoms/ReferenceButton/ReferenceButton';
+import ConfigurableToggleButton from './atoms/ConfigurableToggleButton/ConfigurableToggleButton';
+import FlatCompass from './atoms/FlatCompass/FlatCompass';
 
 const componentMap: { [key: string]: React.FC<any> } = {
   Compass,
@@ -13,7 +15,9 @@ const componentMap: { [key: string]: React.FC<any> } = {
   Pump,
   Valve,
   ValueField,
-  ReferenceButton
+  ReferenceButton,
+  ConfigurableToggleButton,
+  FlatCompass
 };
 
 export default componentMap;

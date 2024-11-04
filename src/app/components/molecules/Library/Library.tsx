@@ -7,6 +7,7 @@ import Button from '../../atoms/Button/Button';
 import FormModal from '../FormModal/FormModal';
 import SelectField from '../../atoms/FormInputs/SelectField/SelectField';
 import InputField from '../../atoms/FormInputs/InputField/InputField';
+import ConfigurableToggleButton from '../../atoms/ConfigurableToggleButton/ConfigurableToggleButton';
 
 import useFormInput from 'src/app/hooks/useFormInput';
 import componentMap from '../../index';

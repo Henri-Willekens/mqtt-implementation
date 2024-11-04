@@ -1,0 +1,74 @@
+.compass-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px; /* Adjust height as needed */
+  font-family: sans-serif;
+}
+
+.outer-compass {
+  display: flex;
+  align-items: center;
+}
+
+.outer-degree {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.5); // Faded color
+  width: 60px; // Width for the outer degree
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 4px;
+  margin: 0 2px; // Small gap between each degree element
+  user-select: none; // Prevent text selection
+}
+
+
+.compass {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease-in-out; /* Smooth transition for transform */
+}
+
+.degree {
+  font-size: 16px;
+  color: #ffffff;
+  width: 60px; /* Width per degree element */
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 4px;
+  margin: 0 2px; /* Small gap between each degree element */
+  user-select: none; /* Prevent text selection */
+  position: relative; /* Required for ruler tick marks */
+}
+
+/* Ruler tick marks */
+.degree::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -20px; /* Positioning the tick mark below the degree */
+  height: 20px; /* Height of the tick mark */
+  width: 2px; /* Width of the tick mark */
+  background-color: #ffffff; /* Color of the tick mark */
+  transform: translateX(-50%); /* Center the tick mark */
+}
+
+/* Highlight the selected degree */
+.degree.selected {
+  font-weight: bold;
+  color: #007bff;
+  background-color: #e6f7ff;
+  border-color: #007bff;
+}
+
+
+/* Example media query for responsiveness */
+@media (max-width: 600px) {
+  .degree {
+    font-size: 14px;
+    width: 50px;
+  }
+}

@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
@@ -15,15 +15,20 @@ import { ConfigDataContext } from './contexts/ConfigData';
 import { Config } from './configuration/types';
 
 const App = () => {
-  // To update context, it needs to be combined with a state
   const [_currentTheme, setCurrentTheme] = useState('day');
   const [_configEnabled, setConfigEnabled] = useState(false);
-  const [_activeConfigFile, setActiveConfigFile] = useState('ConfigA'); // Config A = config.json, Config B = example.config.json
-  const [_activePageId, setActivePageId] = useState('Settings'); // Settings always exist, so save page to initially start
+  const [_activeConfigFile, setActiveConfigFile] = useState('ConfigA');
+  const [_activePageId, setActivePageId] = useState('Settings');
   const [_configData, setConfigData] = useState<Config | null>(null);
+  const [topics, setTopics] = useState<string[]>([]); // State for topics
+  const [selectedTopic, setSelectedTopic] = useState<string>(''); // State for selected topic
+  const [searchTerm, setSearchTerm] = useState<string>(''); // State for search term
+  const [showDropdown, setShowDropdown] = useState<boolean>(false); // State to toggle dropdown visibility
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1); // State for highlighted index
+  const dropdownRef = useRef<HTMLUListElement | null>(null); // Reference for dropdown
 
   const fetchConfigData = () => {
-    const _fileToFetch = _activeConfigFile == 'ConfigA'? 'config.json' : 'example.config.json';
+    const _fileToFetch = _activeConfigFile === 'ConfigA' ? 'config.json' : 'example.config.json';
 
     fetch(`/api/read-json?file=${_fileToFetch}`)
       .then((_response) => _response.json())
@@ -33,12 +38,26 @@ const App = () => {
       .catch((_error) => console.error(_error));
   };
 
+  // // Fetching topics from the backend only if config is enabled
+  // useEffect(() => {
+  //   if (_configEnabled) {
+  //     fetch('http://localhost:4000/api/topics')
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setTopics(data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching topics:', error);
+  //       });
+  //   }
+  // }, [_configEnabled]); // Dependency array includes _configEnabled
+
   useEffect(() => {
-    // UseEffect fetches data on initial load, and when the _activeConfigFile changes
     fetchConfigData();
   }, [_activeConfigFile]);
 
-  return(
+
+  return (
     <div className='app'>
       <CurrentThemeContext.Provider value={{ _currentTheme, setCurrentTheme }}>
         <div className={`filter filter__${_currentTheme}`}>
@@ -50,8 +69,8 @@ const App = () => {
                   <p>Loading...</p>
                 </div>
               ) : (
-                <ActivePageIdContext.Provider value={{_activePageId, setActivePageId}}>
-                  <ConfigDataContext.Provider value={{_configData, setConfigData}}>
+                <ActivePageIdContext.Provider value={{ _activePageId, setActivePageId }}>
+                  <ConfigDataContext.Provider value={{ _configData, setConfigData }}>
                     <Header />
                     <div className='components'>
                       <ActiveConfigFileContext.Provider value={{ _activeConfigFile, setActiveConfigFile }}>
@@ -59,6 +78,7 @@ const App = () => {
                       </ActiveConfigFileContext.Provider>
                     </div>
                     {_configEnabled && <Library config={_configData} />}
+                   
                   </ConfigDataContext.Provider>
                 </ActivePageIdContext.Provider>
               )}

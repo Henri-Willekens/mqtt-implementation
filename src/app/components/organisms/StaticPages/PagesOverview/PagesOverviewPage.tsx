@@ -10,17 +10,38 @@ const PagesOverviewPage: React.FC<PagesOverviewProps> = () => {
   const { _configData } = useContext(ConfigDataContext);
   const { setActivePageId } = useContext(ActivePageIdContext);
 
-  const _pageLinks = _configData?.pages.map((_page) => {
+  const pageLinks = (groupId: string) => {
+    const pages: React.JSX.Element[] = [];
+
+    _configData?.pages.map((page) => {
+      if (page.group == groupId) {
+        pages.push(
+          <p key={page.id} className='page__link' onClick={() => setActivePageId(page.id)}>{page.id} - {page.title}</p>
+        );
+      }
+    });
+
+    return pages.length == 0 ? <p>No pages added to this group</p> : pages;
+  };
+
+  const setupGroups = _configData?.groups.map((group) => {
     return(
-      <p key={_page.id} className='page__link' onClick={() => setActivePageId(_page.id)}>{_page.id} - {_page.title}</p>
-    )
+      <div className='pages-overview__block'>
+        <p className='pages-overview__block-header'>{group.title}</p>
+          {pageLinks(group.id)}
+      </div>
+    );
   });
 
   return (
     <div className='pages-overview'>
       <h2>All pages</h2>
-      <div>
-        {_pageLinks}
+      <div className='pages-overview__container'>
+        {setupGroups}
+        <div className='pages-overview__block'>
+        <p className='pages-overview__block-header'>Pages with no group</p>
+          {pageLinks('')}
+      </div>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
+import SelectField from '../../atoms/FormInputs/SelectField/SelectField';
 
 const Header: React.FC<HeaderProps> = () => { 
   const { _configData } = useContext(ConfigDataContext);
@@ -24,12 +25,13 @@ const Header: React.FC<HeaderProps> = () => {
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
-    _title: '',
-    _id: '',
-    _gridEnabled: false
+    title: '',
+    id: '',
+    gridEnabled: 'false',
+    group: '',
   });
 
-  const { _formValues, handleChange, resetForm } = useFormInput(_initialValues);
+  const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -47,9 +49,10 @@ const Header: React.FC<HeaderProps> = () => {
 
     // Make sure everything is the correct datatype
     _configData.pages.push({
-      title: _formValues._title.toString(),
-      id: _formValues._id.toString(),
-      gridEnabled: stringToBool(_formValues._gridEnabled.toString()),
+      title: formValues.title.toString(),
+      id: formValues.id.toString(),
+      gridEnabled: stringToBool(formValues.gridEnabled.toString()),
+      group: formValues.group.toString(),
       components: [],
       connections: []
     });
@@ -103,9 +106,10 @@ const Header: React.FC<HeaderProps> = () => {
       </div>
 
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} >
-        <InputField label='Page title' type='text' id='_title' value={_formValues._title} onChange={handleChange} />
-        <InputField label='Page ID' type='text' id='_id' value={_formValues._id} onChange={handleChange} placeholder='example-id-for-page' />
-        <ToggleField label='Grid enabled?' id='_gridEnabled' isChecked={stringToBool(_formValues._gridEnabled.toString())} onChange={handleChange} />
+        <InputField label='Page title' type='text' id='title' value={formValues.title} onChange={handleChange} />
+        <InputField label='Page ID' type='text' id='id' value={formValues.id} onChange={handleChange} placeholder='example-id-for-page' />
+        <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={stringToBool(formValues.gridEnabled.toString())} onChange={handleChange} />
+        <SelectField label='Group' id='group' value={formValues.group.toString()} options={[{value: 'g1', label: 'group 1'}, {value: 'g2', label: 'group 2'}, {value: 'g3', label: 'group 3'}]} onChange={handleChange}/>
       </FormModal>
     </>
   );

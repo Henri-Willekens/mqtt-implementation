@@ -93,7 +93,13 @@ const Valve: React.FC<ValveProps> = ({
           </svg>
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-        <SelectField label='Content' id='content' value={formValues.content} onChange={handleFormChange} options={['clean-water', 'sea-water', 'fuel', 'oil']} />
+        <SelectField 
+          label='Content' 
+          id='content' 
+          value={formValues.content} 
+          onChange={handleFormChange} 
+          options={[{label: 'Clean water', value: 'clean-water'}, {label: 'Sea water', value: 'sea-water'}, {label: 'Fuel', value: 'fuel'}, {label: 'Oil', value:'oil'}]} 
+        />
       </FormModal>
     </>
   );

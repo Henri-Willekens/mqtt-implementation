@@ -2,8 +2,14 @@ export interface PageConfig {
   gridEnabled: boolean,
   title: string,
   id: string,
+  group: string,
   components: ComponentConfig[],
   connections?: ConnectionConfig[]
+}
+
+export interface GroupConfig {
+  id: string,
+  title: string,
 }
 
 export interface ComponentConfig {
@@ -20,4 +26,5 @@ export interface ConnectionConfig {
 
 export interface Config {
   pages: PageConfig[];
+  groups: GroupConfig[];
 }

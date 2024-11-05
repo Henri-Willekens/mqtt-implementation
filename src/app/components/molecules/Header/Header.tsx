@@ -15,6 +15,7 @@ import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
+import SelectField from '../../atoms/FormInputs/SelectField/SelectField';
 
 const Header: React.FC<HeaderProps> = () => { 
   const { _configData } = useContext(ConfigDataContext);
@@ -26,7 +27,8 @@ const Header: React.FC<HeaderProps> = () => {
   const [_initialValues, setInitialValues] = useState({
     title: '',
     id: '',
-    gridEnabled: 'false'
+    gridEnabled: 'false',
+    group: '',
   });
 
   const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
@@ -50,6 +52,7 @@ const Header: React.FC<HeaderProps> = () => {
       title: formValues.title.toString(),
       id: formValues.id.toString(),
       gridEnabled: stringToBool(formValues.gridEnabled.toString()),
+      group: formValues.group.toString(),
       components: [],
       connections: []
     });
@@ -106,6 +109,7 @@ const Header: React.FC<HeaderProps> = () => {
         <InputField label='Page title' type='text' id='title' value={formValues.title} onChange={handleChange} />
         <InputField label='Page ID' type='text' id='id' value={formValues.id} onChange={handleChange} placeholder='example-id-for-page' />
         <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={stringToBool(formValues.gridEnabled.toString())} onChange={handleChange} />
+        <SelectField label='Group' id='group' value={formValues.group.toString()} options={[{value: 'g1', label: 'group 1'}, {value: 'g2', label: 'group 2'}, {value: 'g3', label: 'group 3'}]} onChange={handleChange}/>
       </FormModal>
     </>
   );

@@ -255,10 +255,9 @@ const BarGauge: React.FC<BarGaugeProps> = ({
         />
         {formValues.dataSource === 'mqtt_topic' && 
           <PredictiveSearchField 
-            label='mqtt topic'  
             id='mqttTopic' 
             value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} 
-            onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}
+            onChange={(newValue) => handleChange}
           />
         }
         <SelectField 

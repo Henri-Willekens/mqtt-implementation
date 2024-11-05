@@ -230,7 +230,7 @@ const Rudder: React.FC<RudderProps> = ({
           options={[{label: 'MQTT topic', value: 'mqtt_topic'}, {label: 'UTC time', value: 'utc_time'}, {label: 'Local time', value: 'local_time'}]} 
           onChange={handleChange} 
         />
-        {formValues.dataSource === 'mqtt_topic' && < PredictiveSearchField id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>}
+        {formValues.dataSource === 'mqtt_topic' && < PredictiveSearchField label='mqtt_topic' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>}
       </FormModal>
     </>
   );

@@ -1,74 +1,97 @@
-.compass-container {
-  position: relative;
-  width: 100%;
+/* Container for the entire compass */
+.flatcompass-container {
+  width: 600px; /* Adjust based on the desired compass width */
+  height: auto;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px; /* Adjust height as needed */
-  font-family: sans-serif;
+  position: relative;
+  border: 2px solid #181822; /* Optional border around the compass */
+  background-color: #181822; /* Light background color */
+  padding: 5px;
 }
 
-.outer-compass {
-  display: flex;
-  align-items: center;
-}
-
-.outer-degree {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.5); // Faded color
-  width: 60px; // Width for the outer degree
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 4px;
-  margin: 0 2px; // Small gap between each degree element
-  user-select: none; // Prevent text selection
-}
-
-
-.compass {
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s ease-in-out; /* Smooth transition for transform */
-}
-
-.degree {
-  font-size: 16px;
-  color: #ffffff;
-  width: 60px; /* Width per degree element */
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 4px;
-  margin: 0 2px; /* Small gap between each degree element */
-  user-select: none; /* Prevent text selection */
-  position: relative; /* Required for ruler tick marks */
-}
-
-/* Ruler tick marks */
-.degree::before {
-  content: '';
+/* Fading effect on the left and right ends */
+.fade-left,
+.fade-right {
   position: absolute;
-  left: 50%;
-  bottom: -20px; /* Positioning the tick mark below the degree */
-  height: 20px; /* Height of the tick mark */
-  width: 2px; /* Width of the tick mark */
-  background-color: #ffffff; /* Color of the tick mark */
-  transform: translateX(-50%); /* Center the tick mark */
+  top: 0;
+  bottom: 0;
+  width: 50px; /* Adjust width for fade effect */
+  pointer-events: none; /* Allow clicks to pass through */
+  background: linear-gradient(to right, #333346, transparent);
+  z-index: 2; /* Place above compass */
 }
 
-/* Highlight the selected degree */
-.degree.selected {
-  font-weight: bold;
-  color: #007bff;
-  background-color: #e6f7ff;
-  border-color: #007bff;
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, #333346, transparent);
+}
+
+.flatouter-compass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Main compass styling */
+#flatcompass {
+  display: flex;
+  align-items: flex-end;
+  white-space: nowrap;
+  transition: transform 0.3s ease-in-out;
 }
 
 
-/* Example media query for responsiveness */
-@media (max-width: 600px) {
-  .degree {
-    font-size: 14px;
-    width: 50px;
-  }
+/* Degree markers */
+.degree {
+  width: 5px; /* Narrow width to bring ticks closer */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the ticks */
+  position: relative;
+}
+
+/* Major tick container */
+.major-tick {
+  position: relative;             /* Positioning context */
+}
+
+/* Major tick line */
+.major-tick-line {
+  height: 10px;                  /* Height for the tick line */
+  border-left: 2px solid #efefef; /* Line color and thickness */
+  width: 1px;                   /* Minimal width for the line */
+}
+
+/* Major tick text */
+.major-tick-text {
+  transform: translateX(-10px); /* Move text 10px to the left */
+  height: 30px;                 /* Maintain the height */
+  font-size: 20px;              /* Font size for the text */
+  font-weight: bold;             /* Bold text */
+  color: #ffffff;                /* Text color */
+  position: absolute;            /* Position absolutely to control placement */
+  top: -20px;                   /* Adjust this value to position the text above the tick */
+  left: 0;                       /* Align text with the tick line */
+  white-space: nowrap;           /* Prevent text wrapping */
+}
+
+/* Medium ticks for multiples of 5 (no numbers) */
+.medium-tick {
+  height: 20px; /* Height for medium ticks */
+  border-left: 1.5px solid gray; /* Slightly thicker than minor ticks */
+
+}
+
+/* Minor ticks for other values */
+.minor-tick {
+  height: 12px; /* Height for minor ticks */
+  border-left: 1px solid lightgray; /* Thinner line for minor ticks */
+
+}
+
+/* Green tick customization */
+.green-tick {
+  height: 30px; /* Height for major ticks */
+  border-left: solid green; /* Change the left border color to green for the specific tick */  
 }

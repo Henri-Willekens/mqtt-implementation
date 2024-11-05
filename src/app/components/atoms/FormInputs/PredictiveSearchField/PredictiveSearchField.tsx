@@ -2,7 +2,7 @@ import PredictiveSearchFieldProps from './PredictiveSearchField.types';
 import './PredictiveSearchField.scss';
 import { useEffect, useState, useRef, useCallback } from 'react';
 
-const InputField: React.FC<PredictiveSearchFieldProps> = ({ id, value, onChange }) => {
+const InputField: React.FC<PredictiveSearchFieldProps> = ({ label, id, value, onChange }) => {
   const [topics, setTopics] = useState<string[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>(value || '');
@@ -55,7 +55,7 @@ const InputField: React.FC<PredictiveSearchFieldProps> = ({ id, value, onChange 
   return (
     <>
       <div className="search-field topic-search">
-        <label className='search-field__label'>Select MQTT topic</label>
+        <label className='search-field__label'>{label}</label>
         <input
           ref={inputRef} // Attach the ref to the input
           type="text"

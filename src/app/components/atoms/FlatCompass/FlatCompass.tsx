@@ -14,10 +14,11 @@ import useFormInput from 'src/app/hooks/useFormInput';
 const FlatCompass: React.FC<FlatCompassProps> = ({
   id,
   label = 'Label',
-  width = 130,
+  width = 5,
   height = 300,
   dataSource = 'mqtt_topic',
-  mqttTopic = 'test/topic1'
+  mqttTopic = 'test/topic1',
+  visibleDegrees = 10  
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
@@ -33,6 +34,7 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
     height: height,
     dataSource: dataSource,
     mqttTopic: mqttTopic,
+    visibleDegrees: visibleDegrees
   });
 
   const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
@@ -59,6 +61,7 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
         height: formValues.height,
         dataSource: formValues.dataSource,
         mqttTopic: formValues.mqttTopic,
+        visibleDegrees: formValues.visibleDegrees
       },
     };
 
@@ -109,45 +112,73 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
       // Clear existing degrees to avoid duplicate entries
       compassRef.current.innerHTML = '';
   
-      const visibleDegrees = 21; // Center degree + 10 on each side
+     
       const halfWindow = Math.floor(visibleDegrees / 2);
-  
-      // Create the outermost degree element with a faded effect
-      const outerDegree = (_currentValue + halfWindow + 360) % 360;
-      const outerDegreeElement = document.createElement('div');
-      outerDegreeElement.classList.add('outer-degree');
-      outerDegreeElement.textContent = outerDegree.toString();
-      compassRef.current.appendChild(outerDegreeElement);
+      const adjustedValue = (_currentValue + 360) % 360;
   
       for (let i = -halfWindow; i <= halfWindow; i++) {
-        const degree = (_currentValue + i + 360) % 360;
+        const degree = (adjustedValue + i + 360) % 360;
+
+        // Create a div for each degree marker
         const degreeElement = document.createElement('div');
         degreeElement.classList.add('degree');
-        degreeElement.textContent = degree.toString();
+
+        // Apply width from the form input value
+        degreeElement.style.width = `${formValues.width || 5}px`;
+        
+        // Display the number only if the degree is a multiple of 10
+        if (degree % 10 === 0) {
+          const majorTickContainer = document.createElement('div');
+          majorTickContainer.classList.add('major-tick');
+          
+          const tickLine = document.createElement('div');
+          tickLine.classList.add('major-tick-line');
+
+          const tickText = document.createElement('div');
+          tickText.classList.add('major-tick-text');
+          tickText.textContent = degree.toString();
+
+          majorTickContainer.appendChild(tickLine);
+          majorTickContainer.appendChild(tickText);
+          compassRef.current.appendChild(majorTickContainer);
+
+          if (degree === _currentValue) {
+            majorTickContainer.classList.add('green-tick');
+          }
+        } else if (degree % 5 === 0) {
+          degreeElement.classList.add('medium-tick');
+          if (degree === _currentValue) {
+            degreeElement.classList.add('green-tick');
+          }
+        } else {
+          degreeElement.classList.add('minor-tick');
+          if (degree === _currentValue) {
+            degreeElement.classList.add('green-tick');
+          }
+        }
+  
         compassRef.current.appendChild(degreeElement);
       }
-  
-      // Smooth scrolling using CSS transition
-      compassRef.current.style.transition = 'transform 0.3s ease-in-out';
-      compassRef.current.style.transform = `translateX(-${halfWindow * 60}px)`; // Adjust based on marker width
     }
-  }, [_currentValue]);
-
+  }, [_currentValue, formValues.width, formValues.visibleDegrees]); // Ensure it runs when width changes
+  
   return (
     <>
-      <div className="compass-container" onDoubleClick={openModal}>
-        <div className="outer-compass">
-          <div id="compass" ref={compassRef} className="compass"></div>
+      <div className="flatcompass-container" onDoubleClick={openModal}>
+        <div className="fade-left"></div>
+        <div className="fade-right"></div>
+        <div className="flatouter-compass">
+          <div id="flatcompass" ref={compassRef} className="flatcompass"></div>
         </div>
       </div>
 
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
         <InputField label="Element label" type="text" id="label" value={formValues.label} onChange={handleChange} />
         <InputField label="Width (px)" type="number" id="width" value={formValues.width} onChange={handleChange} />
-        <InputField label="Height (px)" type="number" id="height" value={formValues.height} onChange={handleChange} />
+        <InputField label="Visible Degrees" type="number" id="visibleDegrees" value={formValues.visibleDegrees} onChange={handleChange} /> 
         <SelectField label="Datasource" id="dataSource" value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
         {formValues.dataSource === 'mqtt_topic' && (
-          <PredictiveSearchField id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>
+          <PredictiveSearchField label='mqttTopic' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>
         )}
       </FormModal>
     </>

@@ -5,4 +5,5 @@ export default interface FlatCompassProps {
   height: number,
   dataSource: string,
   mqttTopic: string,
+  visibleDegrees: number
 }

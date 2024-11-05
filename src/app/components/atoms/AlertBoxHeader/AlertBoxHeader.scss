@@ -48,7 +48,7 @@
 
     margin: 5px;
     &__night {
-      color: orange;
+      color: $night-text;
     }
   }
 
@@ -76,7 +76,7 @@
     padding: $sm-padding;
 
     &__night {
-      color: orange;
+      color: $night-text;
     }
 
     &__buttons {

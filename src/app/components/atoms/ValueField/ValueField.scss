@@ -46,7 +46,7 @@
     height: 100%;
 
     &__night {
-      color: orange;
+      color: $night-text;
     }
   }
 
@@ -56,7 +56,7 @@
     margin: 0 0 5px 0;
 
     &__night {
-      color: orange;
+      color: $night-text;
     }
   }
 

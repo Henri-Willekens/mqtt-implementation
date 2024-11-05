@@ -176,9 +176,9 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
         <InputField label="Element label" type="text" id="label" value={formValues.label} onChange={handleChange} />
         <InputField label="Width (px)" type="number" id="width" value={formValues.width} onChange={handleChange} />
         <InputField label="Visible Degrees" type="number" id="visibleDegrees" value={formValues.visibleDegrees} onChange={handleChange} /> 
-        <SelectField label="Datasource" id="dataSource" value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        <SelectField label="Datasource" id="dataSource" value={formValues.dataSource.toString()} options={[{label: 'MQTT topic', value: 'mqtt_topic'}, {label: 'UTC time', value: 'utc_time'}, {label: 'Local time', value: 'local_time'}]} onChange={handleChange} />
         {formValues.dataSource === 'mqtt_topic' && (
-          <PredictiveSearchField label='mqttTopic' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>
+          <PredictiveSearchField label='mqttTopic' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange}/>
         )}
       </FormModal>
     </>

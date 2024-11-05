@@ -24,7 +24,7 @@
     }
 
     &__night {
-      fill: orange;
+      fill: $night-text;
     }
   }
 
@@ -46,7 +46,7 @@
 
     &__night {
       fill: $navigation-menu-bg;
-      stroke: orange;
+      stroke: $night-text;
     }
   }
 
@@ -57,7 +57,7 @@
     }
 
     &__night {
-      fill: orange;
+      fill: $night-text;
     }
   }
 }

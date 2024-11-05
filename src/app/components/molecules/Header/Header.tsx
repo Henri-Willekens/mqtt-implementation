@@ -109,7 +109,13 @@ const Header: React.FC<HeaderProps> = () => {
         <InputField label='Page title' type='text' id='title' value={formValues.title} onChange={handleChange} />
         <InputField label='Page ID' type='text' id='id' value={formValues.id} onChange={handleChange} placeholder='example-id-for-page' />
         <ToggleField label='Grid enabled?' id='gridEnabled' isChecked={stringToBool(formValues.gridEnabled.toString())} onChange={handleChange} />
-        <SelectField label='Group' id='group' value={formValues.group.toString()} options={[{value: 'g1', label: 'group 1'}, {value: 'g2', label: 'group 2'}, {value: 'g3', label: 'group 3'}]} onChange={handleChange}/>
+        <SelectField 
+          label='Group' 
+          id='group' 
+          value={formValues.group.toString()} 
+          options={[{value: 'g1', label: 'group 1'}, {value: 'g2', label: 'group 2'}, {value: 'g3', label: 'group 3'}]} 
+          onChange={handleChange}
+        />
       </FormModal>
     </>
   );

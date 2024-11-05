@@ -1,35 +1,42 @@
 import RudderProps from './Rudder.types';
 import './Rudder.scss';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
+import SelectField from '../FormInputs/SelectField/SelectField';
 
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
-import useFormInput from 'src/app/hooks/useFormInput';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
+import useFormInput from 'src/app/hooks/useFormInput';
 
 const Rudder: React.FC<RudderProps> = ({ 
   id, 
   totalRudderAngle = 270, 
   width = 255, 
   height = 255, 
-  stepsOfDegrees = 15
+  stepsOfDegrees = 15, 
+  dataSource = 'mqtt_topic',
+  mqttTopic = '/example/topic'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _activePageId } = useContext(ActivePageIdContext);
   const { _currentTheme } = useContext(CurrentThemeContext);
+      
+  const ws = useRef<WebSocket | null>(null);
 
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
     totalRudderAngle: totalRudderAngle,
     width: width,
     height: height,
-    stepsOfDegrees: stepsOfDegrees
+    stepsOfDegrees: stepsOfDegrees,
+    dataSource: dataSource,
+    mqttTopic: mqttTopic
   });
   const { formValues, handleChange } = useFormInput(_initialValues);
 
@@ -72,7 +79,7 @@ const Rudder: React.FC<RudderProps> = ({
       const _textY = _centerY - (_elementRadius - 12) * -Math.cos(_radian);
 
       const maxClass = (i == _angle || i == -_angle) ? 'rudder__angles__max': '';
-
+      
       _degreeLabels.push(
         <text
           key={i}
@@ -122,7 +129,9 @@ const Rudder: React.FC<RudderProps> = ({
         totalRudderAngle: Math.floor(parseInt(formValues.totalRudderAngle.toString())),
         stepsOfDegrees: Math.floor(parseInt(formValues.stepsOfDegrees.toString())),
         width: Math.floor(parseInt(formValues.width.toString())),
-        height: Math.floor(parseInt(formValues.height.toString()))
+        height: Math.floor(parseInt(formValues.height.toString())),
+        dataSource: formValues.dataSource,
+        mqttTopic: formValues.mqttTopic
       }
     };
 
@@ -140,7 +149,33 @@ const Rudder: React.FC<RudderProps> = ({
 
 
   useEffect(() => {
-    updateRudderPosition(0)
+    if (dataSource === 'mqtt_topic') {
+        // Connect to the WebSocket server in rudder
+        ws.current = new WebSocket("ws://localhost:4000");
+    
+        ws.current.onopen = () => {
+          console.log("WebSocket connection established in rudder");
+        };
+    
+        ws.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { topic, message } = data;
+    
+          if (topic === mqttTopic) {
+            console.log(`Received message on topic "${topic}": ${message}`);
+            updateRudderPosition(message); // Convert to number and set state
+          } }
+        
+    
+        ws.current.onclose = () => {
+          console.log("WebSocket connection closed in rudder");
+        };
+    
+        // Cleanup function to close WebSocket connection when component unmounts
+        return () => {
+          ws.current?.close();
+        };
+    };
   }, [])
 
   return (
@@ -187,6 +222,8 @@ const Rudder: React.FC<RudderProps> = ({
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />
         <InputField label='Height (px)' type='number' id='height' value={formValues.height} onChange={handleChange} />
+        <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
+        {formValues.dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='mqttTopic' value={formValues.mqttTopic  } onChange={handleChange} />}
       </FormModal>
     </>
   );

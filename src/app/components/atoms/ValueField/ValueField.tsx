@@ -1,7 +1,7 @@
 import ValueFieldProps from './ValueField.types';
 import './ValueField.scss';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 
 import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
@@ -12,8 +12,8 @@ import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
-import useFormInput from 'src/app/hooks/useFormInput';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
+import useFormInput from 'src/app/hooks/useFormInput';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -29,7 +29,9 @@ const ValueField: React.FC<ValueFieldProps> = ({
   const { _activePageId } = useContext(ActivePageIdContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _currentTheme } = useContext(CurrentThemeContext);
-
+  
+  //const [outerCircle, setOuterCircle] = useState<number | null>(0);
+  const ws = useRef<WebSocket | null>(null);
   const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
@@ -118,10 +120,34 @@ const ValueField: React.FC<ValueFieldProps> = ({
       .then((response) => response.json())
       .catch((error) => console.error('Error saving data:', error));
   };
-
+  
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-      setValue(Math.floor(Math.random() * 100).toString());
+        // Connect to the WebSocket server in ValueField
+        ws.current = new WebSocket("ws://localhost:4000");
+    
+        ws.current.onopen = () => {
+          console.log("WebSocket connection established in ValueField");
+        };
+    
+        ws.current.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { topic, message } = data;
+    
+          if (topic === mqttTopic) {
+            console.log(`Received message on topic "${topic}": ${message}`);
+            setValue(message); // Convert to number and set state
+          } }
+        
+    
+        ws.current.onclose = () => {
+          console.log("WebSocket connection closed in ValueField");
+        };
+    
+        // Cleanup function to close WebSocket connection when component unmounts
+        return () => {
+          ws.current?.close();
+        };
     };
   }, [])
 

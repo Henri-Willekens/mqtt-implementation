@@ -40,6 +40,11 @@ const SettingsPage: React.FC = () => {
     };
   }, [formValues.configCode]);
 
+  function openWikiPage(elementId) {
+    const url = "config_page.html?element=" + elementId;
+    //const url = "https://support.microsoft.com/nl-nl/topic/beschrijving-van-de-tekst-lorem-ipsum-dolor-sit-amet-in-de-help-van-word-bf3b0a9e-8f6b-c2ab-edd9-41c1f9aa2ea0";
+    window.open(url, "_blank", "width=800,height=600");
+  }
   return(
     <div className='settings'>
       <h2>Settings</h2>
@@ -87,7 +92,9 @@ const SettingsPage: React.FC = () => {
         </div>
         <div className='settings__others settings__block'>
           <h3>Other settings</h3>
-          <p>Coming soon...</p>
+          {_configEnabled && <Button 
+          value='Open Wiki page' 
+          onClick={() => openWikiPage('Element456')} />}
         </div>
       </div>
     </div>

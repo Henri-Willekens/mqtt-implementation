@@ -7,6 +7,7 @@ import InputField from '../FormInputs/InputField/InputField';
 import FormModal from '../../molecules/FormModal/FormModal';
 import ToggleField from '../FormInputs/ToggleField/ToggleField';
 import SelectField from '../FormInputs/SelectField/SelectField';
+import PredictiveSearchField from '../FormInputs/PredictiveSearchField/PredictiveSearchField';
 
 import { stringToBool } from 'src/app/services/stringToBool';
 import { CurrentThemeContext } from '../../../contexts/CurrentTheme';
@@ -23,10 +24,10 @@ const Compass: React.FC<CompassProps> = ({
   width = 400, 
   height = 400,
   dataSource = 'mqtt_topic',
-  mqttTopic = '/example/topic',
-  mqttCogTopic = '/example/topic',
-  mqttWaveTopic = '/example/topic', 
-  mqttWindTopic = '/example/topic'
+  mqttTopic = '/example/Compass',
+  mqttCogTopic = '/example/mqttCog',
+  mqttWaveTopic = '/example/Wave', 
+  mqttWindTopic = '/example/Wind'
 }) => {
   const { _configData, setConfigData } = useContext(ConfigDataContext);
   const { _configEnabled } = useContext(ConfigEnabledContext);
@@ -272,10 +273,10 @@ const Compass: React.FC<CompassProps> = ({
         <SelectField label='Datasource' id='dataSource' value={formValues.dataSource.toString()} options={['mqtt_topic', 'utc_time', 'local_time']} onChange={handleChange} />
         {formValues.dataSource === 'mqtt_topic' && (
           <>
-            <InputField type='text' label='MQTT Heading Topic' id='mqttTopic' value={formValues.mqttTopic} onChange={handleChange} />
-            <InputField type='text' label='MQTT COG Topic' id='mqttCogTopic' value={formValues.mqttCogTopic} onChange={handleChange} /> 
-            <InputField type='text' label='MQTT Wave Topic' id='mqttWaveTopic' value={formValues.mqttWaveTopic} onChange={handleChange} /> 
-            <InputField type='text' label='MQTT Wind Topic' id='mqttWindTopic' value={formValues.mqttWindTopic} onChange={handleChange} />
+          <PredictiveSearchField label='Compass' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>
+          <PredictiveSearchField label='COG' id='mqttCogTopic' value={formValues.mqttCogTopic ? formValues.mqttCogTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttCogTopic', value: newValue } })}/>
+          <PredictiveSearchField label='Wave' id='mqttWaveTopic' value={formValues.mqttWaveTopic ? formValues.mqttWaveTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttWaveTopic', value: newValue } })}/>
+          <PredictiveSearchField label='Wind' id='mqttWindTopic' value={formValues.mqttWindTopic ? formValues.mqttWindTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttWindTopic', value: newValue } })}/>
           </>
         )}
      </FormModal>

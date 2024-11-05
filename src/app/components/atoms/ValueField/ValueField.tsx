@@ -7,6 +7,7 @@ import FormModal from '../../molecules/FormModal/FormModal';
 import InputField from '../FormInputs/InputField/InputField';
 import ToggleField from '../FormInputs/ToggleField/ToggleField';
 import SelectField from '../FormInputs/SelectField/SelectField';
+import PredictiveSearchField from '../FormInputs/PredictiveSearchField/PredictiveSearchField';
 
 import { stringToBool } from 'src/app/services/stringToBool';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
@@ -95,7 +96,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
 
     let _pageIndex = _configData.pages.findIndex((_o) => _o.id === _activePageId);
     let _index = _configData.pages[_pageIndex].components.findIndex((_o) => _o.props.id === id);
-
+    console.log(formValues)
     _configData.pages[_pageIndex].components[_index] = {
       type: _configData.pages[_pageIndex]?.components[_index].type,
       props: {
@@ -198,10 +199,11 @@ const ValueField: React.FC<ValueFieldProps> = ({
           options={[{label: 'MQTT topic', value: 'mqtt_topic'}, {label: 'UTC time', value: 'utc_time'}, {label: 'Local time', value: 'local_time'}]} 
           onChange={handleChange} 
         />
-        {formValues.dataSource === 'mqtt_topic' && < InputField type='text' label='MQTT topic' id='mqttTopic' value={formValues.mqttTopic  } onChange={handleChange} />}
+        {formValues.dataSource === 'mqtt_topic' && < PredictiveSearchField id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange({ target: { name: 'mqttTopic', value: newValue } })}/>}
       </FormModal>
     </>  
   );
 };
 
 export default ValueField;
+

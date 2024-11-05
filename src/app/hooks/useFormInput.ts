@@ -4,6 +4,7 @@ const useFormInput = (_initialValues: { [key: string]: string | number | boolean
   const [formValues, setValues] = useState(_initialValues);
 
   const handleChange = (_event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (!_event || !_event.target) return;
     const { name, type } = _event.target;
     
     // Handle checkbox separately since its value is in `checked`

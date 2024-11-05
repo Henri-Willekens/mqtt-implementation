@@ -1,0 +1,16 @@
+<!-- config_page.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Configuration Wiki</title>
+  </head>
+  <body>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const elementId = urlParams.get("element");
+
+      document.write(`<h2>Configuration for ${elementId}</h2>`);
+      // You can add more specific details here based on elementId.
+    </script>
+  </body>
+</html>

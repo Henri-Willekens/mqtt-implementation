@@ -125,7 +125,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
         // Connect to the WebSocket server in ValueField
-        ws.current = new WebSocket("ws://localhost:4000");
+        ws.current = new WebSocket("ws://localhost:4000/");
     
         ws.current.onopen = () => {
           console.log("WebSocket connection established in ValueField");

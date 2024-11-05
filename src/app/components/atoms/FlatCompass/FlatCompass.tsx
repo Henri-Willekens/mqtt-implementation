@@ -79,7 +79,7 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
   // Manage WebSocket connection and incoming messages
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-      ws.current = new WebSocket("ws://localhost:4000");
+      ws.current = new WebSocket("ws://localhost:4000/");
 
       ws.current.onopen = () => {
         console.log("WebSocket connection established in FlatCompass");

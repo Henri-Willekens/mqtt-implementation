@@ -38,20 +38,6 @@ const App = () => {
       .catch((_error) => console.error(_error));
   };
 
-  // // Fetching topics from the backend only if config is enabled
-  // useEffect(() => {
-  //   if (_configEnabled) {
-  //     fetch('http://localhost:4000/api/topics')
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setTopics(data);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error fetching topics:', error);
-  //       });
-  //   }
-  // }, [_configEnabled]); // Dependency array includes _configEnabled
-
   useEffect(() => {
     fetchConfigData();
   }, [_activeConfigFile]);

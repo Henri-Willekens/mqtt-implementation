@@ -80,7 +80,7 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
 
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-      ws.current = new WebSocket("ws://localhost:4000");
+      ws.current = new WebSocket("ws://localhost:4000/");
 
       ws.current.onopen = () => {
         console.log("WebSocket connection established in toggle");

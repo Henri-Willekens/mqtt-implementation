@@ -152,7 +152,7 @@ const Rudder: React.FC<RudderProps> = ({
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
         // Connect to the WebSocket server in rudder
-        ws.current = new WebSocket("ws://localhost:4000");
+        ws.current = new WebSocket("ws://localhost:4000/");
     
         ws.current.onopen = () => {
           console.log("WebSocket connection established in rudder");

@@ -129,7 +129,7 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
         <InputField label="Width (px)" type="number" id="width" value={formValues.width} onChange={handleChange} />
         <InputField label="Height (px)" type="number" id="height" value={formValues.height} onChange={handleChange} />
         <SelectField label="Datasource" id="dataSource" value={formValues.dataSource.toString()} options={[{label: 'MQTT topic', value: 'mqtt_topic'}, {label: 'UTC time', value: 'utc_time'}, {label: 'Local time', value: 'local_time'}]} onChange={handleChange} />
-        {formValues.dataSource === 'mqtt_topic' && < PredictiveSearchField id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange}/>}
+        {formValues.dataSource === 'mqtt_topic' && < PredictiveSearchField id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange(`mqttTopic:${newValue}`)}/>}
       </FormModal>
     </>
   );

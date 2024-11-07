@@ -279,10 +279,10 @@ const Compass: React.FC<CompassProps> = ({
         />
         {formValues.dataSource === 'mqtt_topic' && (
           <>
-          <PredictiveSearchField label='Compass' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange}/>
-          <PredictiveSearchField label='COG' id='mqttCogTopic' value={formValues.mqttCogTopic ? formValues.mqttCogTopic.toString() : ''} onChange={(newValue) => handleChange}/>
-          <PredictiveSearchField label='Wave' id='mqttWaveTopic' value={formValues.mqttWaveTopic ? formValues.mqttWaveTopic.toString() : ''} onChange={(newValue) => handleChange}/>
-          <PredictiveSearchField label='Wind' id='mqttWindTopic' value={formValues.mqttWindTopic ? formValues.mqttWindTopic.toString() : ''} onChange={(newValue) => handleChange}/>
+            <PredictiveSearchField label='Compass' id='mqttTopic' value={formValues.mqttTopic ? formValues.mqttTopic.toString() : ''} onChange={(newValue) => handleChange(`mqttTopic:${newValue}`)}/>
+            <PredictiveSearchField label='COG' id='mqttCogTopic' value={formValues.mqttCogTopic ? formValues.mqttCogTopic.toString() : ''} onChange={(newValue) => handleChange(`mqttCogTopic:${newValue}`)}/>
+            <PredictiveSearchField label='Wave' id='mqttWaveTopic' value={formValues.mqttWaveTopic ? formValues.mqttWaveTopic.toString() : ''} onChange={(newValue) => handleChange(`mqttWaveTopic:${newValue}`)}/>
+            <PredictiveSearchField label='Wind' id='mqttWindTopic' value={formValues.mqttWindTopic ? formValues.mqttWindTopic.toString() : ''} onChange={(newValue) => handleChange(`mqttWindTopic:${newValue}`)}/>
           </>
         )}
       </FormModal>

@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+    image: henriwillekens/aquabots:frontend-latest
     ports:
       - "3000:3000"
     depends_on:
@@ -14,7 +15,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    image: henriwillekens/aquabots:backend-latest
     ports:
-      - "4000:4000"
+      - "5000:5000"
     environment:
       - NODE_ENV=production

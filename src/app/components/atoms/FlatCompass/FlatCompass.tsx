@@ -79,7 +79,7 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
   // Manage WebSocket connection and incoming messages
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-      ws.current = new WebSocket("ws://localhost:4000/");
+      ws.current = new WebSocket("ws://localhost:5000/");
 
       ws.current.onopen = () => {
         console.log("WebSocket connection established in FlatCompass");
@@ -111,10 +111,10 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
     if (compassRef.current) {
       // Clear existing degrees to avoid duplicate entries
       compassRef.current.innerHTML = '';
-  
+      const roundedValue = Math.round(_currentValue);
      
       const halfWindow = Math.floor(visibleDegrees / 2);
-      const adjustedValue = (_currentValue + 360) % 360;
+      const adjustedValue = (roundedValue + 360) % 360;
   
       for (let i = -halfWindow; i <= halfWindow; i++) {
         const degree = (adjustedValue + i + 360) % 360;
@@ -142,17 +142,17 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
           majorTickContainer.appendChild(tickText);
           compassRef.current.appendChild(majorTickContainer);
 
-          if (degree === _currentValue) {
+          if (degree === roundedValue) {
             majorTickContainer.classList.add('green-tick');
           }
         } else if (degree % 5 === 0) {
           degreeElement.classList.add('medium-tick');
-          if (degree === _currentValue) {
+          if (degree === roundedValue) {
             degreeElement.classList.add('green-tick');
           }
         } else {
           degreeElement.classList.add('minor-tick');
-          if (degree === _currentValue) {
+          if (degree === roundedValue) {
             degreeElement.classList.add('green-tick');
           }
         }

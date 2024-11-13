@@ -42,7 +42,7 @@ const InputField: React.FC<PredictiveSearchFieldProps> = ({ label, id, value, on
   };
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/topics')
+    fetch('http://localhost:5000/api/topics')
       .then((response) => response.json())
       .then((data) => setTopics(data))
       .catch((error) => console.error('Error fetching topics:', error));

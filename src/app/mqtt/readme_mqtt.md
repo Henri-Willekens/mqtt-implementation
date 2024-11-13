@@ -5,9 +5,9 @@
 2. Daarna de front end opstarten in een andere terminal
    $ npm run start
 
-3. output op de inspect element in de front end http://localhost:3000/
-        Firefox can’t establish a connection to the server at ws://localhost:4000/. 
-        The connection to ws://localhost:4000/ was interrupted while the page was loading.
+3. output op de inspect element in de front end http://10.0.0.15:3000/
+        Firefox can’t establish a connection to the server at ws://10.0.0.15:5000/. 
+        The connection to ws://10.0.0.15:5000/ was interrupted while the page was loading.
         WebSocket error: error {  … }
         WebSocket connection closed 
         WebSocket connection established
@@ -39,11 +39,11 @@ output van:
             Send `messages: 5` to topic `ship/light`
 2.      $ node mqtt_config.js
 
-            Server is running on port 4000
+            Server is running on port 5000
             Connected to MQTT broker
             WebSocket connection established
 
-3.      output op de inspect element in de front end http://localhost:3000/
+3.      output op de inspect element in de front end http://10.0.0.15:3000/
             WebSocket connection closed App.tsx:45:14
             WebSocket connection established App.tsx:35:14
             Received message: 

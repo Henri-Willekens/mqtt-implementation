@@ -1,6 +1,7 @@
 import PredictiveSearchFieldProps from './PredictiveSearchField.types';
 import './PredictiveSearchField.scss';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import config from '../../../../configuration/config.json';
 
 const InputField: React.FC<PredictiveSearchFieldProps> = ({ label, id, value, onChange }) => {
   const [topics, setTopics] = useState<string[]>([]);
@@ -42,7 +43,7 @@ const InputField: React.FC<PredictiveSearchFieldProps> = ({ label, id, value, on
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/topics')
+    fetch(config.apiUrl)
       .then((response) => response.json())
       .then((data) => setTopics(data))
       .catch((error) => console.error('Error fetching topics:', error));

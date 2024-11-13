@@ -12,6 +12,7 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import useFormInput from 'src/app/hooks/useFormInput';
+import config from '../../../configuration/config.json';
 
 const BarGauge: React.FC<BarGaugeProps> = ({
   id,
@@ -49,6 +50,43 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   });
   const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
+  const removeBarGauge = () => {
+    if (!_configData) return;
+  
+    const pageIndex = _configData.pages.findIndex(page => page.id === _activePageId);
+    if (pageIndex === -1) return;
+  
+    const updatedComponents = _configData.pages[pageIndex].components.filter(
+      component => component.props.id !== id
+    );
+  
+    const updatedConfigData = {
+      ..._configData,
+      pages: [
+        ..._configData.pages.slice(0, pageIndex),
+        {
+          ..._configData.pages[pageIndex],
+          components: updatedComponents,
+        },
+        ..._configData.pages.slice(pageIndex + 1),
+      ],
+    };
+
+
+  setConfigData(updatedConfigData);
+
+  // Send the updated configuration data to the server
+  fetch('/api/write-json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedConfigData),
+  })
+  .then(response => response.json())
+  .then(data => console.log('BarGauge removed:', data))
+  .catch(error => console.error('Error removing BarGauge:', error));
+};
+  
+  
   const updateBarMeter = (value: number) => {
     if ((value < 0 && maxValue > 0) || (value > 0 && maxValue < 0)) {
       console.log('Invalid: value and maxValue have opposite signs');
@@ -182,7 +220,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
         // Connect to the WebSocket server in Bar Gauge
-        ws.current = new WebSocket("ws://10.0.0.15:5000/");
+        ws.current = new WebSocket(config.websocketUrl);
     
         ws.current.onopen = () => {
           console.log("WebSocket connection established in Bar Gauge");
@@ -240,7 +278,7 @@ const BarGauge: React.FC<BarGaugeProps> = ({
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} onRemove={removeBarGauge}>
         <InputField label='Element label' type='text' id='label' value={formValues.label} onChange={handleChange} />
         <InputField label='Maximum value' type='number' id='maxValue' value={formValues.maxValue} onChange={handleChange} />
         <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={formValues.numberOfTickLines} onChange={handleChange} />

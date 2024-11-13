@@ -3,5 +3,6 @@ export default interface FormModalProps {
   isOpen: boolean,
   onCancel: () => void,
   onSubmit: () => void,
+  onRemove?: () => void;
   children: React.ReactNode
 };

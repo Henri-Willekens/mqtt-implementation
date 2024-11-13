@@ -12,6 +12,7 @@ import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import useFormInput from 'src/app/hooks/useFormInput';
+import config from '../../../configuration/config.json';
 
 const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
   id,
@@ -35,6 +36,41 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
     dataSource: dataSource,
     mqttTopic: mqttTopic,
   });
+
+  const removeConfigurableToggleButton = () => {
+    if (!_configData) return;
+  
+    const pageIndex = _configData.pages.findIndex(page => page.id === _activePageId);
+    if (pageIndex === -1) return;
+  
+    const updatedComponents = _configData.pages[pageIndex].components.filter(
+      component => component.props.id !== id
+    );
+  
+    const updatedConfigData = {
+      ..._configData,
+      pages: [
+        ..._configData.pages.slice(0, pageIndex),
+        {
+          ..._configData.pages[pageIndex],
+          components: updatedComponents,
+        },
+        ..._configData.pages.slice(pageIndex + 1),
+      ],
+    };
+  
+    setConfigData(updatedConfigData);
+  
+    // Send the updated configuration data to the server
+    fetch('/api/write-json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedConfigData),
+    })
+    .then(response => response.json())
+    .then(data => console.log('ConfigurableToggleButton removed:', data))
+    .catch(error => console.error('Error removing ConfigurableToggleButton:', error));
+  };
   
   const { formValues, handleChange, resetForm } = useFormInput(_initialValues);
 
@@ -80,7 +116,7 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
 
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
-      ws.current = new WebSocket("ws://10.0.0.15:5000/");
+      ws.current = new WebSocket(config.websocketUrl);
 
       ws.current.onopen = () => {
         console.log("WebSocket connection established in toggle");
@@ -124,7 +160,7 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
         </div>
       </div>
 
-      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} onRemove={removeConfigurableToggleButton}>
         <InputField label="Element label" type="text" id="label" value={formValues.label} onChange={handleChange} />
         <InputField label="Width (px)" type="number" id="width" value={formValues.width} onChange={handleChange} />
         <InputField label="Height (px)" type="number" id="height" value={formValues.height} onChange={handleChange} />

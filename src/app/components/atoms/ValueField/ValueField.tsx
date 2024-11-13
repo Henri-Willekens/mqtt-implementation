@@ -15,6 +15,7 @@ import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 import useFormInput from 'src/app/hooks/useFormInput';
+import config from '../../../configuration/config.json';
 
 const ValueField: React.FC<ValueFieldProps> = ({ 
   id, 
@@ -44,6 +45,42 @@ const ValueField: React.FC<ValueFieldProps> = ({
     dataSource: dataSource,
     mqttTopic: mqttTopic
   });
+
+  const removeValueField = () => {
+    if (!_configData) return;
+  
+    const pageIndex = _configData.pages.findIndex(page => page.id === _activePageId);
+    if (pageIndex === -1) return;
+  
+    const updatedComponents = _configData.pages[pageIndex].components.filter(
+      component => component.props.id !== id
+    );
+  
+    const updatedConfigData = {
+      ..._configData,
+      pages: [
+        ..._configData.pages.slice(0, pageIndex),
+        {
+          ..._configData.pages[pageIndex],
+          components: updatedComponents,
+        },
+        ..._configData.pages.slice(pageIndex + 1),
+      ],
+    };
+  
+    setConfigData(updatedConfigData);
+  
+    // Send the updated configuration data to the server
+    fetch('/api/write-json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedConfigData),
+    })
+    .then(response => response.json())
+    .then(data => console.log('ValueField removed:', data))
+    .catch(error => console.error('Error removing ValueField:', error));
+  };
+
   const { formValues, handleChange } = useFormInput(_initialValues);
 
   const onChange = (_event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +162,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
         // Connect to the WebSocket server in ValueField
-        ws.current = new WebSocket("ws://localhost:5000/");
+        ws.current = new WebSocket(config.websocketUrl);
     
         ws.current.onopen = () => {
           console.log("WebSocket connection established in ValueField");
@@ -187,6 +224,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
         </div>
       </div>  
       <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
+      <button onClick={removeValueField}>Remove Value Field</button>
         <InputField type='text' label='Label' id='label' value={formValues.label} onChange={handleChange} />
         <InputField type='text' label='Unit' id='unit' value={formValues.unit} onChange={handleChange} />
         <ToggleField label='Value times x?' id='requiresValueTimes' isChecked={stringToBool(formValues.requiresValueTimes.toString())} onChange={handleChange} />

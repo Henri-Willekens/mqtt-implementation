@@ -13,6 +13,7 @@ import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 import useFormInput from 'src/app/hooks/useFormInput';
+import config from '../../../configuration/config.json';
 
 const Rudder: React.FC<RudderProps> = ({ 
   id, 
@@ -39,6 +40,41 @@ const Rudder: React.FC<RudderProps> = ({
     dataSource: dataSource,
     mqttTopic: mqttTopic
   });
+
+  const removeRudder = () => {
+    if (!_configData) return;
+  
+    const pageIndex = _configData.pages.findIndex(page => page.id === _activePageId);
+    if (pageIndex === -1) return;
+  
+    const updatedComponents = _configData.pages[pageIndex].components.filter(
+      component => component.props.id !== id
+    );
+  
+    const updatedConfigData = {
+      ..._configData,
+      pages: [
+        ..._configData.pages.slice(0, pageIndex),
+        {
+          ..._configData.pages[pageIndex],
+          components: updatedComponents,
+        },
+        ..._configData.pages.slice(pageIndex + 1),
+      ],
+    };
+  
+    setConfigData(updatedConfigData);
+  
+    // Send the updated configuration data to the server
+    fetch('/api/write-json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedConfigData),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Rudder removed:', data))
+    .catch(error => console.error('Error removing Rudder:', error));
+  };
   const { formValues, handleChange } = useFormInput(_initialValues);
 
   const _angle = totalRudderAngle / 2;
@@ -152,7 +188,7 @@ const Rudder: React.FC<RudderProps> = ({
   useEffect(() => {
     if (dataSource === 'mqtt_topic') {
         // Connect to the WebSocket server in rudder
-        ws.current = new WebSocket("ws://10.0.0.15:5000/");
+        ws.current = new WebSocket(config.websocketUrl);
     
         ws.current.onopen = () => {
           console.log("WebSocket connection established in rudder");
@@ -218,7 +254,7 @@ const Rudder: React.FC<RudderProps> = ({
           </defs>
         </svg>
       </div>
-      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal}>
+      <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} onRemove={removeRudder}>
         <InputField label='Total angle' type='number' id='totalRudderAngle' value={formValues.totalRudderAngle} onChange={handleChange} />
         <InputField label='Steps of degrees' type='number' id='stepsOfDegrees' value={formValues.stepsOfDegrees} onChange={handleChange} />
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />

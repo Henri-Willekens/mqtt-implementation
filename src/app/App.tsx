@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import Header from './components/molecules/Header/Header';
 import PageManager from './components/organisms/PageManager/PageManager';
@@ -20,12 +20,6 @@ const App = () => {
   const [_activeConfigFile, setActiveConfigFile] = useState('ConfigA');
   const [_activePageId, setActivePageId] = useState('Settings');
   const [_configData, setConfigData] = useState<Config | null>(null);
-  const [topics, setTopics] = useState<string[]>([]); // State for topics
-  const [selectedTopic, setSelectedTopic] = useState<string>(''); // State for selected topic
-  const [searchTerm, setSearchTerm] = useState<string>(''); // State for search term
-  const [showDropdown, setShowDropdown] = useState<boolean>(false); // State to toggle dropdown visibility
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1); // State for highlighted index
-  const dropdownRef = useRef<HTMLUListElement | null>(null); // Reference for dropdown
 
   const fetchConfigData = () => {
     const _fileToFetch = _activeConfigFile === 'ConfigA' ? 'config.json' : 'example.config.json';

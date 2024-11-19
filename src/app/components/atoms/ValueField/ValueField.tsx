@@ -32,7 +32,6 @@ const ValueField: React.FC<ValueFieldProps> = ({
   const { _configEnabled } = useContext(ConfigEnabledContext);
   const { _currentTheme } = useContext(CurrentThemeContext);
   
-  //const [outerCircle, setOuterCircle] = useState<number | null>(0);
   const ws = useRef<WebSocket | null>(null);
   const [_value, setValue] = useState('000.00');
   const [_isModalOpen, setIsModalOpen] = useState(false);
@@ -223,8 +222,7 @@ const ValueField: React.FC<ValueFieldProps> = ({
           <p className={`value-field__unit value-field__unit__${_currentTheme}`}>{requiresValueTimes && 'x' + valueTimes} {unit}</p>
         </div>
       </div>  
-      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal}>
-      <button onClick={removeValueField}>Remove Value Field</button>
+      <FormModal isOpen={_isModalOpen} onSubmit={submitForm} onCancel={closeModal} onRemove={removeValueField}>
         <InputField type='text' label='Label' id='label' value={formValues.label} onChange={handleChange} />
         <InputField type='text' label='Unit' id='unit' value={formValues.unit} onChange={handleChange} />
         <ToggleField label='Value times x?' id='requiresValueTimes' isChecked={stringToBool(formValues.requiresValueTimes.toString())} onChange={handleChange} />

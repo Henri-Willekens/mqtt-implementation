@@ -10,15 +10,21 @@ import { CurrentThemeContext } from 'src/app/contexts/CurrentTheme';
 import { ActiveConfigFileContext } from 'src/app/contexts/ActiveConfigFile';
 import { ConfigEnabledContext } from 'src/app/contexts/ConfigEnabled';
 
+import config from '../../../../configuration/config.json';
+
 const SettingsPage: React.FC = () => {
   const [initialValues, setInitialValues] = useState({
     configCode: '',
   });
+
   const { formValues, handleChange } = useFormInput(initialValues);
 
   const { _currentTheme, setCurrentTheme } = useContext(CurrentThemeContext);
   const { _activeConfigFile, setActiveConfigFile } = useContext(ActiveConfigFileContext);
   const { _configEnabled, setConfigEnabled } = useContext(ConfigEnabledContext);
+
+  const [websocketUrl, setWebsocketUrl] = useState(config.websocketUrl || '');
+  const [apiUrl, setApiUrl] = useState(config.apiUrl || '');
 
   useEffect(() => {
     if (sessionStorage.getItem('configCode') === null) {
@@ -27,12 +33,11 @@ const SettingsPage: React.FC = () => {
 
     setInitialValues({
       configCode: sessionStorage.getItem('configCode') as string
-    });
+    }
+  );
   }, []);
 
   useEffect(() => {
-    // Store the configCode for the session, once sessions ends, removes code automatically
-    // or if code no longer matches
     if (formValues.configCode === process.env.NEXT_PUBLIC_CONFIG_CODE) {
       sessionStorage.setItem('configCode', formValues.configCode);
     } else if (formValues.configCode != process.env.NEXT_PUBLIC_CONFIG_CODE && sessionStorage.getItem('configCode') != null) {
@@ -45,6 +50,31 @@ const SettingsPage: React.FC = () => {
     //const url = "https://support.microsoft.com/nl-nl/topic/beschrijving-van-de-tekst-lorem-ipsum-dolor-sit-amet-in-de-help-van-word-bf3b0a9e-8f6b-c2ab-edd9-41c1f9aa2ea0";
     window.open(url, "_blank", "width=800,height=600");
   }
+
+  const handleWebsocketChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsocketUrl(e.target.value);
+  };
+
+  const handleApiUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setApiUrl(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const updatedConfig = { websocketUrl, apiUrl };
+
+      fetch('/api/write-json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedConfig),
+      })
+
+      .then(response => response.json())
+      .then(data => console.log('ip-address: ', data))
+      .catch(error => console.error('Error changing:', error));
+    };
+
   return(
     <div className='settings'>
       <h2>Settings</h2>
@@ -96,6 +126,33 @@ const SettingsPage: React.FC = () => {
           value='Open Wiki page' 
           onClick={() => openWikiPage('Element456')} />}
         </div>
+        <div>
+        {_configEnabled && <h2>Update Backend Configuration</h2>}
+      <form onSubmit={handleSubmit}>
+        <div>
+        {_configEnabled && <label htmlFor="websocketUrl">WebSocket URL: </label> }
+        {_configEnabled && <input
+            type="text"
+            id="websocketUrl"
+            value={websocketUrl}
+            onChange={handleWebsocketChange}
+            placeholder="ws://localhost:5000/"
+          />}
+        </div>
+        
+        <div>
+        {_configEnabled && <label htmlFor="apiUrl">API URL: </label> }
+        {_configEnabled && <input 
+            type="text"
+            id="apiUrl"
+            value={apiUrl}
+            onChange={handleApiUrlChange}
+            placeholder="http://localhost:5000/api/topics"
+          />}
+        </div>
+        {_configEnabled && <button type="submit">Update Backend Config</button>}
+      </form>
+    </div>
       </div>
     </div>
   );

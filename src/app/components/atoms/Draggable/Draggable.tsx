@@ -42,7 +42,7 @@ const Draggable: React.FC<DraggProps> = ({
     }
   };
 
-  const onDrag = (_event: React.MouseEvent) => {
+  const onDrag = (_event: MouseEvent) => {
     if (_dragging) {
       const container = document.getElementById('draggable-container'); 
       const containerRect = container?.getBoundingClientRect();
@@ -172,7 +172,7 @@ const Draggable: React.FC<DraggProps> = ({
       id={`draggable-${elementInsideId}`}
       className={_configEnabled ? 'draggable' : 'non-draggable'}
       onMouseDown={startDrag}
-      onMouseMove={onDrag}
+      //onMouseMove={onDrag}
       onMouseUp={stopDrag}
       key={id}
       style={{

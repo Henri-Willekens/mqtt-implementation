@@ -25,6 +25,10 @@ const SettingsPage: React.FC = () => {
 
   const [websocketUrl, setWebsocketUrl] = useState(config.websocketUrl || '');
   const [apiUrl, setApiUrl] = useState(config.apiUrl || '');
+  const [mqttUrl, setMqttUrl] = useState(config.mqttUrl || '');
+  const [mqttUsername, setMqttUsername] = useState(config.mqttUsername || '');
+  const [mqttPassword, setMqttpassword] = useState(config.mqttPassword || '');
+
 
   useEffect(() => {
     if (sessionStorage.getItem('configCode') === null) {
@@ -59,21 +63,37 @@ const SettingsPage: React.FC = () => {
     setApiUrl(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleMqttUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMqttUrl(e.target.value);
+  };
+
+  const handleMqttUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMqttUsername(e.target.value);
+  };
+
+  const handleMqttPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMqttpassword(e.target.value);
+  };
+
+
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-
-    const updatedConfig = { websocketUrl, apiUrl };
-
-      fetch('/api/write-json', {
+    const updatedConfig = { websocketUrl, apiUrl, mqttUrl, mqttUsername, mqttPassword };
+  
+    try {
+      const response = await fetch('/api/write-json', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedConfig),
-      })
-
-      .then(response => response.json())
-      .then(data => console.log('ip-address: ', data))
-      .catch(error => console.error('Error changing:', error));
-    };
+      });
+      const data = await response.json();
+      console.log('ip-address:', data);
+    } catch (error) {
+      console.error('Error changing:', error);
+    }
+  };
+  
 
   return(
     <div className='settings'>
@@ -126,35 +146,91 @@ const SettingsPage: React.FC = () => {
           value='Open Wiki page' 
           onClick={() => openWikiPage('Element456')} />}
         </div>
-        <div>
-        {_configEnabled && <h2>Update Backend Configuration</h2>}
-      <form onSubmit={handleSubmit}>
-        <div>
-        {_configEnabled && <label htmlFor="websocketUrl">WebSocket URL: </label> }
-        {_configEnabled && <input
-            type="text"
-            id="websocketUrl"
-            value={websocketUrl}
-            onChange={handleWebsocketChange}
-            placeholder="ws://localhost:5000/"
-          />}
-        </div>
-        
-        <div>
-        {_configEnabled && <label htmlFor="apiUrl">API URL: </label> }
-        {_configEnabled && <input 
-            type="text"
-            id="apiUrl"
-            value={apiUrl}
-            onChange={handleApiUrlChange}
-            placeholder="http://localhost:5000/api/topics"
-          />}
-        </div>
-        {_configEnabled && <button type="submit">Update Backend Config</button>}
-      </form>
+        {_configEnabled && (
+  <form onSubmit={handleSubmit}>
+    <div>
+    <h3>MQTT connection</h3>
+      <label htmlFor="websocketUrl">WebSocket URL: </label>
+      <input
+        type="text"
+        id="websocketUrl"
+        value={websocketUrl}
+        onChange={handleWebsocketChange}
+        placeholder="ws://localhost:5000/"
+        style={{ 
+          width: '300px' 
+        }}
+      />
+    </div>
+
+    <div>
+      <label htmlFor="apiUrl">API URL: </label>
+      <input
+        type="text"
+        id="apiUrl"
+        value={apiUrl}
+        onChange={handleApiUrlChange}
+        placeholder="http://localhost:5000/api/topics"
+        style={{ 
+          width: '300px'
+         }}
+      />
+    </div>
+
+    <div style={{ marginTop: '10px' }}>
+      <label htmlFor="mqttUrl">MQTT URL: </label>
+      <input
+        type="text"
+        id="mqttUrl"
+        value={mqttUrl}
+        onChange={handleMqttUrlChange}
+        placeholder="mqtt://aquabots.tech:1883"
+        style={{ 
+          width: '300px' 
+        }}
+      />
+    </div>
+
+    <div>
+      <label htmlFor="mqttUsername">MQTT Username: </label>
+      <input
+        type="text"
+        id="mqttUsername"
+        value={mqttUsername}
+        onChange={handleMqttUsernameChange}
+        placeholder="Jan"
+        style={{ 
+          width: '300px' 
+        }}
+      />
+    </div>
+
+    <div  style={{ marginBottom: '10px' }}>
+      <label htmlFor="mqttPassword">MQTT Password: </label>
+      <input
+        type="password"
+        id="mqttPassword"
+        value={mqttPassword}
+        onChange={handleMqttPasswordChange}
+        placeholder="welkom01"
+        style={{ 
+          width: '300px' 
+        }}
+      />
+    </div>
+
+
+        <button type="submit" >
+  Update MQTT Config
+</button>
+    <div className='settings__others settings__block'></div>
+
+  </form>
+  
+)}
+
     </div>
       </div>
-    </div>
   );
 };
 

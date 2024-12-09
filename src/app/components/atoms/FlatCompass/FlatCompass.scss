@@ -2,7 +2,7 @@
 .flatcompass-container {
   width: 600px; /* Adjust based on the desired compass width */
   height: auto;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   border: 2px solid #181822; /* Optional border around the compass */
   background-color: #181822; /* Light background color */
@@ -66,19 +66,19 @@
 /* Major tick text */
 .major-tick-text {
   transform: translateX(-10px); /* Move text 10px to the left */
-  height: 30px;                 /* Maintain the height */
+  height: -22px;                 /* Maintain the height */
   font-size: 20px;              /* Font size for the text */
   font-weight: bold;             /* Bold text */
   color: #ffffff;                /* Text color */
   position: absolute;            /* Position absolutely to control placement */
-  top: -20px;                   /* Adjust this value to position the text above the tick */
+  top: -25px;                   /* Adjust this value to position the text above the tick */
   left: 0;                       /* Align text with the tick line */
   white-space: nowrap;           /* Prevent text wrapping */
 }
 
 /* Medium ticks for multiples of 5 (no numbers) */
 .medium-tick {
-  height: 20px; /* Height for medium ticks */
+  height: 30px; /* Height for medium ticks */
   border-left: 1.5px solid gray; /* Slightly thicker than minor ticks */
 
 }
@@ -93,5 +93,26 @@
 /* Green tick customization */
 .green-tick {
   height: 30px; /* Height for major ticks */
-  border-left: solid green; /* Change the left border color to green for the specific tick */  
+  border-left: 3px solid green; /* Change the left border color to green for the specific tick */  
+  position: relative;
+}
+
+/* Major tick text */
+.green-major-tick-text {
+  transform: translateX(-10px); /* Move text 10px to the left */
+  height: -22px;                 /* Maintain the height */
+  font-size: 20px;              /* Font size for the text */
+  font-weight: bold;             /* Bold text */
+  color: green;                /* Text color */
+  position: absolute;            /* Position absolutely to control placement */
+  top: -25px;                   /* Adjust this value to position the text above the tick */
+  left: 0;                       /* Align text with the tick line */
+  white-space: nowrap;           /* Prevent text wrapping */
+}
+
+/* Major tick line */
+.green-major-tick-line {
+  height: 10px;                  /* Height for the tick line */
+  border-left: 2px solid green; /* Line color and thickness */
+  width: 1px;                   /* Minimal width for the line */
 }

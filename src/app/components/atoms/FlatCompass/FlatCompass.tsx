@@ -178,7 +178,8 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
           compassRef.current.appendChild(majorTickContainer);
 
           if (degree === roundedValue) {
-            majorTickContainer.classList.add('green-tick');
+            tickText.classList.add('green-major-tick-text');
+            tickLine.classList.add('green-major-tick-line');
           }
         } else if (degree % 5 === 0) {
           degreeElement.classList.add('medium-tick');
@@ -195,7 +196,7 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
         compassRef.current.appendChild(degreeElement);
       }
     }
-  }, [_currentValue, formValues.width, formValues.visibleDegrees]); // Ensure it runs when width changes
+  }, [_currentValue, formValues.width, formValues.visibleDegrees]); 
   
   return (
     <>

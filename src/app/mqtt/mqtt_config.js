@@ -1,15 +1,90 @@
 const express = require('express');
 const mqtt = require('mqtt');
 const { WebSocketServer } = require('ws');
-const fs = require('fs'); // Require fs to handle file operations
+const fs = require('fs');
 
 const app = express();
-const mqttClient = mqtt.connect("mqtt://aquabots.tech:1883", {
-  username: "jan",
-  password: "welkom01",
-});
+let mqttClient; 
+let uniqueTopics = new Set(); 
+const configFilePath = '../configuration/config.json';
 
-let uniqueTopics = new Set(); // Use a Set to store unique topics
+let config = {
+  mqttUrl: "",
+  username: "",
+  password: "",
+};
+
+
+function loadConfig() {
+  if (fs.existsSync(configFilePath)) {
+    try {
+      const fileContent = fs.readFileSync(configFilePath, 'utf8');
+      const parsedConfig = JSON.parse(fileContent);
+      config = { ...config, ...parsedConfig }; 
+      console.log('Config reloaded:', config);
+    } catch (err) {
+      console.error('Error reading or parsing config file', err);
+    }
+  } else {
+    console.warn('Config file not found, using default values.');
+  }
+}
+
+// Function to initialize MQTT client
+function initializeMqttClient() {
+  if (mqttClient) {
+    mqttClient.end(true); // Close existing connection
+    console.log('Previous MQTT client connection closed.');
+  }
+
+  mqttClient = mqtt.connect(config.mqttUrl, {
+    username: config.mqttUsername || "",
+    password: config.mqttPassword || "",
+  });
+
+  mqttClient.on('connect', () => {
+    console.log('Connected to MQTT broker');
+    mqttClient.subscribe('#'); // Subscribe to all topics
+  });
+
+  mqttClient.on('message', (topic, message) => {
+    const messageString = message.toString();
+    console.log(`Received message: Topic = ${topic}, Message = ${messageString}`);
+
+    uniqueTopics.add(topic);
+
+    // Save the unique topics to a file
+    fs.writeFile('topics.json', JSON.stringify(Array.from(uniqueTopics)), (err) => {
+      if (err) {
+        console.error('Error writing to file', err);
+      }
+    });
+
+    // Send the message to WebSocket clients
+    wss.clients.forEach((client) => {
+      if (client.readyState === client.OPEN) {
+        client.send(JSON.stringify({ topic, message: messageString }));
+      }
+    });
+  });
+
+  mqttClient.on('error', (err) => {
+    console.error('MQTT client error:', err);
+  });
+}
+
+// Load config initially and start the MQTT client
+loadConfig();
+initializeMqttClient();
+
+// Watch for changes to config.json
+fs.watch(configFilePath, (eventType) => {
+  if (eventType === 'change') {
+    console.log('Config file changed, reloading...');
+    loadConfig();
+    initializeMqttClient();
+  }
+});
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -29,7 +104,7 @@ const wss = new WebSocketServer({ noServer: true });
 
 wss.on('connection', (ws) => {
   console.log('WebSocket connection established');
-  
+
   ws.on('message', (data) => {
     const { topic, message } = JSON.parse(data);
     mqttClient.publish(topic, message);
@@ -39,33 +114,6 @@ wss.on('connection', (ws) => {
 server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (ws) => {
     wss.emit('connection', ws, request);
-  });
-});
-
-mqttClient.on('connect', () => {
-  console.log('Connected to MQTT broker');
-  mqttClient.subscribe('#'); // Subscribe to all topics
-});
-
-mqttClient.on('message', (topic, message) => {
-  const messageString = message.toString();
-  console.log(`Received message: Topic = ${topic}, Message = ${messageString}`);
-
-  // Add the topic to the Set of unique topics
-  uniqueTopics.add(topic);
-  
-  // Save the unique topics to a file
-  fs.writeFile('topics.json', JSON.stringify(Array.from(uniqueTopics)), (err) => {
-    if (err) {
-      console.error('Error writing to file', err);
-    }
-  });
-
-  // Send the message to WebSocket clients
-  wss.clients.forEach((client) => {
-    if (client.readyState === client.OPEN) {
-      client.send(JSON.stringify({ topic, message: messageString }));
-    }
   });
 });
 

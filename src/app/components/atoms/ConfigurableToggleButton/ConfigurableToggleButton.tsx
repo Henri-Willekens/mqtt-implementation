@@ -91,8 +91,8 @@ const ConfigurableToggleButton: React.FC<ConfigurableToggleButtonProps> = ({
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
         label: formValues.label,
-        width: formValues.width,
-        height: formValues.height,
+        width: width,
+        height: height,
         dataSource: formValues.dataSource,
         mqttTopic: formValues.mqttTopic,
       },

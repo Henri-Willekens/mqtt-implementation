@@ -6,6 +6,8 @@ interface AlertLine {
 export default interface BarGaugeProps {
   id: string,
   maxValue: number,
+  startValue: number,
+  minValue: number;
   label: string,
   alertLines: AlertLine[],
   numberOfTickLines: number,

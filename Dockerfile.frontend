@@ -13,7 +13,8 @@ COPY . .
 RUN rm -f src/app/configuration/config.json
 
 #Create a new config.json file with specific content
-RUN echo '{ "pages": [], "groups": [] }' > src/app/configuration/config.json
+RUN echo '{ "pages": [], "groups": [], "websocketUrl": "ws://localhost:5000", "apiUrl": "http://localhost:5000/api/topics" }' > src/app/configuration/config.json
+
 
 RUN npm run build
 

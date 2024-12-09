@@ -18,6 +18,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   id,
   label = 'Label',
   maxValue = 2000,
+  minValue = 0, 
+  startValue = 0, 
   alertLines = [],
   numberOfTickLines = 5,
   width = 130,
@@ -36,6 +38,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValues, setInitialValues] = useState({
     maxValue: maxValue,
+    minValue: minValue,
+    startValue: 0,
     numberOfTickLines: numberOfTickLines,
     label: label,
     width: width,
@@ -87,48 +91,43 @@ const BarGauge: React.FC<BarGaugeProps> = ({
 };
   
   
-  const updateBarMeter = (value: number) => {
-    if ((value < 0 && maxValue > 0) || (value > 0 && maxValue < 0)) {
-      console.log('Invalid: value and maxValue have opposite signs');
-      value = 0;
-    }
-  
-    // Calculate the percentage
-    let percentage = (value / maxValue) * 100;
-  
-    // Make sure percentage is capped between 0% and 100%
-    if (percentage < 0) percentage = 0;
-    if (percentage > 100) percentage = 100;
+const updateBarMeter = (value: number) => {
+  if (value < minValue) value = minValue;
+  if (value > maxValue) value = maxValue;
 
-    let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
+  const range = maxValue - minValue;
+  const percentage = ((value - minValue) / range) * 100;
 
-    const containerHeight = 250;
-    const fillHeight = (percentage / 100) * containerHeight;
-    const newY = containerHeight - fillHeight;
+  let barMeterFilling = document.querySelector(`.bar-gauge__fill.${id}`) as HTMLElement;
 
-    if (barMeterFilling != null) {
-      barMeterFilling.style.height = `${fillHeight}px`;
-      barMeterFilling.setAttribute('y', newY.toString());
-    }
-  };
+  const containerHeight = 250;
+  const fillHeight = (percentage / 100) * containerHeight;
+  const newY = containerHeight - fillHeight;
 
-  const generateTickLines = () => {
-    const tickLines: any[] = [];
-    const tickSpacing = 250 / (numberOfTickLines - 1);
+  if (barMeterFilling != null) {
+    barMeterFilling.style.height = `${fillHeight}px`;
+    barMeterFilling.setAttribute('y', newY.toString());
+  }
+};
 
-    for (let i = 0; i < numberOfTickLines; i++) {
-      const y = 1 + i * tickSpacing;
-      const value = maxValue - (i * (maxValue / (numberOfTickLines - 1)));
+const generateTickLines = () => {
+  const tickLines: any[] = [];
+  const tickSpacing = 250 / (numberOfTickLines - 1); // 250 is the SVG height for ticks
+  const range = maxValue - minValue; // Range between max and min values
 
-      tickLines.push(
-        <g className='bar-gauge__tick-line' key={i}>
-          <text x='70' y={y + 10}>{Math.round(value)}</text>
-        </g>
-      )
-    }
+  for (let i = 0; i < numberOfTickLines; i++) {
+    const y = 1 + i * tickSpacing; // Position of the tick line in the SVG
+    const value = maxValue - (i * (range / (numberOfTickLines - 1))); // Calculate tick value
 
-    return tickLines;
-  };
+    tickLines.push(
+      <g className="bar-gauge__tick-line" key={i}>
+        <text x="70" y={y + 10}>{Math.round(value)}</text>
+      </g>
+    );
+  }
+
+  return tickLines;
+};
 
   const determineAlertLinesLocation = () => {
     const alertLines: any[] = [];
@@ -176,6 +175,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       props: {
         ..._configData.pages[_pageIndex].components[_index].props,
         maxValue: Math.floor(parseInt(formValues.maxValue.toString())),
+        minValue: Math.floor(parseInt(formValues.minValue?.toString() || '0')), 
+      startValue: Math.floor(parseInt(formValues.startValue?.toString() || '0')),
         content: formValues.content,
         numberOfTickLines: Math.floor(parseInt(formValues.numberOfTickLines.toString())),
         label: formValues.label,
@@ -280,6 +281,8 @@ const BarGauge: React.FC<BarGaugeProps> = ({
       </div>
       <FormModal isOpen={_isModalOpen} onSubmit={handleSubmit} onCancel={closeModal} onRemove={removeBarGauge}>
         <InputField label='Element label' type='text' id='label' value={formValues.label} onChange={handleChange} />
+        <InputField label='Minimum value' type='number' id='minValue' value={formValues.minValue} onChange={handleChange} /> 
+        <InputField label='Start value' type='number' id='startValue' value={formValues.startValue} onChange={handleChange} /> 
         <InputField label='Maximum value' type='number' id='maxValue' value={formValues.maxValue} onChange={handleChange} />
         <InputField label='Number of tick lines' type='number' id='numberOfTickLines' value={formValues.numberOfTickLines} onChange={handleChange} />
         <InputField label='Width (px)' type='number' id='width' value={formValues.width} onChange={handleChange} />

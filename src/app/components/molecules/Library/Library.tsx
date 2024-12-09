@@ -11,7 +11,7 @@ import ConfigurableToggleButton from '../../atoms/ConfigurableToggleButton/Confi
 
 import useFormInput from 'src/app/hooks/useFormInput';
 import componentMap from '../../index';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { ActivePageIdContext } from 'src/app/contexts/ActivePageId';
 import { ConfigDataContext } from 'src/app/contexts/ConfigData';
 
@@ -22,7 +22,6 @@ const Library: React.FC<LibraryProps> = ({
   const { _activePageId } = useContext(ActivePageIdContext);
 
   const [_isLibraryOpen, setIsLibraryOpen] = useState(false);
-
   const [_isModalOpen, setIsModalOpen] = useState(false);
   const [_initialValuesNewConnection, setInitialValuesNewConnection] = useState({
     fromId: '',
@@ -31,6 +30,14 @@ const Library: React.FC<LibraryProps> = ({
     content: ''
   });
   const { formValues, handleChange, resetForm } = useFormInput(_initialValuesNewConnection);
+
+  // Extract component IDs
+  const componentOptions = config?.pages
+    .find((page) => page.id === _activePageId)?.components
+    .map((componentConfig) => ({
+      label: componentConfig.props.id,
+      value: componentConfig.props.id
+    })) || [];
 
   const elementButtons = () => {
     const buttons: any[] = [];
@@ -43,13 +50,13 @@ const Library: React.FC<LibraryProps> = ({
 
     buttons.push(
       <Button value='Connection' onClick={openCreateConnectionModal} extraClasses='library__create-button' />
-    )
+    );
     
     return buttons;
   };
 
   const openCreateConnectionModal = () => {
-    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
+    if (_activePageId === 'Settings' || _activePageId === 'AlertLog' || _activePageId === 'PagesOverview') {
       return;
     };
   
@@ -67,8 +74,7 @@ const Library: React.FC<LibraryProps> = ({
   };
 
   const createElementOnPage = (typeOfElement: string) => {
-    // Should not be able to do this on settings, alert log or pages overview
-    if (_activePageId == 'Settings' || _activePageId == 'AlertLog' || _activePageId == 'PagesOverview') {
+    if (_activePageId === 'Settings' || _activePageId === 'AlertLog' || _activePageId === 'PagesOverview') {
       return;
     }
     
@@ -97,12 +103,12 @@ const Library: React.FC<LibraryProps> = ({
       .then(() => setConfigData(config))
       .catch((error) => console.error('Error saving data:', error));
 
-      fetch('/api/read-json?file=config.json')
-        .then((res) => res.json())
-        .then((results) => { 
-          setConfigData(results);
-        })
-        .catch((err) => console.error(err));  
+    fetch('/api/read-json?file=config.json')
+      .then((res) => res.json())
+      .then((results) => { 
+        setConfigData(results);
+      })
+      .catch((err) => console.error(err));  
   };
 
   const handleSubmit = () => {
@@ -130,7 +136,7 @@ const Library: React.FC<LibraryProps> = ({
     resetForm();
   };
 
-  return(
+  return (
     <div className={`library ${_isLibraryOpen ? 'library-open' : ''}`}>
       {_isLibraryOpen && 
         <div className='library__libary'>
@@ -141,8 +147,20 @@ const Library: React.FC<LibraryProps> = ({
         <Button onClick={() => setIsLibraryOpen(!_isLibraryOpen)} value={`${_isLibraryOpen ? 'Hide' : 'Show'} library`} />
       </div>
       <FormModal modalTitle='Create a new connection' isOpen={_isModalOpen} onCancel={closeCreateConnectionModal} onSubmit={handleSubmit}>
-        <InputField type='text' label='From' id='fromId' value={formValues.fromId} onChange={handleChange} />
-        <InputField type='text' label='To' id='toId' value={formValues.toId} onChange={handleChange} />
+        <SelectField 
+          label='From' 
+          id='fromId' 
+          value={formValues.fromId.toString()}  // Ensure the value is a string
+          options={componentOptions} 
+          onChange={handleChange} 
+        />
+        <SelectField 
+          label='To' 
+          id='toId' 
+          value={formValues.toId.toString()}  // Ensure the value is a string
+          options={componentOptions} 
+          onChange={handleChange} 
+        />
         <SelectField 
           label='Type' 
           id='type' 
@@ -151,7 +169,8 @@ const Library: React.FC<LibraryProps> = ({
           onChange={handleChange} 
         />
         <SelectField 
-          label='Content' id='content' 
+          label='Content' 
+          id='content' 
           value={formValues.content.toString()} 
           options={[{label: 'Fuel', value: 'fuel'}, {label: 'Oil', value: 'oil'}, {label: 'Sea water', value: 'sea-water'}, {label: 'Clean water', value: 'clean-water'}]} 
           onChange={handleChange} 

@@ -8,6 +8,8 @@ services:
     image: henriwillekens/aquabots:frontend-latest
     ports:
       - "3000:3000"
+    volumes:
+      - AppZ_vol:/app/src/app/configuration  
     depends_on:
       - backend
 
@@ -18,5 +20,10 @@ services:
     image: henriwillekens/aquabots:backend-latest
     ports:
       - "5000:5000"
+    volumes:
+      - AppZ_vol:/app/src/app/configuration
     environment:
       - NODE_ENV=production
+
+volumes:
+  AppZ_vol:

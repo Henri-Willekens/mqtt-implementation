@@ -1,23 +1,23 @@
-# Dockerfile for the front end
+# Dockerfile for the frontend
 FROM node:20
 
+# Set the working directory inside the container
 WORKDIR /app
 
+# Copy package.json and package-lock.json for npm install
 COPY ./package*.json ./
 
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the frontend code
 COPY . .
 
-#Remove the existing file if it exists
-RUN rm -f src/app/configuration/config.json
-
-#Create a new config.json file with specific content
-RUN echo '{ "pages": [], "groups": [], "websocketUrl": "ws://localhost:5000", "apiUrl": "http://localhost:5000/api/topics" }' > src/app/configuration/config.json
-
-
+# Build the React application
 RUN npm run build
 
+# Expose port 3000 for the frontend app
 EXPOSE 3000
 
+# Command to run the app
 CMD ["npm", "run", "start"]

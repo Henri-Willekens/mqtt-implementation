@@ -144,7 +144,6 @@ const FlatCompass: React.FC<FlatCompassProps> = ({
 
   useEffect(() => {
     if (compassRef.current) {
-      // Clear existing degrees to avoid duplicate entries
       compassRef.current.innerHTML = '';
       const roundedValue = Math.round(_currentValue);
      

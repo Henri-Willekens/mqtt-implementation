@@ -2,26 +2,44 @@ const express = require('express');
 const mqtt = require('mqtt');
 const { WebSocketServer } = require('ws');
 const fs = require('fs');
+const chokidar = require('chokidar');
 
 const app = express();
-let mqttClient; 
+let mqttClient;
 let uniqueTopics = new Set(); 
-const configFilePath = '../configuration/config.json';
+const configPath = '/app/src/app/configuration/config.json';  
 
 let config = {
   mqttUrl: "",
-  username: "",
-  password: "",
+  mqttUsername: "",
+  mqttPassword: "",
+  initializeMqttTopic: "", 
 };
 
+let previousConfig = { ...config };
 
 function loadConfig() {
-  if (fs.existsSync(configFilePath)) {
+  if (fs.existsSync(configPath)) {
     try {
-      const fileContent = fs.readFileSync(configFilePath, 'utf8');
+      const fileContent = fs.readFileSync(configPath, 'utf8');
       const parsedConfig = JSON.parse(fileContent);
-      config = { ...config, ...parsedConfig }; 
-      console.log('Config reloaded:', config);
+      const updatedConfig = { ...config, ...parsedConfig };
+
+      // Check if any of the relevant properties have changed
+      const hasConfigChanged = 
+        updatedConfig.mqttUrl !== previousConfig.mqttUrl ||
+        updatedConfig.mqttUsername !== previousConfig.mqttUsername ||
+        updatedConfig.mqttPassword !== previousConfig.mqttPassword ||
+        updatedConfig.initializeMqttTopic !== previousConfig.initializeMqttTopic;
+
+      if (hasConfigChanged) {
+        console.log('Config updated:', updatedConfig);
+        config = updatedConfig;
+        previousConfig = { ...updatedConfig };
+        initializeMqttClient(); // Reinitialize the MQTT client if configuration has changed
+      } else {
+        console.log('Config reloaded, but no change detected.');
+      }
     } catch (err) {
       console.error('Error reading or parsing config file', err);
     }
@@ -33,7 +51,7 @@ function loadConfig() {
 // Function to initialize MQTT client
 function initializeMqttClient() {
   if (mqttClient) {
-    mqttClient.end(true); // Close existing connection
+    mqttClient.end(true); 
     console.log('Previous MQTT client connection closed.');
   }
 
@@ -44,7 +62,19 @@ function initializeMqttClient() {
 
   mqttClient.on('connect', () => {
     console.log('Connected to MQTT broker');
-    mqttClient.subscribe('#'); // Subscribe to all topics
+
+    if (config.initializeMqttTopic) {
+      mqttClient.subscribe(config.initializeMqttTopic, (err) => {
+        if (err) {
+          console.error('Error subscribing to topic:', err);
+        } else {
+          console.log(`Subscribed to topic: ${config.initializeMqttTopic}`);
+        }
+      });
+    } else {
+      console.warn('No initializeMqttTopic found in config, using wildcard "#"');
+      mqttClient.subscribe('#'); 
+    }
   });
 
   mqttClient.on('message', (topic, message) => {
@@ -53,14 +83,12 @@ function initializeMqttClient() {
 
     uniqueTopics.add(topic);
 
-    // Save the unique topics to a file
     fs.writeFile('topics.json', JSON.stringify(Array.from(uniqueTopics)), (err) => {
       if (err) {
         console.error('Error writing to file', err);
       }
     });
 
-    // Send the message to WebSocket clients
     wss.clients.forEach((client) => {
       if (client.readyState === client.OPEN) {
         client.send(JSON.stringify({ topic, message: messageString }));
@@ -73,19 +101,18 @@ function initializeMqttClient() {
   });
 }
 
-// Load config initially and start the MQTT client
 loadConfig();
-initializeMqttClient();
 
-// Watch for changes to config.json
-fs.watch(configFilePath, (eventType) => {
-  if (eventType === 'change') {
-    console.log('Config file changed, reloading...');
-    loadConfig();
-    initializeMqttClient();
-  }
+const watcher = chokidar.watch(configPath, { persistent: true, usePolling: true, interval: 1000 });
+watcher.on('change', (event, path) => {
+  console.log(`Config file changed at: ${path}`, event);
+  loadConfig();
+});
+watcher.on('error', (err) => {
+  console.error('Watcher error:', err);
 });
 
+// Express middleware for CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -96,10 +123,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Start Express server
 const server = app.listen(5000, () => {
   console.log('Server is running on port 5000');
 });
 
+// Set up WebSocket server
 const wss = new WebSocketServer({ noServer: true });
 
 wss.on('connection', (ws) => {
@@ -107,7 +136,15 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     const { topic, message } = JSON.parse(data);
-    mqttClient.publish(topic, message);
+    mqttClient.publish(topic, message, (err) => {
+      if (err) {
+        console.error('Error publishing message to MQTT broker:', err);
+      }
+    });
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket connection closed');
   });
 });
 
@@ -117,9 +154,8 @@ server.on('upgrade', (request, socket, head) => {
   });
 });
 
-// Endpoint to retrieve unique topics
 app.get('/api/topics', (req, res) => {
-  res.json(Array.from(uniqueTopics)); // Send the unique topics as a JSON response
+  res.json(Array.from(uniqueTopics));
 });
 
 app.get('/', (req, res) => {

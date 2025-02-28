@@ -1,4 +1,5 @@
 # Dockerfile for the back end
+# for raspberry pi sudo docker buildx build --platform linux/arm64,linux/amd64   -t henriwillekens/aquabots:backend-latest   --push   -f Dockerfile.backend .
 FROM node:20
 
 WORKDIR /app

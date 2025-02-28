@@ -1,0 +1,38 @@
+{
+  "pages": [
+    {
+      "title": "conning",
+      "id": "101",
+      "gridEnabled": true,
+      "group": "",
+      "components": [
+        {
+          "type": "Compass",
+          "props": {
+            "xPos": 10,
+            "yPos": 70,
+            "id": "Compass-161dcc57-1742-4b57-8053-b3989c23f834",
+            "source": "magn",
+            "width": 400,
+            "height": 400,
+            "stepsOfDegrees": 30,
+            "waveArrowOutside": true,
+            "dataSource": "mqtt_topic",
+            "mqttTopic": "",
+            "mqttCogTopic": "/example/mqttCog",
+            "mqttWaveTopic": "/example/Wave",
+            "mqttWindTopic": "/example/Wind"
+          }
+        }
+      ],
+      "connections": []
+    }
+  ],
+  "groups": [],
+  "websocketUrl": "ws://localhost:5000/",
+  "apiUrl": "http://localhost:5000/api/topics",
+  "mqttUrl": "mqtt://aquabots.tech:1883",
+  "mqttUsername": "jan",
+  "mqttPassword": "welkom01",
+  "initializeMqttTopic": "#"
+}

@@ -7,7 +7,7 @@ const chokidar = require('chokidar');
 const app = express();
 let mqttClient;
 let uniqueTopics = new Set(); 
-const configPath = '/app/src/app/configuration/config.json';  
+let configPath = '/app/src/app/configuration/config.json';  
 
 let config = {
   mqttUrl: "",
@@ -44,7 +44,8 @@ function loadConfig() {
       console.error('Error reading or parsing config file', err);
     }
   } else {
-    console.warn('Config file not found, using default values.');
+    console.log(configPath);
+    console.warn('Config file not found!!!!');
   }
 }
 
